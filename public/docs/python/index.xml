@@ -11,5 +11,12 @@
 		
 		
 			<atom:link href="http://localhost:1313/docs/python/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Bil slider</title>
+				<link>http://localhost:1313/docs/python/biler/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/docs/python/biler/</guid>
+				<description>&lt;iframe src=&#34;http://localhost:1313/biler.html&#34; width=&#34;100%&#34; height=&#34;1500px&#34;&gt;&lt;/iframe&gt;</description>
+			</item>
 	</channel>
 </rss>
