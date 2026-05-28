@@ -12,6 +12,9 @@ Her bygger jeg en atomfysik side med md
 ## overskrift 3
 
 $F = m \cdot g$
+
+pause
+
 $F = m \cdot g $
 
 her kommer der noget mere tekst
