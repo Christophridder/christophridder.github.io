@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>Mayunga</title>
+		<title>Mayunga 2 on Mayunga</title>
 		<link>http://localhost:1313/</link>
-		<description>Recent content on Mayunga</description>
+		<description>Recent content in Mayunga 2 on Mayunga</description>
 		<generator>Hugo</generator>
 		<language>da-dk</language>
 		
 		
 		
 		
+			<lastBuildDate>Thu, 28 May 2026 10:51:18 +0200</lastBuildDate>
+		
 			<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Om Mig</title>
+				<link>http://localhost:1313/om-mig/</link>
+				<pubDate>Thu, 28 May 2026 10:51:18 +0200</pubDate>
+				<guid>http://localhost:1313/om-mig/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title></title>
+				<link>http://localhost:1313/minfil/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/minfil/</guid>
+				<description>&lt;h1 id=&#34;logaritmer--opgaveark&#34;&gt;Logaritmer — Opgaveark&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Fysik A — Træning i logaritmeregler&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;regler-du-skal-kende&#34;&gt;Regler du skal kende&lt;/h2&gt;&#xA;&lt;h3 id=&#34;definitioner&#34;&gt;Definitioner&lt;/h3&gt;&#xA;&lt;p&gt;$$\log_{10}(x) = a \iff 10^a = x$$&#xA;$$\ln(x) = a \iff e^a = x \qquad (e \approx 2{,}718)$$&lt;/p&gt;&#xA;&lt;h3 id=&#34;regneregler-gælder-for-både-log-og-ln&#34;&gt;Regneregler (gælder for både $\log$ og $\ln$)&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;&#x9;&lt;thead&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;Regel&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;Formel&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;Eksempel&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&lt;/thead&gt;&#xA;&#x9;&lt;tbody&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;strong&gt;Produktregel&lt;/strong&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log(a \cdot b) = \log(a) + \log(b)$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log(100 \cdot 1000) = \log(100) + \log(1000) = 2 + 3 = 5$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;strong&gt;Kvotientregel&lt;/strong&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log!\left(\dfrac{a}{b}\right) = \log(a) - \log(b)$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log!\left(\dfrac{1000}{10}\right) = 3 - 1 = 2$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;strong&gt;Potensregel&lt;/strong&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log(a^n) = n \cdot \log(a)$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log(10^5) = 5 \cdot \log(10) = 5$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;strong&gt;Log af 1&lt;/strong&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log(1) = 0$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\ln(1) = 0$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;strong&gt;Log af basen&lt;/strong&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log(10) = 1$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\ln(e) = 1$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;strong&gt;Invers&lt;/strong&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$10^{\log(x)} = x$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$e^{\ln(x)} = x$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;strong&gt;Baseskift&lt;/strong&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log_b(x) = \dfrac{\ln(x)}{\ln(b)}$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;$\log_2(8) = \dfrac{\ln 8}{\ln 2} = 3$&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h3 id=&#34;isolering-af-eksponent--bruges-meget-i-fysik&#34;&gt;Isolering af eksponent — bruges meget i fysik!&lt;/h3&gt;&#xA;&lt;p&gt;$$A = A_0 \cdot e^{-\lambda t} \implies t = \frac{\ln!\left(\dfrac{A_0}{A}\right)}{\lambda}$$&lt;/p&gt;</description>
+			</item>
 	</channel>
 </rss>
