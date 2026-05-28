@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Fysik on Mayunga</title>
+		<link>http://localhost:1313/docs/fysik/</link>
+		<description>Recent content in Fysik on Mayunga</description>
+		<generator>Hugo</generator>
+		<language>da-dk</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/docs/fysik/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Atomfysik</title>
+				<link>http://localhost:1313/docs/fysik/atomfysik/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/docs/fysik/atomfysik/</guid>
+				<description>&lt;p&gt;Her bygger jeg en atomfysik side med md&#xA;&lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;asdfasdf&lt;/li&gt;&#xA;&lt;li&gt;asdfasdf&lt;/li&gt;&#xA;&lt;li&gt;asdfadf&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;overskrift-3&#34;&gt;overskrift 3&lt;a class=&#34;anchor&#34; href=&#34;#overskrift-3&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;$F = m \cdot g$&#xA;$$F = m \cdot g$$&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

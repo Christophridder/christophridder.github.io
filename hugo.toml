@@ -1,4 +1,7 @@
 baseURL = 'https://christophridder.github.io/'
 locale = 'da-dk'
 title = 'Mayunga'
-theme = "ananke"
+theme = "book"
+
+[params]
+BookSection = "docs"
