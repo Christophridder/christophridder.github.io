@@ -1,4 +1,4 @@
 ---
-title: "Python"
-weight: 4
+title: Python
+weight: 6
 ---

@@ -1,6 +1,6 @@
 ---
 title: IT
 draft: "false"
-weight:
+weight: 3
 ---
 It siden

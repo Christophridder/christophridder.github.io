@@ -1,4 +1,4 @@
 ---
-title: "Fysik"
-weight: 1
+title: Fysik
+weight: 3
 ---
