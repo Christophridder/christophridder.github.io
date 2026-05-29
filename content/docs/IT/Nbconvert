@@ -1,0 +1,27 @@
+---
+Title: " Nbconvert"
+Weight: 2
+---
+Med VS Code: 
+content/
+  integralregning/
+    index.md
+    Integralregning_files/
+      billede1.png
+      billede2.png
+  massedefekt/
+    index.md
+    massedefekt_files/
+      ...
+Fordele:
+
+Billeder ligger ved siden af siden de hører til — let at overskue i VS Code's filstifinder
+Billedlinks i .md virker uden at du retter noget
+Hver notebook bliver sin egen selvstændige mappe
+
+## Dit workflow bliver så bare:
+
+- jupyter nbconvert --to markdown minnotebook.ipynb
+- Opret mappe i content/
+- Kopier .md → omdøb til index.md
+- Kopier _files/ mappen med ind
