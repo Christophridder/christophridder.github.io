@@ -1,0 +1,124 @@
+
+<style>
+  .cs { font-family: var(--font-mono); padding: 0.5rem 0; }
+  .section { margin-bottom: 1.25rem; }
+  .section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-tertiary); margin-bottom: 6px; padding-bottom: 4px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; padding: 2px 0; gap: 8px; }
+  kbd { font-family: var(--font-mono); font-size: 12px; font-weight: 500; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: 4px; padding: 1px 5px; color: var(--color-text-primary); white-space: nowrap; flex-shrink: 0; }
+  .desc { font-size: 12px; color: var(--color-text-secondary); text-align: right; }
+  .col { padding: 0 10px; }
+  .col:first-child { padding-left: 0; }
+  .col:last-child { padding-right: 0; border-right: none; }
+  .col + .col { border-left: 0.5px solid var(--color-border-tertiary); }
+  .header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+  .result { font-size: 12px; color: var(--color-text-primary); text-align: right; font-family: var(--font-sans); }
+  .result strong { font-weight: 600; }
+  .result em { font-style: italic; }
+  .result code { font-family: var(--font-mono); background: var(--color-background-secondary); padding: 0 3px; border-radius: 3px; font-size: 11px; }
+</style>
+
+<div class="cs">
+  <div class="header">
+    <span style="font-size: 15px; font-weight: 500; color: var(--color-text-primary);">Markdown cheatsheet</span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Overskrifter</div>
+    <div class="grid">
+      <div class="col">
+        <div class="row"><kbd># Overskrift</kbd><span class="desc">H1</span></div>
+        <div class="row"><kbd>## Overskrift</kbd><span class="desc">H2</span></div>
+        <div class="row"><kbd>### Overskrift</kbd><span class="desc">H3</span></div>
+        <div class="row"><kbd>#### Overskrift</kbd><span class="desc">H4</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tekstformatering</div>
+    <div class="grid">
+      <div class="col">
+        <div class="row"><kbd>**fed**</kbd><span class="result"><strong>fed</strong></span></div>
+        <div class="row"><kbd>*kursiv*</kbd><span class="result"><em>kursiv</em></span></div>
+        <div class="row"><kbd>***fed kursiv***</kbd><span class="result"><strong><em>fed kursiv</em></strong></span></div>
+        <div class="row"><kbd>~~gennemstreg~~</kbd><span class="result"><s>gennemstreg</s></span></div>
+      </div>
+      <div class="col">
+        <div class="row"><kbd>`inline kode`</kbd><span class="result"><code>inline kode</code></span></div>
+        <div class="row"><kbd>&gt; citat</kbd><span class="desc">Blokcitat</span></div>
+        <div class="row"><kbd>---</kbd><span class="desc">Vandret linje</span></div>
+        <div class="row"><kbd>\\</kbd><span class="desc">Escape specialtegn</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Lister</div>
+    <div class="grid">
+      <div class="col">
+        <div class="row"><kbd>- punkt</kbd><span class="desc">Uordnet liste</span></div>
+        <div class="row"><kbd>* punkt</kbd><span class="desc">Uordnet liste</span></div>
+        <div class="row"><kbd>1. punkt</kbd><span class="desc">Ordnet liste</span></div>
+      </div>
+      <div class="col">
+        <div class="row"><kbd>  - underpunkt</kbd><span class="desc">Indrykning (2 spaces)</span></div>
+        <div class="row"><kbd>- [x] opgave</kbd><span class="desc">Afkrydset</span></div>
+        <div class="row"><kbd>- [ ] opgave</kbd><span class="desc">Ikke afkrydset</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Links & billeder</div>
+    <div class="grid">
+      <div class="col">
+        <div class="row"><kbd>[tekst](url)</kbd><span class="desc">Link</span></div>
+        <div class="row"><kbd>![alt](billede.png)</kbd><span class="desc">Billede</span></div>
+      </div>
+      <div class="col">
+        <div class="row"><kbd>[tekst](url "titel")</kbd><span class="desc">Link med titel</span></div>
+        <div class="row"><kbd>&lt;https://url&gt;</kbd><span class="desc">Autolink</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Kodeblok</div>
+    <div class="grid">
+      <div class="col">
+        <div class="row"><kbd>```python</kbd><span class="desc">Start kodeblok med sprog</span></div>
+        <div class="row"><kbd>```</kbd><span class="desc">Afslut kodeblok</span></div>
+      </div>
+      <div class="col">
+        <div class="row"><kbd>    4 spaces</kbd><span class="desc">Alternativ kodeblok</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tabel</div>
+    <div class="grid">
+      <div class="col">
+        <div class="row"><kbd>| Col1 | Col2 |</kbd><span class="desc">Tabelrække</span></div>
+        <div class="row"><kbd>| ---- | ---- |</kbd><span class="desc">Separator</span></div>
+        <div class="row"><kbd>| :--- | ---: |</kbd><span class="desc">Venstre / højre justeret</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Front matter (Hugo/Obsidian)</div>
+    <div class="grid">
+      <div class="col">
+        <div class="row"><kbd>---</kbd><span class="desc">Start/slut front matter</span></div>
+        <div class="row"><kbd>title: "Min side"</kbd><span class="desc">Titel</span></div>
+      </div>
+      <div class="col">
+        <div class="row"><kbd>date: 2025-01-01</kbd><span class="desc">Dato</span></div>
+        <div class="row"><kbd>draft: false</kbd><span class="desc">Publicér</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
