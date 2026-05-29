@@ -10,3 +10,4 @@ $$ U = R \cdot I $$
 *stor og stærk*
 **bold og klar**
 Jeg vil prøve at finde på noget her
+Måske noget helt nyt på et tidspunkt 
