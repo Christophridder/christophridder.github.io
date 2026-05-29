@@ -7,7 +7,3 @@ Jeg vil gerne tilføje ting her
 $$ U = R \cdot I $$ 
 <img src="bohr-1.png" width="100px">$$\frac{sin(\theta)}{u}$$
 ## Her kommer der en overskrift 
-*stor og stærk*
-**bold og klar**
-Jeg vil prøve at finde på noget her
-Måske noget helt nyt på et tidspunkt 
