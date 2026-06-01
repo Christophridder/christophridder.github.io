@@ -2,6 +2,15 @@
 Title: " Nbconvert"
 Weight: 2
 ---
+
+### Jupyter filer til HTML 
+Programmet nbconvert konverterer jupyterfiler til html. 
+billederne ligger så i en undermappe . Kik evtl "nat/Integralregning.md" 
+Den danner en index.md fil 
+programmet kaldes med 
+
+** jupyter nbconvert --to marktown mitnavn.ipynb**
+
 Med VS Code: 
 content/
   integralregning/

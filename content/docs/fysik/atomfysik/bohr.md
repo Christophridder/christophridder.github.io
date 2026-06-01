@@ -1,5 +1,6 @@
 ---
 title: "Bohr"
+draft:  false
 weight: 1
 ---
 Jeg vil gerne tilføje ting her 

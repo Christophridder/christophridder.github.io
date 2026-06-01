@@ -1,6 +1,7 @@
 ---
 title: Fader vor
 weight: 2
+bookCollapseSection: true
 ---
 
 # Fadervor — Italiensk til Dansk
