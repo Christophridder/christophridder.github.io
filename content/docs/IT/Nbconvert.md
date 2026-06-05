@@ -1,10 +1,13 @@
 ---
 Title: " Nbconvert"
 Weight: 2
+geometry: margin=1cm
+fontsize: 11pt
 ---
 
-### Jupyter filer til HTML 
-Programmet nbconvert konverterer jupyterfiler til html. 
+
+### Jupyter filer til HTML, pdf, latex, markdown
+Programmet nbconvert konverterer jupyterfiler til html og alt muligt andet. 
 billederne ligger så i en undermappe . Kik evtl "nat/Integralregning.md" 
 Den danner en index.md fil 
 programmet kaldes med 
@@ -34,3 +37,9 @@ Hver notebook bliver sin egen selvstændige mappe
 - Opret mappe i content/
 - Kopier .md → omdøb til index.md
 - Kopier _files/ mappen med ind
+## lave pdffer fra md 
+pandoc fil.md -o fil.pdf
+pandoc fil.md -o fil.docx
+Pandoc kan **IKKE** lave gode pdffer fra docx filer! det kører via Latex 
+## åbne pdffer med Skim
+open -a Skim fil.pdf

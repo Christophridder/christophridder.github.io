@@ -1,6 +1,7 @@
 ---
 title: "20 verber"
 weight: 1
+bookCollapseSection: true
 ---
 # 30 mest brugte italienske verber - Bøjninger
 
