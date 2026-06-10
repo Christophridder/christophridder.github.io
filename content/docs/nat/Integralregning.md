@@ -2,516 +2,258 @@
 Title: Integralregning
 weight: 1
 ---
+---
+Title: Integralregning med Python
+weight: 1
+---
 
-# Integraler med scipy og sympy
-Denne side handler om integration og er lavet i Jupyter notebook. Er man interesseret i markdown features med Jupyter [klik her](https://towardsdatascience.com/write-markdown-latex-in-the-jupyter-notebook-10985edb91fdhttps://towardsdatascience.com/write-markdown-latex-in-the-jupyter-notebook-10985edb91fd). 
+# Integraler i Python — til Fysik A
 
+Når du skal integrere i en fysikopgave, er der reelt **to situationer**. Find din situation i tabellen, og hop direkte til den rigtige snippet.
 
-**Scipy** løser integralet numerisk. Scipy er god til at finde talværdien af et integral og direkte gemme det som en variable til at regne videre med. 
+| Din situation | Eksempel | Værktøj | Funktion |
+| --- | --- | --- | --- |
+| Du har **måledata** (en tabel af $x$ og $y$) | Areal under en kraft-vej-graf | NumPy | `np.trapezoid` |
+| Måledata, men du vil have den **kumulerede** kurve | Position fra fart-tid | SciPy | `cumulative_trapezoid` |
+| Du har en **kendt funktion** $f(x)$ | $\int_0^4 \tfrac14 x^3\,dx$ | SciPy | `integrate.quad` |
+| Du vil have en **stamfunktion** (en formel) | $\int x^3\,dx = \tfrac14 x^4$ | SymPy | `integrate` (nederst) |
 
-$$\int_0^4 \frac{1}{4}\cdot x^{3} dx = 16$$
+> **Bemærk (opdatering 2024–):** I gamle vejledninger ser du ofte `np.trapz`, `scipy.integrate.trapz` og `simps`. De er **fjernet** i NumPy 2.0 og SciPy 1.14. Brug i stedet `np.trapezoid`, `trapezoid` og `simpson`. Tilsvarende findes `scipy.pi` ikke mere — brug `np.pi`.
 
-**Sympy** skal tænkes mere som *maple* og løser integralet analytisk. Dvs at man med sympy kan finde den matematiske formel fx. 
+---
 
-$$ y' = \frac{1}{4}\cdot x^{3}  \rightarrow y = \frac{1}{16} \cdot  x^{4}$$ 
+## 1. Måledata: trapez-metoden (den vigtigste i fysik)
 
-## Definition af funktionen
-I både scipy og sympy skal skal man definere funktionen først. Det kan gøres på forskellige måde. 
-Kun med **sympy** kan man taste funktionen direkte i python udtrykket for integralberegningen. Med **scipy** skal man definere funktionen først. 
-## For både scipy og sympy gælder at 
-1. importer scipy eller sympy med ```import scipy as sc ``` eller ```from sympy import * ``` 
-2. definere funktionen, enten direkte med **def** eller med **lambda** funktionen
-3. kalde integralfunktionen og beregne integralet 
+I praksis har du sjældent en pæn funktion — du har en **måletabel**. Så er trapez-metoden dit standardværktøj. Den lægger små trapezer under datapunkterne og summer dem:
 
-## Integrationskommandoer for **scipy**
-- **quad**          Almindelig integration 
-```python
-integrate.quad(x2,0,4) #hvor x2 er en defineret funktion
-```
-- **dblquad**       Dobbeltintegral
-- **tplquad**       Tripelintegral
-```python
-#Ved dobbelt og tripel integraler skal funktionen og grænserne defineres. 
-```
-[Her er der et link til syntaksen til dobbelt og tripelintegraler](https://docs.scipy.org/doc/scipy/reference/tutorial/integrate.html)
+$$\int_a^b y\,dx \approx \sum \frac{(y_i + y_{i+1})}{2}\cdot \Delta x$$
 
-### Kommandoen med brugen af lambda funktionen ser ud som følende
-Vi vil løse integralet:
-
-$$ f(x) = \frac{1}{4}x^3$$
-
-i grænserne 0 til 4. 
-
-I modsætning til sympy kan man i scipy **ikke** direkte skrive funktionen ind i ```integrate ``` kommandoen. Men man SKAL definere det fx med **lambda** funktionen:
-
-
-```python
-from scipy import integrate
-x2 = lambda x: 1/4*x**3
-integrate.quad(x2, 0, 4)
-```
-
-
-
-
-    (16.0, 1.7763568394002505e-13)
-
-
-
-## Scipy med **def** til at definere funktionen
-**lambda** funktionen er en shotcut men er man god til at bruge **def** er mere *pure python*
-
-
-```python
-from scipy import integrate
-import numpy as np
-def minfunktion(x):
-    return 1/4*x**3
-
-I = integrate.quad(minfunktion,0,4)
-I[0]
-```
-
-
-
-
-    16.0
-
-
-
-Hvis man vil regne videre med resultatet skal man definere en variabel som indeholder integralet og dens usikkerhed. Variablen "resultat" er af typen "Double" dvs de enkelte elementer kan kaldes med 
-```python
-minI = resultat[0]
-minI_usikkerhed = resultat[1]
-```
-
-
-```python
-resultat = integrate.quad(x2, 0, 4)
-minI = resultat[0]
-minI
-```
-
-
-
-
-    16.0
-
-
-
-## Regne med scipy resultater
-Scipy angiver resultatet som en *double* variable. Altså en liste med to elementer (Værdien og usikkerheden) 
-
-Integralværdien kan gemmes som variabel ved at kalde den med [0] fra integrationen. 
-
-
-```python
-x4 = lambda x: -x**2+4
-x5 = lambda x: x**2-4
-minIx4 = integrate.quad(x4,-2,2)[0]
-minIx5 = integrate.quad(x5,-2,2)[0]
-minIx4-minIx5
-```
-
-
-
-
-    21.333333333333336
-
-
-
-## Opgave
-Løs integralet 
-
-\begin{align}
-f(x) = e^{-x^2}
-\end{align}
-
-fra - uendelig til uendelig
-## Uendelig og eksponentialfunktionen
-I sympy kan man bruge symbolet -oo og oo men scipy har ikke sådan en definition. Vi bruger numpy
-**np.inf**
-
+### Klip-og-klar: areal under måledata
 
 ```python
 import numpy as np
-x3 = lambda x: np.exp(-x**2)
-integrate.quad(x3,-np.inf,np.inf)[0]
+
+# Dine måledata (skift tallene ud)
+x = np.array([0, 0.5, 1.0, 1.5, 2.0])    # fx position i m
+y = np.array([0, 2.0, 3.5, 4.0, 4.2])    # fx kraft i N
+
+areal = np.trapezoid(y, x)               # bemærk: y FØR x
+print(f"Integralet (arealet) = {areal:.3g}")
 ```
 
+`np.trapezoid(y, x)` kræver **ikke** lige store skridt mellem dine $x$-værdier — perfekt til rigtige målinger.
 
+### De klassiske fysik-integraler — samme snippet, ny tolkning
 
+Alle disse er "areal under en graf" og løses med præcis samme kode:
 
-    1.7724538509055159
+| Fysisk størrelse | Integral | `x` | `y` |
+| --- | --- | --- | --- |
+| Arbejde | $W = \int F\,dx$ | position | kraft |
+| Strækning | $s = \int v\,dt$ | tid | fart |
+| Impuls | $J = \int F\,dt$ | tid | kraft |
+| Ladning | $Q = \int I\,dt$ | tid | strøm |
+| Energi | $E = \int P\,dt$ | tid | effekt |
 
-
-
-Læg mærke til at det er $$\sqrt \pi $$
-
+**Eksempel — arbejde fra en kraft-vej-måling:**
 
 ```python
-(integrate.quad(x3,-np.inf,np.inf)[0])**2
+import numpy as np
+
+x = np.array([0, 0.5, 1.0, 1.5, 2.0])    # vej i m
+F = np.array([0, 2.0, 3.5, 4.0, 4.2])    # kraft i N
+
+W = np.trapezoid(F, x)
+print(f"Arbejde W = {W:.3g} J")          # -> 5,8 J
 ```
 
+---
 
+## 2. Kumuleret integral: fx position undervejs
 
-
-    3.1415926535897927
-
-
-
-#### Et hurtigt python plot giver lidt indsigt i funktionsforløbet
-For flere plotfeatures med python [klik her](https://sites.google.com/view/natvid/python/plot-en-graf?authuser=0https://sites.google.com/view/natvid/python/plot-en-graf?authuser=0)
-
+Nogle gange vil du ikke kun have det **samlede** integral, men kurven undervejs — fx hvor langt bilen er kørt til hvert tidspunkt. Brug `cumulative_trapezoid`:
 
 ```python
-import matplotlib.pyplot as plt
-x = np.linspace(-10,10,1000)
-y = np.exp(-x**2)
-plt.plot(x,y)
+import numpy as np
+from scipy import integrate
+
+t = np.array([0, 1, 2, 3, 4, 5])         # tid i s
+v = np.array([0, 2, 5, 9, 12, 14])       # fart i m/s
+
+s = integrate.cumulative_trapezoid(v, t, initial=0)
+print(s)                                  # strækning ved hvert t
+print(f"Samlet strækning = {s[-1]:.3g} m")
 ```
 
+- `initial=0` sørger for at kurven starter i 0 og har samme længde som dine data.
+- `s[-1]` er den samlede strækning (samme tal som `np.trapezoid`).
 
+---
 
+## 3. Mere præcist på pæne data: Simpson
 
-    [<matplotlib.lines.Line2D at 0x7f931cfa2160>]
-
-
-
-
-    
-![png](Integralregning_files/Integralregning_13_1.png)
-    
-
-
-#### Et plot med sympy genereres sådan her
-
+Hvis dine data er glatte og du har et **lige antal intervaller**, giver Simpsons metode ofte et bedre bud end trapez:
 
 ```python
-from sympy import *
-x = symbols('x')
-plot(exp(-x**2))
+import numpy as np
+from scipy import integrate
+
+x = np.linspace(0, 4, 5)
+y = 0.25 * x**3
+
+print(f"trapez   = {np.trapezoid(y, x):.4g}")
+print(f"simpson  = {integrate.simpson(y, x=x):.4g}")
 ```
 
+På få punkter ser man tydeligt forskellen: trapez giver her 17, mens Simpson rammer det eksakte 16.
 
-    
-![png](Integralregning_files/Integralregning_15_0.png)
-    
+---
 
+## 4. Kendt funktion: scipy `quad`
 
+Har du en formel for $f(x)$, så regn integralet numerisk med `quad`. Den returnerer **to tal**: værdien og en usikkerhed.
 
-
-
-    <sympy.plotting.plot.Plot at 0x7f931cfc8460>
-
-
-
-## En gang til **uden** lambda funktionen
-På mange måder en mere intuitiv måde at gøre det her på især når man ved hvordan man definerer funktioner
-
-
+### Klip-og-klar: bestemt integral
 
 ```python
 from scipy import integrate
-import numpy as np
-def minfunktion(x):
-    return np.exp(-x**2)
 
-I = integrate.quad(minfunktion,-np.inf, np.inf)
-I[0]
+f = lambda x: 0.25 * x**3              # din funktion
+vaerdi, usik = integrate.quad(f, 0, 4)  # grænser 0 til 4
+print(f"Integral = {vaerdi:.4g}")      # -> 16
 ```
 
-
-
-
-    1.7724538509055159
-
-
-
-Bruger man **def** har man flere muligheder for at styre funktionen. Den kan fx. udvides på en dejlig måde med argumenter (her **a** og **b**. Læg mærke til at de skal *kaldes* med **args=(a,b)** i scipy funktionen **integrate.quad**
-
+Vil du regne videre med tallet, så tag bare det første element:
 
 ```python
-from scipy import integrate
+I = integrate.quad(lambda x: 0.25*x**3, 0, 4)[0]
+```
+
+### Uendelige grænser
+
+`quad` kan håndtere $\pm\infty$ via `np.inf`:
+
+```python
 import numpy as np
-def minfunktion(x, a, b):
+from scipy import integrate
+
+f = lambda x: np.exp(-x**2)
+I = integrate.quad(f, -np.inf, np.inf)[0]
+print(f"{I:.6g}")                       # = sqrt(pi)
+```
+
+### Funktion med parametre (`args`)
+
+Skal funktionen indeholde konstanter, så definér dem som ekstra argumenter og send dem med via `args`:
+
+```python
+import numpy as np
+from scipy import integrate
+
+def f(x, a, b):
     return a*np.exp(-x**2) + b
 
-a = 4
-b = 2
-I = integrate.quad(minfunktion,-10, 10, args=(a,b))
-I[0]
+I = integrate.quad(f, -10, 10, args=(4, 2))[0]
+print(f"{I:.6g}")
 ```
 
+### Areal mellem to kurver
 
-
-
-    47.089815403622055
-
-
-
-## Integraler med sympy
-Som sagt arbejder sympy på en helt anden måde. Sympy løser integralerne analystisk. 
-Det er klart bedst at arbejde med **sympy** i **sympy - mode only** og ikke blande det sammen med scipy som er mere plain python. 
-
-Du skal, som udgangspunkt, hellere ikke bruge sympy i større python programmer, med mindre du virkelig ved hvad du gør. 
-
-Sympy er logisk i sigselv og kræver at man tænker på en anden måde end *python-scipy-matplotlib-numpy* universet. 
-
-Sympy kan, som sagt, sammenlignes mere med programmer som **Maple**, **Maxima**, **Mathematica**, **Matcad** og **matlab** end med python.
-
-### Forskel på `integrate` og `Integral`
-#### `integrate`
-
-Vil du **beregne** en integralværdi brug `integrate`. Denne funktion kan også snilt klares med scipy. 
-
-$$ f(x) = \int_{0}^{4}x^3-4x^2+10x-3dx$$
-
-
+Træk de to integraler fra hinanden:
 
 ```python
-from sympy import *
-x = symbols('x')
-integrate(x**3-4*x**2+10*x-3,x)
+from scipy import integrate
+
+oeverst  = lambda x: -x**2 + 4
+nederst  = lambda x:  x**2 - 4
+
+A = integrate.quad(oeverst, -2, 2)[0] - integrate.quad(nederst, -2, 2)[0]
+print(f"Areal = {A:.4g}")
 ```
 
+### Rotationslegeme (omdrejningslegeme)
 
+Volumenet af det legeme $f(x)$ danner ved omdrejning om $x$-aksen:
 
-
-$\displaystyle \frac{x^{4}}{4} - \frac{4 x^{3}}{3} + 5 x^{2} - 3 x$
-
-
-
+$$V = \pi \int_a^b \big(f(x)\big)^2\,dx$$
 
 ```python
-integrate((x**3-4*x**2+10*x-3),(x,0,4))
+import numpy as np
+from scipy import integrate
+
+f = lambda x: 0.5 * x                   # fx en kegle
+a, b = 0, 10
+
+V = integrate.quad(lambda x: np.pi*f(x)**2, a, b)[0]
+print(f"Volumen = {V:.4g}")
 ```
 
+---
 
+## 5. Hurtigt plot af integranden
 
-
-$\displaystyle \frac{140}{3}$
-
-
-
+Et plot giver tit indsigt i forløbet, før du regner:
 
 ```python
-integrate((x**3-4*x**2+10*x-3),(x,0,4)).evalf()
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-10, 10, 1000)
+y = np.exp(-x**2)
+
+plt.plot(x, y)
+plt.xlabel("x"); plt.ylabel("f(x)")
+plt.grid(True)
+plt.show()
 ```
 
+---
 
+## Appendiks: SymPy — symbolsk integration
 
-
-$\displaystyle 46.6666666666667$
-
-
-
-Lægt mærke til følgende 
-
+> Bruger du i praksis sjældent. Tag det med her, hvis du har brug for en **formel** (stamfunktion) frem for et tal — altså noget i stil med Maple, Maxima eller WolframAlpha.
 
 ```python
-t = symbols('t')
-integrate((x**3-4*x**2+10*x-3),(x,0,t))
-```
+from sympy import symbols, integrate, exp, sin, ln, pi, oo
 
-
-
-
-$\displaystyle \frac{t^{4}}{4} - \frac{4 t^{3}}{3} + 5 t^{2} - 3 t$
-
-
-
-### `Integral`
-Vil du lave en symbols integration så brug `Integral`
-
-Denne form for symbolsk integration kan kun **sympy** klare. 
-
-
-
-```python
-from sympy import *
-x = symbols('x')
-Integral((x**3-4*x**2+10*x-3),(x,0,4))
-```
-
-
-
-
-$\displaystyle \int\limits_{0}^{4} \left(x^{3} - 4 x^{2} + 10 x - 3\right)\, dx$
-
-
-
-Tilføje `evalf()` i enden resulterer i en numerisk værdi lige som med `integrate`
-
-
-```python
-Integral((x**3-4*x**2+10*x-3),(x,0,4)).evalf()
-```
-
-
-
-
-$\displaystyle 46.6666666666667$
-
-
-
-## Eksempler på integrationer med **sympy**
-
-
-```python
-from sympy import *
-x = symbols('x')
-integrate(ln(x))
-```
-
-
-
-
-$\displaystyle x \log{\left(x \right)} - x$
-
-
-
-
-```python
-integrate(4*x**3)
-```
-
-
-
-
-$\displaystyle x^{4}$
-
-
-
-
-```python
-integrate(sin(x))
-```
-
-
-
-
-$\displaystyle - \cos{\left(x \right)}$
-
-
-
-
-```python
-integrate(cos(2*x)*sin(2*x)/(tan(x)))
-```
-
-
-
-
-$\displaystyle \frac{x}{2} + \sin{\left(x \right)} \cos^{3}{\left(x \right)} + \frac{\sin{\left(x \right)} \cos{\left(x \right)}}{2}$
-
-
-
-
-```python
-integrate(cos(2*x)*sin(2*x)/(tan(x)),(x,0,pi))
-```
-
-
-
-
-$\displaystyle \frac{\pi}{2}$
-
-
-
-
-```python
-integrate(cos(2*x)*sin(2*x)/(tan(x)),(x,0,pi)).evalf()
-```
-
-
-
-
-$\displaystyle 1.5707963267949$
-
-
-
-## Integration af rotationslegemer
-Volumen af et rotationslegeme berenges ved følgende formel:
-$$V = \pi \cdot \int_a^b \left(f(x)\right)^2 dx$$
-
-### Lineær funktion med både sympy og scipy
-Læg mærke til at du kan kalde integralværdien som variabel direkte i scipy med 
-
-$$ f(x) = \frac{1}{2} x$$
-I grænserne 0 til 10. 
-
-```python
-I = sc.integrate.quad(minfunktion,g1,g2)[0]
-```
-
-Det kan man også med sympy ved at tilordne integralet en værdi. 
-```python
-Isympy = integrate(pi*(0.5*x)**2,(x,g1,g2)).evalf()
-```
- 
-## Først med sympy
-
-
-```python
-from sympy import *
 x = symbols('x')
 
-g1 = 0
-g2 = 10
-
-integrate(pi*(0.5*x)**2,(x,g1,g2)).evalf()
+integrate(x**3 - 4*x**2 + 10*x - 3, x)        # stamfunktion (formel)
 ```
 
-
-
-
-$\displaystyle 261.799387799149$
-
-
-
+**Bestemt integral** (sæt grænser som en tuple):
 
 ```python
-Isympy = integrate(pi*(0.5*x)**2,(x,g1,g2)).evalf()
-print(Isympy) #Nu kan variablen Isympy bruges til at regne med integralværdien
+from sympy import symbols, integrate
+
+x = symbols('x')
+integrate(x**3 - 4*x**2 + 10*x - 3, (x, 0, 4))        # -> 140/3 (eksakt brøk)
 ```
 
-    261.799387799149
-
-
-## Med scipy
-
+Tilføj `.evalf()` for et decimaltal:
 
 ```python
-import scipy as sc
-def minfunktion(x):
-    return sc.pi*(0.5*x)**2
-g1 = 0
-g2 = 10
-Iscipy=sc.integrate.quad(minfunktion,g1,g2)[0]
-print(Iscipy)
+integrate(x**3 - 4*x**2 + 10*x - 3, (x, 0, 4)).evalf()  # -> 46,667
 ```
 
-    261.79938779914943
-
-
-## Flere eksempler
-
+**Uendelige grænser** klares med `oo`:
 
 ```python
-from sympy import *
-x,y = symbols('x y')
-integrate(x**2 + y**2,(x))
+from sympy import symbols, integrate, exp, oo, sqrt, pi
+
+x = symbols('x')
+integrate(exp(-x**2), (x, -oo, oo))           # -> sqrt(pi), eksakt
 ```
 
-
-
-
-$\displaystyle \frac{x^{3}}{3} + x y^{2}$
-
-
-
+Et par flere eksempler:
 
 ```python
+from sympy import symbols, integrate, sin, ln
 
+x = symbols('x')
+integrate(ln(x))        # x*log(x) - x
+integrate(4*x**3)       # x**4
+integrate(sin(x))       # -cos(x)
 ```
+
+> **Tommelfingerregel:** SymPy passer dårligt sammen med `numpy`/`scipy` i samme udregning. Hold dem adskilt — brug SymPy når du vil have en formel, og `quad`/`trapezoid` når du vil have et tal.

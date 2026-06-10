@@ -1,5 +1,5 @@
 ---
 title: Kemi
 bookCollapseSection: true
-weight: 4
+weight: 3
 ---

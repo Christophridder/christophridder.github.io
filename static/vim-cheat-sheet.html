@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vim cheat sheet</title>
+<style>
+  :root{
+    /* Solarized Light */
+    --base3:#fdf6e3; --base2:#eee8d5; --base1:#93a1a1;
+    --base00:#657b83; --base01:#586e75; --base02:#073642;
+    --yellow:#b58900; --orange:#cb4b16; --red:#dc322f; --magenta:#d33682;
+    --violet:#6c71c4; --blue:#268bd2; --cyan:#2aa198; --green:#859900;
+    --mono:"SF Mono","JetBrains Mono","Fira Code",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--base3); color:var(--base00);
+    font-family:var(--sans); line-height:1.5;
+    padding:2rem 1.25rem 4rem;
+  }
+  .wrap{max-width:1100px;margin:0 auto}
+
+  header{margin-bottom:1.75rem}
+  .eyebrow{
+    font-family:var(--mono); font-size:.72rem; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--base1); margin-bottom:.4rem;
+  }
+  h1{
+    font-family:var(--mono); font-weight:700; color:var(--base02);
+    font-size:clamp(1.9rem,5vw,2.9rem); letter-spacing:-.01em;
+  }
+  h1 .blink{color:var(--green)}
+  .lede{margin-top:.5rem; max-width:62ch; color:var(--base01)}
+
+  /* Grammar builder — signaturelement */
+  .grammar{
+    margin:1.75rem 0 2rem; padding:1.25rem 1.25rem 1.4rem;
+    background:var(--base2); border-radius:10px;
+    border:1px solid #e3dcc4;
+  }
+  .grammar h2{
+    font-family:var(--mono); font-size:.8rem; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--base01); margin-bottom:.9rem;
+  }
+  .formula{
+    display:flex; flex-wrap:wrap; align-items:stretch; gap:.55rem;
+    font-family:var(--mono);
+  }
+  .slot{
+    flex:1 1 160px; min-width:140px; background:var(--base3);
+    border:1px solid #e3dcc4; border-radius:8px; padding:.7rem .8rem;
+  }
+  .slot .tag{font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--base1)}
+  .slot .ex{font-size:1.05rem; font-weight:700; margin:.25rem 0 .15rem}
+  .slot .note{font-size:.78rem; color:var(--base01); font-family:var(--sans)}
+  .slot.op .ex{color:var(--magenta)}
+  .slot.count .ex{color:var(--yellow)}
+  .slot.target .ex{color:var(--blue)}
+  .plus{display:flex;align-items:center;font-size:1.4rem;color:var(--base1);font-weight:700}
+  .grammar .read{margin-top:.9rem;font-size:.85rem;color:var(--base01)}
+  .grammar .read code{background:var(--base3);padding:.1rem .35rem;border-radius:4px;font-family:var(--mono)}
+
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+    gap:1rem;
+  }
+  .card{
+    background:var(--base2); border:1px solid #e3dcc4; border-radius:10px;
+    padding:1.1rem 1.15rem 1.25rem; break-inside:avoid;
+  }
+  .card h3{
+    font-family:var(--mono); font-size:.95rem; color:var(--base02);
+    display:flex; align-items:center; gap:.55rem; margin-bottom:.8rem;
+  }
+  .card h3::before{
+    content:""; width:.7rem; height:.7rem; border-radius:2px; flex:none;
+    background:var(--accent,var(--cyan));
+  }
+  .card.acc-op{--accent:var(--magenta)}
+  .card.acc-move{--accent:var(--blue)}
+  .card.acc-obj{--accent:var(--cyan)}
+  .card.acc-mode{--accent:var(--violet)}
+  .card.acc-clip{--accent:var(--green)}
+  .card.acc-rep{--accent:var(--orange)}
+  .card.acc-fun{--accent:var(--yellow)}
+  .card.acc-save{--accent:var(--red)}
+
+  .row{
+    display:flex; gap:.7rem; padding:.3rem 0; align-items:baseline;
+    border-top:1px dotted #ddd5bd; font-size:.9rem;
+  }
+  .row:first-of-type{border-top:none}
+  kbd{
+    font-family:var(--mono); font-weight:700; color:var(--base02);
+    background:var(--base3); border:1px solid #ddd5bd; border-bottom-width:2px;
+    border-radius:5px; padding:.08rem .4rem; white-space:nowrap; flex:none;
+    min-width:2.6rem; text-align:center;
+  }
+  .row span{color:var(--base01)}
+  .row em{color:var(--base02);font-style:normal;font-weight:600}
+
+  .tip{
+    margin-top:.7rem; font-size:.8rem; color:var(--base01);
+    background:var(--base3); border-left:3px solid var(--accent,var(--cyan));
+    padding:.5rem .7rem; border-radius:0 6px 6px 0;
+  }
+  .tip code{font-family:var(--mono);color:var(--base02);font-weight:600}
+
+  footer{
+    margin-top:2rem; padding-top:1rem; border-top:1px solid #e3dcc4;
+    font-size:.8rem; color:var(--base1); font-family:var(--mono);
+  }
+
+  @media print{
+    body{background:#fff;padding:0;font-size:11px}
+    .card,.grammar{break-inside:avoid;border-color:#ccc}
+    .eyebrow,footer{color:#888}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    h1 .blink{animation:blink 1.1s steps(1) infinite}
+    @keyframes blink{50%{opacity:.25}}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">VSCodium · vscodevim · Solarized Light</div>
+    <h1>Vim cheat sheet<span class="blink">_</span></h1>
+    <p class="lede">Vims styrke er ikke et hav af genveje, man skal udenad — det er en <strong>grammatik</strong>. Du sætter en handling sammen med et mål, og kombinationerne giver sig selv. Lær reglen, ikke listen.</p>
+  </header>
+
+  <!-- SIGNATUR: grammatik-byggeren -->
+  <section class="grammar">
+    <h2>Grammatikken</h2>
+    <div class="formula">
+      <div class="slot op">
+        <div class="tag">Handling</div>
+        <div class="ex">y · d · c</div>
+        <div class="note">yank · delete · change</div>
+      </div>
+      <div class="plus">+</div>
+      <div class="slot count">
+        <div class="tag">Antal (valgfrit)</div>
+        <div class="ex">2 · 3 · 10</div>
+        <div class="note">hvor mange gange</div>
+      </div>
+      <div class="plus">+</div>
+      <div class="slot target">
+        <div class="tag">Mål</div>
+        <div class="ex">w · $ · i{</div>
+        <div class="note">bevægelse el. text object</div>
+      </div>
+    </div>
+    <p class="read">Læs det som en sætning: <code>d</code> + <code>2</code> + <code>w</code> = "slet to ord". <code>c</code> + <code>i{</code> = "skift alt inde i de krøllede parenteser". <code>y</code> + <code>$</code> = "kopiér til linjens slutning". Samme tre operatorer, uendeligt mange mål.</p>
+  </section>
+
+  <div class="grid">
+
+    <!-- MODES -->
+    <div class="card acc-mode">
+      <h3>Modes — hvor er jeg?</h3>
+      <div class="row"><kbd>Esc</kbd><span>tilbage til <em>normal mode</em> (navigér, kommandér)</span></div>
+      <div class="row"><kbd>i</kbd><span><em>insert</em> — skriv før markøren</span></div>
+      <div class="row"><kbd>a</kbd><span><em>insert</em> — skriv efter markøren</span></div>
+      <div class="row"><kbd>o</kbd><span>ny linje under + insert</span></div>
+      <div class="row"><kbd>O</kbd><span>ny linje over + insert</span></div>
+      <div class="row"><kbd>v</kbd><span><em>visual</em> — markér tegn</span></div>
+      <div class="row"><kbd>V</kbd><span><em>visual line</em> — markér hele linjer</span></div>
+      <div class="row"><kbd>Ctrl-v</kbd><span><em>visual block</em> — markér en kolonne</span></div>
+      <div class="row"><kbd>:</kbd><span><em>command</em> — gem, luk, søg/erstat</span></div>
+    </div>
+
+    <!-- VISUAL -->
+    <div class="card acc-mode">
+      <h3>Visual mode — sådan bruges det</h3>
+      <div class="row"><kbd>v</kbd><span>tænd markering, og <em>flyt</em> så markøren (h j k l, w, $ …)</span></div>
+      <div class="row"><kbd>y</kbd><span>kopiér det markerede</span></div>
+      <div class="row"><kbd>d</kbd><span>slet (klip) det markerede</span></div>
+      <div class="row"><kbd>c</kbd><span>slet markering + skriv noget nyt</span></div>
+      <div class="row"><kbd>></kbd> <kbd><</kbd><span>ryk markering ind / ud</span></div>
+      <div class="row"><kbd>o</kbd><span>hop til den anden ende af markeringen</span></div>
+      <div class="row"><kbd>gv</kbd><span>genvælg sidste markering</span></div>
+      <p class="tip">Tankegang: <code>v</code> tænder, du <em>maler</em> hen over teksten med en bevægelse, og trykker så <code>y</code>/<code>d</code>/<code>c</code>. Visual er "se det først, handl bagefter".</p>
+    </div>
+
+    <!-- OPERATORS -->
+    <div class="card acc-op">
+      <h3>De tre operatorer</h3>
+      <div class="row"><kbd>y</kbd><span><em>yank</em> — kopiér (bliver, sletter ikke)</span></div>
+      <div class="row"><kbd>d</kbd><span><em>delete</em> — slet (klip ud)</span></div>
+      <div class="row"><kbd>c</kbd><span><em>change</em> — slet <strong>og</strong> sæt mig i insert</span></div>
+      <div class="row"><kbd>yy</kbd><span>dobbelt = hele linjen → <code>dd</code>, <code>cc</code> samme mønster</span></div>
+      <p class="tip"><code>c</code> er den snedige: den sletter og lader dig skrive med det samme. <code>d</code> sletter og efterlader dig i normal mode.</p>
+    </div>
+
+    <!-- MOTIONS -->
+    <div class="card acc-move">
+      <h3>Bevægelser (mål)</h3>
+      <div class="row"><kbd>h j k l</kbd><span>venstre · ned · op · højre</span></div>
+      <div class="row"><kbd>w</kbd> <kbd>b</kbd><span>et ord frem · tilbage</span></div>
+      <div class="row"><kbd>e</kbd><span>til ordets slutning</span></div>
+      <div class="row"><kbd>0</kbd> <kbd>^</kbd><span>linjestart · første ikke-blanke tegn</span></div>
+      <div class="row"><kbd>$</kbd><span>linjens slutning</span></div>
+      <div class="row"><kbd>gg</kbd> <kbd>G</kbd><span>filens top · bund</span></div>
+      <div class="row"><kbd>%</kbd><span>hop til matchende ( ) { } [ ]</span></div>
+      <div class="row"><kbd>f x</kbd><span>hop til næste <em>x</em> på linjen (<kbd>t x</kbd> = lige før)</span></div>
+    </div>
+
+    <!-- TEXT OBJECTS -->
+    <div class="card acc-obj">
+      <h3>Text objects — <em>i</em> vs <em>a</em></h3>
+      <div class="row"><kbd>iw</kbd><span><em>inner word</em> — ordet selv</span></div>
+      <div class="row"><kbd>aw</kbd><span><em>a word</em> — ordet + mellemrum</span></div>
+      <div class="row"><kbd>i{</kbd><span>alt <strong>inde i</strong> { } (uden parenteser)</span></div>
+      <div class="row"><kbd>a{</kbd><span>alt <strong>inkl.</strong> { }</span></div>
+      <div class="row"><kbd>i"</kbd> <kbd>i(</kbd><span>inde i anførselstegn · runde parenteser</span></div>
+      <div class="row"><kbd>it</kbd><span>inde i et HTML-tag (dine <code>&lt;img&gt;</code>!)</span></div>
+      <p class="tip">Markøren skal bare være <em>et sted indenfor</em> blokken — vim finder selv de omsluttende tegn. <code>i</code> = inner, <code>a</code> = around.</p>
+    </div>
+
+    <!-- YANK examples -->
+    <div class="card acc-op">
+      <h3>Yank i praksis</h3>
+      <div class="row"><kbd>yy</kbd><span>én linje · <kbd>3yy</kbd> = tre linjer</span></div>
+      <div class="row"><kbd>y$</kbd><span>fra markør til linjens slut</span></div>
+      <div class="row"><kbd>y0</kbd> <kbd>y^</kbd><span>til linjestart · til første tegn</span></div>
+      <div class="row"><kbd>yl</kbd><span>ét tegn · <kbd>y3l</kbd>, <kbd>y10l</kbd> = flere</span></div>
+      <div class="row"><kbd>yw</kbd><span>til næste ord · <kbd>y2w</kbd> = to ord</span></div>
+      <div class="row"><kbd>ye</kbd><span>til ordets slutning</span></div>
+      <div class="row"><kbd>yi{</kbd><span>alt inde i { } · <kbd>ya{</kbd> = inkl. parenteser</span></div>
+      <div class="row"><kbd>p</kbd> <kbd>P</kbd><span>indsæt efter · før markøren</span></div>
+    </div>
+
+    <!-- CHANGE examples -->
+    <div class="card acc-op">
+      <h3>Change-familien</h3>
+      <div class="row"><kbd>cw</kbd><span>skift ord (til ordets slut)</span></div>
+      <div class="row"><kbd>ciw</kbd><span>skift hele ordet, uanset hvor i det du står</span></div>
+      <div class="row"><kbd>cc</kbd><span>skift hele linjen (beholder indrykning)</span></div>
+      <div class="row"><kbd>c$</kbd><span>skift til linjens slut</span></div>
+      <div class="row"><kbd>ci{</kbd><span>skift alt i { } — fx en f-string-blok</span></div>
+      <div class="row"><kbd>ci"</kbd><span>omskriv en hel streng på én gang</span></div>
+      <div class="row"><kbd>cit</kbd><span>skift indhold i et HTML-tag</span></div>
+      <p class="tip">Står du i <code>f"{R_i_maalt:.3g}"</code>: <code>ci{</code> tømmer <code>R_i_maalt:.3g</code> og lader dig skrive nyt med det samme.</p>
+    </div>
+
+    <!-- REPLACE -->
+    <div class="card acc-rep">
+      <h3>Replace: <em>r</em> vs <em>R</em></h3>
+      <div class="row"><kbd>r</kbd><span>overskriv <strong>ét</strong> tegn — fx <kbd>r</kbd> så <kbd>x</kbd></span></div>
+      <div class="row"><kbd>R</kbd><span><em>replace mode</em> — overskriv <strong>løbende</strong>, tegn for tegn, til du trykker <kbd>Esc</kbd></span></div>
+      <div class="row"><kbd>~</kbd><span>skift store/små bogstaver på tegnet</span></div>
+      <div class="row"><kbd>x</kbd><span>slet ét tegn (uden insert)</span></div>
+      <p class="tip"><code>r</code> = "ret lige det ene tegn". <code>R</code> = "skriv hen over som en overskriv-tilstand" — tænk gammeldags skrivemaskine.</p>
+    </div>
+
+    <!-- CLIPBOARD -->
+    <div class="card acc-clip">
+      <h3>System-clipboard</h3>
+      <div class="row"><kbd>"+y</kbd><span>yank til systemets udklipsholder (plus-register)</span></div>
+      <div class="row"><kbd>"+yy</kbd><span>hele linjen til clipboard</span></div>
+      <div class="row"><kbd>"+yi{</kbd><span>indhold i { } direkte i clipboard</span></div>
+      <div class="row"><kbd>"+p</kbd><span>indsæt <em>fra</em> systemets clipboard</span></div>
+      <p class="tip">Register <code>"+</code> skal stå <strong>før</strong> operatoren. Vil du slippe for det hver gang: sæt <code>"vim.useSystemClipboard": true</code> i <code>settings.json</code> — så ryger alle yanks automatisk i clipboard.</p>
+    </div>
+
+    <!-- FUN / ADVANCED -->
+    <div class="card acc-fun">
+      <h3>Snedige tricks</h3>
+      <div class="row"><kbd>.</kbd><span><strong>gentag</strong> sidste ændring — vims mest undervurderede tast</span></div>
+      <div class="row"><kbd>u</kbd> <kbd>Ctrl-r</kbd><span>fortryd · gør om</span></div>
+      <div class="row"><kbd>*</kbd><span>søg efter ordet under markøren (<kbd>n</kbd> = næste)</span></div>
+      <div class="row"><kbd>A</kbd> <kbd>I</kbd><span>insert i linjens slut · start</span></div>
+      <div class="row"><kbd>J</kbd><span>slå denne linje sammen med den næste</span></div>
+      <div class="row"><kbd>ddp</kbd><span>byt to linjer om · <kbd>xp</kbd> = byt to tegn</span></div>
+      <div class="row"><kbd>>></kbd> <kbd><<</kbd><span>ryk linje ind · ud</span></div>
+      <div class="row"><kbd>qa</kbd> … <kbd>q</kbd><span>optag makro i register <em>a</em> · <kbd>@a</kbd> afspil · <kbd>@@</kbd> gentag</span></div>
+      <p class="tip">Workflow-guld: lav én ændring med <code>ciw</code>, hop til næste forekomst med <code>n</code> (efter <code>*</code>), og tryk <code>.</code> for at gentage. "Søg → ret → punktum → punktum".</p>
+    </div>
+
+    <!-- SAVE / QUIT -->
+    <div class="card acc-save">
+      <h3>Gem & luk</h3>
+      <div class="row"><kbd>:w</kbd><span>gem</span></div>
+      <div class="row"><kbd>:q</kbd><span>luk</span></div>
+      <div class="row"><kbd>:wq</kbd><span>gem og luk · <kbd>:x</kbd> gør det samme</span></div>
+      <div class="row"><kbd>:q!</kbd><span>luk uden at gemme (kassér ændringer)</span></div>
+      <div class="row"><kbd>:%s/gl/ny/g</kbd><span>find og erstat i hele filen</span></div>
+      <p class="tip">I VSCodium gemmer <kbd>Cmd/Ctrl+S</kbd> også fint — vim-kommandoerne er bare hurtige, når fingrene allerede er på tastaturet.</p>
+    </div>
+
+  </div>
+
+  <footer>~ Mayunga · Vim cheat sheet · god fornøjelse med fingerøvelserne</footer>
+
+</div>
+</body>
+</html>
