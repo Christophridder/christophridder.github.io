@@ -17,7 +17,7 @@ Differentiation er "hvor stejl er grafen?" — altså hældningen. I fysik er de
 
 ---
 
-## 1. Måledata: `np.gradient` (den vigtigste i fysik)
+## 1. Måledata: `np.gradient` (integral over eksperimentelle data)
 
 Du har sjældent en formel — du har en **måletabel**. `np.gradient` finder hældningen i hvert punkt med centraldifferenser:
 
