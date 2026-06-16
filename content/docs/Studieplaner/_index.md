@@ -1,5 +1,5 @@
 ---
-title: Hold
+title: Studieplaner
 type: docs
 weight: 1
 bookCollapseSection: true
