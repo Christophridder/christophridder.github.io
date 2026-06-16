@@ -1,3 +1,9 @@
+---
+Title: Logaritmer
+type: docs
+description: "opgaver til logaritme"
+weight: 20
+---
 # Logaritmer — Opgaveark
 
 **Fysik A — Træning i logaritmeregler**

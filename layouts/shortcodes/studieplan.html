@@ -1,0 +1,45 @@
+{{- $key := .Get 0 -}}
+{{- $plan := index .Site.Data.studieplaner $key -}}
+{{- with $plan -}}
+<p><strong>{{ .fag }} {{ .niveau }}</strong> · {{ .skoleaar }}</p>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Dato</th>
+      <th>Forløb</th>
+      <th>Emne</th>
+      <th>Materialer</th>
+      <th>Lektier</th>
+      <th>Kommentar</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{- range sort .moduler "nr" "desc" }}
+    <tr>
+      <td>{{ .nr }}</td>
+      <td>{{ .dato }}</td>
+      <td>{{ .forloeb }}</td>
+      <td>{{ .emne }}</td>
+      <td>
+      {{- range .materialer -}}
+        {{- $slug := . -}}
+        {{- $hits := where $.Site.RegularPages "File.BaseFileName" $slug -}}
+        {{- if $hits -}}
+          {{- $m := index $hits 0 -}}
+          <a href="{{ $m.RelPermalink }}">{{ $m.Title }}</a>
+        {{- else -}}
+          <span>{{ $slug }}</span>
+        {{- end -}}
+        {{ " " }}
+      {{- end -}}
+      </td>
+      <td>{{ .lektier }}</td>
+      <td>{{ delimit .maal ", " }}</td>
+    </tr>
+  {{- end }}
+  </tbody>
+</table>
+{{- else -}}
+<p><em>Ingen studieplan fundet for «{{ $key }}».</em></p>
+{{- end -}}

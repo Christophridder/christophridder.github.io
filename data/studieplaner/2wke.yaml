@@ -1,0 +1,20 @@
+hold: 2wKe
+fag: Kemi
+niveau: C            # ← ret hvis det er B
+skoleaar: "2026/2027"
+moduler:
+  - nr: 1
+    dato: 2026-08-12
+    emne: "Ioner"
+    forloeb: "Repetition fra 1g"
+    materialer: [Kemibogen]
+    lektier: "Ingen lektier"
+    maal: [lasdf]
+
+  - nr: 2
+    dato: 2026-08-12
+    emne: "Redox"
+    forloeb: ""
+    materialer: []
+    lektier: ""
+    maal: [halleluya]

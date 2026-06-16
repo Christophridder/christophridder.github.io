@@ -1,0 +1,12 @@
+hold: 1zFy
+fag: Fysik
+niveau: C            # ← ret hvis det er B
+skoleaar: "2026/2027"
+moduler:
+  - nr: 1
+    dato: 2026-08-12
+    emne: ""
+    forloeb: ""
+    materialer: []
+    lektier: ""
+    maal: []
