@@ -17,3 +17,8 @@ $$Ws = J$$
 1. ændre decimaler i merkat
 1. brug dollar tegn til træk ned
 1. vis hvordan man få akser på grafer
+
+### Betydende cifre
+
+
+
