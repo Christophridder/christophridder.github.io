@@ -1,5 +1,5 @@
 ---
-title: "Salt i ting (Fajans-titrering)"
+title: "Salt i ting "
 weight: 30
 ---
 
@@ -7,11 +7,10 @@ weight: 30
 
 > *Original øvelsesvejledning. Bygger på Fajans-metoden (adsorptionsindikator), så vi undgår dichromat helt.*
 
----
 
 ## Formål
 
-Du skal bestemme indholdet af **kogesalt** (natriumchlorid, NaCl) i forskellige hverdagsprodukter — fx **småkager/kiks**, **chips** og **havvand** — og udtrykke det i masseprocent (eller g salt pr. 100 g). Vi bestemmer mængden af **chloridioner** (Cl⁻) ved at titrere med sølvnitrat.
+Du skal bestemme indholdet af **køkkenesalt** (natriumchlorid, NaCl) i forskellige hverdagsprodukter — fx **småkager/kiks**, **chips** og **havvand** — og udtrykke det i masseprocent (eller g salt pr. 100 g). Vi bestemmer mængden af **chloridioner** (Cl⁻) ved at titrere med sølvnitrat.
 
 ## Baggrund
 
@@ -58,7 +57,7 @@ Ved at tilsætte en kendt koncentration af sølvnitrat fra en burette, indtil **
 
 ## Udførelse
 
-### A) Kontrolforsøg (anbefales først)
+### A) Kontrolforsøg 
 
 1. Afvej nøjagtigt en kendt mængde rent NaCl (fx 0,10 g), opløs i ca. 50 mL demineraliseret vand i en konisk kolbe.
 2. Tilsæt en knivspids dextrin og 5–8 dråber dichlorofluorescein-indikator.
@@ -83,7 +82,6 @@ Som B), men afvej ca. 2–3 g knuste chips. *(Chips er ofte mere salte end kiks 
 3. Tilsæt dextrin og indikator, og titrér med AgNO₃ til farveskift.
 4. **Husk fortyndingsfaktoren**, når du regner tilbage til havvandets saltindhold.
 
----
 
 ## Resultater
 
@@ -94,7 +92,6 @@ Som B), men afvej ca. 2–3 g knuste chips. *(Chips er ofte mere salte end kiks 
 | Chips | | |
 | Havvand (fortyndet) | | |
 
----
 
 ## Efterbehandling
 
@@ -108,7 +105,6 @@ For hver prøve:
    - For havvand: g salt pr. liter (husk fortyndingsfaktoren).
 5. Sammenlign med **varedeklarationen** ("salt: X g pr. 100 g"). Passer det? *(Bemærk: deklarationen angiver normalt salt = NaCl beregnet ud fra natrium.)*
 
----
 
 ## Diskussion og konklusion
 

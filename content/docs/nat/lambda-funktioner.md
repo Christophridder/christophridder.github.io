@@ -1,6 +1,6 @@
 ---
 Title: Lambda-funktioner i Python
-weight: 2
+weight: 20
 ---
 
 # Lambda-funktioner

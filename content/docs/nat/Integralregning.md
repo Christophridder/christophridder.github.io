@@ -22,7 +22,7 @@ Når du skal integrere i en fysikopgave, er der reelt **to situationer**. Find d
 
 ---
 
-## 1. Måledata: trapez-metoden (den vigtigste i fysik)
+## 1. Måledata: trapez-metoden, når du skal finde integralet for måledata
 
 I praksis har du sjældent en pæn funktion — du har en **måletabel**. Så er trapez-metoden dit standardværktøj. Den lægger små trapezer under datapunkterne og summer dem:
 
@@ -49,11 +49,11 @@ Alle disse er "areal under en graf" og løses med præcis samme kode:
 
 | Fysisk størrelse | Integral | `x` | `y` |
 | --- | --- | --- | --- |
-| Arbejde | $W = \int F\,dx$ | position | kraft |
-| Strækning | $s = \int v\,dt$ | tid | fart |
-| Impuls | $J = \int F\,dt$ | tid | kraft |
-| Ladning | $Q = \int I\,dt$ | tid | strøm |
-| Energi | $E = \int P\,dt$ | tid | effekt |
+| Arbejde | $W = \int F dx$ | position | kraft |
+| Strækning | $s = \int v dt$ | tid | fart |
+| Impuls | $J = \int F dt$ | tid | kraft |
+| Ladning | $Q = \int I dt$ | tid | strøm |
+| Energi | $E = \int P dt$ | tid | effekt |
 
 **Eksempel — arbejde fra en kraft-vej-måling:**
 
@@ -113,12 +113,12 @@ På få punkter ser man tydeligt forskellen: trapez giver her 17, mens Simpson r
 
 Har du en formel for $f(x)$, så regn integralet numerisk med `quad`. Den returnerer **to tal**: værdien og en usikkerhed.
 
-### Klip-og-klar: bestemt integral
+### Et bestemt integral hvor du kender den matematiske formel
 
 ```python
 from scipy import integrate
 
-f = lambda x: 0.25 * x**3              # din funktion
+f = lambda x: 0.25 * x**3              # din funktion f(x) = 0.25 * x^3
 vaerdi, usik = integrate.quad(f, 0, 4)  # grænser 0 til 4
 print(f"Integral = {vaerdi:.4g}")      # -> 16
 ```
@@ -153,7 +153,7 @@ from scipy import integrate
 def f(x, a, b):
     return a*np.exp(-x**2) + b
 
-I = integrate.quad(f, -10, 10, args=(4, 2))[0]
+I = integrate.quad(f, -10, 10, args=(4, 2))[0] #a = 4 og b = 2
 print(f"{I:.6g}")
 ```
 

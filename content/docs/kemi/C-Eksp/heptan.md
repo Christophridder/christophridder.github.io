@@ -5,9 +5,6 @@ weight: 50
 
 **Niveau:** Kemi C (1g) · **Emne:** Organisk kemi — alkaner og fotokemisk substitution
 
-> *Original øvelsesvejledning skrevet til 1g kemi C. Et klassisk, kvalitativt forsøg, hvor lysets rolle som energikilde demonstreres tydeligt.*
-
----
 
 ## Formål
 

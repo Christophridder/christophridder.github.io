@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gnidning – Fysik B</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+#gn {
+  background: #f1f5f9; border-radius: 14px; overflow: hidden;
+  max-width: 820px; margin: 0 auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13); color: #1e293b; user-select: none;
+}
+.gn-head {
+  background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 16px 22px; color: white; display: flex; align-items: baseline; gap: 14px;
+}
+.gn-head h1 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; }
+.gn-head p { font-size: 0.78rem; opacity: 0.7; }
+.gn-config {
+  background: white; padding: 12px 20px;
+  display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end;
+  border-bottom: 1px solid #e2e8f0;
+}
+.ctrl-g label {
+  display: block; font-size: 0.7rem; font-weight: 700;
+  color: #64748b; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px;
+}
+select {
+  padding: 7px 10px; border: 1.5px solid #cbd5e1; border-radius: 7px;
+  font-size: 0.88rem; color: #1e293b; background: white; cursor: pointer;
+  font-family: inherit; min-width: 200px;
+}
+select:focus { outline: none; border-color: #2563eb; }
+.mass-row { display: flex; align-items: center; gap: 8px; }
+.mass-row input[type=range] { width: 130px; accent-color: #2563eb; }
+.mass-val { font-size: 1.05rem; font-weight: 700; color: #1e40af; min-width: 52px; }
+.gn-tabs { display: flex; background: white; border-bottom: 2px solid #e2e8f0; }
+.tab-btn {
+  flex: 1; padding: 11px; border: none; background: transparent;
+  font-size: 0.88rem; font-weight: 600; color: #64748b; cursor: pointer;
+  position: relative; font-family: inherit; transition: color 0.15s;
+}
+.tab-btn::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 3px; background: #2563eb; transform: scaleX(0);
+  transition: transform 0.2s; border-radius: 2px 2px 0 0;
+}
+.tab-btn.active { color: #1e40af; }
+.tab-btn.active::after { transform: scaleX(1); }
+.gn-sim { background: white; padding: 14px 18px 10px; }
+canvas#simC { display: block; width: 100%; border-radius: 8px; border: 1px solid #e2e8f0; }
+.gn-info {
+  background: white; padding: 8px 20px 14px;
+  display: flex; flex-wrap: wrap; gap: 10px; border-top: 1px solid #f1f5f9;
+}
+.ic { background: #f8fafc; border-radius: 8px; padding: 8px 14px; min-width: 130px; }
+.ic .lbl { font-size: 0.68rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .05em; }
+.ic .val { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-top: 1px; }
+.ic.blue { background: #eff6ff; } .ic.blue .val { color: #1d4ed8; }
+.ic.red  { background: #fff1f2; } .ic.red  .val { color: #dc2626; }
+.ic.green{ background: #f0fdf4; } .ic.green .val { color: #15803d; }
+.gn-ctrl { background: #f8fafc; padding: 14px 20px; border-top: 1px solid #e2e8f0; }
+.angle-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.angle-row label { font-size: 0.85rem; font-weight: 600; color: #374151; min-width: 58px; }
+#angleSl { flex: 1; min-width: 120px; accent-color: #2563eb; }
+.angle-v { font-size: 1.3rem; font-weight: 800; color: #1e40af; min-width: 48px; }
+.mu-box {
+  margin-top: 10px; display: flex; align-items: center; gap: 10px;
+  background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 9px 14px;
+}
+.mu-box .ml { font-size: 0.8rem; color: #1d4ed8; font-weight: 600; }
+.mu-box .mv { font-size: 1.2rem; font-weight: 800; color: #1e40af; margin-left: auto; }
+.warn-box {
+  display: none; background: #fef2f2; border: 1.5px solid #fca5a5;
+  border-radius: 8px; padding: 8px 14px; margin-top: 10px;
+  font-size: 0.83rem; color: #dc2626; font-weight: 600;
+}
+.warn-box.show { display: flex; align-items: center; gap: 8px; }
+.pull-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.btn-pull {
+  padding: 10px 22px; background: #2563eb; color: white; border: none;
+  border-radius: 8px; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: background .15s; min-width: 140px;
+}
+.btn-pull:hover { background: #1d4ed8; }
+.btn-pull:disabled { background: #93c5fd; cursor: default; }
+.btn-rec {
+  padding: 10px 20px; background: #15803d; color: white; border: none;
+  border-radius: 8px; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: background .15s; display: none;
+}
+.btn-rec.show { display: inline-block; }
+.btn-rec:hover { background: #166534; }
+.btn-clr {
+  padding: 9px 14px; background: white; color: #475569;
+  border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.83rem;
+  font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s;
+}
+.btn-clr:hover { background: #f1f5f9; }
+.pull-hint { margin-top: 10px; font-size: 0.8rem; color: #64748b; line-height: 1.5; }
+.gn-data { display: none; padding: 16px 20px; border-top: 1px solid #e2e8f0; background: white; }
+.gn-data.show { display: block; }
+.gn-data h3 { margin-bottom: 12px; font-size: 0.78rem; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: .06em; }
+.data-lay { display: grid; grid-template-columns: 185px 1fr; gap: 18px; align-items: start; }
+table.dt { border-collapse: collapse; width: 100%; font-size: 0.84rem; }
+table.dt th { background: #f1f5f9; padding: 7px 10px; text-align: left; font-weight: 700; color: #374151; }
+table.dt td { padding: 6px 10px; border-bottom: 1px solid #f1f5f9; }
+table.dt tbody tr:last-child td { border-bottom: none; }
+table.dt td.del-btn { text-align: center; cursor: pointer; color: #94a3b8; font-size: 0.9rem; }
+table.dt td.del-btn:hover { color: #dc2626; }
+.reg-out {
+  margin-top: 10px; background: #f0fdf4; border: 1.5px solid #86efac;
+  border-radius: 8px; padding: 9px 13px; font-size: 0.82rem; color: #166534; display: none;
+}
+.reg-out.show { display: block; }
+.reg-out strong { font-size: 1.05rem; }
+canvas#regC { border: 1px solid #e2e8f0; border-radius: 8px; display: block; width: 100%; }
+</style>
+</head>
+<body>
+<div id="gn">
+  <div class="gn-head">
+    <h1>Gnidning</h1>
+    <p>Fysik B — Interaktiv simulation</p>
+  </div>
+  <div class="gn-config">
+    <div class="ctrl-g">
+      <label>Overflade</label>
+      <select id="surfSel"></select>
+    </div>
+    <div class="ctrl-g">
+      <label>Klodsens masse</label>
+      <div class="mass-row">
+        <input type="range" id="massSl" min="0.2" max="5" step="0.1" value="1">
+        <span class="mass-val" id="massD">1,0 kg</span>
+      </div>
+    </div>
+  </div>
+  <div class="gn-tabs">
+    <button class="tab-btn active" id="tabH" onclick="setMode('haeld')">📐 Hældningsforsøg</button>
+    <button class="tab-btn" id="tabT" onclick="setMode('traek')">🔧 Trækforsøg</button>
+  </div>
+  <div class="gn-sim">
+    <canvas id="simC" width="780" height="320"></canvas>
+  </div>
+  <div class="gn-info">
+    <div class="ic red">
+      <div class="lbl">Tyngdekraft W</div>
+      <div class="val" id="vW">—</div>
+    </div>
+    <div class="ic blue">
+      <div class="lbl">Normalkraft N</div>
+      <div class="val" id="vN">—</div>
+    </div>
+    <div class="ic green">
+      <div class="lbl" id="fLabel">Gnidningskraft f</div>
+      <div class="val" id="vF">—</div>
+    </div>
+    <div class="ic" id="icAngle" style="display:none">
+      <div class="lbl">Hældning θ</div>
+      <div class="val" id="vAngle">—</div>
+    </div>
+    <div class="ic" id="icMuk" style="display:none">
+      <div class="lbl">Trækkraft F</div>
+      <div class="val" id="vPull">—</div>
+    </div>
+  </div>
+  <div class="gn-ctrl" id="ctrlH">
+    <div class="angle-row">
+      <label>Vinkel θ</label>
+      <input type="range" id="angleSl" min="0" max="75" step="1" value="20">
+      <span class="angle-v" id="angleD">20°</span>
+    </div>
+    <div class="mu-box">
+      <span class="ml">Statisk gnidningskoefficient μ<sub>s</sub> (tabelværdi)</span>
+      <span class="mv" id="musD">0,40</span>
+    </div>
+    <div class="warn-box" id="warnBox">
+      ⚠️ Klodsen glider! Kritisk vinkel θ<sub>c</sub> = <span id="critA">—</span> → μ<sub>s</sub> = tan(θ<sub>c</sub>) = <span id="muFromA">—</span>
+    </div>
+  </div>
+  <div class="gn-ctrl" id="ctrlT" style="display:none">
+    <div class="pull-row">
+      <button class="btn-pull" id="pullBtn" onclick="doPull()">▶ Træk klodsen</button>
+      <button class="btn-rec show" id="recBtn" onclick="recMeas()">＋ Registrér måling</button>
+      <button class="btn-clr" onclick="clearData()">Ryd målinger</button>
+    </div>
+    <p class="pull-hint">Skift massen og registrér flere målinger for at bestemme μ<sub>k</sub> via lineær regression (F = μ<sub>k</sub> · g · m).</p>
+  </div>
+  <div class="gn-data" id="dataS">
+    <h3>Målinger &amp; Lineær regression</h3>
+    <div class="data-lay">
+      <div>
+        <table class="dt">
+          <thead><tr><th>m (kg)</th><th>F (N)</th><th></th></tr></thead>
+          <tbody id="dataTB"></tbody>
+        </table>
+        <div class="reg-out" id="regOut"></div>
+      </div>
+      <canvas id="regC" width="460" height="260"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+const G = 9.82;
+const SURFACES = [
+  { name: 'Træ på træ',       mus: 0.40, muk: 0.30, col: '#b45309', surfCol: '#d97706' },
+  { name: 'Stål på stål',     mus: 0.15, muk: 0.10, col: '#374151', surfCol: '#9ca3af' },
+  { name: 'Gummi på asfalt',  mus: 0.90, muk: 0.70, col: '#1f2937', surfCol: '#4b5563' },
+  { name: 'Is på is',         mus: 0.10, muk: 0.05, col: '#93c5fd', surfCol: '#bfdbfe' },
+  { name: 'Beton på beton',   mus: 0.60, muk: 0.50, col: '#6b7280', surfCol: '#d1d5db' },
+];
+
+const sel = document.getElementById('surfSel');
+SURFACES.forEach((s,i) => {
+  const o = document.createElement('option');
+  o.value = i;
+  o.textContent = `${s.name}  (μs ≈ ${s.mus.toFixed(2).replace('.',',')}  μk ≈ ${s.muk.toFixed(2).replace('.',',')})`;
+  sel.appendChild(o);
+});
+
+let state = {
+  mode: 'haeld', surfIdx: 0, mass: 1.0, angle: 20,
+  pulling: false, pullForce: 0, blockSliding: false, blockX: 0,
+  animId: null, measurements: [],
+};
+
+const simC = document.getElementById('simC');
+const ctx = simC.getContext('2d');
+const regC = document.getElementById('regC');
+const rctx = regC.getContext('2d');
+
+function surf() { return SURFACES[state.surfIdx]; }
+function W() { return state.mass * G; }
+function fmt(n) { return n.toFixed(2).replace('.', ',') + ' N'; }
+
+sel.onchange = () => { state.surfIdx = +sel.value; redraw(); };
+document.getElementById('massSl').oninput = function() {
+  state.mass = +this.value;
+  document.getElementById('massD').textContent = state.mass.toFixed(1).replace('.',',') + ' kg';
+  state.blockSliding = false; state.pullForce = 0; state.blockX = 0;
+  redraw();
+};
+document.getElementById('angleSl').oninput = function() {
+  state.angle = +this.value;
+  document.getElementById('angleD').textContent = state.angle + '°';
+  redraw();
+};
+
+function setMode(m) {
+  state.mode = m;
+  state.blockSliding = false; state.pullForce = 0; state.blockX = 0;
+  if (state.animId) { cancelAnimationFrame(state.animId); state.animId = null; }
+  document.getElementById('tabH').classList.toggle('active', m==='haeld');
+  document.getElementById('tabT').classList.toggle('active', m==='traek');
+  document.getElementById('ctrlH').style.display = m==='haeld'?'':'none';
+  document.getElementById('ctrlT').style.display = m==='traek'?'':'none';
+  document.getElementById('icAngle').style.display = m==='haeld'?'':'none';
+  document.getElementById('icMuk').style.display = m==='traek'?'':'none';
+  document.getElementById('fLabel').textContent = m==='haeld' ? 'Gnidningskraft f' : 'Gnidningskraft f (kinetisk)';
+  redraw();
+}
+
+let pullAnim = null;
+function doPull() {
+  if (state.pulling) return;
+  state.pulling = true; state.blockSliding = false;
+  state.pullForce = 0; state.blockX = 0;
+  document.getElementById('pullBtn').disabled = true;
+  document.getElementById('recBtn').classList.remove('show');
+  const staticF = surf().mus * W();
+  let phase = 'rising';
+  function step() {
+    if (phase === 'rising') {
+      state.pullForce = Math.min(staticF * 1.05, state.pullForce + staticF * 0.04);
+      if (state.pullForce >= staticF) { phase = 'sliding'; state.blockSliding = true; }
+    } else {
+      state.pullForce = surf().muk * W() + (state.pullForce - surf().muk * W()) * 0.92;
+      state.blockX += 2.5;
+      if (state.blockX > 130) {
+        state.pulling = false;
+        document.getElementById('pullBtn').disabled = false;
+        document.getElementById('pullBtn').textContent = '▶ Træk igen';
+        document.getElementById('recBtn').classList.add('show');
+        redraw(); return;
+      }
+    }
+    redraw();
+    pullAnim = requestAnimationFrame(step);
+  }
+  pullAnim = requestAnimationFrame(step);
+}
+
+function recMeas() {
+  state.measurements.push({ m: state.mass, F: surf().muk * W() });
+  state.blockX = 0; state.blockSliding = false; state.pullForce = 0;
+  document.getElementById('recBtn').classList.remove('show');
+  document.getElementById('pullBtn').textContent = '▶ Træk klodsen';
+  updateDataSection(); redraw();
+}
+
+function clearData() { state.measurements = []; updateDataSection(); }
+
+function updateDataSection() {
+  const ds = document.getElementById('dataS');
+  if (!state.measurements.length) { ds.classList.remove('show'); return; }
+  ds.classList.add('show');
+  const tb = document.getElementById('dataTB');
+  tb.innerHTML = '';
+  state.measurements.forEach((d,i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${d.m.toFixed(1).replace('.',',')}</td><td>${d.F.toFixed(2).replace('.',',')}</td><td class="del-btn" onclick="delMeas(${i})">✕</td>`;
+    tb.appendChild(tr);
+  });
+  const ro = document.getElementById('regOut');
+  if (state.measurements.length >= 2) {
+    let sxy = 0, sxx = 0;
+    state.measurements.forEach(d => { sxy += d.m*d.F; sxx += d.m*d.m; });
+    const slope = sxy/sxx;
+    const mukEst = slope/G;
+    ro.classList.add('show');
+    ro.innerHTML = `Regression: F = ${slope.toFixed(3).replace('.',',')} · m<br>
+      <strong>μ<sub>k</sub> ≈ ${mukEst.toFixed(3).replace('.',',')}</strong>
+      <span style="font-size:0.78rem;color:#166534;"> (tabelværdi: ${surf().muk.toFixed(2).replace('.',',')})</span>`;
+    drawRegGraph(slope);
+  } else { ro.classList.remove('show'); drawRegGraph(null); }
+}
+
+function delMeas(i) { state.measurements.splice(i,1); updateDataSection(); }
+
+function drawRegGraph(slope) {
+  const RW = regC.width, RH = regC.height;
+  rctx.clearRect(0,0,RW,RH);
+  const pad = {l:52,r:20,t:20,b:48};
+  const gw = RW-pad.l-pad.r, gh = RH-pad.t-pad.b;
+  const pts = state.measurements;
+  if (!pts.length) return;
+  const maxM = Math.max(...pts.map(d=>d.m),1)*1.2;
+  const maxF = Math.max(...pts.map(d=>d.F),1)*1.2;
+  const mx = m => pad.l+(m/maxM)*gw;
+  const my = f => pad.t+gh-(f/maxF)*gh;
+  rctx.fillStyle='#f8fafc'; rctx.fillRect(0,0,RW,RH);
+  rctx.fillStyle='white'; rctx.fillRect(pad.l,pad.t,gw,gh);
+  rctx.strokeStyle='#e2e8f0'; rctx.lineWidth=1;
+  for(let i=1;i<=4;i++){
+    const y=pad.t+gh*i/4;
+    rctx.beginPath();rctx.moveTo(pad.l,y);rctx.lineTo(pad.l+gw,y);rctx.stroke();
+    const x=pad.l+gw*i/4;
+    rctx.beginPath();rctx.moveTo(x,pad.t);rctx.lineTo(x,pad.t+gh);rctx.stroke();
+  }
+  if(slope){
+    rctx.strokeStyle='#2563eb';rctx.lineWidth=2;rctx.setLineDash([6,4]);
+    rctx.beginPath();rctx.moveTo(mx(0),my(0));rctx.lineTo(mx(maxM),my(slope*maxM));rctx.stroke();
+    rctx.setLineDash([]);
+  }
+  pts.forEach(d=>{
+    rctx.beginPath();rctx.arc(mx(d.m),my(d.F),5,0,Math.PI*2);
+    rctx.fillStyle='#1d4ed8';rctx.fill();
+    rctx.strokeStyle='white';rctx.lineWidth=1.5;rctx.stroke();
+  });
+  rctx.strokeStyle='#374151';rctx.lineWidth=1.5;
+  rctx.beginPath();rctx.moveTo(pad.l,pad.t);rctx.lineTo(pad.l,pad.t+gh);rctx.lineTo(pad.l+gw,pad.t+gh);rctx.stroke();
+  rctx.fillStyle='#374151';rctx.font='11px Segoe UI,system-ui,sans-serif';rctx.textAlign='center';
+  rctx.fillText('masse m (kg)',pad.l+gw/2,RH-6);
+  rctx.save();rctx.translate(13,pad.t+gh/2);rctx.rotate(-Math.PI/2);
+  rctx.fillText('kraft F (N)',0,0);rctx.restore();
+  rctx.textAlign='right';rctx.fillStyle='#64748b';
+  for(let i=0;i<=4;i++){
+    const y=pad.t+gh*(1-i/4);
+    rctx.fillText((maxF*i/4).toFixed(1).replace('.',','),pad.l-5,y+4);
+    rctx.textAlign='center';
+    rctx.fillText((maxM*i/4).toFixed(1).replace('.',','),pad.l+gw*i/4,pad.t+gh+14);
+    rctx.textAlign='right';
+  }
+  if(slope){rctx.fillStyle='#2563eb';rctx.font='11px Segoe UI';rctx.textAlign='left';rctx.fillText(`F = ${slope.toFixed(3).replace('.',',')} · m`,pad.l+6,pad.t+14);}
+}
+
+function redraw() {
+  updateInfo();
+  if (state.mode==='haeld') drawIncline(); else drawPull();
+}
+
+function updateInfo() {
+  const θ=state.angle*Math.PI/180, s=surf(), w=W();
+  if(state.mode==='haeld'){
+    const sliding=state.angle>=Math.atan(s.mus)*180/Math.PI;
+    const N=w*Math.cos(θ), f=sliding?s.muk*N:w*Math.sin(θ);
+    document.getElementById('vW').textContent=fmt(w);
+    document.getElementById('vN').textContent=fmt(N);
+    document.getElementById('vF').textContent=fmt(f);
+    document.getElementById('vAngle').textContent=state.angle+'°';
+    document.getElementById('musD').textContent=s.mus.toFixed(2).replace('.',',');
+    const critDeg=Math.atan(s.mus)*180/Math.PI;
+    document.getElementById('critA').textContent=critDeg.toFixed(1).replace('.',',')+' °';
+    document.getElementById('muFromA').textContent=Math.tan(θ).toFixed(2).replace('.',',');
+    document.getElementById('warnBox').classList.toggle('show',sliding);
+  } else {
+    document.getElementById('vW').textContent=fmt(w);
+    document.getElementById('vN').textContent=fmt(w);
+    document.getElementById('vF').textContent=state.blockSliding?fmt(s.muk*w):(state.pullForce>0?fmt(state.pullForce):'—');
+    document.getElementById('vPull').textContent=state.pullForce>0?fmt(state.pullForce):'—';
+  }
+}
+
+function drawIncline() {
+  const CW=simC.width, CH=simC.height;
+  ctx.clearRect(0,0,CW,CH);
+  const s=surf(), θ=state.angle*Math.PI/180;
+  const sliding=state.angle>=Math.atan(s.mus)*180/Math.PI;
+  ctx.fillStyle='#f0f9ff'; ctx.fillRect(0,0,CW,CH);
+  const gyB=CH-30, pivX=60, pivY=gyB, ilen=540;
+  const topX=pivX+ilen*Math.cos(θ), topY=pivY-ilen*Math.sin(θ);
+  const th=18, snx=Math.sin(θ), snz=Math.cos(θ);
+  ctx.beginPath();
+  ctx.moveTo(pivX,pivY); ctx.lineTo(topX,topY);
+  ctx.lineTo(topX+snx*th,topY+snz*th); ctx.lineTo(pivX+snx*th,pivY+snz*th);
+  ctx.closePath();
+  const grad=ctx.createLinearGradient(pivX,pivY,topX,topY);
+  grad.addColorStop(0,s.surfCol); grad.addColorStop(0.5,lighten(s.surfCol,15)); grad.addColorStop(1,s.surfCol);
+  ctx.fillStyle=grad; ctx.fill();
+  ctx.strokeStyle=darken(s.surfCol,30); ctx.lineWidth=1.5; ctx.stroke();
+  const bPos=0.38;
+  const bBaseX=pivX+ilen*bPos*Math.cos(θ), bBaseY=pivY-ilen*bPos*Math.sin(θ);
+  const bW=68, bH=48;
+  ctx.save(); ctx.translate(bBaseX,bBaseY); ctx.rotate(-θ);
+  ctx.fillStyle='rgba(0,0,0,0.08)'; ctx.fillRect(-bW/2+5,-bH+5,bW,bH);
+  ctx.fillStyle=sliding?'#ef4444':'#92400e'; ctx.fillRect(-bW/2,-bH,bW,bH);
+  ctx.fillStyle=sliding?'rgba(255,150,150,0.25)':'rgba(255,210,120,0.25)'; ctx.fillRect(-bW/2,-bH,bW,bH*0.35);
+  ctx.strokeStyle=sliding?'#991b1b':'#78350f'; ctx.lineWidth=1.5; ctx.strokeRect(-bW/2,-bH,bW,bH);
+  ctx.strokeStyle='rgba(0,0,0,0.12)'; ctx.lineWidth=1;
+  for(let xi=-bW/2+14;xi<bW/2-5;xi+=14){ctx.beginPath();ctx.moveTo(xi,-bH+4);ctx.lineTo(xi,-4);ctx.stroke();}
+  ctx.fillStyle=sliding?'#fca5a5':'#fbbf24'; ctx.font='bold 12px Segoe UI,system-ui'; ctx.textAlign='center';
+  ctx.fillText(state.mass.toFixed(1).replace('.',',')+' kg',0,-bH/2+5);
+  ctx.restore();
+  const bcx=bBaseX+(bH/2)*Math.sin(θ), bcy=bBaseY-(bH/2)*Math.cos(θ);
+  const sc=18, w=W(), N=w*Math.cos(θ), fric=sliding?s.muk*N:w*Math.sin(θ);
+  drawArrow(ctx,bcx,bcy,bcx,bcy+w*sc,'#dc2626',`W = ${fmt(w)}`,'right');
+  const nnx=-Math.sin(θ),nny=-Math.cos(θ);
+  drawArrow(ctx,bcx,bcy,bcx+N*sc*nnx,bcy+N*sc*nny,'#2563eb',`N = ${fmt(N)}`,'left');
+  const ftx=Math.cos(θ)*(sliding?-1:1), fty=-Math.sin(θ)*(sliding?-1:1);
+  drawArrow(ctx,bcx,bcy,bcx+fric*sc*ftx,bcy+fric*sc*fty,'#16a34a',`f = ${fmt(fric)}`,'above');
+  const arcR=70;
+  ctx.beginPath(); ctx.arc(pivX,pivY,arcR,-θ,0);
+  ctx.strokeStyle='#6366f1'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='#6366f1'; ctx.font='bold 14px Segoe UI,system-ui'; ctx.textAlign='center';
+  ctx.fillText('θ = '+state.angle+'°',pivX+arcR*0.65*Math.cos(-θ/2)+10,pivY+arcR*0.4*Math.sin(-θ/2)+5);
+  ctx.fillStyle='#94a3b8'; ctx.fillRect(0,gyB+th+1,CW,CH-gyB-th-1);
+  ctx.strokeStyle='#64748b'; ctx.lineWidth=1.2;
+  for(let xi=-CH;xi<CW+CH;xi+=22){ctx.beginPath();ctx.moveTo(xi,gyB+th+2);ctx.lineTo(xi+CH,gyB+th+2+CH);ctx.stroke();}
+  if(sliding){
+    const slt=Date.now()*0.01;
+    ctx.save(); ctx.translate(bBaseX+Math.sin(slt)*3,bBaseY+Math.cos(slt*1.3)*2); ctx.rotate(-θ);
+    ctx.strokeStyle='#ef4444'; ctx.lineWidth=3; ctx.strokeRect(-bW/2-2,-bH-2,bW+4,bH+4);
+    ctx.restore(); requestAnimationFrame(redraw);
+  }
+}
+
+function drawPull() {
+  const CW=simC.width, CH=simC.height;
+  ctx.clearRect(0,0,CW,CH);
+  const s=surf(), w=W(), kF=s.muk*w, statF=s.mus*w;
+  ctx.fillStyle='#f0f9ff'; ctx.fillRect(0,0,CW,CH);
+  const sy=CH-110, surfH=16;
+  const grad=ctx.createLinearGradient(0,sy,0,sy+surfH);
+  grad.addColorStop(0,s.surfCol); grad.addColorStop(1,darken(s.surfCol,20));
+  ctx.fillStyle=grad; ctx.fillRect(0,sy,CW,surfH);
+  ctx.strokeStyle=darken(s.surfCol,30); ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(0,sy); ctx.lineTo(CW,sy); ctx.stroke();
+  ctx.fillStyle='#94a3b8'; ctx.fillRect(0,sy+surfH,CW,CH-sy-surfH);
+  ctx.strokeStyle='#64748b'; ctx.lineWidth=1;
+  for(let xi=-CH;xi<CW+100;xi+=20){ctx.beginPath();ctx.moveTo(xi,sy+surfH+1);ctx.lineTo(xi+80,sy+surfH+80);ctx.stroke();}
+  const bW=80, bH=56, bStartX=80;
+  const bx=bStartX+(state.blockX||0), bTop=sy-bH;
+  ctx.fillStyle='rgba(0,0,0,0.06)'; ctx.fillRect(bx+6,bTop+6,bW,bH);
+  ctx.fillStyle='#92400e'; ctx.fillRect(bx,bTop,bW,bH);
+  ctx.fillStyle='rgba(255,210,120,0.2)'; ctx.fillRect(bx,bTop,bW,bH*0.3);
+  ctx.strokeStyle='#78350f'; ctx.lineWidth=1.5; ctx.strokeRect(bx,bTop,bW,bH);
+  ctx.strokeStyle='rgba(0,0,0,0.12)'; ctx.lineWidth=1;
+  for(let xi=bx+16;xi<bx+bW-6;xi+=16){ctx.beginPath();ctx.moveTo(xi,bTop+5);ctx.lineTo(xi,bTop+bH-5);ctx.stroke();}
+  ctx.fillStyle='#fbbf24'; ctx.font='bold 13px Segoe UI,system-ui'; ctx.textAlign='center';
+  ctx.fillText(state.mass.toFixed(1).replace('.',',')+' kg',bx+bW/2,bTop+bH/2+5);
+  const nmLeft=bx+bW+12, nmTop=bTop-5, nmW=38, nmH=bH+10, nmCX=nmLeft+nmW/2;
+  const springY0=nmTop+14;
+  const springLen=state.pullForce>0?24+(state.pullForce/statF)*20:24;
+  ctx.strokeStyle='#374151'; ctx.lineWidth=2; ctx.beginPath();
+  for(let yi=0;yi<=springLen;yi++){const x=nmCX+Math.sin(yi*0.8)*6;if(yi===0)ctx.moveTo(x,springY0);else ctx.lineTo(x,springY0+yi);}
+  ctx.stroke();
+  ctx.strokeStyle='#374151'; ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.moveTo(bx+bW,sy-bH/2); ctx.lineTo(nmLeft,nmTop+nmH/2); ctx.stroke();
+  const nmBodyTop=nmTop+2, nmBodyH=nmH-4;
+  roundRect(ctx,nmLeft,nmBodyTop,nmW,nmBodyH,6);
+  ctx.fillStyle='#f1f5f9'; ctx.fill(); ctx.strokeStyle='#94a3b8'; ctx.lineWidth=1.5; ctx.stroke();
+  const maxN=Math.max(statF*1.3,10);
+  for(let ni=0;ni<=10;ni++){
+    const ny=nmBodyTop+8+(nmBodyH-16)*(1-ni/10), isMain=ni%5===0;
+    ctx.strokeStyle='#374151'; ctx.lineWidth=isMain?1.5:1;
+    ctx.beginPath(); ctx.moveTo(nmLeft+3,ny); ctx.lineTo(nmLeft+(isMain?14:9),ny); ctx.stroke();
+    if(isMain){ctx.fillStyle='#374151';ctx.font='9px Segoe UI,system-ui';ctx.textAlign='left';ctx.fillText((maxN*ni/10).toFixed(0)+'N',nmLeft+16,ny+3);}
+  }
+  if(state.pullForce>0){
+    const needleY=nmBodyTop+8+(nmBodyH-16)*(1-Math.min(state.pullForce/maxN,1));
+    ctx.fillStyle='#dc2626'; ctx.beginPath();
+    ctx.moveTo(nmLeft+3,needleY-3); ctx.lineTo(nmLeft+3,needleY+3); ctx.lineTo(nmLeft+20,needleY); ctx.closePath(); ctx.fill();
+  }
+  ctx.fillStyle='#374151'; ctx.font='bold 9px Segoe UI'; ctx.textAlign='center';
+  ctx.fillText('N',nmCX,nmBodyTop+nmBodyH-3);
+  if(state.pullForce>0){
+    ctx.fillStyle=state.blockSliding?'#dc2626':'#1d4ed8';
+    ctx.font='bold 15px Segoe UI,system-ui'; ctx.textAlign='left';
+    ctx.fillText(fmt(state.pullForce),nmLeft+nmW+10,nmBodyTop+nmBodyH/2+5);
+  }
+  const sc=15, forceSc=Math.min(state.pullForce,statF*1.1);
+  if(state.pullForce>0){
+    drawArrow(ctx,bx+bW/2,bTop+bH/2,bx+bW/2+forceSc*sc*0.6,bTop+bH/2,'#2563eb','','above');
+    const fric=Math.min(state.pullForce,kF+0.2);
+    drawArrow(ctx,bx+bW/2,bTop+bH/2,bx+bW/2-fric*sc*0.6,bTop+bH/2,'#16a34a','','above');
+  }
+  drawArrow(ctx,bx+bW/2,sy-bH/2,bx+bW/2,sy-bH/2-w*sc*0.6,'#2563eb','','left');
+  drawArrow(ctx,bx+bW/2,sy-bH/2,bx+bW/2,sy-bH/2+w*sc*0.6,'#dc2626','','right');
+  if(state.blockSliding){
+    ctx.fillStyle='#dc2626'; ctx.font='bold 15px Segoe UI'; ctx.textAlign='center';
+    ctx.fillText('⚡ Klodsen glider!  fk = '+fmt(kF),CW/2,28);
+  } else if(state.pullForce>0){
+    ctx.fillStyle='#1d4ed8'; ctx.font='13px Segoe UI'; ctx.textAlign='center';
+    ctx.fillText('Trækker... (statisk gnidning holder)',CW/2,28);
+  } else {
+    ctx.fillStyle='#64748b'; ctx.font='13px Segoe UI'; ctx.textAlign='center';
+    ctx.fillText('Klik "Træk klodsen" for at starte',CW/2,28);
+  }
+}
+
+function drawArrow(ctx,x0,y0,x1,y1,color,label,labelPos){
+  const dx=x1-x0,dy=y1-y0,len=Math.sqrt(dx*dx+dy*dy);
+  if(len<4)return;
+  const ux=dx/len,uy=dy/len,hw=8,hl=14;
+  ctx.save(); ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1-ux*hl,y1-uy*hl); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x1,y1);
+  ctx.lineTo(x1-ux*hl-uy*hw/2,y1-uy*hl+ux*hw/2);
+  ctx.lineTo(x1-ux*hl+uy*hw/2,y1-uy*hl-ux*hw/2);
+  ctx.closePath(); ctx.fill();
+  if(label){
+    ctx.font='bold 11px Segoe UI,system-ui'; ctx.textAlign='center';
+    const mx=(x0+x1)/2,my=(y0+y1)/2;
+    let lx=mx,ly=my;
+    if(labelPos==='right'){lx=mx+16;ly=my;ctx.textAlign='left';}
+    else if(labelPos==='left'){lx=mx-16;ly=my;ctx.textAlign='right';}
+    else if(labelPos==='above'){lx=mx;ly=my-8;}
+    const tw=ctx.measureText(label).width;
+    ctx.fillStyle='rgba(255,255,255,0.85)';
+    ctx.fillRect(lx-(ctx.textAlign==='center'?tw/2:ctx.textAlign==='left'?0:tw)-3,ly-12,tw+6,16);
+    ctx.fillStyle=color; ctx.fillText(label,lx,ly);
+  }
+  ctx.restore();
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath(); ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+function lighten(hex,p){return adjustColor(hex,p);}
+function darken(hex,p){return adjustColor(hex,-p);}
+function adjustColor(hex,p){
+  let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  r=Math.min(255,Math.max(0,r+p)); g=Math.min(255,Math.max(0,g+p)); b=Math.min(255,Math.max(0,b+p));
+  return '#'+[r,g,b].map(v=>v.toString(16).padStart(2,'0')).join('');
+}
+
+redraw();
+</script>
+</body>
+</html>

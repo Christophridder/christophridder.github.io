@@ -1,13 +1,15 @@
 ---
-title: "Reaktionen mellem kobber og dibrom"
+title: "Kobber og dibrom"
 weight: 10
 ---
 
 **Niveau:** Kemi C · **Emne:** Atomer, ioner og simpel redox (elektronoverførsel)
 
----
 
 ## Om grundstofferne
+Kobber og dibrom øvelsen omhandler atomer og ioner samt dannelse af ioner ud fra atomer. Både $\text{Cu}(s)$ og $\text{Br}_2(aq)$ kan nemlig danne ioner. 
+
+Førskrivningen her går ud på at forklare lidt om grundstofferne kobber og dibrom:
 
 ### Kobber
 
@@ -29,7 +31,6 @@ Bromatomet modtager en elektron …
 
 > **Opgave:** Tegn en bromidion med det rigtige antal skaller og elektroner.
 
----
 
 ## Formål
 
@@ -39,22 +40,21 @@ I dette forsøg vil vi undersøge, hvordan dibrom reagerer med fast kobber.
 
 Jeg tror, at kobber og dibrom vil reagere med hinanden, og … *(skriv videre her)*
 
----
 
 ## Materialeliste
 
 **Apparatur**
 
 - Eppendorfrør
-- Petriskål af plast
+- Brømplade med 12 huller til at holde eppendorfrørene
 - Engangspipetter
 
 **Kemikalier**
 
 - Mættet opløsning af dibrom i vand
 - Kobberspåner
-- Cu²⁺-opløsning
-- Br⁻-opløsning
+- Cu²⁺-opløsning fx $\text{Cu}(\text{NO}_3)_{2}$  eller $\text{CuSO}_{4}$
+- Br⁻-opløsning fx $\text{KBr}$
 - Fortyndet ammoniakvand (2 M)
 - Sølvnitratopløsning (0,10 M)
 
@@ -62,7 +62,6 @@ Jeg tror, at kobber og dibrom vil reagere med hinanden, og … *(skriv videre he
 
 ![Materialer til forsøget](images/cu_br2_materialer.png)
 
----
 
 ## Reaktionsskema
 
@@ -70,9 +69,8 @@ $$\text{Cu(s)} + \text{Br}_2\text{(aq)} \rightarrow \text{Cu}^{2+}\text{(aq)} + 
 
 Der laves 5 små forsøg. Udfyld skemaet for hvert af forsøgene.
 
-> **Ordforklaring:** Hvad betyder (s), (l), (g) og (aq)?
+> **Ordforklaring:** forklar betydningen af (s), (l), (g) og (aq) og kom med et lille eksempel:
 
----
 
 ## Forsøgene
 
@@ -83,7 +81,7 @@ Bland bromvand og kobberspåner, og ryst. Tag billeder undervejs.
 - Skriv dine observationer.
 - Lav en tegning og sæt ind.
 
-### 2) Kobbersulfat og ammoniakvand
+### 2) Kontrolforsøg 1:  Kobbersulfat og ammoniakvand
 
 Bland de to ingredienser og diskutér, hvad resultatet betyder.
 
@@ -95,7 +93,7 @@ $$\text{Cu}^{2+}\text{(aq)} + 4\,\text{NH}_3\text{(aq)} \rightarrow \text{Cu(NH}
 
 - Lav en tegning og sæt ind.
 
-### 3) Kaliumbromid og sølvnitrat
+### 3) Kontrolforsøg 2: Kaliumbromid og sølvnitrat
 
 Gennemfør forsøget, diskutér resultatet, og begrund, hvorfor det giver mening her. Bromidioner danner bundfald med sølvioner.
 
@@ -113,7 +111,6 @@ Hvorfor laver vi dette forsøg, og hvilken konklusion kan du drage?
 
 - Lav en tegning og sæt ind.
 
----
 
 ## Konklusion
 

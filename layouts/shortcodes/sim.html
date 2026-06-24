@@ -1,0 +1,8 @@
+<iframe
+  src="/sim/{{ .Get 0 }}"
+  width="100%"
+  height="{{ if .Get 1 }}{{ .Get 1 }}{{ else }}720{{ end }}"
+  style="border:none; border-radius:12px; display:block;"
+  loading="lazy"
+  title="{{ .Get 0 }}"
+></iframe>

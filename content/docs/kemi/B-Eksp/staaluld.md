@@ -11,24 +11,22 @@ weight: 90
 
 Ståluld er næsten rent jern, men indeholder nogle få procent urenheder. Jernindholdet bestemmes ved, at man først opløser stålulden i svovlsyre, hvorved der dannes jern(II)-ioner:
 
-$$\text{Fe(s)} + 2\,\text{H}^+\text{(aq)} \rightarrow \text{Fe}^{2+}\text{(aq)} + \text{H}_2\text{(g)}$$
+$$\text{Fe(s)} + 2\text{H}^+\text{(aq)} \rightarrow \text{Fe}^{2+}\text{(aq)} + \text{H}_2\text{(g)}$$
 
 MnO₄⁻ har en intens violet farve og virker derfor selv som indikator. Så længe der er Fe²⁺ i opløsningen, vil de tilsatte MnO₄⁻ straks blive reduceret til farveløs Mn²⁺. Ved ækvivalenspunktet er alle Fe²⁺ oxideret til Fe³⁺, og ved ekstra tilsætning af MnO₄⁻ vil disse forblive i opløsningen, som derfor får en rødlig farve.
 
-Redoxreaktionen for jern(II)-ioner med permanganat er:
+Redoxreaktionen for jern(II)-ioner med permanganat danner mangan ioner og jern(II) ioner. Afstem den med redoxafstemning i sur opløsning:
 
-$$\text{MnO}_4^- + 5\,\text{Fe}^{2+} + 8\,\text{H}^+ \rightarrow \text{Mn}^{2+} + 5\,\text{Fe}^{3+} + 4\,\text{H}_2\text{O}$$
+$$\underline{\hspace{1cm}}\text{MnO}_4^- + \underline{\hspace{1cm}}\text{Fe}^{2+} + \underline{\hspace{1cm}}\text{H}^+ \rightarrow \underline{\hspace{1cm}}\text{Mn}^{2+} + \underline{\hspace{1cm}}\text{Fe}^{3+} + \underline{\hspace{1cm}}\text{H}_2\text{O}$$
 
 ### Førskrivning opsamling
 
 1. Indsæt et billede af din vejede ståluld i den koniske kolbe med vægten.
 2. Skriv kort, hvad der skal gøres under fremgangsmåde 1, og afstem redoxreaktionen.
-3. Redoxafstem reaktionsskemaet for reaktionen under fremgangsmåde 2. Hvem reagerer med hvem her? Sæt det ind i opgaven, og husk at sætte oxidationstal over alle relevante atomer.
+3. Redoxafstem reaktionsskemaet  husk at tilføje oxidationstal med romertal 
 4. Skriv en sætning, hvor du forklarer, hvilket stof der bliver oxideret, og hvilket der bliver reduceret.
 5. Skriv en sætning, hvor du forklarer, hvilket stof der er oxidationsmidlet, og hvilket der er reduktionsmidlet.
 6. Design en tabel, som gør klar til at vise alle resultater. Den sidste kolonne skal hedde **% jern i ståluld**.
-
-> **Niveau-note:** Afstemning af redoxreaktioner og oxidationstal hører til kemi B. På C-niveau kan man nøjes med at bruge den færdige, afstemte ligning.
 
 ---
 

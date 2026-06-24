@@ -44,9 +44,9 @@ Uden 10-tals-potenser kan det være **uklart**, hvor mange betydende cifre et st
 
 | Tal | Betydende cifre | Decimaler |
 | :--- | :---: | :---: |
-| $9\,876\,000{,}00$ | 9 | 2 |
-| $9\,876\,000$ | uklart: 4 til 7 | 0 |
-| $98\,760 \cdot 10^{2}$ | uklart: 4 eller 5 | 0 |
+| $9876000{,}00$ | 9 | 2 |
+| $9876000$ | uklart: 4 til 7 | 0 |
+| $98760 \cdot 10^{2}$ | uklart: 4 eller 5 | 0 |
 | $987{,}6 \cdot 10^{4}$ | 4 | 1 |
 | $9{,}876 \cdot 10^{6}$ | 4 | 3 |
 
@@ -54,7 +54,7 @@ Skriver man tallet i **videnskabelig notation** ($9{,}876 \cdot 10^{6}$), er der
 
 ## Regneregler med målte størrelser
 
-Når man bruger målinger i en formel, gælder der to regler — og de er **forskellige** for $+\,/\,-$ og for $\cdot\,/\,/$:
+Når man bruger målinger i en formel, gælder der to regler — og de er **forskellige** en regel for $+$ og $-$ og en anden regel for $\cdot$ og $:$
 
 ### Regel 1 — addition og subtraktion: tæl **decimaler**
 

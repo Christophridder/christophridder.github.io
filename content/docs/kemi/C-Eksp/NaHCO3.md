@@ -1,17 +1,15 @@
 ---
-title: "Natrons reaktion ved opvarmning"
+title: "Opvarmning af Natrons "
 weight: 40
 ---
 
 **Niveau:** Kemi C · **Emne:** Mængdeberegninger (reaktionsskemaer, molarmasse, udbytte)
 
----
 
 ## Formål
 
 Formålet med denne øvelse er at fastslå, hvordan natron (natriumhydrogencarbonat) reagerer ved opvarmning, ved at veje reststoffet, efter at CO₂ og/eller H₂O er drevet af.
 
----
 
 ## Teori
 
@@ -30,13 +28,11 @@ $$2\,\text{NaHCO}_3\text{(s)} \rightarrow \text{Na}_2\text{CO}_3\text{(s)} + \te
 **Reaktion 3**
 $$\text{NaHCO}_3\text{(s)} \rightarrow \text{NaOH(s)} + \text{CO}_2\text{(g)}$$
 
----
 
 ## Gennemførelse
 
 Det er et **demoforsøg**. Der afvejes nøjagtigt ca. 5,5 g NaHCO₃, som afbrændes i en digel over en bunsenbrænder. Diglen vejes inden, og den forsvundne masse bestemmes efter afbrændingen.
 
----
 
 ## Forarbejde
 
