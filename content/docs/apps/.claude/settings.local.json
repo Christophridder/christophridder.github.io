@@ -5,7 +5,9 @@
       "mcp__visualize__show_widget",
       "Read(//Users/christophridder/Nextcloud/crsite/**)",
       "Read(//Users/christophridder/Nextcloud/crsite/content/docs/fysik/**)",
-      "Bash(mkdir -p /Users/christophridder/Nextcloud/crsite/static/sim /Users/christophridder/Nextcloud/crsite/layouts/shortcodes)"
+      "Bash(mkdir -p /Users/christophridder/Nextcloud/crsite/static/sim /Users/christophridder/Nextcloud/crsite/layouts/shortcodes)",
+      "Bash(hugo --quiet)",
+      "Bash(hugo)"
     ]
   }
 }

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gnidning – Dataark</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #f1f5f9; color: #1e293b; padding: 14px;
+}
+
+.section {
+  background: white; border-radius: 10px; padding: 18px 20px;
+  margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+h2 {
+  font-size: 1rem; font-weight: 800; color: #1e293b;
+  margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+}
+.sub {
+  font-size: 0.8rem; color: #64748b; margin-bottom: 14px; line-height: 1.5;
+}
+
+table { border-collapse: collapse; width: 100%; font-size: 0.87rem; }
+thead th {
+  background: #f8fafc; padding: 7px 10px; text-align: left;
+  font-size: 0.73rem; font-weight: 700; color: #475569;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 2px solid #e2e8f0;
+}
+tbody td { padding: 4px 5px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+td.rn { color: #94a3b8; font-size: 0.78rem; padding: 4px 8px; width: 28px; }
+
+input[type=number] {
+  width: 100%; padding: 5px 8px; border: 1.5px solid #e2e8f0;
+  border-radius: 6px; font-size: 0.87rem; font-family: inherit;
+  color: #1e293b; background: #fafafa; transition: border-color 0.15s;
+  -moz-appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+input[type=number]:focus { outline: none; border-color: #2563eb; background: white; }
+
+.calc {
+  padding: 5px 9px; border-radius: 6px; background: #f8fafc;
+  font-variant-numeric: tabular-nums; color: #64748b; font-size: 0.87rem;
+  display: block; min-width: 64px; text-align: right;
+}
+.calc.ok { background: #f0fdf4; color: #15803d; font-weight: 600; }
+
+.del-btn {
+  background: none; border: none; color: #cbd5e1; cursor: pointer;
+  font-size: 1rem; padding: 4px 6px; border-radius: 4px; transition: color 0.15s;
+}
+.del-btn:hover { color: #dc2626; }
+
+.btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+.btn {
+  padding: 8px 14px; border-radius: 7px; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; border: none; font-family: inherit; transition: all 0.15s;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.btn-add { background: #f1f5f9; color: #374151; border: 1.5px solid #cbd5e1; }
+.btn-add:hover { background: #e2e8f0; }
+.btn-copy { background: #2563eb; color: white; }
+.btn-copy:hover { background: #1d4ed8; }
+.btn-copy.done { background: #15803d; }
+
+.results { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.rc {
+  background: #eff6ff; border: 1.5px solid #bfdbfe;
+  border-radius: 8px; padding: 9px 14px; min-width: 120px;
+}
+.rc .rl { font-size: 0.68rem; font-weight: 700; color: #1d4ed8; text-transform: uppercase; letter-spacing: 0.05em; }
+.rc .rv { font-size: 1.15rem; font-weight: 800; color: #1e40af; margin-top: 2px; }
+.rc.green { background: #f0fdf4; border-color: #86efac; }
+.rc.green .rl { color: #15803d; }
+.rc.green .rv { color: #166534; }
+
+canvas {
+  border: 1px solid #e2e8f0; border-radius: 8px;
+  display: block; margin-top: 14px; width: 100%;
+}
+</style>
+</head>
+<body>
+
+<!-- ── STATISK GNIDNING ── -->
+<div class="section">
+  <h2>📐 Statisk gnidning — hældningsforsøg</h2>
+  <p class="sub">
+    Mål <strong>L</strong> (pladelængden — hypotenusen) og <strong>h</strong> (løftehøjden — modstående katete)
+    i det øjeblik klodsen begynder at glide.
+    Formel: μ<sub>s</sub> = h / √(L² − h²)
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>L (cm)</th>
+        <th>h (cm)</th>
+        <th>θ (°)</th>
+        <th>μ<sub>s</sub></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="statBody"></tbody>
+  </table>
+  <div class="btn-row">
+    <button class="btn btn-add" onclick="addStat()">+ Tilføj måling</button>
+    <button class="btn btn-copy" id="copyStatBtn" onclick="copyTable('stat')">Kopier til Excel</button>
+  </div>
+  <div class="results" id="statResults"></div>
+</div>
+
+<!-- ── DYNAMISK GNIDNING ── -->
+<div class="section">
+  <h2>🔧 Dynamisk gnidning — trækforsøg</h2>
+  <p class="sub">
+    Træk klodsen med konstant hastighed og aflæs <strong>F</strong> på newtonmetret.
+    Gentag med forskellige masser. Regressionen beregner μ<sub>k</sub> via F = μ<sub>k</sub> · g · m.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>m (kg)</th>
+        <th>F (N)</th>
+        <th>μ<sub>k</sub> = F/(mg)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="dynBody"></tbody>
+  </table>
+  <div class="btn-row">
+    <button class="btn btn-add" onclick="addDyn()">+ Tilføj måling</button>
+    <button class="btn btn-copy" id="copyDynBtn" onclick="copyTable('dyn')">Kopier til Excel</button>
+  </div>
+  <div class="results" id="dynResults"></div>
+  <canvas id="chart" width="700" height="260"></canvas>
+</div>
+
+<script>
+const G = 9.82;
+
+// ── Statisk ──
+let statRows = [];
+
+function addStat(L='', h='') {
+  statRows.push({ L, h });
+  renderStat();
+}
+
+function delStat(i) { statRows.splice(i, 1); renderStat(); }
+
+function renderStat() {
+  const tb = document.getElementById('statBody');
+  tb.innerHTML = '';
+  const vals = [];
+
+  statRows.forEach((r, i) => {
+    const L = parseFloat(r.L), h = parseFloat(r.h);
+    const ok = !isNaN(L) && !isNaN(h) && L > 0 && h > 0 && h < L;
+    const theta = ok ? Math.asin(h / L) * 180 / Math.PI : null;
+    const mu    = ok ? h / Math.sqrt(L * L - h * h) : null;
+    if (mu !== null) vals.push(mu);
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="rn">${i + 1}</td>
+      <td><input type="number" step="0.1" min="0" value="${r.L}" placeholder="fx 80"
+          oninput="statRows[${i}].L=this.value;renderStat()" tabindex="${i*2+1}"></td>
+      <td><input type="number" step="0.1" min="0" value="${r.h}" placeholder="fx 28"
+          oninput="statRows[${i}].h=this.value;renderStat()" tabindex="${i*2+2}"></td>
+      <td><span class="calc${ok?' ok':''}">${theta !== null ? theta.toFixed(1) + '°' : '—'}</span></td>
+      <td><span class="calc${ok?' ok':''}">${mu !== null ? mu.toFixed(3) : '—'}</span></td>
+      <td><button class="del-btn" onclick="delStat(${i})">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+
+  const res = document.getElementById('statResults');
+  if (vals.length > 0) {
+    const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const spread = vals.length > 1
+      ? (Math.max(...vals) - Math.min(...vals)).toFixed(3)
+      : null;
+    res.innerHTML = `
+      <div class="rc"><div class="rl">Målinger</div><div class="rv">${vals.length}</div></div>
+      <div class="rc green"><div class="rl">Gns. μ<sub>s</sub></div><div class="rv">${avg.toFixed(3)}</div></div>
+      ${spread !== null ? `<div class="rc"><div class="rl">Spredning</div><div class="rv">± ${spread}</div></div>` : ''}`;
+  } else { res.innerHTML = ''; }
+}
+
+// ── Dynamisk ──
+let dynRows = [];
+
+function addDyn(m='', F='') {
+  dynRows.push({ m, F });
+  renderDyn();
+}
+
+function delDyn(i) { dynRows.splice(i, 1); renderDyn(); }
+
+function renderDyn() {
+  const tb = document.getElementById('dynBody');
+  tb.innerHTML = '';
+
+  const pts = [];
+  dynRows.forEach((r, i) => {
+    const m = parseFloat(r.m), F = parseFloat(r.F);
+    const ok = !isNaN(m) && !isNaN(F) && m > 0 && F >= 0;
+    const mu = ok ? F / (m * G) : null;
+    if (ok) pts.push({ m, F });
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="rn">${i + 1}</td>
+      <td><input type="number" step="0.01" min="0" value="${r.m}" placeholder="fx 0.5"
+          oninput="dynRows[${i}].m=this.value;renderDyn()" tabindex="${100+i*2+1}"></td>
+      <td><input type="number" step="0.01" min="0" value="${r.F}" placeholder="fx 1.47"
+          oninput="dynRows[${i}].F=this.value;renderDyn()" tabindex="${100+i*2+2}"></td>
+      <td><span class="calc${ok?' ok':''}">${mu !== null ? mu.toFixed(3) : '—'}</span></td>
+      <td><button class="del-btn" onclick="delDyn(${i})">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+
+  const res = document.getElementById('dynResults');
+  if (pts.length >= 2) {
+    // Through-origin regression: slope = Σ(xi·yi) / Σ(xi²)
+    let sxy = 0, sxx = 0;
+    pts.forEach(p => { sxy += p.m * p.F; sxx += p.m * p.m; });
+    const slope = sxy / sxx;
+    const muk = slope / G;
+
+    // R² (versus constant F = mean)
+    const fmean = pts.reduce((a, p) => a + p.F, 0) / pts.length;
+    const ssTot = pts.reduce((a, p) => a + (p.F - fmean) ** 2, 0);
+    const ssRes = pts.reduce((a, p) => a + (p.F - slope * p.m) ** 2, 0);
+    const r2 = ssTot > 0 ? 1 - ssRes / ssTot : 1;
+
+    res.innerHTML = `
+      <div class="rc"><div class="rl">Målinger</div><div class="rv">${pts.length}</div></div>
+      <div class="rc"><div class="rl">Hældning a</div><div class="rv">${slope.toFixed(3)} N/kg</div></div>
+      <div class="rc green"><div class="rl">μ<sub>k</sub> = a/g</div><div class="rv">${muk.toFixed(3)}</div></div>
+      <div class="rc"><div class="rl">R²</div><div class="rv">${r2.toFixed(4)}</div></div>`;
+    drawChart(pts, slope);
+  } else {
+    res.innerHTML = '';
+    drawChart(pts, null);
+  }
+}
+
+function drawChart(pts, slope) {
+  const canvas = document.getElementById('chart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = { l: 58, r: 24, t: 28, b: 48 };
+  const gw = W - pad.l - pad.r, gh = H - pad.t - pad.b;
+
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = 'white'; ctx.fillRect(pad.l, pad.t, gw, gh);
+
+  if (!pts.length) {
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '13px Segoe UI, system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Tilføj målinger for at se grafen', W / 2, H / 2);
+    return;
+  }
+
+  const maxM = Math.max(...pts.map(p => p.m)) * 1.3;
+  const maxF = Math.max(...pts.map(p => p.F), slope ? slope * maxM : 0) * 1.25;
+  const px = m => pad.l + (m / maxM) * gw;
+  const py = F => pad.t + gh - (F / maxF) * gh;
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+  for (let i = 1; i <= 5; i++) {
+    const y = pad.t + gh * i / 5;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + gw, y); ctx.stroke();
+    const x = pad.l + gw * i / 5;
+    ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + gh); ctx.stroke();
+  }
+
+  // Regression line
+  if (slope) {
+    ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2; ctx.setLineDash([7, 4]);
+    ctx.beginPath();
+    ctx.moveTo(px(0), py(0));
+    ctx.lineTo(px(maxM), py(slope * maxM));
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#2563eb';
+    ctx.font = 'bold 11px Segoe UI, system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText(`F = ${slope.toFixed(3)} · m`, pad.l + 8, pad.t + 18);
+  }
+
+  // Data points
+  pts.forEach(p => {
+    ctx.beginPath(); ctx.arc(px(p.m), py(p.F), 5.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#1d4ed8'; ctx.fill();
+    ctx.strokeStyle = 'white'; ctx.lineWidth = 1.5; ctx.stroke();
+  });
+
+  // Axes
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + gh);
+  ctx.lineTo(pad.l + gw, pad.t + gh); ctx.stroke();
+
+  // Axis labels
+  ctx.fillStyle = '#374151'; ctx.font = '12px Segoe UI, system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('masse  m  (kg)', pad.l + gw / 2, H - 5);
+  ctx.save();
+  ctx.translate(14, pad.t + gh / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('kraft  F  (N)', 0, 0); ctx.restore();
+
+  // Tick labels
+  ctx.fillStyle = '#64748b'; ctx.font = '10px Segoe UI, system-ui';
+  for (let i = 0; i <= 5; i++) {
+    ctx.textAlign = 'right';
+    ctx.fillText((maxF * i / 5).toFixed(1), pad.l - 5, py(maxF * i / 5) + 4);
+    ctx.textAlign = 'center';
+    ctx.fillText((maxM * i / 5).toFixed(2), px(maxM * i / 5), pad.t + gh + 14);
+  }
+}
+
+// ── Copy to clipboard ──
+function copyTable(type) {
+  let lines = [];
+  if (type === 'stat') {
+    lines.push('L (cm)\th (cm)\ttheta (grader)\tmu_s');
+    statRows.forEach(r => {
+      const L = parseFloat(r.L), h = parseFloat(r.h);
+      const ok = !isNaN(L) && !isNaN(h) && L > 0 && h > 0 && h < L;
+      const theta = ok ? (Math.asin(h / L) * 180 / Math.PI).toFixed(2) : '';
+      const mu    = ok ? (h / Math.sqrt(L * L - h * h)).toFixed(4) : '';
+      lines.push(`${r.L || ''}\t${r.h || ''}\t${theta}\t${mu}`);
+    });
+    flashBtn('copyStatBtn');
+  } else {
+    lines.push('m (kg)\tF (N)\tmu_k');
+    dynRows.forEach(r => {
+      const m = parseFloat(r.m), F = parseFloat(r.F);
+      const ok = !isNaN(m) && !isNaN(F) && m > 0;
+      const mu = ok ? (F / (m * G)).toFixed(4) : '';
+      lines.push(`${r.m || ''}\t${r.F || ''}\t${mu}`);
+    });
+    flashBtn('copyDynBtn');
+  }
+  navigator.clipboard.writeText(lines.join('\n'));
+}
+
+function flashBtn(id) {
+  const btn = document.getElementById(id);
+  btn.textContent = '✓ Kopieret!';
+  btn.classList.add('done');
+  setTimeout(() => { btn.textContent = 'Kopier til Excel'; btn.classList.remove('done'); }, 2000);
+}
+
+// Start with a few empty rows
+addStat(); addStat(); addStat();
+addDyn(); addDyn(); addDyn(); addDyn(); addDyn();
+</script>
+</body>
+</html>
