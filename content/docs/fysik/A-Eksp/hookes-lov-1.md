@@ -38,48 +38,60 @@ fra nu af.
 ### Kraften fra fjederen (Hookes lov)
 
 En fjeder trækker altid loddet tilbage mod sin **ligevægtsposition** $C$. Jo
-længere væk fra ligevægten loddet er, jo større er kraften — og den peger
+længere væk fra ligevægt loddet er, jo større er kraften — og den peger
 *modsat* udsvinget:
 
 $$F = -k\cdot(y - C)$$
 
 - $k$ er **fjederkonstanten** $[\text{N/m}]$ — fjederens stivhed.
-- $C$ er **ligevægtspositionen** $[\text{m}]$.
+- $C$ er **ligevægtspositionen** $[\text{m}]$ — det punkt loddet hviler i uden at svinge.
+- $y - C$ er selve **udsvinget fra ligevægt** — ikke positionen fra gulvet eller nul.
 - Minustegnet betyder "tilbage mod ligevægt".
 
-Newtons 2. lov siger $F = m\cdota = m\cdot\ddot{y}$, hvor $m$ er loddets masse $[\text{kg}]$.
+Newtons 2. lov siger $F = m\cdot a = m\cdot\ddot{y}$, hvor $m$ er loddets masse $[\text{kg}]$.
 Sætter vi de to udtryk for kraften lig hinanden:
 
 $$m\cdot\ddot{y} = -k\cdot(y - C)$$
 
-$$\ddot{y} = -\frac{k}{m}\cdot(y - C)$$
+### Variabelskifte: vi måler fra ligevægten
 
-Vi giver konstanten $k/m$ et navn, $\omega^2$, fordi den (som vi straks ser) sætter
-svingningens hastighed:
+$y - C$ dukker op hele tiden — det giver mening at give det sit eget navn.
+Vi sætter $u = y - C$, dvs. vi måler positionen **fra ligevægten** i stedet for fra nul.
 
-$$\boxed{\ddot{y} = -\omega^2\cdot(y - C)}\qquad \text{med}\quad \omega^2 = \frac{k}{m}$$
+Siden $C$ er en konstant er $\dot{u} = \dot{y}$ og $\ddot{u} = \ddot{y}$. Ligningen bliver:
+
+$$m\cdot\ddot{u} = -k\cdot u$$
+
+$$\ddot{u} = -\frac{k}{m}\cdot u$$
+
+**$C$ er væk.** Vi giver konstanten $k/m$ et navn, $\omega^2$:
+
+$$\boxed{\ddot{u} = -\omega^2\cdot u}\qquad \text{med}\quad \omega^2 = \frac{k}{m}$$
 
 Det er en **differentialligning**: en ligning, hvor det ukendte er en *funktion*
-$y(t)$, og hvor funktionen og dens 2. afledte indgår.
+$u(t)$, og hvor funktionen og dens 2. afledte indgår.
 
 ### Vi gætter en løsning (ansatz)
 
 Vi udleder ikke løsningen — vi **gætter** den og tjekker bagefter, at den passer.
-Et kvalificeret gæt er:
+Den enkle ligning $\ddot{u} = -\omega^2 u$ indbyder til gættet:
 
-$$y(t) = A\cdot\sin(\omega t + \varphi) + C$$
+$$u(t) = A\cdot\sin(\omega t + \varphi)$$
 
 For at se om gættet løser ligningen, differentierer vi to gange:
 
-$$\dot{y}(t) = A\cdot\omega\cdot\cos(\omega t + \varphi)$$
+$$\dot{u}(t) = A\cdot\omega\cdot\cos(\omega t + \varphi)$$
 
-$$\ddot{y}(t) = -A\cdot\omega^2\cdot\sin(\omega t + \varphi)$$
+$$\ddot{u}(t) = -A\cdot\omega^2\cdot\sin(\omega t + \varphi) = -\omega^2\cdot u(t)$$
 
-Læg mærke til, at $A\cdot\sin(\omega t + \varphi) = y - C$. Derfor er
+— og det er **præcis** differentialligningen. Gættet passer!
 
-$$\ddot{y} = -\omega^2\cdot\big(y - C\big)$$
+Nu skifter vi tilbage til den oprindelige variabel $y = u + C$:
 
-— og det er **præcis** differentialligningen. Gættet passer! 
+$$y(t) = A\cdot\sin(\omega t + \varphi) + C$$
+
+**$C$ dukker op igen** — det er ligevægtspositionen der lægges tilbage på.
+$C$ forsvandt under regnestykket fordi det er en konstant der ikke ændrer sig, og nu er det bare med igen som en forskydning af hele svingningen op eller ned.
 
 Samtidig kan vi nu læse en vigtig fysisk sammenhæng af:
 

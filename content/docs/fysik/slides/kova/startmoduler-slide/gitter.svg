@@ -1,0 +1,103 @@
+<svg viewBox="0 0 530 300" xmlns="http://www.w3.org/2000/svg"
+     font-family="'Segoe UI', system-ui, sans-serif">
+
+  <rect width="480" height="300" fill="#fafafa" rx="6"/>
+
+  <defs>
+    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5"
+            orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#1d4ed8"/>
+    </marker>
+    <marker id="arr-p" markerWidth="10" markerHeight="7" refX="9" refY="3.5"
+            orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5"
+            orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- Laser -->
+  <rect x="12" y="139" width="48" height="22" fill="#fde68a" stroke="#d97706" stroke-width="1.5" rx="3"/>
+  <text x="36" y="154" font-size="10" fill="#92400e" text-anchor="middle" dominant-baseline="middle">Laser</text>
+
+  <!-- Laserstråle til gitter -->
+  <line x1="60" y1="150" x2="168" y2="150" stroke="#16a34a" stroke-width="2"
+        marker-end="url(#arr-g)" stroke-linecap="round"/>
+
+  <!-- Gitter -->
+  <line x1="175" y1="25" x2="175" y2="275" stroke="#374151" stroke-width="3"/>
+  <g stroke="#374151" stroke-width="1">
+    <line x1="164" y1="50"  x2="175" y2="50"/>
+    <line x1="164" y1="70"  x2="175" y2="70"/>
+    <line x1="164" y1="90"  x2="175" y2="90"/>
+    <line x1="164" y1="110" x2="175" y2="110"/>
+    <line x1="164" y1="130" x2="175" y2="130"/>
+    <line x1="164" y1="150" x2="175" y2="150"/>
+    <line x1="164" y1="170" x2="175" y2="170"/>
+    <line x1="164" y1="190" x2="175" y2="190"/>
+    <line x1="164" y1="210" x2="175" y2="210"/>
+    <line x1="164" y1="230" x2="175" y2="230"/>
+    <line x1="164" y1="250" x2="175" y2="250"/>
+  </g>
+  <text x="175" y="15" font-size="11" fill="#374151" text-anchor="middle">Gitter</text>
+
+  <!-- Skærm -->
+  <rect x="415" y="20" width="12" height="260" fill="#e2e8f0" stroke="#374151" stroke-width="1.5" rx="1"/>
+  <text x="421" y="10" font-size="11" fill="#374151" text-anchor="middle">Skærm</text>
+
+  <!-- n=0 midterstråle (grøn stiplet) -->
+  <line x1="175" y1="150" x2="415" y2="150" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- n=1 op (blå) -->
+  <line x1="175" y1="150" x2="415" y2="100" stroke="#1d4ed8" stroke-width="2"
+        marker-end="url(#arr-b)" stroke-linecap="round"/>
+  <!-- n=1 ned (blå) -->
+  <line x1="175" y1="150" x2="415" y2="200" stroke="#1d4ed8" stroke-width="2"
+        marker-end="url(#arr-b)" stroke-linecap="round"/>
+
+  <!-- n=2 op (lilla) -->
+  <line x1="175" y1="150" x2="415" y2="50" stroke="#7c3aed" stroke-width="2"
+        marker-end="url(#arr-p)" stroke-linecap="round"/>
+  <!-- n=2 ned (lilla) -->
+  <line x1="175" y1="150" x2="415" y2="250" stroke="#7c3aed" stroke-width="2"
+        marker-end="url(#arr-p)" stroke-linecap="round"/>
+
+  <!-- Prikker på skærmen -->
+  <circle cx="415" cy="50"  r="5" fill="#7c3aed"/>
+  <circle cx="415" cy="100" r="5" fill="#1d4ed8"/>
+  <circle cx="415" cy="150" r="5" fill="#16a34a"/>
+  <circle cx="415" cy="200" r="5" fill="#1d4ed8"/>
+  <circle cx="415" cy="250" r="5" fill="#7c3aed"/>
+
+  <!-- n-labels -->
+  <text x="428" y="53"  font-size="11" fill="#7c3aed">n = 2</text>
+  <text x="428" y="103" font-size="11" fill="#1d4ed8">n = 1</text>
+  <text x="428" y="153" font-size="11" fill="#16a34a">n = 0</text>
+  <text x="428" y="203" font-size="11" fill="#1d4ed8">n = 1</text>
+  <text x="428" y="253" font-size="11" fill="#7c3aed">n = 2</text>
+
+  <!-- theta_1 arc (til n=1, radius 35) -->
+  <!-- n=1 retning: dx=240, dy=-50, enhed=(0.979,-0.204) -->
+  <!-- punkt ved r=35: (175+34.3, 150-7.1) = (209.3, 142.9) -->
+  <path d="M 210,150 A 35,35 0 0,0 209.3,142.9"
+        fill="none" stroke="#1d4ed8" stroke-width="1.8"/>
+  <text x="216" y="144" font-size="12" fill="#1d4ed8" font-style="italic">θ</text>
+  <text x="225" y="147" font-size="9"  fill="#1d4ed8">1</text>
+
+  <!-- theta_2 arc (til n=2, radius 58) -->
+  <!-- n=2 retning: dx=240, dy=-100, enhed=(0.923,-0.385) -->
+  <!-- punkt ved r=58: (175+53.5, 150-22.3) = (228.5, 127.7) -->
+  <path d="M 233,150 A 58,58 0 0,0 228.5,127.7"
+        fill="none" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="238" y="135" font-size="12" fill="#7c3aed" font-style="italic">θ</text>
+  <text x="247" y="138" font-size="9"  fill="#7c3aed">2</text>
+
+  <!-- Afstand A -->
+  <line x1="175" y1="285" x2="415" y2="285" stroke="#374151" stroke-width="1.5"/>
+  <line x1="175" y1="280" x2="175" y2="290" stroke="#374151" stroke-width="1.5"/>
+  <line x1="415" y1="280" x2="415" y2="290" stroke="#374151" stroke-width="1.5"/>
+  <text x="295" y="298" font-size="13" fill="#374151" font-style="italic" text-anchor="middle">A</text>
+
+</svg>

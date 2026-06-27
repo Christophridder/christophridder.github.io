@@ -11,20 +11,22 @@ Gnidning opstår fordi ingen overflade er perfekt glat. Selv poleret metal har u
 
 ## Normalkraften
 
-Inden vi kan tale om gnidning, skal vi have styr på **normalkraften** $N$. Normalkraften er den kraft en overflade udøver *vinkelret* (normalt) på et legeme der hviler på den — den er med andre ord overflades modsvar til tyngdekraften.
+Inden vi kan tale om gnidning, skal vi have styr på **normalkraften** $F_N$. Normalkraften er den kraft en overflade udøver *vinkelret* (normalt) på et legeme der hviler på den — den er med andre ord overflades modsvar til tyngdekraften.
+
+![Normalkraften på vandret overflade og skråplan](/img/normalkraft-illustration.svg)
 
 På en **vandret overflade**:
 
-$$N = mg$$
+$$F_N = mg$$
 
 På et **skråplan** med vinkel $\theta$ er normalkraften mindre, fordi tyngdekraften ikke peger direkte ned mod overfladen:
 
-$$N = mg\cos(\theta)$$
+$$F_N = mg\cos(\theta)$$
 
 | Størrelse | Symbol | Enhed | Beskrivelse |
 |---|---|---|---|
-| Gnidningskraft | $f$ | N | Modvirker bevægelse eller tilbøjelighed til bevægelse |
-| Normalkraft | $N$ | N | Kraft vinkelret på overfladen |
+| Gnidningskraft | $F$ | N | Modvirker bevægelse eller tilbøjelighed til bevægelse |
+| Normalkraft | $F_N$ | N | Kraft vinkelret på overfladen |
 | Gnidningskoefficient | $\mu$ | — (dimensionsløs) | Afhænger kun af materialerne |
 | Masse | $m$ | kg | Klodsens masse |
 | Tyngdeacceleration | $g$ | m/s² | $g = 9{,}82\ \text{m/s}^2$ |
@@ -32,11 +34,11 @@ $$N = mg\cos(\theta)$$
 
 ## To slags gnidning
 
-Der er to former for gnidning, og de har hver sin **gnidningskoefficient** $\mu$ (det græske bogstav *my*). $\mu$ er et tal uden enhed der beskriver, hvor meget to overflader "klistrer" til hinanden:
+Der er to former for gnidning som kaldes **statisk** og **dynamisk** gnidning, de har hver sin **gnidningskoefficient** $\mu$ (det græske bogstav *my*). $\mu$ er et tal uden enhed der beskriver, hvor meget to overflader "klistrer" til hinanden:
 
-$$f_s \leq \mu_s \cdot N \qquad \text{(statisk gnidning)}$$
+$$F_s \leq \mu_s \cdot F_N \qquad \text{(statisk gnidning)}$$
 
-$$f_k = \mu_k \cdot N \qquad \text{(kinetisk/dynamisk gnidning)}$$
+$$F_k = \mu_k \cdot F_N \qquad \text{(kinetisk/dynamisk gnidning)}$$
 
 Det gælder altid at $\mu_k < \mu_s$ — det er sværere at sætte noget i gang end at holde det kørende, når det først glider.
 
@@ -48,13 +50,20 @@ Forestil dig du står på ski øverst på en piste. Skiene hviler på sneen, men
 
 Den statiske gnidningskraft er *ikke* konstant. Den tilpasser sig præcis til hvad der skal til for at holde legemet stillet — men den har et maksimum:
 
-$$f_s \leq \mu_s \cdot N$$
+$$F_s \leq \mu_s \cdot N$$
 
 Ulighedstegnet er afgørende. Så snart den ydre kraft overstiger $\mu_s \cdot N$, begynder legemet at glide, og vi skifter til dynamisk gnidning.
 
-Årsagen til statisk gnidning skal findes på atomskala: de to overfladers uregelmæssigheder griber ind i hinanden og danner kortvarige kemiske bindinger. Jo "klistredere" materialerne er overfor hinanden, jo større er $\mu_s$.
+<div style="text-align:center">
+  <img src="/img/gnidning-mikroskala.svg" alt="Kemiske bindinger mellem overfladeatomer på atomskala" width="70%">
+</div>
+
+
+Som man kan se i ovenstående figur skal årsagen til statisk gnidning findes på atomskala: de to overfladers uregelmæssigheder griber ind i hinanden og danner kortvarige kemiske bindinger. Jo "klistredere" materialerne er overfor hinanden, jo større er $\mu_s$.
+
 
 ### Tabelværdier for statisk gnidning
+
 
 | Materialer | $\mu_s$ (ca.) |
 |---|---|
@@ -64,7 +73,8 @@ Ulighedstegnet er afgørende. Så snart den ydre kraft overstiger $\mu_s \cdot N
 | Is på is (0 °C) | 0,07–0,12 |
 | Beton på beton | 0,50–0,70 |
 
-Bemærk: $\mu_s$ afhænger *ikke* af kontaktfladens størrelse eller klodsens masse — kun af materialekombinationen. Det kan virke overraskende, men er en veletableret empirisk kendsgerning.
+
+Bemærk: $\mu_s$ afhænger *ikke* af kontaktfladens størrelse eller klodsens masse — kun af materialekombinationen. Det er lidt sjovt.  
 
 ### $\mu_s$ fra hældningsforsøget
 
@@ -72,37 +82,38 @@ En elegant metode til at bestemme $\mu_s$ er at placere en klods på en plade og
 
 Betragt kræfterne på skråplanet med vinkel $\theta$:
 
-$$N = mg\cos(\theta) \qquad \text{(normalkraft)}$$
+$F_N = mg\cos(\theta) \qquad \text{(normalkraft)}$
 
-$$F_\parallel = mg\sin(\theta) \qquad \text{(tyngdekraftens komponent langs planet)}$$
+$F_\parallel = mg\sin(\theta) \qquad \text{(tyngdekraftens komponent lodret ned)}$
 
-$$f_s = \mu_s \cdot N = \mu_s \cdot mg\cos(\theta) \qquad \text{(statisk gnidningskraft)}$$
+$F_s = \mu_s \cdot F_N = \mu_s \cdot mg\cos(\theta) \qquad \text{(statisk gnidningskraft)}$
 
 Ved den **kritiske vinkel** $\theta_c$ er gnidningskraften netop stor nok til at holde klodsen:
 
-$$f_s = F_\parallel$$
+$$
+F_s = F_\parallel 
+$$
 
-$$\mu_s \cdot \cancel{mg}\cos(\theta_c) = \cancel{mg}\sin(\theta_c)$$
+$$
+\mu_s \cdot \cancel{mg}\cos(\theta_c) = \cancel{mg}\sin(\theta_c) 
+$$
 
 $$\boxed{\mu_s = \frac{\sin(\theta_c)}{\cos(\theta_c)} = \tan(\theta_c)}$$
 
 Massen $m$ falder ud af ligningen — det er netop derfor $\mu_s$ ikke afhænger af massen.
 
-{{< hint info >}}
-**Måling uden vinkelmåler**
-
-I praksis er det lettere at måle **pladelængden** $L$ (hypotenusen) og **løftehøjden** $h$ (den modstående katete) end at måle vinklen direkte.
-
-Fra den retvinklede trekant:
-
-$$\sin(\theta) = \frac{h}{L} \qquad \cos(\theta) = \frac{\sqrt{L^2 - h^2}}{L}$$
-
-Indsættes i $\mu_s = \tan(\theta_c)$:
-
-$$\boxed{\mu_s = \frac{h}{\sqrt{L^2 - h^2}}}$$
-
-Ingen vinkelmåler nødvendig — kun en lineal.
-{{< /hint >}}
+> [!NOTE]
+> **Måling uden vinkelmåler**
+>
+> I praksis er det lettere at måle **pladelængden** $L$ (hypotenusen) og **løftehøjden** $h$ (den modstående katete) end at måle vinklen direkte.
+>
+> Fra den retvinklede trekant: $\sin(\theta) = h/L$ og $\cos(\theta) = \sqrt{L^2 - h^2}/L$
+>
+> Indsættes i $\mu_s = \tan(\theta_c)$:
+>
+> $$\mu_s = \frac{h}{\sqrt{L^2 - h^2}}$$
+>
+> Ingen vinkelmåler nødvendig — kun en lineal.
 
 ### Opgave — statisk gnidning
 
@@ -124,13 +135,13 @@ Når klodsen — eller skiene — er kommet i gang med at glide, tager en anden 
 
 **Dynamisk gnidning** (også kaldet *kinetisk gnidning*) er den gnidningskraft der virker *mens* et legeme er i bevægelse. I modsætning til statisk gnidning er den konstant og afhænger kun af normalkraften og materialerne:
 
-$$f_k = \mu_k \cdot N$$
+$$F_k = \mu_k \cdot N$$
 
 På en vandret overflade er $N = mg$, og for at trække en klods med konstant hastighed skal man udøve en kraft der præcis opvejer gnidningskraften:
 
-$$F = f_k = \mu_k \cdot m \cdot g$$
+$$F = F_k = \mu_k \cdot m \cdot g$$
 
-Trækker man hårdere end $f_k$ accelererer klodsen. Trækker man svagere bremser den op. Konstant hastighed kræver præcis ligevægt.
+Trækker man hårdere end $F_k$ accelererer klodsen. Trækker man svagere bremser den op. Konstant hastighed kræver præcis ligevægt.
 
 ### Tabelværdier for dynamisk gnidning
 
@@ -186,7 +197,7 @@ Nu er det tid til at prøve det med rigtige klodser, en plade og et newtonmeter.
    - $h$: højden af den løftede ende over bordoverfladen (den modstående katete)
 4. Beregn:
 
-$$\theta_c = \arcsin\!\left(\frac{h}{L}\right) \qquad \mu_s = \frac{h}{\sqrt{L^2 - h^2}}$$
+$$\mu_s = \frac{h}{\sqrt{L^2 - h^2}}$$
 
 5. Gentag forsøget mindst 3 gange og beregn et gennemsnit.
 

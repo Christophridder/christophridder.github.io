@@ -21,3 +21,11 @@ a {
 .book-page {
   min-height: 100vh !important;
 }
+
+.center {
+  text-align: center !important;
+
+  table {
+    margin: 0 auto !important;
+  }
+}

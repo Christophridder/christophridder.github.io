@@ -1,0 +1,95 @@
+<svg viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg"
+     font-family="'Segoe UI', system-ui, sans-serif">
+
+  <!-- Background -->
+  <rect width="520" height="280" fill="#fafafa" rx="8"/>
+
+  <!-- ===== Klods (øverste materiale) ===== -->
+  <rect x="60" y="30" width="400" height="85" fill="#92400e" stroke="#78350f" stroke-width="1.5" rx="3"/>
+  <rect x="60" y="30" width="400" height="18" fill="rgba(255,210,120,0.25)"/>
+  <!-- Wood grain lines -->
+  <line x1="110" y1="32" x2="110" y2="113" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+  <line x1="180" y1="32" x2="180" y2="113" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+  <line x1="250" y1="32" x2="250" y2="113" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+  <line x1="320" y1="32" x2="320" y2="113" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+  <line x1="390" y1="32" x2="390" y2="113" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+
+  <!-- ===== Overflade-atomer på klodsen (bunden) ===== -->
+  <!-- Bølget underkant af klodsen -->
+  <path d="M60,115 Q80,108 100,115 Q120,122 140,115 Q160,108 180,115 Q200,122 220,115 Q240,108 260,115 Q280,122 300,115 Q320,108 340,115 Q360,122 380,115 Q400,108 420,115 Q440,122 460,115"
+        fill="none" stroke="#78350f" stroke-width="1.5"/>
+
+  <!-- Atomer på klodsen bunden (blå) -->
+  <circle cx="100" cy="120" r="10" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.5"/>
+  <circle cx="160" cy="118" r="10" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.5"/>
+  <circle cx="220" cy="121" r="10" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.5"/>
+  <circle cx="280" cy="118" r="10" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.5"/>
+  <circle cx="340" cy="121" r="10" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.5"/>
+  <circle cx="400" cy="118" r="10" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.5"/>
+
+  <!-- ===== Underlag (nederste materiale) ===== -->
+  <rect x="60" y="165" width="400" height="80" fill="#64748b" stroke="#475569" stroke-width="1.5" rx="3"/>
+  <!-- Surface texture -->
+  <line x1="100" y1="167" x2="100" y2="243" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="160" y1="167" x2="160" y2="243" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="220" y1="167" x2="220" y2="243" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="280" y1="167" x2="280" y2="243" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="340" y1="167" x2="340" y2="243" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="400" y1="167" x2="400" y2="243" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Bølget overkant af underlaget -->
+  <path d="M60,163 Q80,156 100,163 Q120,170 140,163 Q160,156 180,163 Q200,170 220,163 Q240,156 260,163 Q280,170 300,163 Q320,156 340,163 Q360,170 380,163 Q400,156 420,163 Q440,170 460,163"
+        fill="none" stroke="#475569" stroke-width="1.5"/>
+
+  <!-- Atomer på underlaget toppen (grå/grøn) -->
+  <circle cx="100" cy="158" r="10" fill="#10b981" stroke="#059669" stroke-width="1.5"/>
+  <circle cx="160" cy="160" r="10" fill="#10b981" stroke="#059669" stroke-width="1.5"/>
+  <circle cx="220" cy="157" r="10" fill="#10b981" stroke="#059669" stroke-width="1.5"/>
+  <circle cx="280" cy="160" r="10" fill="#10b981" stroke="#059669" stroke-width="1.5"/>
+  <circle cx="340" cy="157" r="10" fill="#10b981" stroke="#059669" stroke-width="1.5"/>
+  <circle cx="400" cy="160" r="10" fill="#10b981" stroke="#059669" stroke-width="1.5"/>
+
+  <!-- ===== Kemiske bindinger (vandrette streger mellem atomer) ===== -->
+  <!-- Binding 1: klods atom (100,120) til underlag atom (100,158) -->
+  <line x1="100" y1="130" x2="100" y2="148" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <!-- Binding 2: klods (160,118) til underlag (160,160) -->
+  <line x1="160" y1="128" x2="160" y2="150" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <!-- Binding 3: klods (220,121) til underlag (220,157) -->
+  <line x1="220" y1="131" x2="220" y2="147" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <!-- Binding 4: klods (280,118) til underlag (280,160) -->
+  <line x1="280" y1="128" x2="280" y2="150" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <!-- Binding 5: klods (340,121) til underlag (340,157) -->
+  <line x1="340" y1="131" x2="340" y2="147" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <!-- Binding 6: klods (400,118) til underlag (400,160) - BRUDT, farve rød -->
+  <line x1="400" y1="128" x2="400" y2="150" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- Brudt-kryds ved binding 6 -->
+  <line x1="393" y1="135" x2="407" y2="145" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+  <line x1="407" y1="135" x2="393" y2="145" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ===== Labels ===== -->
+  <!-- "Klods" label -->
+  <text x="260" y="78" font-size="15" fill="rgba(255,240,200,0.9)" font-weight="600" text-anchor="middle">Klods</text>
+
+  <!-- "Underlag" label -->
+  <text x="260" y="210" font-size="15" fill="rgba(255,255,255,0.8)" font-weight="600" text-anchor="middle">Underlag</text>
+
+  <!-- Binding label -->
+  <text x="155" y="145" font-size="11" fill="#d97706" text-anchor="middle">kemisk binding</text>
+
+  <!-- Brudt binding label -->
+  <text x="440" y="138" font-size="11" fill="#ef4444">brudt</text>
+
+  <!-- Zoom ramme label -->
+  <text x="260" y="268" font-size="11" fill="#94a3b8" text-anchor="middle">Zoom på kontaktfladen — atomskala</text>
+
+  <!-- Zoom-ikon hjørner -->
+  <path d="M62,32 L62,50" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <path d="M62,32 L80,32" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <path d="M458,32 L458,50" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <path d="M458,32 L440,32" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <path d="M62,245 L62,227" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <path d="M62,245 L80,245" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <path d="M458,245 L458,227" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <path d="M458,245 L440,245" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+
+</svg>

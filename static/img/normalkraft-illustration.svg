@@ -1,0 +1,136 @@
+<svg viewBox="0 0 560 270" xmlns="http://www.w3.org/2000/svg"
+     font-family="'Segoe UI', system-ui, sans-serif">
+
+  <rect width="560" height="270" fill="#fafafa" rx="8"/>
+
+  <defs>
+    <!-- Enkelt pil-markør, orient=auto roterer den korrekt -->
+    <marker id="arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5"
+            orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#1d4ed8"/>
+    </marker>
+    <marker id="arr-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5"
+            orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- ===== VENSTRE: Vandret overflade ===== -->
+
+  <!-- Ground -->
+  <rect x="0" y="195" width="270" height="40" fill="#e2e8f0"/>
+  <g stroke="#94a3b8" stroke-width="1" opacity="0.7">
+    <line x1="10"  y1="195" x2="0"   y2="210"/>
+    <line x1="25"  y1="195" x2="15"  y2="210"/>
+    <line x1="40"  y1="195" x2="30"  y2="210"/>
+    <line x1="55"  y1="195" x2="45"  y2="210"/>
+    <line x1="70"  y1="195" x2="60"  y2="210"/>
+    <line x1="85"  y1="195" x2="75"  y2="210"/>
+    <line x1="100" y1="195" x2="90"  y2="210"/>
+    <line x1="115" y1="195" x2="105" y2="210"/>
+    <line x1="130" y1="195" x2="120" y2="210"/>
+    <line x1="145" y1="195" x2="135" y2="210"/>
+    <line x1="160" y1="195" x2="150" y2="210"/>
+    <line x1="175" y1="195" x2="165" y2="210"/>
+    <line x1="190" y1="195" x2="180" y2="210"/>
+    <line x1="205" y1="195" x2="195" y2="210"/>
+    <line x1="220" y1="195" x2="210" y2="210"/>
+    <line x1="235" y1="195" x2="225" y2="210"/>
+    <line x1="250" y1="195" x2="240" y2="210"/>
+    <line x1="265" y1="195" x2="255" y2="210"/>
+  </g>
+  <line x1="0" y1="195" x2="270" y2="195" stroke="#374151" stroke-width="1.5"/>
+
+  <!-- Block -->
+  <rect x="85" y="145" width="70" height="50" fill="#92400e" stroke="#78350f" stroke-width="1.5" rx="2"/>
+  <rect x="85" y="145" width="70" height="12" fill="rgba(255,210,120,0.3)"/>
+  <line x1="103" y1="147" x2="103" y2="193" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  <line x1="120" y1="147" x2="120" y2="193" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  <line x1="137" y1="147" x2="137" y2="193" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+
+  <!-- F_N pil opad — slutter ved y=105 så den ikke dækker formlen -->
+  <line x1="120" y1="143" x2="120" y2="106"
+        stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arr-blue)" stroke-linecap="round"/>
+  <text x="128" y="130" font-size="13" fill="#1d4ed8" font-style="italic" font-weight="600">F</text>
+  <text x="137" y="134" font-size="9"  fill="#1d4ed8">N</text>
+
+  <!-- F_tyn pil nedad — slutter ved y=245 -->
+  <line x1="120" y1="197" x2="120" y2="244"
+        stroke="#dc2626" stroke-width="2.5" marker-end="url(#arr-red)" stroke-linecap="round"/>
+  <text x="128" y="230" font-size="13" fill="#dc2626" font-style="italic" font-weight="600">F</text>
+  <text x="137" y="234" font-size="9"  fill="#dc2626">tyn</text>
+
+  <!-- Formel øverst til venstre — ikke dækket af pil -->
+  <text x="18" y="68" font-size="13" fill="#374151" font-style="italic">F</text>
+  <text x="27" y="72" font-size="9"  fill="#374151">N</text>
+  <text x="34" y="68" font-size="13" fill="#374151">= mg</text>
+
+  <!-- Titel — rykket til højre så pil ikke dækker -->
+  <text x="190" y="260" font-size="12" fill="#64748b" text-anchor="middle">Vandret overflade</text>
+
+  <!-- ===== SKILLELINJE ===== -->
+  <line x1="280" y1="20" x2="280" y2="250" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ===== HØJRE: Skråplan ===== -->
+
+  <!-- Skråplan: A=(300,220) B=(550,220) C=(550,90) -->
+  <polygon points="300,220 550,220 550,90" fill="#dbeafe" opacity="0.5"/>
+  <line x1="300" y1="220" x2="550" y2="220" stroke="#374151" stroke-width="1.5"/>
+  <line x1="300" y1="220" x2="550" y2="90"  stroke="#374151" stroke-width="2.5"/>
+  <line x1="550" y1="90"  x2="550" y2="220" stroke="#374151" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Ground hatch -->
+  <g stroke="#94a3b8" stroke-width="1" opacity="0.7">
+    <line x1="315" y1="220" x2="305" y2="235"/>
+    <line x1="330" y1="220" x2="320" y2="235"/>
+    <line x1="345" y1="220" x2="335" y2="235"/>
+    <line x1="360" y1="220" x2="350" y2="235"/>
+    <line x1="375" y1="220" x2="365" y2="235"/>
+    <line x1="390" y1="220" x2="380" y2="235"/>
+    <line x1="405" y1="220" x2="395" y2="235"/>
+    <line x1="420" y1="220" x2="410" y2="235"/>
+    <line x1="435" y1="220" x2="425" y2="235"/>
+    <line x1="450" y1="220" x2="440" y2="235"/>
+    <line x1="465" y1="220" x2="455" y2="235"/>
+    <line x1="480" y1="220" x2="470" y2="235"/>
+    <line x1="495" y1="220" x2="485" y2="235"/>
+    <line x1="510" y1="220" x2="500" y2="235"/>
+    <line x1="525" y1="220" x2="515" y2="235"/>
+    <line x1="540" y1="220" x2="530" y2="235"/>
+    <line x1="555" y1="220" x2="545" y2="235"/>
+  </g>
+
+  <!-- Vinkel θ -->
+  <path d="M 340,220 A 40,40 0 0,0 335.5,201.5" fill="none" stroke="#6366f1" stroke-width="2"/>
+  <text x="348" y="216" font-size="14" fill="#6366f1" font-style="italic">θ</text>
+
+  <!-- Block på skråplanet (40% langs hypotenusen) -->
+  <g transform="translate(400,168) rotate(-27.5)">
+    <rect x="-22" y="-28" width="44" height="28" fill="#92400e" stroke="#78350f" stroke-width="1.5" rx="2"/>
+    <rect x="-22" y="-28" width="44" height="9" fill="rgba(255,210,120,0.3)"/>
+    <line x1="-8" y1="-26" x2="-8" y2="-2" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+    <line x1="8"  y1="-26" x2="8"  y2="-2" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  </g>
+
+  <!-- F_N pil: vinkelret på planet, retning (-sin27.5°, -cos27.5°) = (-0.462, -0.887) -->
+  <!-- Fra (400,168), 55 px: end = (400-0.462*55, 168-0.887*55) = (374.6, 119.2) -->
+  <line x1="400" y1="168" x2="376" y2="121"
+        stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arr-blue)" stroke-linecap="round"/>
+  <text x="345" y="128" font-size="13" fill="#1d4ed8" font-style="italic" font-weight="600">F</text>
+  <text x="354" y="132" font-size="9"  fill="#1d4ed8">N</text>
+
+  <!-- F_tyn pil: lodret nedad fra klods -->
+  <line x1="400" y1="168" x2="400" y2="226"
+        stroke="#dc2626" stroke-width="2.5" marker-end="url(#arr-red)" stroke-linecap="round"/>
+  <text x="407" y="210" font-size="13" fill="#dc2626" font-style="italic" font-weight="600">F</text>
+  <text x="416" y="214" font-size="9"  fill="#dc2626">tyn</text>
+
+  <!-- Formel — øverst, fri af pile -->
+  <text x="313" y="60" font-size="13" fill="#374151" font-style="italic">F</text>
+  <text x="322" y="64" font-size="9"  fill="#374151">N</text>
+  <text x="329" y="60" font-size="13" fill="#374151">= mg · cos(θ)</text>
+
+  <!-- Titel -->
+  <text x="425" y="260" font-size="12" fill="#64748b" text-anchor="middle">Skråplan</text>
+
+</svg>

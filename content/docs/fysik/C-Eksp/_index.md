@@ -1,6 +1,6 @@
 ---
 title: "Eksperimenter C"
-weight: 6
+weight: 5
 bookCollapseSection: true
 ---
 

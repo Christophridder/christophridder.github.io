@@ -7,7 +7,12 @@
       "Read(//Users/christophridder/Nextcloud/crsite/content/docs/fysik/**)",
       "Bash(mkdir -p /Users/christophridder/Nextcloud/crsite/static/sim /Users/christophridder/Nextcloud/crsite/layouts/shortcodes)",
       "Bash(hugo --quiet)",
-      "Bash(hugo)"
+      "Bash(hugo)",
+      "Bash(mkdir -p /Users/christophridder/Nextcloud/crsite/content/docs/fysik/slides/kova/startmoduler-slide)",
+      "Bash(marp startmoduler-slide.md --html -o /Users/christophridder/Nextcloud/crsite/static/slides/startmoduler.html)",
+      "Bash(cp -r startmoduler-slide /Users/christophridder/Nextcloud/crsite/static/slides/startmoduler-slide)",
+      "Bash(rm -rf /Users/christophridder/Nextcloud/crsite/static/slides/startmoduler-slide)",
+      "Bash(cp -r /Users/christophridder/Nextcloud/crsite/content/docs/fysik/slides/kova/startmoduler-slide /Users/christophridder/Nextcloud/crsite/static/slides/startmoduler-slide)"
     ]
   }
 }
