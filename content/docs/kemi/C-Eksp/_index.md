@@ -19,3 +19,4 @@ bookCollapseSection: true
 | 7 | [Syre i vingummibamser]({{< relref "vingummi" >}})| Syre-base, titrering |
 | 8 | [Spændingsrækken]({{< relref "spaendingsraekke" >}})| Redox |
 | 9 | [Jernindhold i ståluld]({{< relref "staaluld" >}})| Redox (C → B) |
+| 10 | [Endoterm opløsning af salmiak]({{< relref "salmiak" >}})| Opløsningsvarme, endoterm/eksoterm |

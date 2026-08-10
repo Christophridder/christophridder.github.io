@@ -1,20 +1,29 @@
 hold: 2wKe
 fag: Kemi
-niveau: C            # ← ret hvis det er B
+niveau: B
 skoleaar: "2026/2027"
 moduler:
   - nr: 1
-    dato: 2026-08-12
-    emne: "Ioner"
-    forloeb: "Repetition fra 1g"
-    materialer: [Kemibogen]
+    dato: 2026-08-10
+    emne: "Ammoniumchlorid som ionforbindelse"
+    forloeb: "Repetition "
+    materialer: [I gang med kemi ionforbidelser og koncentrationer]
     lektier: "Ingen lektier"
-    maal: [lasdf]
+    kommentar: "Vi repeterer ioner. Ionstørrelser er vigtig information for den biologiske opførsel af ionerne. Læs derfor grundigt side 143"
+    maal: [At repetere ioner og starter på begreberne endoterm og eksoterm]
 
   - nr: 2
-    dato: 2026-08-12
-    emne: "Redox"
-    forloeb: ""
-    materialer: []
+    dato: 2026-08-13
+    emne: "Repetition fra 1g (fortsat)"
+    forloeb: "Repetition fra 1g"
+    materialer: [I gang med kemi ionforbidelser og koncentrationer]
+    lektier: "Side 135 - 143"
+    maal: []
+
+  - nr: 3
+    dato: 2026-08-16
+    emne: "start på noget nyt"
+    forloeb: "Repetition fra 1g"
+    materialer: [Kemibogen]
     lektier: ""
-    maal: [halleluya]
+    maal: []

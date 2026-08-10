@@ -1,11 +1,11 @@
 hold: 3xFY
 fag: Fysik
-niveau: A            # ← ret hvis det er B
+niveau: A
 skoleaar: "2026/2027"
 
 moduler:
   - nr: 1
-    dato: 2026-08-12
+    dato: 2026-08-11
     emne: Introduktion til kræfter + Hookes lov
     forloeb: Kræfter
     materialer: [hookes-lov-1]

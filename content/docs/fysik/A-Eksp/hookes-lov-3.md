@@ -55,7 +55,7 @@ hurtigere lukker kassen sig.
 ### To måder at beskrive, hvor hurtigt det dør ud
 
 - **Tidskonstanten** $\tau = \dfrac{1}{\beta}$: tiden, det tager, før amplituden er
-  faldet til $1/e \approx 37\\%$ af starten.
+  faldet til $1/e \approx 37\%$ af starten.
 - **Halveringstiden** $t_{1/2} = \dfrac{\ln 2}{\beta}$: tiden, det tager, før
   amplituden er **halveret**. For hver $t_{1/2}$ halveres udsvinget igen.
 

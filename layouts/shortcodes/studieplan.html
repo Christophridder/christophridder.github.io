@@ -34,7 +34,7 @@
         {{ " " }}
       {{- end -}}
       </td>
-      <td>{{ .lektier }}</td>
+      <td>{{ .lektier | markdownify }}</td>
       <td>{{ delimit .maal ", " }}</td>
     </tr>
   {{- end }}

@@ -14,26 +14,26 @@ weight: 20
 
 ### Definitioner
 
-$$\\log\_{10}(x) = a \\iff 10^a = x$$
-$$\\ln(x) = a \\iff e^a = x \\qquad (e \\approx 2{,}718)$$
+$$\log_{10}(x) = a \iff 10^a = x$$
+$$\ln(x) = a \iff e^a = x \qquad (e \approx 2{,}718)$$
 
-### Regneregler (gælder for både $\\log$ og $\\ln$)
+### Regneregler (gælder for både $\log$ og $\ln$)
 
 | Regel         | Formel                                               | Eksempel                                                    |
 |---------------|------------------------------------------------------|-------------------------------------------------------------|
-| **Produktregel**  | $\\log(a \\cdot b) = \\log(a) + \\log(b)$                | $\\log(100 \\cdot 1000) = \\log(100) + \\log(1000) = 2 + 3 = 5$ |
-| **Kvotientregel** | $\\log!\\left(\\dfrac{a}{b}\\right) = \\log(a) - \\log(b)$ | $\\log!\\left(\\dfrac{1000}{10}\\right) = 3 - 1 = 2$            |
-| **Potensregel**   | $\\log(a^n) = n \\cdot \\log(a)$                        | $\\log(10^5) = 5 \\cdot \\log(10) = 5$                         |
-| **Log af 1**      | $\\log(1) = 0$                                        | $\\ln(1) = 0$                                                |
-| **Log af basen**  | $\\log(10) = 1$                                       | $\\ln(e) = 1$                                                |
-| **Invers**        | $10^{\\log(x)} = x$                                   | $e^{\\ln(x)} = x$                                            |
-| **Baseskift**     | $\\log_b(x) = \\dfrac{\\ln(x)}{\\ln(b)}$                 | $\\log_2(8) = \\dfrac{\\ln 8}{\\ln 2} = 3$                      |
+| **Produktregel**  | $\log(a \cdot b) = \log(a) + \log(b)$                | $\log(100 \cdot 1000) = \log(100) + \log(1000) = 2 + 3 = 5$ |
+| **Kvotientregel** | $\log!\left(\dfrac{a}{b}\right) = \log(a) - \log(b)$ | $\log!\left(\dfrac{1000}{10}\right) = 3 - 1 = 2$            |
+| **Potensregel**   | $\log(a^n) = n \cdot \log(a)$                        | $\log(10^5) = 5 \cdot \log(10) = 5$                         |
+| **Log af 1**      | $\log(1) = 0$                                        | $\ln(1) = 0$                                                |
+| **Log af basen**  | $\log(10) = 1$                                       | $\ln(e) = 1$                                                |
+| **Invers**        | $10^{\log(x)} = x$                                   | $e^{\ln(x)} = x$                                            |
+| **Baseskift**     | $\log_b(x) = \dfrac{\ln(x)}{\ln(b)}$                 | $\log_2(8) = \dfrac{\ln 8}{\ln 2} = 3$                      |
 
 ### Isolering af eksponent — bruges meget i fysik!
 
-$$A = A_0 \\cdot e^{-\\lambda t} \\implies t = \\frac{\\ln!\\left(\\dfrac{A_0}{A}\\right)}{\\lambda}$$
+$$A = A_0 \cdot e^{-\lambda t} \implies t = \frac{\ln!\left(\dfrac{A_0}{A}\right)}{\lambda}$$
 
-$$N = N_0 \\cdot 10^{k t} \\implies t = \\frac{\\log!\\left(\\dfrac{N}{N_0}\\right)}{k}$$
+$$N = N_0 \cdot 10^{k t} \implies t = \frac{\log!\left(\dfrac{N}{N_0}\right)}{k}$$
 
 ---
 
@@ -48,7 +48,7 @@ $$N = N_0 \\cdot 10^{k t} \\implies t = \\frac{\\log!\\left(\\dfrac{N}{N_0}\\rig
 ### Opgave 1
 
 Beregn uden lommeregner:
-$$\\log(10^7)$$
+$$\log(10^7)$$
 
 **Svar:** \_____\_
 
@@ -57,7 +57,7 @@ $$\\log(10^7)$$
 ### Opgave 2
 
 Beregn uden lommeregner:
-$$\\log(100 \\cdot 10^5)$$
+$$\log(100 \cdot 10^5)$$
 
 **Svar:** \_____\_
 
@@ -66,7 +66,7 @@ $$\\log(100 \\cdot 10^5)$$
 ### Opgave 3
 
 Beregn uden lommeregner:
-$$\\log!\\left(\\frac{10^8}{10^3}\\right)$$
+$$\log!\left(\frac{10^8}{10^3}\right)$$
 
 **Svar:** \_____\_
 
@@ -75,7 +75,7 @@ $$\\log!\\left(\\frac{10^8}{10^3}\\right)$$
 ### Opgave 4
 
 Beregn uden lommeregner:
-$$\\ln(e^{4})$$
+$$\ln(e^{4})$$
 
 **Svar:** \_____\_
 
@@ -84,7 +84,7 @@ $$\\ln(e^{4})$$
 ### Opgave 5
 
 Beregn uden lommeregner:
-$$\\ln!\\left(\\frac{1}{e^3}\\right)$$
+$$\ln!\left(\frac{1}{e^3}\right)$$
 
 **Svar:** \_____\_
 
@@ -93,7 +93,7 @@ $$\\ln!\\left(\\frac{1}{e^3}\\right)$$
 ### Opgave 6
 
 Omskriv til ét logaritmeudtryk:
-$$\\log(3) + \\log(4) - \\log(6)$$
+$$\log(3) + \log(4) - \log(6)$$
 
 **Svar:** \_____\_
 
@@ -102,7 +102,7 @@ $$\\log(3) + \\log(4) - \\log(6)$$
 ### Opgave 7
 
 Omskriv til ét logaritmeudtryk og beregn:
-$$2\\cdot\\log(5) + \\log(4)$$
+$$2\cdot\log(5) + \log(4)$$
 
 *Hint: Brug potensreglen på det første led, og saml til sidst med produktreglen.*
 
@@ -131,7 +131,7 @@ $$e^{2x} = 20$$
 ### Opgave 10
 
 Løs ligningen for $t$:
-$$3 = 12 \\cdot e^{-0{,}5 \\cdot t}$$
+$$3 = 12 \cdot e^{-0{,}5 \cdot t}$$
 
 *Dette er formen du møder ved radioaktivt henfald og eksponentiel dæmpning.*
 
@@ -150,15 +150,15 @@ $$3 = 12 \\cdot e^{-0{,}5 \\cdot t}$$
 ### Opgave 11 — Radioaktivt henfald
 
 Aktiviteten af et radioaktivt stof falder som:
-$$A(t) = A_0 \\cdot e^{-\\lambda t}$$
+$$A(t) = A_0 \cdot e^{-\lambda t}$$
 
-Et stof har $A_0 = 800$ Bq og $\\lambda = 0{,}035 \\ \\text{s}^{-1}$.
+Et stof har $A_0 = 800$ Bq og $\lambda = 0{,}035 \ \text{s}^{-1}$.
 
 **a)** Hvornår er aktiviteten faldet til $100$ Bq?
 
-**b)** Hvad er halveringstiden $T\_{1/2}$?
+**b)** Hvad er halveringstiden $T_{1/2}$?
 
-*Hint til b: Sæt $A = \\frac{A_0}{2}$ og isoler $t$.*
+*Hint til b: Sæt $A = \frac{A_0}{2}$ og isoler $t$.*
 
 **Svar a:** \_____\_  
 **Svar b:** \_____\_
@@ -168,11 +168,11 @@ Et stof har $A_0 = 800$ Bq og $\\lambda = 0{,}035 \\ \\text{s}^{-1}$.
 ### Opgave 12 — Lydstyrke i decibel
 
 Lydstyrken i decibel er defineret som:
-$$L = 10 \\cdot \\log!\\left(\\frac{I}{I_0}\\right) \\quad \\text{dB}$$
+$$L = 10 \cdot \log!\left(\frac{I}{I_0}\right) \quad \text{dB}$$
 
-hvor $I_0 = 10^{-12} \\ \\text{W/m}^2$ er høregrænsen.
+hvor $I_0 = 10^{-12} \ \text{W/m}^2$ er høregrænsen.
 
-**a)** En koncert har lydintensiteten $I = 0{,}1 \\ \\text{W/m}^2$. Beregn lydstyrken i dB.
+**a)** En koncert har lydintensiteten $I = 0{,}1 \ \text{W/m}^2$. Beregn lydstyrken i dB.
 
 **b)** En lyd måles til $85$ dB. Hvad er intensiteten i W/m²?
 
@@ -184,7 +184,7 @@ hvor $I_0 = 10^{-12} \\ \\text{W/m}^2$ er høregrænsen.
 ### Opgave 13 — Befolkningsvækst
 
 En bakteriekultur vokser eksponentielt:
-$$N(t) = N_0 \\cdot e^{k t}$$
+$$N(t) = N_0 \cdot e^{k t}$$
 
 Ved $t = 0$ er der $N_0 = 500$ bakterier. Efter $3$ timer er der $4000$ bakterier.
 
@@ -200,17 +200,17 @@ Ved $t = 0$ er der $N_0 = 500$ bakterier. Efter $3$ timer er der $4000$ bakterie
 ### Opgave 14 — pH-værdi
 
 pH er defineret som:
-$$\\text{pH} = -\\log[\\text{H}^+]$$
+$$\text{pH} = -\log[\text{H}^+]$$
 
-hvor $[\\text{H}^+]$ er koncentrationen af H⁺-ioner i mol/L.
+hvor $[\text{H}^+]$ er koncentrationen af H⁺-ioner i mol/L.
 
-**a)** Rent vand har $[\\text{H}^+] = 10^{-7}$ mol/L. Hvad er pH?
+**a)** Rent vand har $[\text{H}^+] = 10^{-7}$ mol/L. Hvad er pH?
 
-**b)** En syre har pH = 3,5. Hvad er $[\\text{H}^+]$?
+**b)** En syre har pH = 3,5. Hvad er $[\text{H}^+]$?
 
-**c)** Hvis $[\\text{H}^+]$ fordobles — hvor meget ændrer pH sig så?
+**c)** Hvis $[\text{H}^+]$ fordobles — hvor meget ændrer pH sig så?
 
-*Hint til c: Brug logaritmereglerne til at finde $\\Delta\\text{pH}$.*
+*Hint til c: Brug logaritmereglerne til at finde $\Delta\text{pH}$.*
 
 **Svar a:** \_____\_  
 **Svar b:** \_____\_  
@@ -221,7 +221,7 @@ hvor $[\\text{H}^+]$ er koncentrationen af H⁺-ioner i mol/L.
 ### Opgave 15 — Jordskælv og Richterskalaen
 
 Richterskalaen er logaritmisk:
-$$M = \\log!\\left(\\frac{A}{A_0}\\right)$$
+$$M = \log!\left(\frac{A}{A_0}\right)$$
 
 Et jordskælv måles til $M = 6{,}0$. Et andet måles til $M = 8{,}0$.
 
