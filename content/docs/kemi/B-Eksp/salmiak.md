@@ -9,9 +9,13 @@ weight: 43
 
 ## Formål
 
-At undersøge om opløsning af salmiak (ammoniumklorid) i vand er en endoterm eller eksoterm proces, og at bestemme opløsningsenthalpien.
+At undersøge om opløsning af salmiak (ammoniumchlorid) i vand er en endoterm eller eksoterm proces, og at bestemme opløsningsenthalpien.
 
 ## Teori
+### Endoterm og eksoterm
+Ved endoterme reaktioner bliver der optaget energi fra omgivelserne. 
+Ved eksoterme reaktioner blvier der afgivet energi til omgiverlsern. 
+I praksis i fx en opløsning kan det mådes ved at opløsningen bliver koldere for endoterme reaktioner. Reaktionen skal **bruge** energi for at forløbe. Eksoterme reaktioner gør opløsningen varmere. Reaktionen **frigiver** energi til omgivelserne. 
 ### Ionforbindelser
 Holdes sammen af **ionbindinger** og dannes mellem **positive** ioner (kationer) og **negative** ioner (anioner). Positive ioner er ofter **metaller** eller sammensadte ioner som NH₄⁺. Negative ioner ofte **ikke-metaller** som chlorid eller oxid eller komplekse ioner som $\text(NO_3^-)$.
 Eksempel: Salmiak (NH₄Cl) består af:
