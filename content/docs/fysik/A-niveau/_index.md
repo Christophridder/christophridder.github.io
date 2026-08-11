@@ -8,20 +8,13 @@ bookCollapseSection: true
 
 Årsplanen dækker det, der mangler oven på Fysik B: hele mekanikken i to
 dimensioner, elektriske og magnetiske felter, særemnet *Elbilens fysik*,
-kvantefysikkens manglende dele samt relativitet som supplerende stof. Allerede
-gennemførte forløb (Ohms lov, karakteristikker, gaslove, radioaktivitet, Bohr og
-spektre, bølger) er ikke gentaget her.
-
-Planen er bygget til **66 moduler à 90 min**. Med flydende skema (2-3 moduler/uge)
-glider blokkene, men rækkefølgen er den samme. Har du færre moduler, klippes
-typisk i kinematik-, gravitations- og elbilblokken. Eksperimentforløb er markeret,
-så teori og praksis veksler hen over året.
+kvantefysikkens manglende dele som elektronvolt og opgaver med planckkonstanten samt relativitet som supplerende stof.
 
 ## Oversigt
 
 | Blok | Modul | Antal | Emne | Type | Nøgleeksperiment |
 |---|---|---|---|---|---|
-| 0 | 1–2 | 2 | Repetition Fysik B + opfølgning på årsprøve | Teori / opgaver | — |
+| 0 | 1–2 | 2 | Repetition Fysik B + opfølgning på årsprøve | Teori / opgaver |  |
 | 1 | 3–4 | 2 | Hookes lov + Python-projekt | Eksp. + IT | Fjeder, F = k · x |
 | 2 | 5–10 | 6 | Kinematik i 2D og skråt kast | Teori + Eksp. | Videoanalyse af kast |
 | 3 | 11–15 | 5 | Bevægelsesmængde og stød | Teori + Eksp. | Luftpudebane |

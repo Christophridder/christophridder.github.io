@@ -14,25 +14,41 @@ bevægelsessensoren.
 ---
 
 ## Del 1 — Fra position til svingningsligning
+### Fra stedfunktion til acceleration
 
-### Position, hastighed og acceleration
+Stedfunktionen:  
 
-Vi lader $y(t)$ være **positionen** af loddet til tiden $t$. Enheden er meter, $[\text{m}]$.
+$$s(t) = at^2 + v_0t + s_0$$
 
-Differentierer vi positionen med hensyn til tiden, får vi **hastigheden**:
+Differentierer man stedfunktionen får man hastighedsfunktionen og differentierer man den får man acceleration: 
+
+$$s'(t)= v(t) = at + v$$
+$$s''(t) = v'(t) = a(t) = a$$
+
+Læg mærke til at de tre ligninger har forskellige enheder.
+- I $s(t)$ ligningen er alle led i $m$
+- i $v(t)$ ligningen er alle led i $\frac{m}{s}$
+- i $a(t)$ ligningen er alle led i $\frac{m}{s^2}$
+
+### Position, hastighed og acceleration nu i forhold til Hookes lov:
+
+Ved Hookes lov er det kotyme at man bruger $y(t)$ som stedvektor og ikke $s(t)$. 
+Så: $y(t)$ er **positionen** af loddet til tiden $t$ fordi vi bevæger os op og ned i $y$ aksens retning. Enheden, of course, er stadig meter, $[\text{m}]$.
+
+Differentierer man positionen med hensyn til tiden, får man, lige som før:  **hastigheden**:
 
 $$v(t) = y'(t) \qquad [\text{m/s}]$$
 
-Differentierer vi én gang til, får vi **accelerationen**:
+Differentierer man én gang til, får man **accelerationen**:
 
 $$a(t) = v'(t) = y''(t) \qquad [\text{m/s}^2]$$
 
-Fysikere er dovne og skriver de *tidsafledte* med en **prik** over symbolet i stedet
-for en mærke-streg (det er Newtons prik-notation):
+I fysikken differentierer man ofte til tiden $t$ og for ikke at forveksle det med andre differentiationer har fysikere fundet på at skrive  den *tidsafledte* med en **prik** over symbolet i stedet
+for en mærke-streg (det er Newtons prik-notation): (I wordmat skal i skrive **\dot{y}** eller **\ddot(y)**)
 
 $$\dot{y} = y' = v \qquad\qquad \ddot{y} = y'' = a$$
 
-**Derfor** kan accelerationen kort skrives som $\ddot{y}$. Den notation bruger vi
+**Derfor** kan accelerationen nu kort skrives som $\ddot{y}$. Den notation bruger vi
 fra nu af.
 
 ### Kraften fra fjederen (Hookes lov)
@@ -42,31 +58,28 @@ længere væk fra ligevægt loddet er, jo større er kraften — og den peger
 *modsat* udsvinget:
 
 $$F = -k\cdot(y - C)$$
+Hvis $C = 0$ gælder der: 
+$$F = -k\cdot y$$
 
 - $k$ er **fjederkonstanten** $[\text{N/m}]$ — fjederens stivhed.
-- $C$ er **ligevægtspositionen** $[\text{m}]$ — det punkt loddet hviler i uden at svinge.
-- $y - C$ er selve **udsvinget fra ligevægt** — ikke positionen fra gulvet eller nul.
-- Minustegnet betyder "tilbage mod ligevægt".
+- $C$ er **ligevægtspositionen** $[\text{m}]$ — det punkt loddet hviler i uden at svinge, starter man målingen af svingningen i denne position er C = 0m
+- $y - C$ er selve **udsvinget fra ligevægt** — ikke positionen fra gulvet eller nul. Tænk det som lodet svinger om positionen $C$ og ikke om positionen 0. I praksis vil vi ofte sætte startpositionen til $0m$ hvad betyder at $C = 0$ og dermed bortfalder. $F = - ky$ 
+- Minustegnet betyder "tilbage mod ligevægt". Når loddet svinger ned ad ($-y$ retning) så trækker fjederen tilbage i $+y$ retningen og omvendt. 
 
-Newtons 2. lov siger $F = m\cdot a = m\cdot\ddot{y}$, hvor $m$ er loddets masse $[\text{kg}]$.
+Newtons 2. lov siger nu: $F = m\cdot a = m\cdot\ddot{y}$, hvor $m$ er loddets masse $[\text{kg}]$.
 Sætter vi de to udtryk for kraften lig hinanden:
 
-$$m\cdot\ddot{y} = -k\cdot(y - C)$$
+$$m\cdot\ddot{y} = -k\cdot y$$
 
-### Variabelskifte: vi måler fra ligevægten
+### Vi måler fra ligevægten (kaldes ofte variabelskift men vi gør det her uden!)
 
-$y - C$ dukker op hele tiden — det giver mening at give det sit eget navn.
-Vi sætter $u = y - C$, dvs. vi måler positionen **fra ligevægten** i stedet for fra nul.
+$$m\cdot\ddot{y} = -k\cdot y$$
 
-Siden $C$ er en konstant er $\dot{u} = \dot{y}$ og $\ddot{u} = \ddot{y}$. Ligningen bliver:
-
-$$m\cdot\ddot{u} = -k\cdot u$$
-
-$$\ddot{u} = -\frac{k}{m}\cdot u$$
+$$\ddot{y} = -\frac{k}{m}\cdot y$$
 
 **$C$ er væk.** Vi giver konstanten $k/m$ et navn, $\omega^2$:
 
-$$\boxed{\ddot{u} = -\omega^2\cdot u}\qquad \text{med}\quad \omega^2 = \frac{k}{m}$$
+$$\boxed{\ddot{y} = -\omega^2\cdot y}\qquad \text{med}\quad \omega^2 = \frac{k}{m}$$
 
 Det er en **differentialligning**: en ligning, hvor det ukendte er en *funktion*
 $u(t)$, og hvor funktionen og dens 2. afledte indgår.
@@ -74,31 +87,33 @@ $u(t)$, og hvor funktionen og dens 2. afledte indgår.
 ### Vi gætter en løsning (ansatz)
 
 Vi udleder ikke løsningen — vi **gætter** den og tjekker bagefter, at den passer.
-Den enkle ligning $\ddot{u} = -\omega^2 u$ indbyder til gættet:
+Den enkle ligning $\ddot{y} = -\omega^2 u$ indbyder til gættet:
 
-$$u(t) = A\cdot\sin(\omega t + \varphi)$$
+$$y(t) = A\cdot\sin(\omega t + \varphi)$$
 
 For at se om gættet løser ligningen, differentierer vi to gange:
 
-$$\dot{u}(t) = A\cdot\omega\cdot\cos(\omega t + \varphi)$$
+$$\dot{y}(t) = A\cdot\omega\cdot\cos(\omega t + \varphi)$$
 
-$$\ddot{u}(t) = -A\cdot\omega^2\cdot\sin(\omega t + \varphi) = -\omega^2\cdot u(t)$$
+$$\ddot{y}(t) = -A\cdot\omega^2\cdot\sin(\omega t + \varphi) = -\omega^2\cdot y(t)$$
 
 — og det er **præcis** differentialligningen. Gættet passer!
 
-Nu skifter vi tilbage til den oprindelige variabel $y = u + C$:
+ For at være helt præcis sætter vi nu konstanten $C$ på igen og formlen bliver:
 
 $$y(t) = A\cdot\sin(\omega t + \varphi) + C$$
 
-**$C$ dukker op igen** — det er ligevægtspositionen der lægges tilbage på.
-$C$ forsvandt under regnestykket fordi det er en konstant der ikke ændrer sig, og nu er det bare med igen som en forskydning af hele svingningen op eller ned.
+Husk at $C$ bortfalder med det samme når man differentierer. 
 
-Samtidig kan vi nu læse en vigtig fysisk sammenhæng af:
+**$C$ dukker op igen** og lige som i starten og er det ligevægtspositionen. 
+
+
+Der gælder nu at: 
 
 $$\omega = \sqrt{\frac{k}{m}}, \qquad T = \frac{2\pi}{\omega} = 2\pi\sqrt{\frac{m}{k}}$$
 
 Svingningstiden afhænger altså kun af **massen og fjederen** — ikke af, hvor langt
-du trækker loddet ud. Det er en pointe, eleverne kan tjekke eksperimentelt senere.
+du trækker loddet ud. 
 
 ### Hvad betyder de fire parametre?
 
