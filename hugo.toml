@@ -15,3 +15,15 @@ enable = true
 [markup.goldmark.extensions.passthrough.delimiters]
 block = [['\[', '\]'], ['$$', '$$']]
 inline = [['\(', '\)'], ['$', '$']]
+
+[markup.goldmark.extensions]
+strikethrough = false
+
+[markup.goldmark.extensions.extras.subscript]
+enable = true
+
+[markup.goldmark.extensions.extras.superscript]
+enable = true
+
+[markup.goldmark.extensions.extras.delete]
+enable = true
