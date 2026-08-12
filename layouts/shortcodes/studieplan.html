@@ -8,7 +8,6 @@
       <th>#</th>
       <th>Dato</th>
       <th>Forløb</th>
-      <th>Emne</th>
       <th>Materialer</th>
       <th>Lektier</th>
       <th>Kommentar</th>
@@ -18,9 +17,8 @@
   {{- range sort .moduler "nr" "desc" }}
     <tr>
       <td>{{ .nr }}</td>
-      <td>{{ .dato }}</td>
+      <td>{{ (time.AsTime .dato).Format "02.01.06" }}</td>
       <td>{{ .forloeb }}</td>
-      <td>{{ .emne }}</td>
       <td>
       {{- range .materialer -}}
         {{- $slug := . -}}
@@ -35,7 +33,12 @@
       {{- end -}}
       </td>
       <td>{{ .lektier | markdownify }}</td>
-      <td>{{ delimit .maal ", " }}</td>
+      <td>
+      {{- $maal := .maal -}}
+      {{- $kommentar := .kommentar -}}
+      {{- if $maal -}} {{ delimit $maal ", " }}{{- if $kommentar }}<br>{{ end -}}{{- end -}}
+      {{- with $kommentar -}}{{ . | markdownify }}{{- end -}}
+      </td>
     </tr>
   {{- end }}
   </tbody>

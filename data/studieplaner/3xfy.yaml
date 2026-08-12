@@ -9,19 +9,30 @@ moduler:
     emne: Introduktion til kræfter + Hookes lov
     forloeb: Kræfter
     materialer: [hookes-lov-1]
-    lektier: "Læs s. 12–18"
+    lektier: "Ingen lektier"
     maal: [Kraftbegreb, Fjederkonstant]
+    kommentar: "Vi nåede at bestemme fjederkonstanten, samt at differentiere y=A sin(omega t) vi nåede at sætte løsningen ind i differantialligningen"
   - nr: 2
-    dato: 2026-08-11
+    dato: 2026-08-17
     emne: Introduktion til kræfter + Hookes lov
     forloeb: Kræfter
     materialer: [hookes-lov-1]
-    lektier: "Læs s. 12–18"
-    maal: [Kraftbegreb, Fjederkonstant]
+    lektier: "Arbejde med pythonfilen og variér A, omega, phi og C læs om hookes lov i bogen"
+    maal: [At forstå hookes lov og differantialligningen]
+    kommentar: "Tjekker installation af python"
   - nr: 3
-    dato: 2026-08-14
-    emne: Måling af fjederkonstant
+    dato: 2026-08-18
+    emne: Hookes lov
     forloeb: Kræfter
-    materialer: [ob-smartpulley]
+    materialer: [hookes-lov-3]
     lektier: "Færdiggør journal"
-    maal: [Dataopsamling, Lineær sammenhæng]
+    kommentar: "Eksperiment med dæmpet svingning"
+    maal: [Dataopsamling, Ikke Lineær sammenhæng, dæmpet svingning]
+  - nr: 4
+    dato: 2026-08-18
+    emne: Ved ikke endnu
+    forloeb: Kræfter
+    materialer: [hookes-lov-3]
+    lektier: "Færdiggør journal"
+    kommentar: "Eksperiment med dæmpet svingning"
+    maal: [Dataopsamling, Ikke Lineær sammenhæng, dæmpet svingning]
