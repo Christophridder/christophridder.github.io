@@ -237,6 +237,8 @@ For hver værdi: aflæs den omega, Python beregner, og udfyld tabellen.
 |2.0|		||
 |4.0|		||
 
+
+
 Spørgsmål: Hvad bemærker du ved produktet 
 𝑇
 ⋅
