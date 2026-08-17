@@ -18,13 +18,23 @@ moduler:
     forloeb: "Repetition fra 1g"
     materialer: [salt-i-ting]
     lektier: "Side 135 - 143"
-    kommentar: "Vi arbejder med salmiak øvelsen og finder Delta H "
-    maal: []
+    kommentar: "Vi brugte langt tid på elektronprikformler. Udelt salt-i-ting eksperiment"
+    maal: [Elektronprikformler i bund. Fint for chlorid og ammonium svært for nitrat]
 
   - nr: 3
     dato: 2026-08-16
-    emne: "start på noget nyt"
+    emne: "ioner"
     forloeb: "Repetition fra 1g"
-    materialer: [Kemibogen]
-    lektier: ""
-    maal: []
+    materialer: [salt-i-ting]
+    lektier: "side 143 - 155"
+    maal: [Titrering af salt med DCF]
+    kommentar: "Der er mange målinger så får fart på"
+
+  - nr: 4
+    dato: 2026-08-16
+    emne: "ioner"
+    forloeb: "Repetition fra 1g"
+    materialer: [salt-i-ting]
+    lektier: "Øvelsesvejledningen"
+    maal: [Rapportskrivning]
+    kommentar: " lad os se"

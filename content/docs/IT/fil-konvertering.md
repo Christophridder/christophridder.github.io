@@ -51,3 +51,7 @@ Pandoc kan **IKKE** lave gode pdffer fra docx filer! det kører via Latex
 
 ## åbne pdffer med Skim
 open -a Skim fil.pdf
+## download youtube film. 
+Erstat URL med youtube link. 
+køres i terminal
+yt-dlp --cookies-from-browser firefox -f "bv*+ba/b" --merge-output-format mp4 "URL"

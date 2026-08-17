@@ -82,30 +82,34 @@ $$\ddot{y} = -\frac{k}{m}\cdot y$$
 $$\boxed{\ddot{y} = -\omega^2\cdot y}\qquad \text{med}\quad \omega^2 = \frac{k}{m}$$
 
 Det er en **differentialligning**: en ligning, hvor det ukendte er en *funktion*
-$u(t)$, og hvor funktionen og dens 2. afledte indgår.
+$y(t)$, og hvor funktionen og dens 2. afledte indgår.
 
 ### Vi gætter en løsning (ansatz)
 
 Vi udleder ikke løsningen — vi **gætter** den og tjekker bagefter, at den passer.
-Den enkle ligning $\ddot{y} = -\omega^2 u$ indbyder til gættet:
+Den enkle ligning $\ddot{y} = -\omega^2 y$ indbyder til gættet:
 
 $$y(t) = A\cdot\sin(\omega t + \varphi)$$
 
 For at se om gættet løser ligningen, differentierer vi to gange:
 
+1. gang: 
 $$\dot{y}(t) = A\cdot\omega\cdot\cos(\omega t + \varphi)$$
 
+2. gang:
 $$\ddot{y}(t) = -A\cdot\omega^2\cdot\sin(\omega t + \varphi) = -\omega^2\cdot y(t)$$
 
-— og det er **præcis** differentialligningen. Gættet passer!
+$sin'(\omega t)$ bliver til $\omega cos(\omega t)$ og $\omega cos'(\omega t)$ til $-\omega^2 sin(\omega t)$. 
+
+Afleder man $sin(\omega t)$ to gange får man dermed $-\omega^2 sin(\omega t)$. Præcis sådan en funktion opfylder differentialligningen.  
+
+$$\boxed{\ddot{y} = -\omega^2\cdot y}\qquad \text{med}\quad \omega^2 = \frac{k}{m}$$
 
  For at være helt præcis sætter vi nu konstanten $C$ på igen og formlen bliver:
 
 $$y(t) = A\cdot\sin(\omega t + \varphi) + C$$
 
-Husk at $C$ bortfalder med det samme når man differentierer. 
-
-**$C$ dukker op igen** og lige som i starten og er det ligevægtspositionen. 
+Husk at $C$ bortfalder med det samme når man differentierer. $C$ er y-værdien af ligevægtspositionen.
 
 
 Der gælder nu at: 
@@ -113,7 +117,7 @@ Der gælder nu at:
 $$\omega = \sqrt{\frac{k}{m}}, \qquad T = \frac{2\pi}{\omega} = 2\pi\sqrt{\frac{m}{k}}$$
 
 Svingningstiden afhænger altså kun af **massen og fjederen** — ikke af, hvor langt
-du trækker loddet ud. 
+man trækker loddet ud. 
 
 ### Hvad betyder de fire parametre?
 
@@ -142,7 +146,7 @@ oven i hinanden:
 
 Ved at sammenligne med referencen kan I se *præcis* hvad hver parameter gør.
 
-```python
+```python 
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -151,35 +155,38 @@ def svingning(t, A, omega, phi, C):
     return A * np.sin(omega * t + phi) + C
 
 # --- Referencekurve: skru ALDRIG på disse ---
-A_ref     = 1.0      # amplitude        [m]
-omega_ref = 1.0      # vinkelfrekvens   [rad/s]
-phi_ref   = 0.0      # fase             [rad]
-C_ref     = 0.0      # ligevægt         [m]
+A_ref     = 1.0           # amplitude        [m]
+T_ref     = 1.0           # periode [s]
+omega_ref = 2*np.pi/T_ref # vinkelfrekvens   [rad/s]
+phi_ref   = 0.0           # fase             [rad]
+C_ref     = 0.0           # ligevægt         [m]
 
 # --- Din kurve: skru på ÉN parameter ad gangen ---
 A     = 1.0          # prøv fx 2.0
-omega = 1.0          # prøv fx 2.0
+T     = 2.0          # prøv fx 2.0
+omega = 2*np.pi/T    # prøv fx 2.0
 phi   = 0.0          # prøv fx np.pi/2
 C     = 0.0          # prøv fx 3.0
 
 # Tidsakse: 0 til 20 sekunder, 1000 punkter
-t = np.linspace(0, 20, 1000)
+t = np.linspace(0, 10, 1000)
 
 # Beregn de to kurver
 y_ref = svingning(t, A_ref, omega_ref, phi_ref, C_ref)
 y     = svingning(t, A, omega, phi, C)
 
 # Afledte størrelser for DIN kurve
-T = 2 * np.pi / omega        # svingningstid [s]
+T = 2 * np.pi / omega        # svingningstid [s] regnes tilbage
 f = 1 / T                    # frekvens      [Hz]
 
 # Plot
 plt.figure(figsize=(9, 5))
 plt.plot(t, y_ref, "--", color="grey",
-         label="Reference (A=1, ω=1, φ=0, C=0)")
+        label=f"Reference (A=1, ω={omega:.2f}s^-1, φ=0, C=0)")
 plt.plot(t, y, color="C0",
          label=f"Din kurve (T = {T:.2f} s,  f = {f:.3f} Hz)")
 plt.axhline(C, color="C1", linestyle=":", linewidth=1)   # ligevægtslinje
+
 plt.xlabel("tid  t  [s]")
 plt.ylabel("udsving  y  [m]")
 plt.title("Harmonisk svingning")
@@ -189,6 +196,7 @@ plt.show()
 ```
 
 ### Prøv selv
+>**Lav en wordfil hvori du afrapporterer nedenstående**
 
 Ændr **kun én** parameter ad gangen (sæt de andre tilbage til reference-værdien
 bagefter), og skriv ned, hvad der sker:

@@ -7,28 +7,25 @@ weight: 30
 
 ## Formål
 
-Du skal bestemme indholdet af **køkkenesalt** (natriumchlorid, NaCl) i forskellige hverdagsprodukter — fx **småkager/kiks**, **chips** og **havvand** — og udtrykke det i masseprocent (eller g salt pr. 100 g). Vi bestemmer mængden af **chloridioner** (Cl⁻) ved at titrere med sølvnitrat.
+Du skal bestemme indholdet af **køkkenesalt** (natriumchlorid, NaCl) i forskellige hverdagsprodukter — fx **småkager/kiks**, **chips** og **havvand** — i masseprocent (eller g salt pr. 100 g). Natriumionerne fra NaCl er tilskuerioner og meget svært at få til at reagere kemisk, men **chloridioner** (Cl⁻) reagerer med sølvnitrat. Så vi titrerer med en opløsning af 0.1M AgNO~3~
 
 ## Baggrund
 
-Når sølvioner møder chloridioner, dannes et tungtopløseligt bundfald af sølvchlorid:
+Når sølvioner møder chloridioner, dannes et tungtopløseligt bundfald af sølvchlorid (AgCl):
 
 $$\text{Ag}^+\text{(aq)} + \text{Cl}^-\text{(aq)} \rightarrow \text{AgCl(s)} \quad (\text{hvidt bundfald})$$
 
 Ved at tilsætte en kendt koncentration af sølvnitrat fra en burette, indtil **alle** chloridioner er fældet, kan vi regne baglæns til, hvor meget Cl⁻ — og dermed NaCl — der var i prøven.
 
-**Hvordan ser vi, hvornår vi er færdige?** Vi bruger en **adsorptionsindikator** (Fajans-metoden): **dichlorofluorescein**. Indikatoren er en svag syre, der i opløsning findes som en gulgrøn anion.
-
-- **Før** ækvivalenspunktet er der overskud af Cl⁻. Disse sætter sig på AgCl-partiklernes overflade, så partiklerne bliver **negativt** ladede og frastøder indikatoranionen — opløsningen er grøngul.
-- **Lige efter** ækvivalenspunktet er der overskud af Ag⁺. Nu vender overfladeladningen til **positiv**, indikatoranionen tiltrækkes og adsorberes på overfladen, og bundfaldet skifter til en svag **lyserød/pink** farve. Det er vores endepunkt.
-
+**Hvordan ser vi, hvornår vi er færdige?** Når der er overskud af sølvioner bliver indikatoren pink og man skal stoppe med titreringen. 
 
 ## Førskrivning
 
 1. Skriv reaktionsskemaet for fældningen af AgCl, og sæt tilstandsformer på.
-2. Forklar med dine egne ord, hvorfor farven skifter ved endepunktet. 
-3. Slå op: hvad er densiteten af havvand, og hvor mange gram salt er der typisk pr. liter? *(Bruges til at vurdere, hvor meget du skal fortynde.)*
-4. Opstil formlerne, du skal bruge: $n = c \cdot V$ og $m = M \cdot n$. Hvad er M(NaCl)?
+1. Slå op: hvad er densiteten af havvand, og hvor mange gram salt er der typisk pr. liter? *(Bruges til at vurdere, hvor meget du skal fortynde.)*
+1. Lav en tegning af opstillingen. Burette, bagerglas, magnetomrører. Sæt streger på buretten og bagerglasset og skriv hvad der er i. 
+1. Lav en tabel i stil med den lidt længere nede hvori du kan skrive alle målinger og resultater
+1. Opstil formlerne, du skal bruge: $n = c \cdot V$ og $m = M \cdot n$. Hvad er M(NaCl)?
 
 ## Materialer og kemikalier
 
@@ -37,7 +34,7 @@ Ved at tilsætte en kendt koncentration af sølvnitrat fra en burette, indtil **
 - Vægt (2–3 decimaler), måleglas, pipette
 - Demineraliseret vand
 - **0,1 M sølvnitrat, AgNO₃** (standardiseret — notér præcis koncentration)
-- **Dichlorofluorescein-indikator** (opløsning)
+- **DCF: Dichlorofluorescein-indikator** (opløsning)
 - Prøver: småkager/kiks, chips, havvand (eller en kendt saltopløsning som kontrol)
 
 > ⚠️ **Sikkerhed:** Kittel og briller. **Sølvnitrat** misfarver hud, tøj og bordplade sort — vær omhyggelig. AgNO₃ er ætsende. Alt **sølvholdigt affald** samles i særskilt dunk (genvindes/bortskaffes korrekt — hældes IKKE i vasken).
@@ -61,7 +58,7 @@ Ved at tilsætte en kendt koncentration af sølvnitrat fra en burette, indtil **
 
 ### C) Salt i chips
 
-Som B), men afvej ca. 2–3 g knuste chips. *(Chips er ofte mere salte end kiks — forvent et større forbrug.)*
+Som B), men afvej ca. 2–3 g knuste chips. *(Chips er ofte noget mere salte end kiks - forvent et større forbrug.)*
 
 ### D) Salt i havvand
 
@@ -94,8 +91,20 @@ For hver prøve:
 4. Beregn saltindholdet:
    - For fødevarer: masseprocent salt (g salt pr. 100 g produkt).
    - For havvand: g salt pr. liter (husk fortyndingsfaktoren).
-5. Sammenlign med **varedeklarationen** ("salt: X g pr. 100 g"). Passer det? *(Bemærk: deklarationen angiver normalt salt = NaCl beregnet ud fra natrium.)*
+5. Sammenlign med **varedeklarationen** ("salt: X g pr. 100 g"). Passer det? *(Bemærk: deklarationenmed  angiver normalt salt = NaCl beregnet ud fra natrium.)*
 
+Afvigelsesprocenten beregnes efter følgende formel: 
+$$\text{Afvigelse} = \frac{m_{\text{teo}} - m_{\text{målt}}}{m_{\text{teo}}} \cdot 100\%$$
+
+## Resultattabel
+
+|Prøve|m(NaCl) forventet|m(NaCl) fundet|Afvigelse i procent| Kommentar  $\quad\quad \quad$ $\quad\quad \quad$    |
+|----|----|----|----|-----------------------|
+|Kontrol|||||
+|Småkage|||||
+|Chips|||||
+|Havvand|||||
+|Eget forsøg|||||
 
 ## Diskussion og konklusion
 

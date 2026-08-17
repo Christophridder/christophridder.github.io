@@ -39,22 +39,23 @@ Excel-fil:
 ---
 
 ## 2. Hent data ind og tjek, at det lykkedes
+(det sværeste her er at finde den mappe som jeres python fil ligger i. I prøvede det da vi lavede FFT med trompetlydfilen, det er desværre meget forskelligt fra computer til computer)
 
-Først importerer vi data og tegner det **rå** — før vi fitter noget. På den måde
-ser I med det samme, om importen gik godt (rigtig form, rigtige enheder).
+Først importerer I jeres data og tegner det **rå** — før vi fitter noget. På den måde
+ser man med det samme, om importen gik godt. 
 
 ```python
 import numpy as np
-import pandas as pd
+import pandas as pd #pandas får python til at læse excel filer
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
-# Modellen (samme som i Del 1)
+# Modellen (samme som i Del 1 vi vruger sin- funktionen)
 def svingning(t, A, omega, phi, C):
     return A * np.sin(omega * t + phi) + C
 
 # Hent data fra regnearket i samme mappe
-data = pd.read_excel("hookes.xlsx")
+data = pd.read_excel("hookes.xlsx") # ejg  har kaldt min fin hookes.xlsx 
 t = data.iloc[:, 0].to_numpy()    # kolonne A: tid     [s]
 y = data.iloc[:, 1].to_numpy()    # kolonne B: udsving [m]
 
@@ -63,7 +64,7 @@ plt.figure(figsize=(9, 5))
 plt.plot(t, y, ".", markersize=4, label="måledata")
 plt.xlabel("tid  t  [s]")
 plt.ylabel("udsving  y  [m]")
-plt.title("Rådata fra bevægelsessensoren")
+plt.title("Rådata fra loggerpro")
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.show()
@@ -78,8 +79,9 @@ hedder præcis `hookes.xlsx`.)
 ## 3. Gæt parametrene i hånden først
 
 Computeren skal bruge nogle **startgæt** for at finde det rigtige svar — især på
-$\omega$. Får den et dårligt gæt, kan den lande helt forkert. Heldigvis lærte I i
-Del 1 at aflæse parametrene på en graf. Aflæs dem på jeres tjek-graf ovenfor:
+$\omega$. Får den et dårligt gæt, kan den lande helt forkert.
+
+Brug lidt tid på det her nu: Find gode startværdier og tast dem ind under *dine startgæt* i python koden. 
 
 - **Amplitude:** $A \approx \dfrac{y_{\text{max}} - y_{\text{min}}}{2}$ — halvdelen
   af afstanden mellem top og bund.
