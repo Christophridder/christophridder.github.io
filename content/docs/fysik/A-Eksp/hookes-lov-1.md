@@ -222,6 +222,7 @@ bagefter), og skriv ned, hvad der sker:
 4. **Ligevægt:** sæt `C = 3.0`. Hvad sker der med hele kurven? Bemærk, at den
    stiplede ligevægtslinje følger med.
 
+
 ### Opgave om $\omega$ og $T$
 $\omega$ er vinkelfrekvensen: denne opgave er til for at forstå sammenhæng mellem $\omega$ og $T$
 
