@@ -238,12 +238,4 @@ For hver værdi: aflæs den omega, Python beregner, og udfyld tabellen.
 |4.0|		||
 
 
-
-Spørgsmål: Hvad bemærker du ved produktet 
-𝑇
-⋅
-𝜔
-T⋅ω i alle fire rækker? Kan du forklare hvorfor det altid bliver den samme værdi — og hvad den værdi egentlig er (tip: hvor mange radianer er der i én hel omgang af enhedscirklen)?
----
-
 *Næste del: dæmpede svingninger + fit af jeres egne data fra bevægelsessensoren.*
