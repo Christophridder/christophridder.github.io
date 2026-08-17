@@ -9,9 +9,17 @@ permissions:
   pages: write
   id-token: write
 
+# Kun én deployment ad gangen. Hvis et nyt push kommer ind mens et gammelt
+# stadig kører (eller hænger), annulleres det gamle automatisk i stedet for
+# at spærre for alt, der kommer efter.
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,6 +41,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    timeout-minutes: 5
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
