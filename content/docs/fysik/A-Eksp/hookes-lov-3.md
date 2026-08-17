@@ -7,19 +7,18 @@ draft: false
 # Del 3 — Dæmpede svingninger
 
 Hvis I kigger på *hele* jeres måling fra Del 2 — ikke kun de første perioder —
-opdager I, at svingningen langsomt bliver mindre. Loddet svinger ikke for evigt.
-I denne sidste del bygger vi det ind i modellen.
+opdager I, at svingningen langsomt bliver mindre. For nogle, hvis I har valgt en stærk fjeder og et tungt lod kan det svinge i meget langt tid. 
+ 
+Nu prøver vi at bygge dæmpningen på teoretisk.
 
----
 
 ## 1. Hvorfor dør svingningen ud?
 
 Den udæmpede model $y = A \cdot \sin(\omega t + \varphi) + C$ svinger med **konstant**
 amplitude $A$ — den stopper aldrig. Men i virkeligheden taber loddet energi til
 luftmodstand og gnidning, og udsvinget skrumper for hver tur. Amplituden er altså
-ikke længere en konstant — den **aftager med tiden**.
+ikke længere en konstant — den **aftager med tiden**. $A \rightarrow A(t)$
 
----
 
 ## 2. Vi postulerer en løsning
 
@@ -31,26 +30,23 @@ $$y(t) = A \cdot e^{-\beta t} \cdot \sin(\omega t + \varphi) + C$$
 
 - $A \cdot \sin(\omega t + \varphi) + C$ er den velkendte svingning fra Del 1.
 - $e^{-\beta t}$ er en **aftagende faktor**: ved $t=0$ er den $1$, og derefter falder
-  den mod $0$. Den klemmer langsomt svingningen sammen.
+  den mod $0$. Den dæmper langsomt svingningen. 
 
-Den nye størrelse er $\beta$.
+Den nye størrelse er derfor $\beta$.
 
----
 
 ## 3. Dæmpningskonstanten β
 
 $\beta$ kaldes **dæmpningskonstanten**. Den har enheden $[\text{s}^{-1}]$ (så
-produktet $\beta t$ bliver et rent tal).
+produktet $\beta t$ bliver et tal uden enhed).
 
 ### Indhyllingskurven
 
-Selve svingningen vipper op og ned mellem to "vægge", der langsomt nærmer sig
+Selve svingningen vipper op og ned mellem to "kurver", der langsomt nærmer sig
 hinanden:
 
 $$\text{indhyllingskurve:}\qquad \pm A \cdot e^{-\beta t}$$
 
-Det er den kasse, svingningen bliver klemt sammen i. Jo større $\beta$, jo
-hurtigere lukker kassen sig.
 
 ### To måder at beskrive, hvor hurtigt det dør ud
 
@@ -58,10 +54,13 @@ hurtigere lukker kassen sig.
   faldet til $1/e \approx 37\%$ af starten.
 - **Halveringstiden** $t_{1/2} = \dfrac{\ln 2}{\beta}$: tiden, det tager, før
   amplituden er **halveret**. For hver $t_{1/2}$ halveres udsvinget igen.
+ 
+Vi bruger **halveringstiden** selvom **$\tau$** er mere normalt hvis I kikker i litteraturen. 
+Halveringstiden kender vi fra henfaldskonstanten i radiaktiv henfald. 
 
-### Den fine analogi: radioaktivt henfald
+### Lige som radioaktivt henfald
 
-Genkender I matematikken? Det er **præcis** samme form som henfaldsloven fra
+Det er **præcis** samme matematiske form som henfaldsloven fra
 kernefysik:
 
 $$N(t) = N_0 \cdot e^{-\lambda t}, \qquad T_{1/2} = \frac{\ln 2}{\lambda}$$
@@ -71,7 +70,7 @@ kerner — dæmpningskonstanten $\beta$ spiller nøjagtig samme rolle som
 henfaldskonstanten $\lambda$. Det er samme differentialligning, der gemmer sig bag
 begge.
 
-> **For de skarpe (kan springes over):**
+> **For dem der vil skrive SRP i sådan noget resten kan springes det over:**
 >
 > - **Energien** dør ud dobbelt så hurtigt som amplituden, fordi energi går som
 >   amplitude i anden: $E \propto e^{-2\beta t}$. Energiens halveringstid er derfor
@@ -81,13 +80,20 @@ begge.
 >   Ved svag dæmpning ($\beta \ll \omega_0$) er forskellen forsvindende lille, så vi
 >   kalder den bare $\omega$ i modellen.
 
----
-
 ## 4. Leg med dæmpningen i Python
+Tjek lige funktionen først : 
+```python
+
+# Den dæmpede svingningsfunktion
+def daempet_svingning(t, A, beta, omega, phi, C):
+    return A * np.exp(-beta * t) * np.sin(omega * t + phi) + C
+
+```
+start lige med at matche den til 
+$$y(t) = A \cdot e^{-\beta t} \cdot \sin(\omega t + \varphi) + C$$
 
 Som i Del 1 skruer I på parametrene og ser, hvad der sker — nu med $\beta$ som ny
-knap. Vi tegner også **indhyllingskurven** med, så I tydeligt ser kassen, der lukker
-sig:
+knap. Vi tegner også **indhyllingskurven** med.
 
 ```python
 import numpy as np
@@ -207,15 +213,10 @@ plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
----
+## 6. Til afleveringen
 
-## 6. Til refleksion
-
-- **Sammenlign** $\omega$ fra det dæmpede fit med $\omega$ fra Del 2. De ligger
-  meget tæt — dæmpningen ændrer næsten ikke frekvensen, kun amplituden.
-- **Halveringstiden** I lige har fittet: passer den med, hvad I ser på grafen?
+1. Sæt figuren fra dit fit ind i afleveringen gør det tydeligt hvad $\beta$ er og diskutér dens værdi. 
+1. **Sammenlign** $\omega$ fra det dæmpede fit med $\omega$ fra Del 2. de burde ligge
+  meget tæt — dæmpningen ændrer næsten ikke frekvensen, kun amplituden. Kan du eftervise dette?
+1. **Halveringstiden** I lige har fittet: passer den med, hvad I ser på grafen?
   Find et sted, hvor toppene er halveret, og tjek tiden.
-- **Den store sammenhæng:** I har nu beskrevet en helt almindelig fjedersvingning
-  med fem tal — og opdaget, at amplituden dør ud efter *samme* lov som radioaktive
-  kerner. Samme matematik, to vidt forskellige fænomener. Det er dér, fysikken
-  bliver smuk.

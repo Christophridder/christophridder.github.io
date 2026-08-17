@@ -199,7 +199,8 @@ plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-### Prøv selv
+### Prøv selv 
+## TABEL 1 til aflevering
 >**Lav en wordfil hvori du afrapporterer nedenstående**
 Sæt screenshots ind af ændringen af de 4 variabler ind i en tabel, lidt som her nedenunder: 
 $A, \omega, \varphi , C$
@@ -224,6 +225,7 @@ bagefter), og skriv ned, hvad der sker:
 
 
 ### Opgave om $\omega$ og $T$
+## TABEL 2 til aflevering
 $\omega$ er vinkelfrekvensen: denne opgave er til for at forstå sammenhæng mellem $\omega$ og $T$
 
 Prøv at sætte $T = 0.5s$, $T = 2.0s$ og $T = 4.0s$ 

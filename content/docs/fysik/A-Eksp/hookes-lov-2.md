@@ -10,6 +10,8 @@ I Del 1 legede I med modellen og fandt ud af, hvad de fire parametre gør. Nu
 vender vi det om: I har optaget en rigtig svingning med bevægelsessensoren, og så
 lader vi computeren finde de fire parametre, der passer bedst til **jeres** data.
 
+Den svingning I har optaget er en dæmpet svingning, måske med et lille lod eller et stykke pap for at få dæmpning på. Vi kan godt bruge de første svingninger af den dæmpede som udæmpet. 
+
 Vi bliver på den **udæmpede** model og bruger kun de første få perioder, hvor
 svingningen næsten ikke er aftaget endnu:
 
@@ -32,11 +34,7 @@ Excel-fil:
 4. Vælg **Gem som** → filtype **Excel-projektmappe (.xlsx)** → navngiv den
    `hookes.xlsx`, og gem den i **samme mappe** som jeres Python-fil.
 
-> **Bonus ved Excel-vejen:** når tal ligger i et rigtigt regneark, gemmes de som
-> *tal* — ikke tekst. Så slipper I for besværet med dansk decimalkomma, som ellers
-> driller, når man klistrer rå tekst ind.
-
----
+Hav lige øje på om det kommer over med komma eller punktum. Hvis loggerpro kommer med punktum skal I lige omkring word for at erstatte . med ,
 
 ## 2. Hent data ind og tjek, at det lykkedes
 (det sværeste her er at finde den mappe som jeres python fil ligger i. I prøvede det da vi lavede FFT med trompetlydfilen, det er desværre meget forskelligt fra computer til computer)
@@ -69,12 +67,26 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 plt.show()
 ```
+Læg mærke til de her to linjer 
+```pyton
+t = data.iloc[:, 0].to_numpy()    # kolonne A: tid     [s]
+y = data.iloc[:, 1].to_numpy()    # kolonne B: udsving [m]
 
-Ser grafen ud som en pæn svingning? Godt — så er importen i orden. (Ser den
+```
+[:, 0] betyder at python tager den første kolonne i din excelfil. [:. 1] tager den anden så tjek lige din excel fil om alle data ligger som de skal. 
+
+Så hvisgrafen ser ud som en pæn svingning så er importen i orden. (Ser den
 mærkelig ud, så tjek at tid er i kolonne A, udsving i kolonne B, og at filen
-hedder præcis `hookes.xlsx`.)
+hedder præcis `hookes.xlsx` og ligger i samme mappe som din python fil.)
 
 ---
+## Fit af data 
+Nu skal vi prøve at fitte disse data. Det er ikke helt simpelt da det ikke bare er en ret linje. Vi skal 
+- bestemme hvilket fitteprogram vi vil bruge (curve fit fra scipy.optimize)
+- definere fittefunktionen (y = Asin(omega t + phi) + C)
+- sætte nogle startgæt (næste afsnit)
+- lade programmet finde den bedste funktion
+- aflæse og tolke på de data der kom ud af de. 
 
 ## 3. Gæt parametrene i hånden først
 
@@ -158,14 +170,7 @@ plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-> **Lille note om fasen $\varphi$:** den kan godt komme ud som et "skævt" tal —
-> fx negativt eller større end $2\pi$. Det er helt fint: $\varphi$ og
-> $\varphi + 2\pi$ giver præcis samme kurve. To grupper med samme svingning kan
-> derfor få forskellige $\varphi$-tal — uden at nogen har regnet forkert.
-
----
-
-## 5. Luk sløjfen — passer fysikken?
+## 5. Tjek fit og teori 
 
 Det fede er nu, at I kan tjekke jeres fit mod teorien fra Del 1. Der fandt vi
 
