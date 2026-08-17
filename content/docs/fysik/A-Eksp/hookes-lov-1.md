@@ -168,6 +168,10 @@ omega = 2*np.pi/T    # prøv fx 2.0
 phi   = 0.0          # prøv fx np.pi/2
 C     = 0.0          # prøv fx 3.0
 
+# printe omega 
+print(f'omega_ref = {omega_ref:.3f}  rad/s')
+print(f'omega = {omega:.3f} rad/s')
+
 # Tidsakse: 0 til 20 sekunder, 1000 punkter
 t = np.linspace(0, 10, 1000)
 
@@ -197,6 +201,14 @@ plt.show()
 
 ### Prøv selv
 >**Lav en wordfil hvori du afrapporterer nedenstående**
+Sæt screenshots ind af ændringen af de 4 variabler ind i en tabel, lidt som her nedenunder: 
+$A, \omega, \varphi , C$
+|variabel|reference screenshot 1 | variations screenshot 2| kommentar| 
+|---|---|---|---|
+|A||||
+|$\omega$||||
+|$\varphi$||||
+|C|||C er en slags $y_0$-værdi som skubber hele funktionen op og ned af $y$-aksen|
 
 Ændr **kun én** parameter ad gangen (sæt de andre tilbage til reference-værdien
 bagefter), og skriv ned, hvad der sker:
@@ -210,9 +222,25 @@ bagefter), og skriv ned, hvad der sker:
 4. **Ligevægt:** sæt `C = 3.0`. Hvad sker der med hele kurven? Bemærk, at den
    stiplede ligevægtslinje følger med.
 
-> **Spørgsmål til sidst:** Hvilke af de fire parametre ændrer på *formen* af
-> svingningen, og hvilke flytter den bare rundt uden at ændre formen?
+### Opgave om $\omega$ og $T$
+$\omega$ er vinkelfrekvensen: denne opgave er til for at forstå sammenhæng mellem $\omega$ og $T$
 
+Prøv at sætte $T = 0.5s$, $T = 2.0s$ og $T = 4.0s$ 
+
+For hver værdi: aflæs den omega, Python beregner, og udfyld tabellen.
+
+|T [s]	|ω [rad/s]|	$T\cdot \omega$ |
+|---|---|---|
+|0.5|	||	
+|1.0|	6.283||	
+|2.0|		||
+|4.0|		||
+
+Spørgsmål: Hvad bemærker du ved produktet 
+𝑇
+⋅
+𝜔
+T⋅ω i alle fire rækker? Kan du forklare hvorfor det altid bliver den samme værdi — og hvad den værdi egentlig er (tip: hvor mange radianer er der i én hel omgang af enhedscirklen)?
 ---
 
 *Næste del: dæmpede svingninger + fit af jeres egne data fra bevægelsessensoren.*
