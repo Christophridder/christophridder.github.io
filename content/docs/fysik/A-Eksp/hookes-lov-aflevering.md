@@ -1,0 +1,52 @@
+---
+title: "Hookes aflevering" 
+date: 2026-06-11
+draft: false
+weight: 9
+---
+
+## Aflevering til Hookes lov
+### Individuel aflevering i word
+Vi bruger filerne 
+- [Hookes-lov-0]({{< relref "hookes-lov-0" >}}) som omhandler intro
+- [Hookes-lov-1]({{< relref "hookes-lov-1" >}}) omhandler sinus funktionen og dens afledte
+- [Hookes-lov-2]({{< relref "hookes-lov-2" >}}) omhandler den udæmpede svingning
+- [Hookes-lov-3]({{< relref "hookes-lov-3" >}}) omhandler den dæmpede svingning
+
+Jeg er interesseret i at I forstår betydningen af de fire parametre i sinusfunktionen $A,\omega, \varphi,  C$ at I forstår ideen bag differentialligningen uden at forstår hvordan man løser sådanne generelt, det er alt for kompliceret. 
+
+
+### Intro
+
+1. sæt et billede af opstillingen ind, lav en tegning med forklaringer
+1. lav en tabel med to kolonner hvor du til venstre sætter et screenshot fra din loggerpro ind som viser den dæmpede svingning og til højre dit passende python plot
+1. kommenter alle figurer
+
+### Teori
+Vis følgende ting: 
+1. forklar Hookes lov helt overordnet her kan du bruge fysikbogen. Brug en tegning med en fjeder.  
+1. hvordan man løser ligningen $\ddot{y} = -\omega^2\cdot y$ med funktionen $y = A\cdot sin(\omega t + \varphi) + C $
+1. hvordan man via kraftligningen for hookes lov fra fysikbogen kan vise at $\omega^2 = \frac{k}{m}$
+
+Nu springer vi helt til resultater og konklusion. Journalen skal være kort og kun indeholde de vigigste ting. 
+
+### Resultater 1 uden dæmpning
+1. brug [Hookes-lov-2]({{< relref "hookes-lov-2" >}}) og find de 4 parametre som du skriver op i en tabel med de rigtige enheder. 
+1. I har målt fjederkonstanten før, så brug nu sammenhængen mellem $\omega, k, m$ til at finde $k$ fra dine regressionsdata og sammenlign med fjederkonstanten som i bestemte i første modul hvor I lavede et lille regneark med lineær regression. (4-5 masser på fjederen, hvor i målte udsvinget)
+1. regn afvigelsesprocenten ud hvor den førstmålte er din teoretiske værdi. Kommentér kort på resultatet. 
+
+### Resultater 2 med dæmpning
+Her skal I bruge [Hookes-lov-3]({{< relref "hookes-lov-3" >}}). I skal **ikke** løse differentialligningen her. Bare vis billedet af den dæmpede svingning og vis alle konstanter fra formlen :  
+
+$$y(t) = A \cdot e^{-\beta t} \cdot \sin(\omega t + \varphi) + C$$
+
+I en lille tabel hvor du kort diskuterer især $\beta$- værdien som dæmpningsfaktor. 
+
+Find halveringstiden $T_{\frac{1}{2}} = \frac{log(2)}{\beta}$ 
+
+(i python programmet hedder den: **t_halv** = np.log(2) / beta)
+
+For meget dæmpede svingninger forandrer $\omega$ sig en lille smule. Kan du måle det? 
+
+
+**That's it**

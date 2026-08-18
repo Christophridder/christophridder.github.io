@@ -2,6 +2,7 @@
 title: "Hookes lov 2"
 date: 2026-06-11
 draft: false
+weight: 4
 ---
 
 # Del 2 — Fit jeres egne data
@@ -190,9 +191,9 @@ print(f"omega (teori) = {omega_teori:.4f} rad/s")
 print(f"omega (fit)   = {omega_fit:.4f} ± {domega:.4f} rad/s")
 ```
 
-Stemmer de to tal inden for usikkerheden, har I lukket sløjfen hele vejen rundt:
+Stemmer de to tal inden for usikkerheden, så er det jo helt fantastisk :-) 
 fra **kraftloven** ($F = -k \cdot (y-C)$), gennem **differentialligningen**, til
-**jeres egne målinger**. Så er det rigtig fysik — ikke bare en pæn kurve.
+**jeres egne målinger**. FEDT!
 
 ---
 

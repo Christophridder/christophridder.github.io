@@ -7,7 +7,7 @@ moduler:
   - nr: 1
     dato: 2026-08-11
     emne: Introduktion til kræfter + Hookes lov
-    forloeb: Kræfter
+    forloeb: Kræfter og svingninger
     materialer: [hookes-lov-1]
     lektier: "Ingen lektier"
     maal: [Kraftbegreb, Fjederkonstant]
@@ -15,23 +15,23 @@ moduler:
   - nr: 2
     dato: 2026-08-17
     emne: Introduktion til kræfter + Hookes lov
-    forloeb: Kræfter
+    forloeb: Kræfter og svingninger
     materialer: [hookes-lov-1]
     lektier: "Arbejde med pythonfilen og variér A, omega, phi og C læs om hookes lov i bogen"
     maal: [At forstå hookes lov og differantialligningen]
-    kommentar: "Tjekker installation af python"
+    kommentar: "De fleste har styr på logistikken og vi lavede eksperient med dæmpet svingning"
   - nr: 3
-    dato: 2026-08-18
+    dato: 2026-08-20
     emne: Hookes lov
-    forloeb: Kræfter
+    forloeb: Kræfter og svingninger
     materialer: [hookes-lov-3]
-    lektier: "Færdiggør journal"
-    kommentar: "Eksperiment med dæmpet svingning"
-    maal: [Dataopsamling, Ikke Lineær sammenhæng, dæmpet svingning]
+    lektier: "Brug hookes-lov-2 og 3 til at komme i gang med den dæmpede svigning"
+    kommentar: "Analyse af Eksperiment med dæmpet svingning"
+    maal: [At forstå at dæmpningsfaktoren bare kan ganges på]
   - nr: 4
-    dato: 2026-08-18
-    emne: Ved ikke endnu
-    forloeb: Kræfter
+    dato: 2026-08-24
+    emne: Svingning med pendul
+    forloeb: Kræfter og svingninger
     materialer: [hookes-lov-3]
     lektier: "Færdiggør journal"
     kommentar: "Eksperiment med dæmpet svingning"

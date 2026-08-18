@@ -1,6 +1,6 @@
 ---
-Title: "Intro til Hookes lov"
-weight: 1
+title: "Hookes lov intro"
+weight: 2
 ---
 
 **Hookes lov Intro**

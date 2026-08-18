@@ -22,7 +22,7 @@ moduler:
     maal: [Elektronprikformler i bund. Fint for chlorid og ammonium svært for nitrat]
 
   - nr: 3
-    dato: 2026-08-16
+    dato: 2026-08-20
     emne: "ioner"
     forloeb: "Repetition fra 1g"
     materialer: [salt-i-ting]
@@ -31,10 +31,10 @@ moduler:
     kommentar: "Der er mange målinger så får fart på"
 
   - nr: 4
-    dato: 2026-08-16
+    dato: 2026-08-24
     emne: "ioner"
     forloeb: "Repetition fra 1g"
     materialer: [salt-i-ting]
-    lektier: "Øvelsesvejledningen"
-    maal: [Rapportskrivning]
+    lektier: "Øvelsesvejledningen og journalskrivning"
+    maal: [journalskrivning]
     kommentar: " lad os se"
