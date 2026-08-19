@@ -1,8 +1,8 @@
 ---
 title: "Hookes lov 1"
 date: 2026-06-11
-draft: false
 weight: 3
+draft: false
 ---
 
 # Harmonisk oscillator

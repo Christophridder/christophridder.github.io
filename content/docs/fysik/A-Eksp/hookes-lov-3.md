@@ -1,6 +1,7 @@
 ---
 title: "Hookes lov 3" 
 date: 2026-06-11
+weight: 5
 draft: false
 ---
 

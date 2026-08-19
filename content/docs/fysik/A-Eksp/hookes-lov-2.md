@@ -1,8 +1,8 @@
 ---
 title: "Hookes lov 2"
 date: 2026-06-11
-draft: false
 weight: 4
+draft: false
 ---
 
 # Del 2 — Fit jeres egne data
