@@ -43,12 +43,20 @@ Ved at tilsætte en kendt koncentration af sølvnitrat fra en burette, indtil **
 ## Udførelse
 
 ### A) Kontrolforsøg 
+Til kontrolforsøget skal der laves en fortynding. Vi går efter at vi skal bruge 10mL Sølvnitratopløsning. 
 
-1. Afvej nøjagtigt en kendt mængde rent NaCl (fx 0,10 g), opløs i ca. 50 mL demineraliseret vand i en konisk kolbe.
-2. Tilsæt 5–8 dråber dichlorofluorescein-indikator.
+$$V(AgNO_{3}) = 10mL \rightarrow n(AgNO_{3}) = 0.01mL \cdot 0.1\frac{mol}{L} = 0.001mol$$
+Fordi sølv og chloridionen reagerer en til en kan vi sige
+$$ n(AgNO_{3}) = n(NaCl)$$
+$$ m(NaCl) = 0.001mol \cdot 58.44\frac{g}{mol} = 0.005844g$$
+
+Man kan ikke afveje så lidt en mængde så vi laver en fortynding: 
+
+1. Afvej nøjagtigt 0.5844g NaCl og opløs i en 100mL målekolbe
+2. Tilsæt 4 dråber DCF -indikator.
 3. Titrér med 0,1 M AgNO₃ under omrøring, indtil bundfaldet skifter fra grøngult til svagt lyserødt. Notér forbruget.
-4. Beregn det fundne saltindhold, og find din **afvigelsesprocent** i forhold til den afvejede mængde. Så ved du, hvor god din metode er.
-
+4. Du skulle jo gerne ramme ca 10mL. Lav forsøget to gang, tag gennemsnit og beregn afvigelsesprocenten fra de 10mL som det *burde* være. 
+$$ afvigelse =\frac{10mL - V_{målt}}{10mL} \cdot 100\%$$
 ### B) Salt i småkager / kiks
 
 1. Knus og afvej nøjagtigt ca. 2–5 g småkage, og overfør til en konisk kolbe.
