@@ -1,6 +1,6 @@
 ---
 title: "Opløselighedstabel"
-weight: 11
+weight: 14
 ---
 
 # Opløselighed af salte i vand

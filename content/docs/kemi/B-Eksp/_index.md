@@ -1,7 +1,7 @@
 ---
 title: Eksperimenter B
 bookCollapseSection: true
-weight: 3
+weight: 12
 ---
 
 |Nr.|Eksperiment|Emne|
