@@ -1,6 +1,7 @@
 ---
 title: "Substitution i heptan"
 weight: 50
+pdf: "pdfs/heptan.pdf"
 ---
 
 **Niveau:** Kemi C (1g) · **Emne:** Organisk kemi — alkaner og fotokemisk substitution

@@ -1,0 +1,7 @@
+{{ with .Params.pdf }}
+<div class="pdf-download-bar">
+  <a class="pdf-download-btn" href="{{ . | relURL }}" download>
+    <span class="pdf-download-icon">&#8681;</span> Download PDF
+  </a>
+</div>
+{{ end }}

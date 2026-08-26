@@ -1,6 +1,7 @@
 ---
 title: "Jern i ståluld"
 weight: 90
+pdf: "pdfs/staaluld.pdf"
 ---
 
 **Niveau:** Kemi C → B · **Emne:** Redox, titrering, masseprocent

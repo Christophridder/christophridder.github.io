@@ -1,6 +1,7 @@
 ---
 title: "Opvarmning af Natrons "
 weight: 40
+pdf: "pdfs/nahco3.pdf"
 ---
 
 **Niveau:** Kemi C · **Emne:** Mængdeberegninger (reaktionsskemaer, molarmasse, udbytte)

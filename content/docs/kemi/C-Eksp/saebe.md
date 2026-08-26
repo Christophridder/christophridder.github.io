@@ -1,6 +1,7 @@
 ---
 title: "Sæbe"
 weight: 60
+pdf: "pdfs/saebe.pdf"
 ---
 
 **Niveau:** Kemi C · **Emne:** Organisk kemi — estere, forsæbning, hydrofil/hydrofob

@@ -1,6 +1,7 @@
 ---
 title: "Salt i ting "
 weight: 30
+pdf: "pdfs/salt-i-ting.pdf"
 ---
 
 **Niveau:** Kemi C · **Emne:** Ioner, fældningsreaktioner og titrering (argentometri)

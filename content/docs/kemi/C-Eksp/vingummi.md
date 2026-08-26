@@ -1,6 +1,7 @@
 ---
 title: "Syre i vingummibamser"
 weight: 70
+pdf: "pdfs/vingummi.pdf"
 ---
 
 **Niveau:** Kemi C · **Emne:** Syre-base, titrering, masseprocent

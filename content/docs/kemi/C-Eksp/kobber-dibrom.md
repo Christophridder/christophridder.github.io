@@ -1,6 +1,7 @@
 ---
 title: "Kobber og dibrom"
 weight: 10
+pdf: "pdfs/kobber-dibrom.pdf"
 ---
 
 **Niveau:** Kemi C · **Emne:** Atomer, ioner og simpel redox (elektronoverførsel)

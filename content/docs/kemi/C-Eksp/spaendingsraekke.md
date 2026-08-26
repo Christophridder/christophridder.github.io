@@ -1,6 +1,7 @@
 ---
 title: "Spændingsrækken"
 weight: 80
+pdf: "pdfs/spaendingsraekke.pdf"
 ---
 
 **Niveau:** Kemi C · **Emne:** Redox — elektronoverførsel

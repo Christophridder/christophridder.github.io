@@ -1,6 +1,7 @@
 ---
 title: "Fældningsreaktioner"
 weight: 20
+pdf: "pdfs/faeldning.pdf"
 ---
 
 **Niveau:** Kemi C · **Emne:** Ioner og opløselighed
