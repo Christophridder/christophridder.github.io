@@ -22,7 +22,7 @@ $$\ln(x) = a \iff e^a = x \qquad (e \approx 2{,}718)$$
 | Regel         | Formel                                               | Eksempel                                                    |
 |---------------|------------------------------------------------------|-------------------------------------------------------------|
 | **Produktregel**  | $\log(a \cdot b) = \log(a) + \log(b)$                | $\log(100 \cdot 1000) = \log(100) + \log(1000) = 2 + 3 = 5$ |
-| **Kvotientregel** | $\log!\left(\dfrac{a}{b}\right) = \log(a) - \log(b)$ | $\log!\left(\dfrac{1000}{10}\right) = 3 - 1 = 2$            |
+| **Kvotientregel** | $\log\left(\dfrac{a}{b}\right) = \log(a) - \log(b)$ | $\log\left(\dfrac{1000}{10}\right) = 3 - 1 = 2$            |
 | **Potensregel**   | $\log(a^n) = n \cdot \log(a)$                        | $\log(10^5) = 5 \cdot \log(10) = 5$                         |
 | **Log af 1**      | $\log(1) = 0$                                        | $\ln(1) = 0$                                                |
 | **Log af basen**  | $\log(10) = 1$                                       | $\ln(e) = 1$                                                |
@@ -33,7 +33,7 @@ $$\ln(x) = a \iff e^a = x \qquad (e \approx 2{,}718)$$
 
 $$A = A_0 \cdot e^{-\lambda t} \implies t = \frac{\ln!\left(\dfrac{A_0}{A}\right)}{\lambda}$$
 
-$$N = N_0 \cdot 10^{k t} \implies t = \frac{\log!\left(\dfrac{N}{N_0}\right)}{k}$$
+$$N = N_0 \cdot 10^{k t} \implies t = \frac{\log\left(\dfrac{N}{N_0}\right)}{k}$$
 
 ---
 
@@ -66,7 +66,7 @@ $$\log(100 \cdot 10^5)$$
 ### Opgave 3
 
 Beregn uden lommeregner:
-$$\log!\left(\frac{10^8}{10^3}\right)$$
+$$\log\left(\frac{10^8}{10^3}\right)$$
 
 **Svar:** \_____\_
 
@@ -84,7 +84,7 @@ $$\ln(e^{4})$$
 ### Opgave 5
 
 Beregn uden lommeregner:
-$$\ln!\left(\frac{1}{e^3}\right)$$
+$$\ln\left(\frac{1}{e^3}\right)$$
 
 **Svar:** \_____\_
 
@@ -168,7 +168,7 @@ Et stof har $A_0 = 800$ Bq og $\lambda = 0{,}035 \ \text{s}^{-1}$.
 ### Opgave 12 — Lydstyrke i decibel
 
 Lydstyrken i decibel er defineret som:
-$$L = 10 \cdot \log!\left(\frac{I}{I_0}\right) \quad \text{dB}$$
+$$L = 10 \cdot \log\left(\frac{I}{I_0}\right) \quad \text{dB}$$
 
 hvor $I_0 = 10^{-12} \ \text{W/m}^2$ er høregrænsen.
 
@@ -221,7 +221,7 @@ hvor $[\text{H}^+]$ er koncentrationen af H⁺-ioner i mol/L.
 ### Opgave 15 — Jordskælv og Richterskalaen
 
 Richterskalaen er logaritmisk:
-$$M = \log!\left(\frac{A}{A_0}\right)$$
+$$M = \log\left(\frac{A}{A_0}\right)$$
 
 Et jordskælv måles til $M = 6{,}0$. Et andet måles til $M = 8{,}0$.
 
