@@ -5,7 +5,7 @@ weight: 3
 
 # Differentiation i Python — til Fysik A
 
-Differentiation er "hvor stejl er grafen?" — altså hældningen. I fysik er det fx **fart fra en position-tid-graf** eller **acceleration fra en fart-tid-graf**. Find din situation og hop til den rigtige snippet.
+Differentiation  finder hældningen af en graf eller funktion i et bestemt punkt eller som en funktion for hele udtrykket. Altså lidt i retning af "hvor stejl er grafen?". Har man fx en graf, eller nogle målinger der viser **position som funktion af tid** $s(t)$ så vil hældningen af denne graf $\frac{d(s(t))}{dt} = s'(t) = v(t)$  
 
 | Din situation | Eksempel | Værktøj | Funktion |
 | --- | --- | --- | --- |
@@ -13,13 +13,10 @@ Differentiation er "hvor stejl er grafen?" — altså hældningen. I fysik er de
 | Du har en **kendt funktion** $f(x)$ | $f'(x)$ i et punkt | SciPy | `differentiate.derivative` |
 | Du vil have en **afledt funktion** (en formel) | $\frac{d}{dx}x^3 = 3x^2$ | SymPy | `diff` (nederst) |
 
-> **Bemærk (opdatering 2024–):** I gamle vejledninger ser du `scipy.misc.derivative`. Den er **fjernet** (hele `scipy.misc` er på vej ud). Brug i stedet `scipy.differentiate.derivative` til kendte funktioner, og `np.gradient` til måledata.
 
----
-
-## 1. Måledata: `np.gradient` (integral over eksperimentelle data)
-
-Du har sjældent en formel — du har en **måletabel**. `np.gradient` finder hældningen i hvert punkt med centraldifferenser:
+## 1. Måledata: `np.gradient` 
+Du har optaget data med loggerpro eller på en anden måde og du har dem som to talrækker i et regneark fx y(x) s(t) F(x) eller whatever. 
+`np.gradient` finder hældningen i hvert punkt med centraldifferenser:
 
 $$\frac{dy}{dx} \approx \frac{y_{i+1} - y_{i-1}}{x_{i+1} - x_{i-1}}$$
 
@@ -33,7 +30,7 @@ t = np.array([0, 1, 2, 3, 4, 5])         # fx tid i s
 s = np.array([0, 2, 8, 18, 32, 50])      # fx position i m
 
 v = np.gradient(s, t)                    # differentier s med hensyn til t 
-print(v)                                   # hældning (fart) i hvert punkt
+print(f'v = {v} i m/s ')  # hældning (fart) i hvert punkt
 ```
 
 `np.gradient(y, x)` kræver **ikke** lige store skridt — perfekt til rigtige målinger.
@@ -57,18 +54,23 @@ Alt herunder er "hældning af en graf" og løses med præcis samme kode:
 
 ## 2. Acceleration: differentiér to gange
 
-Acceleration er den anden afledede af positionen. Kør bare `np.gradient` to gange:
+Acceleration er den anden afledede af positionen. Kør bare `np.gradient` to gange.
+Data $s(t)$ er rigtige data optaget med loggerpro. Se her hvordan du nemt kan differentiere dem to gange med numpys gratients rutine *np.gradients* den virker klart bedst i midten fordi der har den flere data omkring punktet som dem kan arbejde med. Enderne vil altid drille !!
 
 ```python
 import numpy as np
+import matplotlib.pyplot as plt
+plt.rcParams["figure.figsize"] = (6, 2) # laver plottet lidt smallere
 
-t = np.linspace(0, 5, 11)
-x = 3 + 2*t + 0.5*9.82*t**2               # målt position
+t = np.array([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50])
+s = np.array([0.032,0.045,0.097,0.165,0.256,0.377,0.514,0.684,0.884,1.091,1.334])
 
-v = np.gradient(x, t)                      # fart
-a = np.gradient(v, t)                      # acceleration
+v = np.gradient(s, t)
+a = np.gradient(v, t)
 
-print(f"Acceleration (midten) ≈ {a[5]:.3g} m/s²")   # ≈ 9,82
+plt.scatter(t, s);     plt.xlabel("t / s"); plt.ylabel("s / m");      plt.show()
+plt.scatter(t, v);  plt.xlabel("t / s"); plt.ylabel("v / (m/s)");  plt.show()
+plt.scatter(t, a);  plt.xlabel("t / s"); plt.ylabel("a / (m/s²)"); plt.show()
 ```
 
 ---
@@ -139,8 +141,8 @@ plt.show()
 ---
 
 ## Appendiks: SymPy — symbolsk differentiation
-
-> Bruger du i praksis sjældent. Tag det med her, hvis du har brug for en **formel** for den afledede frem for et tal.
+Jeg bruger aldrig det her !!! 
+SymPy er pythons måde at lave symbolske beregninger som **Mapel** eller **Matcad**. Mere interessant for matematik end fysik eller kemi. 
 
 ```python
 from sympy import symbols, diff

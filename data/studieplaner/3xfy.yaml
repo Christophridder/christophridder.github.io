@@ -36,3 +36,19 @@ moduler:
     lektier: "Færdiggør journal"
     kommentar: "Eksperiment med dæmpet svingning vejledning i rapportskrivning og film om hookes lov."
     maal: [Dataopsamling, Ikke Lineær sammenhæng, dæmpet svingning ]
+  - nr: 5
+    dato: 2026-09-14
+    emne: Skrå kast
+    forloeb: Mekanik
+    materialer: [skraat-kast-2d]
+    lektier: "Læs side 585 i fysikABbogen"
+    kommentar: "Læs siden og skriv 3 spørgsmål i elevfeedback"
+    maal: [Samle op på mekanik]
+  - nr: 6
+    dato: 2026-09-15
+    emne: Skrå kast
+    forloeb: Mekanik
+    materialer: [skraat-kast-2d]
+    lektier: "Læs side 585 i fysikABbogen"
+    kommentar: "Vi laver forsøg med videoanalyse"
+    maal: [At forstå uafhængighedsprincippet]

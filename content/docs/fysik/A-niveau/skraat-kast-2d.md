@@ -1,5 +1,5 @@
 ---
-title: "Skråt kast – bevægelse i to dimensioner"
+title: "Skråt kast"
 weight: 2
 ---
 

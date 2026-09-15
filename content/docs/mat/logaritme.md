@@ -31,7 +31,7 @@ $$\ln(x) = a \iff e^a = x \qquad (e \approx 2{,}718)$$
 
 ### Isolering af eksponent — bruges meget i fysik!
 
-$$A = A_0 \cdot e^{-\lambda t} \implies t = \frac{\ln!\left(\dfrac{A_0}{A}\right)}{\lambda}$$
+$$A = A_0 \cdot e^{-\lambda t} \implies t = \frac{\ln\left(\dfrac{A_0}{A}\right)}{\lambda}$$
 
 $$N = N_0 \cdot 10^{k t} \implies t = \frac{\log\left(\dfrac{N}{N_0}\right)}{k}$$
 
