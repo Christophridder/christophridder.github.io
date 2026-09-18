@@ -81,13 +81,13 @@ Carbon har EN = 2,5 og hydrogen EN = 2,1, dvs. at carbon i forbindelser med H f�
 
 Find oxidationstal i følgende nitrogenforbindelser, og stil dem op i rækkefølge fra ox = +V til ox = -III:
 
-N~2~O, NO~3~^-^, NO, NO~2~, NH~3~, N~2~, N~2~O~5~, HNO~3~, NO~2~^-^, N~2~O~4~, N~2~H~4~
+N~2~O, $\text{NO}_{3}^{-}$, NO, NO~2~, NH~3~, N~2~, N~2~O~5~, HNO~3~, $\text{NO}_{2}^{-}$, N~2~O~4~, N~2~H~4~
 
 **Opgave 2**
 
 Find oxidationstal i følgende svovlforbindelser, og stil dem op i rækkefølge fra ox = +VI til ox = -II:
 
-H~2~S, HS^-^, H~2~SO~4~, S~2~O~3~^2-^, H~2~SO~3~, S^2-^, SO~3~, S(s), SO~3~^2-^, S~4~O~6~^2-^ (svær), SO~2~, SO~4~^2-^
+H~2~S, $\text{HS}^{-}$, H~2~SO~4~, $\text{S}_{2}\text{O}_{3}^{2-}$, H~2~SO~3~, $\text{S}^{2-}$, SO~3~, S(s), $\text{SO}_{3}^{2-}$, $\text{S}_{4}\text{O}_{6}^{2-}$ (svær), SO~2~, $\text{SO}_{4}^{2-}$
 
 **Opgave 3**
 

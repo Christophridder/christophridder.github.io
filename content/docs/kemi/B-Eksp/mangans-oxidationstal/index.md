@@ -34,14 +34,14 @@ Mangan er et usædvanligt stof fordi grundstoffet optræder i (mindst) fire velk
 
 | Formel | Navn | Farve | Oxidationstal for Mn |
 |---|---|---|---|
-| MnO~4~^-^ | permanganat | violet | $\quad$ |
-| MnO~4~^2-^ | manganat | grøn | $\quad$ |
+| $\text{MnO}_{4}^{-}$ | permanganat | violet | $\quad$ |
+| $\text{MnO}_{4}^{2-}$ | manganat | grøn | $\quad$ |
 | MnO~2~ | mangan(IV)oxid ("brunsten") | brunt/sort bundfald | $\quad$ |
-| Mn^2+^ | mangan(II)ion | farveløs | $\quad$ |
+| $\text{Mn}^{2+}$ | mangan(II)ion | farveløs | $\quad$ |
 
 1. Udfyld skemaets sidste kolonne. Brug **romertal**, og vis din beregning for mindst én af forbindelserne.
 
-I dette forsøg lader du kaliumpermanganat (KMnO~4~) reagere med sulfit (SO~3~^2-^), som selv bliver oxideret til sulfat (SO~4~^2-^). Alt efter hvor sur eller basisk opløsningen er, ender manganet i tre forskellige af de fire forbindelser ovenfor. Opstil og afstem derfor allerede nu de tre reaktionsskemaer nedenfor — så du ved, hvilken farve du skal lede efter i hver del af forsøget.
+I dette forsøg lader du kaliumpermanganat (KMnO~4~) reagere med sulfit ($\text{SO}_{3}^{2-}$), som selv bliver oxideret til sulfat ($\text{SO}_{4}^{2-}$). Alt efter hvor sur eller basisk opløsningen er, ender manganet i tre forskellige af de fire forbindelser ovenfor. Opstil og afstem derfor allerede nu de tre reaktionsskemaer nedenfor — så du ved, hvilken farve du skal lede efter i hver del af forsøget.
 
 **Del 1 (sur opløsning, tilsat H~2~SO~4~):**
 
@@ -51,7 +51,7 @@ $$\underline{\hspace{1cm}}\text{MnO}_4^- + \underline{\hspace{1cm}}\text{SO}_3^{
 
 $$\underline{\hspace{1cm}}\text{MnO}_4^- + \underline{\hspace{1cm}}\text{SO}_3^{2-} + \underline{\hspace{1cm}}\text{H}_2\text{O} \rightarrow \underline{\hspace{1cm}}\text{MnO}_2 + \underline{\hspace{1cm}}\text{SO}_4^{2-} + \underline{\hspace{1cm}}\text{OH}^-$$
 
-> Der er her hverken tilsat syre eller base, så der er ikke ret meget H^+^ til rådighed i opløsningen. Reaktionsskemaet afstemmes derfor med H~2~O på reaktantsiden og OH^-^ på produktsiden i stedet for H^+^ 
+> Der er her hverken tilsat syre eller base, så der er ikke ret meget $\text{H}^{+}$ til rådighed i opløsningen. Reaktionsskemaet afstemmes derfor med H~2~O på reaktantsiden og $\text{OH}^{-}$ på produktsiden i stedet for $\text{H}^{+}$ 
 
 **Del 3 (basisk opløsning, tilsat NaOH):**
 
@@ -124,8 +124,8 @@ Dryp en dråbe Na~2~SO~3~-opløsning i petriskålens højre side. Gør opløsnin
 
 Oxidationstallene og de tre afstemte reaktionsskemaer har du allerede styr på fra førskrivningen — her skal du holde dem op mod det, du faktisk så i petriskålen.
 
-1. Sammenhold dine iagttagelser i del 1, 2 og 3 med de tre reaktionsskemaer fra førskrivningen. Hvilken af de fire manganforbindelser (MnO~4~^-^, MnO~4~^2-^, MnO~2~ eller Mn^2+^) blev dannet i hver af de tre dele? Begrund ud fra farverne.
-2. I del 2 blev reaktionsskemaet afstemt med OH^-^ i stedet for H^+^. Brug den pH, du målte på Na~2~SO~3~-opløsningen, til at forklare hvorfor — hvorfor er der ikke "nok syre til stede" i denne del, selvom der slet ikke er tilsat nogen base?
+1. Sammenhold dine iagttagelser i del 1, 2 og 3 med de tre reaktionsskemaer fra førskrivningen. Hvilken af de fire manganforbindelser ($\text{MnO}_{4}^{-}$, $\text{MnO}_{4}^{2-}$, MnO~2~ eller $\text{Mn}^{2+}$) blev dannet i hver af de tre dele? Begrund ud fra farverne.
+2. I del 2 blev reaktionsskemaet afstemt med $\text{OH}^{-}$ i stedet for $\text{H}^{+}$. Brug den pH, du målte på Na~2~SO~3~-opløsningen, til at forklare hvorfor — hvorfor er der ikke "nok syre til stede" i denne del, selvom der slet ikke er tilsat nogen base?
 3. Hvorfor tror du, at Na~2~SO~3~-opløsningen i del 2 hverken er stærkt sur eller stærkt basisk, men alligevel ikke neutral? (Tip: tænk på sulfit-ionen som en svag base i vand.)
 4. Referencedråben af 0,02 M KMnO~4~ i venstre side af petriskålen ændrer ikke farve i nogen af de tre dele. Hvad er formålet med at dryppe den, når den alligevel "ikke sker noget" med?
 5. Ranger de tre delforsøg efter, hvor mange elektroner mangan optager pr. reaktion (jf. førskrivningens opgave 2). Er der en sammenhæng mellem elektronantal og hvor "kraftigt" reduceret manganatomet bliver?

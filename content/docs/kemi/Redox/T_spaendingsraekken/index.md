@@ -32,21 +32,21 @@ header-includes:
 
 Find ud af, om stofferne reagerer med hinanden, og hvis ja, så skriv produkterne. Skriv **ox** og **red** under de stoffer, som bliver henholdsvis oxideret og reduceret.
 
-- Hg^2+^(aq) + Zn(s) →
-- Ca^2+^(aq) + Au(s) →
-- Mg^2+^(aq) + Zn(s) →
-- Zn^2+^(aq) + Mg(s) →
-- Al^3+^(aq) + Mg(s) →
-- Fe^2+^(aq) + Cu(s) →
-- Fe^2+^(aq) + Mg(s) →
+- $\text{Hg}^{2+}$(aq) + Zn(s) →
+- $\text{Ca}^{2+}$(aq) + Au(s) →
+- $\text{Mg}^{2+}$(aq) + Zn(s) →
+- $\text{Zn}^{2+}$(aq) + Mg(s) →
+- $\text{Al}^{3+}$(aq) + Mg(s) →
+- $\text{Fe}^{2+}$(aq) + Cu(s) →
+- $\text{Fe}^{2+}$(aq) + Mg(s) →
 
 ## Opgave 2
 
 Opskriv:
 
 a. 2 reaktioner hvor Al(s) indgår
-b. 2 reaktioner hvor Al^3+^(aq) indgår
-c. 4 reaktioner hvor H^+^(aq) indgår
+b. 2 reaktioner hvor $\text{Al}^{3+}$(aq) indgår
+c. 4 reaktioner hvor $\text{H}^{+}$(aq) indgår
 d. 2 reaktioner hvor H~2~(g) indgår
 
 ## Opgave 3
@@ -76,7 +76,7 @@ Hvad sker der i de følgende blandinger?
 
 ---
 
-### Eksempel: delreaktionerne for Mg(s) + H^+^(aq)
+### Eksempel: delreaktionerne for Mg(s) + $\text{H}^{+}$(aq)
 
 $$\text{Mg(s)} \rightarrow \text{Mg}^{2+}\text{(aq)} + 2e^-$$
 $$2\text{H}^+\text{(aq)} + 2e^- \rightarrow \text{H}_2\text{(g)}$$

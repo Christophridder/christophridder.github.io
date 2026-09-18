@@ -16,18 +16,18 @@ kvantefysikkens manglende dele som elektronvolt og opgaver med planckkonstanten 
 |---|---|---|---|---|---|
 | 0 | 1–2 | 2 | Repetition Fysik B + opfølgning på årsprøve | Teori / opgaver |  |
 | 1 | 3–4 | 2 | Hookes lov + Python-projekt | Eksp. + IT | Fjeder, F = k · x |
-| 2 | 5–10 | 6 | Kinematik i 2D og skråt kast | Teori + Eksp. | Videoanalyse af kast |
-| 3 | 11–15 | 5 | Bevægelsesmængde og stød | Teori + Eksp. | Luftpudebane |
-| 4 | 16–19 | 4 | Jævn cirkelbevægelse (centripetalkraft) | Teori + Eksp. | [Roterende lod (Del 3)]({{< relref "jaevn-cirkelbevaegelse" >}}) / kraftmåler |
-| 5 | 20–24 | 5 | Gravitation og bevægelse om centrallegeme | Teori + Sim. | Simulering af satellit/planetbane |
-| 6 | 25–29 | 5 | Harmonisk svingning – kraft og energi | Eksp. + IT | Fjederpendul + matematisk pendul |
-| 7 | 30–32 | 3 | **Supplerende:** speciel relativitetsteori | Teori | — |
-| 8 | 33–35 | 3 | **Kvantefysik:** foton, impuls og dualitet | Teori + Eksp. | Bestem h med LED'er |
-| 9 | 36–40 | 5 | Elektrisk felt | Teori + Demo | Pladekondensator (demo) |
-| 10 | 41–45 | 5 | Magnetisk felt – kraft på leder (Laplace) | Teori + Eksp. | Strømvægt / Laplaces lov |
-| 11 | 46–48 | 3 | Ladede partikler i E- og B-felter | Teori + Eksp. | e/m-bestemmelse (hvis udstyr) |
-| 12 | 49–52 | 4 | Induktion – Faradays induktionslov | Teori + Eksp. | Magnet gennem spole |
-| 13 | 53–61 | 9 | **21. århundrede:** Elbilens fysik | Teori + Eksp. + Sim. | Batteri (R_i), motorens nyttevirkning |
+| 2 | 5–10 | 6 | [Kinematik i 2D og skråt kast]({{< relref "/docs/fysik/emner-a/frit-fald-luftmodstand-skraat-kast" >}}) | Teori + Eksp. | Videoanalyse af kast |
+| 3 | 11–15 | 5 | [Bevægelsesmængde og stød]({{< relref "/docs/fysik/emner-a/stoed" >}}) | Teori + Eksp. | Luftpudebane |
+| 4 | 16–19 | 4 | [Jævn cirkelbevægelse (centripetalkraft)]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Eksp. | [Roterende lod (Del 3)]({{< relref "jaevn-cirkelbevaegelse" >}}) / kraftmåler |
+| 5 | 20–24 | 5 | [Gravitation og bevægelse om centrallegeme]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Sim. | Simulering af satellit/planetbane |
+| 6 | 25–29 | 5 | [Harmonisk svingning – kraft og energi]({{< relref "/docs/fysik/emner-a/harmonisk-svingning" >}}) | Eksp. + IT | Fjederpendul + matematisk pendul |
+| 7 | 30–32 | 3 | **Supplerende:** [speciel relativitetsteori]({{< relref "/docs/fysik/emner-a/relativitetsteori" >}}) | Teori | — |
+| 8 | 33–35 | 3 | **Kvantefysik:** [foton, impuls og dualitet]({{< relref "/docs/fysik/emner-a/kvantefysik" >}}) | Teori + Eksp. | Bestem h med LED'er |
+| 9 | 36–40 | 5 | [Elektrisk felt]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Demo | Pladekondensator (demo) |
+| 10 | 41–45 | 5 | [Magnetisk felt – kraft på leder (Laplace)]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Eksp. | Strømvægt / Laplaces lov |
+| 11 | 46–48 | 3 | [Ladede partikler i E- og B-felter]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Eksp. | e/m-bestemmelse (hvis udstyr) |
+| 12 | 49–52 | 4 | [Induktion – Faradays induktionslov]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Eksp. | Magnet gennem spole |
+| 13 | 53–61 | 9 | **21. århundrede:** [Elbilens fysik]({{< relref "/docs/fysik/emner-a/elbilens-fysik" >}}) | Teori + Eksp. + Sim. | Batteri (R_i), motorens nyttevirkning |
 | 14 | 62–66 | 5 | Repetition + eksamenstræning | Eksp. + opgaver | Prøvelignende forsøg |
 
 **I alt: 66 moduler.**

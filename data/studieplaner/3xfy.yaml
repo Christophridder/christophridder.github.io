@@ -52,3 +52,11 @@ moduler:
     lektier: "Læs side 585 i fysikABbogen"
     kommentar: "Vi laver forsøg med videoanalyse"
     maal: [At forstå uafhængighedsprincippet]
+  - nr: 7
+    dato: 2026-09-17
+    emne: Skrå kast
+    forloeb: Mekanik
+    materialer: [kasteparabel]
+    lektier: "Læs side 585 i fysikABbogen"
+    kommentar: "Vi udleder kasteparablen, smider t ud!"
+    maal: [Aflevering til næste gang lagt ind i lectio]

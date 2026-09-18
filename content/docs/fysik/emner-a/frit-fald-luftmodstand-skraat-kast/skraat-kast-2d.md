@@ -72,7 +72,7 @@ parabel for fri bevægelse i tyngdefeltet – herunder at bestemme $g$ ud fra da
 2. Kalibrér længdeskalaen i LoggerPro ud fra målestokken.
 3. Sæt punkter på bolden frame for frame, og udtræk $x$ og $y$ som funktion af $t$.
 
-> **Vigtig faldgrube (censor-erfaring):** LoggerPro bruger videoens
+> **Vigtig faldgrube:** LoggerPro bruger videoens
 > **afspilnings-framerate**, ikke optage-frameraten. Med almindelig optagelse
 > (fx 25 eller 30 fps) passer tiden. Men optager I i **slowmotion/high-speed**
 > (fx 240 fps), skal den rigtige tid skaleres:

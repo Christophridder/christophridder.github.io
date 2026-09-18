@@ -17,6 +17,7 @@ linkcolor: blue
 urlcolor: blue
 header-includes:
   - \usepackage{float}
+  - \floatplacement{figure}{H}
   - \usepackage{booktabs}
   - \usepackage{titling}
   - \setlength{\droptitle}{-2.5cm}
@@ -36,7 +37,7 @@ header-includes:
 
 **3: Bestem koefficienterne, sådan at den samlede stigning i oxidationstal matches det samlede fald.**
 
-Her kan man se, at Cu(s) som fast stof har oxidationstal 0, og kobber-ionen Cu^2+^ har oxidationstal +II. To elektroner flyttes derfor væk fra kobber.
+Her kan man se, at Cu(s) som fast stof har oxidationstal 0, og kobber-ionen $\text{Cu}^{2+}$ har oxidationstal +II. To elektroner flyttes derfor væk fra kobber.
 
 Disse to elektroner skal optages af det andet stof, som her er nitrogen i nitrat. N ændrer dermed sit oxidationstrin og går fra V til IV.
 
@@ -48,9 +49,9 @@ Dertil skal du tælle ladningerne på venstre og på højre side.
 
 ![Trin 4: ladning = -2 på venstre side og ladning = +2 på højre side](step4.png)
 
-**5: Reaktionen foregår i syre, dvs. at H^+^-ioner indgår i reaktionen.** Tilføj nu det passende antal hydroner på venstre side af reaktionspilen (eller hydroxidioner OH^-^, hvis reaktionen foregår i basisk opløsning).
+**5: Reaktionen foregår i syre, dvs. at $\text{H}^{+}$-ioner indgår i reaktionen.** Tilføj nu det passende antal hydroner på venstre side af reaktionspilen (eller hydroxidioner $\text{OH}^{-}$, hvis reaktionen foregår i basisk opløsning).
 
-Tæl nu hydroner på venstre side, og tilføj det samme antal hydroner på højre side i form af vandmolekyler. Her bliver 4H^+^ til 2H~2~O.
+Tæl nu hydroner på venstre side, og tilføj det samme antal hydroner på højre side i form af vandmolekyler. Her bliver $\text{4H}^{+}$ til 2H~2~O.
 
 ![Trin 5: 4H+ tilføjes på venstre side, 2H2O dannes på højre side](step5.png)
 
@@ -64,20 +65,20 @@ Tæl nu hydroner på venstre side, og tilføj det samme antal hydroner på højr
 
 **I sur opløsning:**
 
-- Mg + NO~3~^-^ → Mg^2+^ + NO~2~
-- MnO~4~^-^ + Sn^2+^ → Mn^2+^ + Sn^4+^
-- Mn^2+^ + PbO~2~ → MnO~4~^-^ + Pb^2+^
-- Cr~2~O~7~^2-^ + I^-^ → Cr^3+^ + I~2~
-- Zn + NO~3~^-^ → Zn^2+^ + NH~4~^+^
-- Fe^2+^ + MnO~4~^-^ → Fe^3+^ + Mn^2+^
-- CH~3~OH + Cr~2~O~7~^2-^ → HCHO + Cr^3+^
+- Mg + $\text{NO}_{3}^{-}$ → $\text{Mg}^{2+}$ + NO~2~
+- $\text{MnO}_{4}^{-}$ + $\text{Sn}^{2+}$ → $\text{Mn}^{2+}$ + $\text{Sn}^{4+}$
+- $\text{Mn}^{2+}$ + PbO~2~ → $\text{MnO}_{4}^{-}$ + $\text{Pb}^{2+}$
+- $\text{Cr}_{2}\text{O}_{7}^{2-}$ + $\text{I}^{-}$ → $\text{Cr}^{3+}$ + I~2~
+- Zn + $\text{NO}_{3}^{-}$ → $\text{Zn}^{2+}$ + $\text{NH}_{4}^{+}$
+- $\text{Fe}^{2+}$ + $\text{MnO}_{4}^{-}$ → $\text{Fe}^{3+}$ + $\text{Mn}^{2+}$
+- CH~3~OH + $\text{Cr}_{2}\text{O}_{7}^{2-}$ → HCHO + $\text{Cr}^{3+}$
 
 **I basisk opløsning:**
 
-- Al + NO~3~^-^ → Al(OH)~2~O^-^ + NO
-- S^2-^ + ClO~3~^-^ → Cl^-^ + S
-- ClO^-^ + S~2~O~3~^2-^ → Cl^-^ + SO~4~^2-^
+- Al + $\text{NO}_{3}^{-}$ → Al(OH)~2~O^-^ + NO
+- $\text{S}^{2-}$ + $\text{ClO}_{3}^{-}$ → $\text{Cl}^{-}$ + S
+- $\text{ClO}^{-}$ + $\text{S}_{2}\text{O}_{3}^{2-}$ → $\text{Cl}^{-}$ + $\text{SO}_{4}^{2-}$
 
 **Titreringsopgave**
 
-25,0 mL jern(II)opløsning forbruger ved titrering 16,5 mL 0,0200 M KMnO~4~. Beregn koncentrationen af Fe^2+^ i jern(II)opløsningen.
+25,0 mL jern(II)opløsning forbruger ved titrering 16,5 mL 0,0200 M KMnO~4~. Beregn koncentrationen af $\text{Fe}^{2+}$ i jern(II)opløsningen.
