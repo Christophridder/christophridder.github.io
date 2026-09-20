@@ -181,7 +181,6 @@ Kilde: [Die Reise zum Mars – Project Gutenberg](https://www.gutenberg.org/eboo
 
 **FysA/B · FiC**
 
-*Filosofi findes kun på C-niveau i stx, så den filosofiske dybde typisk bæres af fysikfaget (A eller B), mens filosofien giver den videnskabsteoretiske ramme.*
 Det er lidt svært med eksperimenter her som passer til Fysik A niveau så jeg har tiføjet lidt muligheder.
 
 - Heisenbergs usikkerhedsrelation og determinisme – hvad betyder det filosofisk, at naturen grundlæggende er indeterministisk?
