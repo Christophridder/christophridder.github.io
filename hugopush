@@ -1,4 +1,18 @@
 #!/bin/bash
+LOCK=".git/index.lock"
+if [ -f "$LOCK" ]; then
+  # macOS (BSD stat) bruger -f %m, Linux (GNU stat) bruger -c %Y
+  lock_mtime=$(stat -f %m "$LOCK" 2>/dev/null || stat -c %Y "$LOCK")
+  age=$(( $(date +%s) - lock_mtime ))
+  if [ "$age" -gt 30 ]; then
+    echo "Efterladt index.lock ($age sek gammel) – fjerner den"
+    rm -f "$LOCK"
+  else
+    echo "En anden git-proces ser ud til at køre lige nu – prøv igen om lidt"
+    exit 1
+  fi
+fi
+
 read -p "Commit besked: " msg
 git add .
 git commit -m "$msg"

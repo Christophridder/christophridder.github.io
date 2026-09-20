@@ -22,7 +22,7 @@
       <td>
       {{- range .materialer -}}
         {{- $slug := . -}}
-        {{- $hits := where $.Site.RegularPages "File.BaseFileName" $slug -}}
+        {{- $hits := where $.Site.RegularPages "File.ContentBaseName" $slug -}}
         {{- if $hits -}}
           {{- $m := index $hits 0 -}}
           <a href="{{ $m.RelPermalink }}">{{ $m.Title }}</a>

@@ -50,7 +50,15 @@ moduler:
     dato: 2026-09-17
     emne: "Redoxkemi"
     forloeb: "Redox"
-    materialer: [mangan]
+    materialer: [mangans-oxidationstal]
     lektier: "Find oxidationstal "
     maal: [At repetere oxidationstal]
     kommentar: ""
+  - nr: 7
+    dato: 2026-09-17
+    emne: "Redoxkemi"
+    forloeb: "Redox"
+    materialer: [mangans-oxidationstal]
+    lektier: "Øvelsesvejledningen og afstemning "
+    maal: [Vi gennemfører eksperimentet]
+    kommentar: "Aflevering i slutningen af modulet"

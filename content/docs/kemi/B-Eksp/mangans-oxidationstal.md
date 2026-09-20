@@ -124,7 +124,7 @@ Dryp en dråbe Na~2~SO~3~-opløsning i petriskålens højre side. Gør opløsnin
 
 Oxidationstallene og de tre afstemte reaktionsskemaer har du allerede styr på fra førskrivningen — her skal du holde dem op mod det, du faktisk så i petriskålen.
 
-1. Sammenhold dine iagttagelser i del 1, 2 og 3 med de tre reaktionsskemaer fra førskrivningen. Hvilken af de fire manganforbindelser ($\text{MnO}_{4}^{-}$, $\text{MnO}_{4}^{2-}$, MnO~2~ eller $\text{Mn}^{2+}$) blev dannet i hver af de tre dele? Begrund ud fra farverne.
+1. Sammenhold dine iagttagelser i del 1, 2 og 3 med de tre reaktionsskemaer fra førskrivningen. Hvilken af de fire manganforbindelser ($\text{MnO}_{4}^{-}$, $\text{MnO}_{4}^{2-}$, $\text{MnO}_{2}$ eller $\text{Mn}^{2+}$) blev dannet i hver af de tre dele? Begrund ud fra farverne.
 2. I del 2 blev reaktionsskemaet afstemt med $\text{OH}^{-}$ i stedet for $\text{H}^{+}$. Brug den pH, du målte på Na~2~SO~3~-opløsningen, til at forklare hvorfor — hvorfor er der ikke "nok syre til stede" i denne del, selvom der slet ikke er tilsat nogen base?
 3. Hvorfor tror du, at Na~2~SO~3~-opløsningen i del 2 hverken er stærkt sur eller stærkt basisk, men alligevel ikke neutral? (Tip: tænk på sulfit-ionen som en svag base i vand.)
 4. Referencedråben af 0,02 M KMnO~4~ i venstre side af petriskålen ændrer ikke farve i nogen af de tre dele. Hvad er formålet med at dryppe den, når den alligevel "ikke sker noget" med?
