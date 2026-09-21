@@ -1,9 +1,5 @@
 ---
-Title: Integralregning
-weight: 1
----
----
-Title: Integralregning med Python
+title: "Integralregning med Python"
 weight: 1
 ---
 
