@@ -5,14 +5,14 @@ weight: 3
 
 **Niveau: Fysik A** · **Emne: Mekanik – bevægelsesmængde og stød** · **Eksperiment: luftpudebane**
 
-Forløbet indfører bevægelsesmængde og impuls, bygger bevarelsessætningen op og
-bruger den til at analysere elastiske og uelastiske stød i én dimension.
+Forløbet omhandler bevægelsesmængde og kraftens impuls, bygger bevarelsessætningen op og
+bruger den til at analysere **elastiske** og **uelastiske stød** i én dimension.
 Kerneeksperimentet er luftpudebanen, hvor lav gnidning gør det muligt at se
 bevarelsen direkte – præcis som ved den eksperimentelle delprøve.
 
-## Del 1 – Bevægelsesmængde og impuls
+## Del 1 – Bevægelsesmængde og kraftens impuls
 
-Et legemes **bevægelsesmængde** (impuls i daglig tale, men pas på ordet) er
+Et legemes **bevægelsesmængde** $p$ er
 
 $$p = m \cdot v$$
 
@@ -23,13 +23,44 @@ hvormed bevægelsesmængden ændres:
 
 $$F = \frac{\Delta p}{\Delta t}$$
 
-Ganges op, fås **impulssætningen** – kraftstødet er lig ændringen i
-bevægelsesmængde:
+Ganges op, fås **impulssætningen** – **kraftens impuls** $\Delta p$ er lig
+ændringen i bevægelsesmængde:
 
 $$F \cdot \Delta t = \Delta p = m \cdot \Delta v$$
 
-Det forklarer hverdagsfysikken: en airbag forlænger $\Delta t$, så den samme
-$\Delta p$ kan opnås med en meget mindre kraft $F$.
+Kraftens impuls har enheden N·s, som er det samme som kg·m/s.
+
+### Hvorfor virker en airbag?
+
+Det forklarer fx hvordan en airbag virker. En airbag forlænger $\Delta t$, så den samme
+kraftens impuls $\Delta p$ kan opnås med en meget mindre kraft $F$.
+
+- Antag at du vejer $80kg$ så skal, ved et sammenstød, din bevægelsesmængde ($p = m \cdot v_{bilens fart}$ ) ændres fra fx $80$ kg·m/s til $0$.
+  Det er kraftens impuls $\Delta p$, og den ligger fast, uanset om du rammer
+  rattet eller en airbag.
+- Impulssætningen $F \cdot \Delta t = \Delta p$ viser, at når $\Delta p$ er givet,
+  er $F$ og $\Delta t$ omvendt proportionale.
+- Airbaggen gør, at bremsningen varer længere (større $\Delta t$). Derfor bliver
+  kraften $F$ på kroppen tilsvarende mindre.
+
+| | $\Delta p$ | $\Delta t$ | $F = \Delta p / \Delta t$ |
+|---|---|---|---|
+| Uden airbag (hårdt stop) | $80$ N·s | $0{,}010$ s | $8000$ N |
+| Med airbag | $80$ N·s | $0{,}10$ s | $800$ N |
+
+Tiden er $10$ gange længere, og kraften er $10$ gange mindre. Kraftens impuls er
+den samme i begge tilfælde.
+
+> **Regneeksempel:** En fodbold på $m = 0{,}43$ kg sparkes fra hvile op i
+> farten $v = 20$ m/s, og sparket varer $\Delta t = 0{,}010$ s.
+> Bevægelsesmængden efter sparket er
+> $$p = m \cdot v = 0{,}43 \text{ kg} \cdot 20 \text{ m/s} = 8{,}6 \text{ kg·m/s}$$
+> Bolden startede i hvile, så kraftens impuls er $\Delta p = 8{,}6$ N·s, og
+> den gennemsnitlige kraft bliver
+> $$F = \frac{\Delta p}{\Delta t} = \frac{8{,}6 \text{ N·s}}{0{,}010 \text{ s}} = 860 \text{ N}$$
+
+Flere opgaver med hints og løsninger findes på siden
+[Opgaver: bevægelsesmængde og kraftens impuls]({{< relref "stoed-opgaver" >}}).
 
 ## Del 2 – Bevarelse og stødtyper
 
@@ -47,10 +78,9 @@ Den kinetiske energi er derimod *ikke* altid bevaret. Det giver tre stødtyper:
 |---|---|---|---|
 | Elastisk | bevaret | bevaret | hårde kugler, magnetstød |
 | Uelastisk | bevaret | delvist tabt | de fleste virkelige stød |
-| Fuldstændig uelastisk | bevaret | mest tabt | legemerne hænger sammen (ler, velcro) |
+| Fuldstændig uelastisk | bevaret | mest tabt | legemerne hænger sammen (ler, velcro, skud i træ) |
 
-Ved et **fuldstændig uelastisk** stød fortsætter de to legemer med samme fart, og
-udtrykket bliver enkelt:
+Ved et **fuldstændig uelastisk** stød bliver noget af energien omdannet til fx varme energi hvis du skyder en kugle ind i et stykke treæ, eller deformations energi hvis du smadrer en blikdåse med et bat i luften. Bevægelsesmængden *er* bevaret og ved fuldstandig uelastisk stød fortsætter de to legemer med samme fart, og bevægelsesmængden er bevaret! Udtrykket bliver enkelt:
 
 $$u = \frac{m_1 \cdot v_1 + m_2 \cdot v_2}{m_1 + m_2}$$
 
@@ -61,7 +91,7 @@ $$u = \frac{m_1 \cdot v_1 + m_2 \cdot v_2}{m_1 + m_2}$$
 > efter $\tfrac{1}{2} \cdot 0{,}50 \cdot 0{,}20^2 = 0{,}010$ J. Der er altså tabt
 > $0{,}015$ J (60 %) til varme og deformation – men bevægelsesmængden er bevaret.
 
-> **For de skarpe (elastisk stød, mål i hvile):** Med både bevægelsesmængde og
+> **Lidt svær opgave (elastisk stød, mål i hvile):** Med både bevægelsesmængde og
 > energi bevaret fås for $v_2 = 0$:
 > $$u_1 = \frac{m_1 - m_2}{m_1 + m_2} \cdot v_1 \qquad u_2 = \frac{2 \cdot m_1}{m_1 + m_2} \cdot v_1$$
 > Ved ens masser giver det $u_1 = 0$ og $u_2 = v_1$ – farten overføres fuldstændigt,
@@ -69,6 +99,10 @@ $$u = \frac{m_1 \cdot v_1 + m_2 \cdot v_2}{m_1 + m_2}$$
 > næsten dobbelt fart; et let mod et tungt kastes tilbage.
 
 ## Del 3 – Eksperiment: stød på luftpudebane
+
+Den fulde øvelsesvejledning findes under Eksperimenter A:
+[Stød på luftpudebane]({{< relref "stoed-luftpudebane" >}}). Nedenfor er teorien
+bag eksperimentet.
 
 **Formål:** Undersøge om bevægelsesmængde og kinetisk energi er bevaret ved
 forskellige stødtyper.
@@ -93,10 +127,10 @@ forskellige stødtyper.
 - Diskutér måleusikkerheden – hvorfor passer tallene ikke *helt*? (Restgnidning,
   aflæsning af fart, ikke perfekt elastisk stød.)
 
-> **Udvidelse – kraftmåler (impuls):** Lad en enkelt vogn støde ind i en
+> **Udvidelse – kraftmåler (kraftens impuls):** Lad en enkelt vogn støde ind i en
 > kraftmåler, og registrér både $F(t)$ og vognens bevægelse. **Arealet under
-> $F$-$t$-grafen** er kraftstødet $F \cdot \Delta t$, og det skal svare til
-> ændringen i bevægelsesmængde $\Delta p = m \cdot \Delta v$ fra
+> $F$-$t$-grafen** er kraftens impuls $\Delta p = F \cdot \Delta t$, og den skal
+> svare til ændringen i bevægelsesmængde $m \cdot \Delta v$ fra
 > bevægelsessensoren. En flot direkte verifikation af impulssætningen –
 > svarer til "hvis tiden tillader det" i Egaa-spørgsmål D.
 
@@ -113,13 +147,13 @@ forskellige stødtyper.
    retning bagefter.
 3. Forklar ud fra de elastiske stødligninger, hvorfor en kugle i en Newtons vugge
    overfører hele sin fart til den næste.
-4. **Impuls:** En kraftmåler registrerer et stød, hvor arealet under $F$-$t$-grafen
+4. **Kraftens impuls:** En kraftmåler registrerer et stød, hvor arealet under $F$-$t$-grafen
    er $0{,}12$ N·s. Vognen vejer $0{,}40$ kg og var i hvile før. Bestem dens fart
    efter stødet.
 
 ## Det skal I kunne efter forløbet
 
-- Beregne bevægelsesmængde og bruge impulssætningen $F \cdot \Delta t = \Delta p$.
+- Beregne bevægelsesmængde $p$ og kraftens impuls $\Delta p$ og bruge impulssætningen $F \cdot \Delta t = \Delta p$.
 - Anvende bevarelse af bevægelsesmængde på stød i én dimension med korrekte fortegn.
 - Skelne elastiske og uelastiske stød ud fra, om den kinetiske energi er bevaret.
 - Eftervise bevarelse eksperimentelt og forholde sig kritisk til måleusikkerheden.

@@ -1,6 +1,6 @@
 ---
 title: "Kasteparabel"
-weight: 10
+weight: 11
 pdf: "pdfs/kasteparabel.pdf"
 ---
 

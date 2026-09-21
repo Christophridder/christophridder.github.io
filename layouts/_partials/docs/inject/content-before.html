@@ -1,7 +1,13 @@
 {{ with .Params.pdf }}
 <div class="pdf-download-bar">
+  {{ if $.Params.pdf_ny_fane }}
+  <a class="pdf-download-btn" href="{{ . | relURL }}" target="_blank" rel="noopener">
+    <span class="pdf-download-icon">&#8599;</span> Åbn PDF i ny fane
+  </a>
+  {{ else }}
   <a class="pdf-download-btn" href="{{ . | relURL }}" download>
     <span class="pdf-download-icon">&#8681;</span> Download PDF
   </a>
+  {{ end }}
 </div>
 {{ end }}
