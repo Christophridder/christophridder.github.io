@@ -1,9 +1,12 @@
 ---
 title: "Integration i fysik"
 weight: 21
+pdf: "pdfs/integration-i-fysik.pdf"
+pdf_ny_fane: true
 ---
 
-**Niveau: Fysik A** · **Emne: Matematik – integration uden grænseværdier**
+**Niveau: Fysik A** · **Emne: Matematik – integration i fysik**
+ 
 
 Denne side viser, hvordan du integrerer i fysik. Du skal bruge to ting: at **gætte** en funktion og at **tegne et areal**.
 
@@ -34,7 +37,7 @@ Du har en funktion $f(x) = x + 3$ fx. For at finde integralet, lad os kalde det 
 **Eksempel: Hvad skal du aflede for at få $x + 3$?**
 
 - Gæt: $f(x) = x^2$. 
-- Afled: $(x^2)' = 2x$. Det er en faktor $2$ for meget og vi mangler $ + 3$. 
+- Afled: $(x^2)' = 2x$. Det er en faktor $2$ for meget og vi mangler $+3$. 
 - Ret: vi prøver med $f(x)=\tfrac{1}{2}x^2+3x$. Så er $\left(\tfrac{1}{2} x^2 + 3x\right)' = x + 3$. ✓
 
 Det er derfor, der står $\tfrac{1}{2}$ i så mange formler, fx i stedfunktionen $s(t) = \tfrac{1}{2} a t^2$ og energien i en fjeder $E(x) = \tfrac{1}{2} k x^2$.
