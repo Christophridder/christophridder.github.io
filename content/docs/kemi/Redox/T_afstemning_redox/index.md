@@ -61,24 +61,4 @@ Tæl nu hydroner på venstre side, og tilføj det samme antal hydroner på højr
 
 ---
 
-## Opgaver
-
-**I sur opløsning:**
-
-- Mg + $\text{NO}_{3}^{-}$ → $\text{Mg}^{2+}$ + NO~2~
-- $\text{MnO}_{4}^{-}$ + $\text{Sn}^{2+}$ → $\text{Mn}^{2+}$ + $\text{Sn}^{4+}$
-- $\text{Mn}^{2+}$ + PbO~2~ → $\text{MnO}_{4}^{-}$ + $\text{Pb}^{2+}$
-- $\text{Cr}_{2}\text{O}_{7}^{2-}$ + $\text{I}^{-}$ → $\text{Cr}^{3+}$ + I~2~
-- Zn + $\text{NO}_{3}^{-}$ → $\text{Zn}^{2+}$ + $\text{NH}_{4}^{+}$
-- $\text{Fe}^{2+}$ + $\text{MnO}_{4}^{-}$ → $\text{Fe}^{3+}$ + $\text{Mn}^{2+}$
-- CH~3~OH + $\text{Cr}_{2}\text{O}_{7}^{2-}$ → HCHO + $\text{Cr}^{3+}$
-
-**I basisk opløsning:**
-
-- Al + $\text{NO}_{3}^{-}$ → Al(OH)~2~O^-^ + NO
-- $\text{S}^{2-}$ + $\text{ClO}_{3}^{-}$ → $\text{Cl}^{-}$ + S
-- $\text{ClO}^{-}$ + $\text{S}_{2}\text{O}_{3}^{2-}$ → $\text{Cl}^{-}$ + $\text{SO}_{4}^{2-}$
-
-**Titreringsopgave**
-
-25,0 mL jern(II)opløsning forbruger ved titrering 16,5 mL 0,0200 M KMnO~4~. Beregn koncentrationen af $\text{Fe}^{2+}$ i jern(II)opløsningen.
+Se [Opgaver til redox]({{< relref "opgaver-redox" >}}) for opgaver i afstemning, organisk redox og titrering.

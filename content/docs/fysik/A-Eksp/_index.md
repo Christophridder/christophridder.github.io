@@ -10,7 +10,7 @@ bookCollapseSection: true
 
 | # | Øvelse | Emne |
 |---|--------|------|
-| 1 | Hookes lov med python    [1]({{< relref "hookes-lov-1" >}}) [2]({{< relref "hookes-lov-2" >}}) [3]({{< relref "hookes-lov-3" >}}) | svingninger |
+| 1 | [Hookes lov med python]({{< relref "Hookes-lov" >}}) | svingninger |
 |2|[Stød på luftpudebane]({{< relref "stoed-luftpudebane">}})|Stød|
 |3|[strømvægt Del 4]({{< relref "magnetisk-felt">}}) ||
 |4|[Kasteparabel]({{< relref "kasteparabel">}})|Skråt kast (videoanalyse)|

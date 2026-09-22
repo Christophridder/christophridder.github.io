@@ -1,0 +1,86 @@
+---
+title: "Spektrofotometri"
+weight: 1
+---
+
+**Niveau: Kemi B (2.g)** · **Emne: Farvede forbindelser og analysemetoder**
+
+[Tilbage til Metoder]({{< relref "/docs/kemi/Metoder" >}})
+
+## Video: hvad er spektrofotometri?
+
+{{< yt id="Bi3N-gbYpCo" >}}
+
+*Kilde: Biotech Academy — "Metoder: Spektrofotometri".*
+
+## Kort forklaret
+
+- Et spektrofotometer sender lys med én bestemt bølgelængde (monokromatisk lys) gennem en opløsning i en lille glas- eller plastbeholder, en **kuvette**.
+- Molekylerne i opløsningen absorberer noget af lyset. Den farve, vi *ser*, er det lys, der **ikke** bliver absorberet.
+- Jo mere stof der er opløst, jo mere lys bliver absorberet. Apparatet måler dette som **absorbans**, $A$ (ingen enhed).
+- Sammenhængen mellem absorbans og koncentration er givet ved **Beer-Lamberts lov**:
+
+$$A = \varepsilon \cdot b \cdot c$$
+
+  hvor $\varepsilon$ er stoffets molare absorptionskoefficient (afhænger af stof og bølgelængde), $b$ er kuvettens bredde (typisk 1 cm), og $c$ er koncentrationen.
+
+- Ved en fast bølgelængde og en fast kuvette er $\varepsilon \cdot b$ en konstant — så $A$ er **proportional** med $c$. Det er derfor, metoden er så nyttig: mål absorbansen, og du kan regne koncentrationen ud.
+- I praksis vælger man den bølgelængde, hvor stoffet absorberer *mest* ($\lambda_{max}$), fordi metoden så er mest følsom over for små ændringer i koncentration.
+
+## Et meget simpelt eksempel
+
+Forestil jer en kop te, som I hælder mere og mere saftevand i:
+
+- Jo mere saftevand, jo mørkere/mere farvet bliver teen — og jo mindre lys kan I se igennem den, hvis I holder den op mod en lampe.
+- Et spektrofotometer gør præcis det samme, bare med et tal i stedet for et øje: det måler, hvor meget lys der kommer igennem, og omregner det til absorbans.
+
+Vi bruger samme idé med jeres eget farvestof: **β-caroten (E160a)** — det naturlige, orange-røde pigment, I bruger til den røde sodavand (samme stof, som giver gulerødder deres farve). Jo mere β-caroten, jo højere absorbans.
+
+*Lille faktatjek:* β-caroten absorberer blåt lys med et maksimum omkring 450 nm (det er derfor, det ser orange-rødt/gyldent ud — ikke den klare lyserøde farve, syntetiske azo-farvestoffer som E124 giver). Bekræft selv den præcise værdi ved at scanne, som beskrevet nedenfor — den flytter sig lidt afhængigt af opløsningsmiddel og produkt.
+
+## Opgave: byg en standardkurve i Excel
+
+**Problemet:** I har en række opløsninger med *kendt* koncentration af det røde farvestof (en fortyndingsrække), og I har målt følgende absorbanser ved farvestoffets $\lambda_{max}$:
+
+| Koncentration (mg/L) | Absorbans $A$ |
+|---|---|
+| 0 | 0,010 |
+| 2 | 0,176 |
+| 4 | 0,352 |
+| 6 | 0,505 |
+| 8 | 0,687 |
+| 10 | 0,839 |
+
+**Sådan gør I:**
+
+1. Indtast tallene i Excel i to kolonner (koncentration og absorbans).
+2. Indsæt et punktdiagram (scatter plot) med koncentration på x-aksen og absorbans på y-aksen.
+3. Tilføj en lineær tendenslinje, og få Excel til at vise ligningen ($y = a\,x+b$) og $R^2$.
+4. $R^2$ bør ligge tæt på 1 — det fortæller jer, hvor godt Beer-Lamberts lov (en ret linje) passer på jeres data.
+
+**Nu har I "rigtige" målinger** — tre ukendte prøver af rød sodavand, som I har fortyndet og målt absorbansen af:
+
+| Prøve | Absorbans $A$ |
+|---|---|
+| A | 0,410 |
+| B | 0,622 |
+| C | 0,235 |
+
+Brug tendenslinjens ligning til at regne koncentrationen $c$ ud for hver prøve (isolér $c$ i $y=ax+b$). Diskutér bagefter: hvis prøve A var 50 gange fortyndet, før I målte den — hvad var koncentrationen så i den *ufortyndede* sodavand?
+
+## Forslag til forsøg i gymnasiet
+
+**Den enkle version** (kræver ikke rent farvestof):
+
+1. Lav en fortyndingsrække direkte af sodavanden selv: fx 100 %, 80 %, 60 %, 40 %, 20 % og 0 % (rent vand) af den ufortyndede sodavand, ved at blande med vand i målekolber.
+2. Mål absorbansen af hver fortynding på spektrofotometeret. Hvis I ikke kender $\lambda_{max}$ i forvejen, så scan hele det synlige spektrum for én af de kraftigst farvede prøver, og aflæs, hvor absorbansen er højst — det er jeres måle-bølgelængde.
+3. Plot absorbans mod fortyndingsprocent i Excel som ovenfor. I får en **relativ** koncentration (i procent af den ufortyndede sodavand), ikke en absolut værdi i mg/L — det er fint til formålet.
+4. Lad en gruppe lave en "hemmelig" fortynding (fx 55 %) af en anden gruppes sodavand, og få den anden gruppe til at bestemme fortyndingsgraden ud fra deres egen standardkurve. Det er en god måde at teste metoden på.
+
+**Udvidet version** (giver en absolut koncentration i mg/L): lav i stedet en fortyndingsrække med kendte, afmålte mængder af jeres β-caroten-farvestof (det er vandspredbart/emulgeret, så det kan fortyndes direkte med vand — ingen organisk opløsningsmiddel nødvendigt), akkurat som i regneeksemplet ovenfor.
+
+Hvis skolen har et Vernier SpectroVis Plus (samme type udstyr og software som LoggerPro), har det typisk en indbygget "Concentration"-funktion, der selv plotter standardkurven og beregner koncentrationen af en ukendt prøve automatisk. Lad eleverne regne det manuelt i Excel først, så de forstår metoden, og brug evt. LoggerPro-funktionen bagefter til at tjekke deres eget resultat.
+
+**Sikkerhed:** almindelig fødevarefarve og sodavand er ufarligt at håndtere — ingen særlige sikkerhedsforanstaltninger nødvendige ud over almindelig laboratorieadfærd.
+
+**Praktisk tip:** β-caroten nedbrydes af lys, varme og ilt. Lav fortyndingsrækken kort før I måler, hold prøverne mørkt og køligt, og ryst/vend prøverne lige inden aflæsning (den emulgerede form kan skille sig lidt ved henstand).

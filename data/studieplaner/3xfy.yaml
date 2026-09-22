@@ -60,3 +60,19 @@ moduler:
     lektier: "Læs side 585 i fysikABbogen"
     kommentar: "Vi udleder kasteparablen, smider t ud!"
     maal: [Aflevering til næste gang lagt ind i lectio]
+  - nr: 8
+    dato: 2026-09-17
+    emne: Stød og bevægelsesmængde
+    forloeb: Mekanik
+    materialer: [stoed-bevaegelsesmaengde]
+    lektier: "Læs side 601 i fysikABbogen"
+    kommentar: "Optaver fra Orbit samt start på luftpudebane"
+    maal: [Definition på bevægelsesmængde]
+  - nr: 9
+    dato: 2026-09-17
+    emne: Stød og bevægelsesmængde
+    forloeb: Mekanik
+    materialer: [stoed-opgaver]
+    lektier: "Læs side 602 i fysikABbogen"
+    kommentar: "Vi øver os på at løse integraler"
+    maal: [Eksperiment med luftpudebane]

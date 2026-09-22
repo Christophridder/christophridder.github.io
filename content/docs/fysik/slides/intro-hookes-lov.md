@@ -13,6 +13,6 @@ Introduktionspræsentation til forløbet om den harmoniske oscillator — fra Ho
 
 Præsentationen hører sammen med de tre øvelsesvejledninger:
 
-- [Hookes lov 1 — leg med modellen]({{< relref "/docs/fysik/A-Eksp/hookes-lov-1" >}})
-- [Hookes lov 2 — fit jeres egne data]({{< relref "/docs/fysik/A-Eksp/hookes-lov-2" >}})
-- [Hookes lov 3 — dæmpede svingninger]({{< relref "/docs/fysik/A-Eksp/hookes-lov-3" >}})
+- [Hookes lov 1 — leg med modellen]({{< relref "/docs/fysik/A-Eksp/Hookes-lov/hookes-lov-1" >}})
+- [Hookes lov 2 — fit jeres egne data]({{< relref "/docs/fysik/A-Eksp/Hookes-lov/hookes-lov-2" >}})
+- [Hookes lov 3 — dæmpede svingninger]({{< relref "/docs/fysik/A-Eksp/Hookes-lov/hookes-lov-3" >}})
