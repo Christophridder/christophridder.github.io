@@ -1,0 +1,19 @@
+\usepackage{xcolor}
+\definecolor{barblue}{HTML}{3498DB}
+\definecolor{headblue}{HTML}{2471A3}
+\usepackage{tikz}
+\usepackage{titlesec}
+\titleformat*{\section}{\Large\bfseries\sffamily\color{headblue}}
+\titleformat*{\subsection}{\large\bfseries\sffamily\color{headblue}}
+\titleformat*{\subsubsection}{\normalsize\bfseries\sffamily\color{headblue}}
+\titleformat*{\paragraph}{\normalsize\bfseries\sffamily\color{headblue}}
+\hypersetup{colorlinks=true,urlcolor=headblue,linkcolor=headblue}
+\makeatletter
+\renewcommand{\maketitle}{%
+\begin{tikzpicture}[remember picture,overlay]
+\fill[barblue] (current page.north west) rectangle ([yshift=-24mm]current page.north east);
+\node[anchor=north west,text=white,font=\sffamily\bfseries\LARGE] at ([xshift=12mm,yshift=-5mm]current page.north west) {\@title};
+\node[anchor=north west,text=white,font=\sffamily\small] at ([xshift=12mm,yshift=-15mm]current page.north west) {\thesubtitle};
+\end{tikzpicture}\vspace*{8mm}}
+\makeatother
+\def\thesubtitle{Egaa Gymnasium \quad Emne: IT-introduktionsmoduler}

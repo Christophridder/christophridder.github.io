@@ -45,12 +45,13 @@ Vi har vedtaget at introducere OneNote som det primære notetagningsværktøj, m
       - Lav screenshots: `Cmd+Ctrl+Shift+4` på Mac og `Windows-tast+Shift+S` på Windows, som man kan sætte direkte ind med `Cmd/Ctrl+V`
 
 ### Filstørrelser
+Er relevante fordi **lectio** har en uploadbegrænsning på **50Mbyte** per fil, som kan være for lidt til videoafleveringer eller store powerpoints. 
 
-Film fra videoafleveringer (fx optaget til LoggerPro) kan hurtigt fylde nogle hundrede MB. Lægger man dem ind i en OneNote, bliver den tung — derfor er det rart at vide noget om filstørrelser.
+**Film** og tunge **powerpoints** kan hurtigt fylde nogle hundrede MB. Lægger man dem ind i en OneNote, bliver den tung — derfor er det rart at vide noget om filstørrelser.
 
 - Vis eleverne, hvordan man højreklikker på en fil og ser filstørrelsen. Forklar forskellen på kB, MB og GB
 - Teksten i denne fil fylder nogle kB
-- Et billede taget med telefonen fylder 3-4 MB
+- Et billede taget med en normal telefonen fylder 3-4 MB en moderne iPhone kan tage billeder der fylder 10Mbyte
 - En times film i HD fylder ca. 1 GB
 - En PowerPoint på 10 sider med billeder kan hurtigt fylde 100 MB
 - Maks. uploadstørrelse for filer i Lectio er 50 MB
@@ -70,22 +71,33 @@ PDF er en filtype, der som udgangspunkt IKKE kan ændres i indholdet — fx brug
 
 Word- og Maple-filer kan laves om til PDF på to måder:
 
-- Åbn fanen "Filer", og vælg "Export" eller "Gem som → PDF"
+- Åbn fanen "Filer", og vælg "Export" eller "Gem som" (eller på mac *gem en kopi*) → PDF
 - Print til PDF: tryk på print, og find ud af, hvordan din computer danner en PDF, og hvor den gemmes
 
 ### Upload til Lectio og Netprøver
-
-*(Forberedes af Morten og CR til modulet.)*
-
-Læreren har oprettet en aflevering til dagens modul:
-
+Vis hvordan man uploader en fil til lectio. 
+Det er et stort problem for nogle elever at **finde den fil de lige har gemt**
 - Få eleverne til at lave en "stor fil med mange billeder i"
 - Gem/eksportér den som PDF
-- Få dem til at uploade den til Lectio
+- Få dem til at finde filen på harddisken uploade den til Lectio
+
+Mac skelner imellem **online placeringer** og **på dennem mac** denne forskel skal vises. 
 
 **Netprøver:** Kan vi få eleverne til at logge på Netprøver, for at vise dem, hvordan det ser ud? — Nej, de kan først logge på Netprøver, når de rent faktisk har haft en skriftlig eksamen.
 
-**Eksamenscookie:** Giver det mening at få dem til at logge på det? (MH: ja — de vil få en fejl, men så har de i det mindste prøvet at downloade exe-filen.)
+**Eksamenscookie:** Programmet kan downloades og installeres, selvom der ingen prøver er. Det er smart fordi det kan bruges til at tjekke om **unilogin** virker
+
+### Unilogin
+**Unilogin** er tilbage !!! 
+De fleste elever er smidt af unilogin, de kan huske deres login (pete1234) men kan ikke huske deres kode eller koden virker ikke. 
+#### Løsning
+
+1. Start med at installere **eksamcookie** og kom frem til login delen
+1. klik nu på [mitunilogin.dk](https://mitunilogin.dk)  og **log på**
+1. vælg **mitid** og log på med din telefon
+1. nu kan du vælge **nyt password** 
+1. gå tilbage til **eksamcookie** og log på med **unilogin**. Nu kaldes unilogin på en måde hvor du kan ændre dit password. 
+1. desværre er det ofte at den ikke vil godkende det password du selv vælger så du skal bruge det password som **unilogin forslår** 
 
 ### Zip-filer
 
