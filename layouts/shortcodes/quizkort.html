@@ -1,0 +1,80 @@
+{{- /* Brug: {{< quizkort "integration" >}}  – læser data/quiz/<navn>.yaml */ -}}
+{{- $navn := .Get 0 -}}
+{{- $q := index hugo.Data.quiz $navn -}}
+{{- $std := dict "graf" (dict "label" "Aflæs grafen" "farve" "2471A3") "begreb" (dict "label" "Begreb" "farve" "1E8449") "funktion" (dict "label" "Integrér" "farve" "CA6F1E") -}}
+{{- with $q -}}
+{{- $typer := .typer | default $std -}}
+{{- $maerke := .maerke_filter | default "Enheder" -}}
+<style>
+.qk-bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:1rem 0 1.2rem}
+.qk-bar button{font:inherit;font-size:.85rem;padding:.3rem .75rem;border-radius:999px;border:1px solid #cbd5e1;background:transparent;color:inherit;cursor:pointer}
+.qk-bar button.on{background:#2471A3;border-color:#2471A3;color:#fff}
+.qk-bar .qk-sep{flex:1}
+.qk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.qk-card{border:1px solid #d6dee6;border-radius:10px;padding:.9rem 1rem .8rem;display:flex;flex-direction:column;gap:.55rem;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.qk-head{display:flex;gap:.4rem;align-items:center;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.qk-nr{background:#eef2f6;color:#334155;border-radius:6px;padding:.05rem .45rem}
+.qk-type{color:#64748b}
+.qk-enhed{background:#F9E79F;color:#6b5500;border-radius:6px;padding:.05rem .45rem}
+.qk-spm{font-size:1.02rem;line-height:1.45}
+.qk-spm p{margin:0}
+.qk-card img{width:100%;height:auto;border-radius:6px;background:#fff}
+.qk-card details{border-radius:8px;padding:.35rem .6rem;font-size:.92rem}
+.qk-card details.hint{background:rgba(249,231,159,.35)}
+.qk-card details.svar{background:rgba(36,113,163,.10)}
+.qk-card summary{cursor:pointer;font-weight:600;font-size:.85rem}
+.qk-card details p{margin:.35rem 0 .1rem}
+.qk-foot{margin-top:auto}
+.qk-hidden{display:none!important}
+</style>
+<div class="qk" id="qk-{{ $navn }}">
+<div class="qk-bar">
+  <button class="on" data-f="alle">Alle ({{ len .kort }})</button>
+  {{- range $k, $v := $typer }}
+  <button data-f="{{ $k }}">{{ $v.label }}</button>
+  {{- end }}
+  <button data-f="enhed">{{ $maerke }}</button>
+  <span class="qk-sep"></span>
+  <button data-a="bland">🔀 Bland</button>
+  <button data-a="svar">Vis alle svar</button>
+</div>
+<div class="qk-grid">
+{{- range sort .kort "nr" }}
+  {{- $t := index $typer .type | default (dict "label" .type "farve" "2471A3") -}}
+  {{- $m := .maerke | default (cond (eq .enhed true) "enhed" "") -}}
+  <div class="qk-card" data-type="{{ .type }}" data-enhed="{{ if $m }}1{{ end }}" style="border-top:5px solid #{{ strings.TrimPrefix "#" (string $t.farve) }}">
+    <div class="qk-head"><span class="qk-nr">{{ .nr }}</span><span class="qk-type">{{ $t.label }}</span>{{ with $m }}<span class="qk-enhed">{{ . }}</span>{{ end }}</div>
+    <div class="qk-spm">{{ .spm | markdownify }}</div>
+    {{- with .billede }}<img src="{{ printf "img/quiz-%s/%s.svg" $navn . | relURL }}" alt="Graf til kort">{{ end }}
+    <div class="qk-foot">
+      {{- with .hint }}<details class="hint"><summary>Hint</summary><p>{{ . | markdownify }}</p></details>{{ end }}
+      <details class="svar" style="margin-top:.35rem"><summary>Svar</summary><p>{{ .svar | markdownify }}</p></details>
+    </div>
+  </div>
+{{- end }}
+</div>
+</div>
+<script>
+(function(){
+  const root=document.getElementById("qk-{{ $navn }}"), grid=root.querySelector(".qk-grid");
+  root.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{
+    root.querySelectorAll("[data-f]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+    const f=b.dataset.f;
+    grid.querySelectorAll(".qk-card").forEach(c=>{
+      const vis=f==="alle"||(f==="enhed"?c.dataset.enhed==="1":c.dataset.type===f);
+      c.classList.toggle("qk-hidden",!vis);
+    });
+  });
+  root.querySelector('[data-a=bland]').onclick=()=>{
+    const cs=[...grid.children]; for(let i=cs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cs[i],cs[j]]=[cs[j],cs[i]];}
+    cs.forEach(c=>grid.appendChild(c));
+  };
+  const sb=root.querySelector('[data-a=svar]');
+  sb.onclick=()=>{const aab=sb.textContent.startsWith("Vis");
+    grid.querySelectorAll("details.svar").forEach(d=>d.open=aab);
+    sb.textContent=aab?"Skjul alle svar":"Vis alle svar"; sb.classList.toggle("on",aab);};
+})();
+</script>
+{{- else -}}
+<p><em>Ingen quiz fundet for «{{ $navn }}».</em></p>
+{{- end -}}

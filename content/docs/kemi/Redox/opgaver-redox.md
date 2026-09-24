@@ -24,6 +24,7 @@ Afstem reaktionsskemaerne nedenfor med oxidationstalsmetoden. Angiv koefficiente
 7) $\text{CH}_{3}\text{OH}$ + $\text{Cr}_{2}\text{O}_{7}^{2-}$ → $\text{HCHO}$ + $\text{Cr}^{3+}$
 
 ### I basisk opløsning
+Her kan du tilføje enten $\text{OH}^{-}$ eller $\text{H}_2\text{O}$ på venstre side
 
 8) $\text{Al}$ + $\text{NO}_{3}^{-}$ → $\text{Al(OH)}_{2}\text{O}^{-}$ + $\text{NO}$
 9) $\text{S}^{2-}$ + $\text{ClO}_{3}^{-}$ → $\text{Cl}^{-}$ + $\text{S}$

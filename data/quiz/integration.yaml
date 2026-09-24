@@ -1,0 +1,218 @@
+# Quiz og byt – Integration i fysik (3g Fysik A)
+# Ret frit i kortene. Felter:
+#   nr     : kortnummer (styrer rækkefølgen)
+#   type   : graf | begreb | funktion
+#   enhed  : true hvis kortet træner enheder (vises som mærke)
+#   spm    : spørgsmålet (markdown + $matematik$)
+#   billede: navn på graf i static/img/quiz-integration/ (uden endelse) – kun graf-kort
+#   svar   : kort svar (står på hovedet nederst på printkortet)
+#   hint   : hjælp som spørgeren kan give
+# Print-PDF: python3 scripts/quizkort/build_pdf.py integration
+
+titel: "Quiz og byt – Integration i fysik"
+kort:
+
+# ---------- A. Aflæs integralet på en graf ----------
+- nr: 1
+  type: graf
+  enhed: true
+  spm: 'Grafen viser kraften på en kasse. Find kraftens impuls $\Delta p$ fra 0 til 4 s.'
+  billede: g01-impuls
+  svar: '$\Delta p = 6 \cdot 4 = 24$ N·s'
+  hint: 'Arealet er et rektangel: højde gange bredde. Enhed: N gange s.'
+
+- nr: 2
+  type: graf
+  spm: 'En bil starter fra hvile. Hvor langt kører den de første 5 s?'
+  billede: g02-trekant
+  svar: '$s = \tfrac{1}{2} \cdot 5 \cdot 10 = 25$ m'
+  hint: 'Arealet er en trekant: $\tfrac{1}{2}$ · grundlinje · højde.'
+
+- nr: 3
+  type: graf
+  spm: 'Hvor langt kører cyklen de første 4 s?'
+  billede: g03-trapez
+  svar: '$s = \tfrac{1}{2}(3+9) \cdot 4 = 24$ m'
+  hint: 'Trapez – eller et rektangel ($3 \cdot 4$) plus en trekant ($\tfrac{1}{2}\cdot 4 \cdot 6$).'
+
+- nr: 4
+  type: graf
+  spm: 'Find strækningen fra $t = 2$ s til $t = 4$ s (det farvede område).'
+  billede: g04-a-til-b
+  svar: '$\tfrac{1}{2}(6+12) \cdot 2 = 18$ m'
+  hint: 'Stor trekant (0–4 s) minus lille trekant (0–2 s): $24 - 6$.'
+
+- nr: 5
+  type: graf
+  enhed: true
+  spm: 'Grafen viser kraften i en fjeder, der trækkes ud. Find energien i fjederen, når den er trukket 0,40 m ud.'
+  billede: g05-fjeder
+  svar: '$E = \tfrac{1}{2} \cdot 0{,}40 \cdot 20 = 4{,}0$ J'
+  hint: 'Trekant. Enhed: N · m = J.'
+
+- nr: 6
+  type: graf
+  enhed: true
+  spm: 'En elkedel koger vand. Find energien i kJ. Pas på enhederne på x-aksen!'
+  billede: g06-elkedel
+  svar: '$2{,}0$ kW $\cdot$ $180$ s $= 360$ kJ ($= 0{,}10$ kWh)'
+  hint: '3,0 min er 180 s. kW · s = kJ.'
+
+- nr: 7
+  type: graf
+  enhed: true
+  spm: 'En telefon oplades. Find ladningen i mAh – og i coulomb (C).'
+  billede: g07-ladning
+  svar: '$1000 + 250 = 1250$ mAh $= 1{,}25$ A $\cdot$ $3600$ s $= 4500$ C'
+  hint: 'Rektangel (0–2 h) plus trekant (2–3 h). 1 Ah = 3600 C.'
+
+- nr: 8
+  type: graf
+  spm: 'En elevator kører fra én etage til en anden. Hvor langt kører den i alt?'
+  billede: g08-sammensat
+  svar: '$16 + 48 + 8 = 72$ m'
+  hint: 'Del op: trekant + rektangel + trekant.'
+
+- nr: 9
+  type: graf
+  enhed: true
+  spm: 'Et spark på en bold. Tæl tern og find kraftens impuls. Hvad er én tern værd?'
+  billede: g09-spark
+  svar: 'Én tern $= 0{,}010$ s $\cdot$ $50$ N $= 0{,}5$ N·s. Ca. 38 tern → ca. 19 N·s (17–21 N·s er fint)'
+  hint: 'ms skal laves om til s. Tæl hele tern, og tæl halve tern som ½.'
+
+- nr: 10
+  type: graf
+  spm: 'En bil kører frem og bremser, og bakker så. Hvor langt er bilen fra startstedet efter 5 s? Hvor lang vej har den kørt i alt?'
+  billede: g10-negativ
+  svar: 'Frem 9 m, tilbage 4 m. Afstand fra start: 5 m. Kørt i alt: 13 m'
+  hint: 'Areal under $t$-aksen tæller negativt (bilen bakker).'
+
+# ---------- B. Begreber og enheder ----------
+- nr: 11
+  type: begreb
+  spm: 'I $\Delta p = \int F \, \mathrm{d}t$: Hvad betyder $\mathrm{d}t$, og hvad er $F \cdot \mathrm{d}t$?'
+  svar: '$\mathrm{d}t$ er et meget lille tidsstykke. $F \cdot \mathrm{d}t$ er et smalt rektangel. $\int$ lægger dem alle sammen.'
+  hint: 'Tænk på arealet under grafen skåret i tynde strimler.'
+
+- nr: 12
+  type: begreb
+  enhed: true
+  spm: 'Du finder arealet under en $v$-$t$-graf. Hvilken enhed får arealet, og hvilken størrelse er det?'
+  svar: 'm/s · s = m. Det er strækningen.'
+  hint: 'y-enhed gange x-enhed.'
+
+- nr: 13
+  type: begreb
+  enhed: true
+  spm: 'Du finder arealet under en $a$-$t$-graf ($a$ i m/s², $t$ i s). Hvilken enhed får du, og hvad betyder det?'
+  svar: 'm/s² · s = m/s. Det er ændringen i fart $\Delta v$.'
+  hint: 'Én s i nævneren går ud.'
+
+- nr: 14
+  type: begreb
+  enhed: true
+  spm: 'Effekten $P$ er i kW og tiden $t$ i timer. Hvilken enhed har arealet under $P$-$t$-grafen, og hvad er det?'
+  svar: 'kW · h = kWh. Det er energi (som på elregningen).'
+  hint: 'y-enhed gange x-enhed. 1 kWh = 3,6 MJ.'
+
+- nr: 15
+  type: begreb
+  enhed: true
+  spm: 'En gas: tryk $p$ (Pa) op ad y-aksen, volumen $V$ (m³) ud ad x-aksen. Hvilken enhed har arealet? Hvad er det?'
+  svar: 'Pa · m³ = N/m² · m³ = N·m = J. Det er arbejde (energi).'
+  hint: '1 Pa = 1 N/m².'
+
+- nr: 16
+  type: begreb
+  enhed: true
+  spm: 'En vandhane: flow op ad y-aksen i L/min, tid ud ad x-aksen i min. Hvad fortæller arealet? Hvilken enhed?'
+  svar: 'L/min · min = L. Det er mængden af vand (volumen).'
+  hint: 'Minutter går ud.'
+
+- nr: 17
+  type: begreb
+  spm: 'Hvorfor står der $\tfrac{1}{2}$ i $s = \tfrac{1}{2} a t^2$?'
+  svar: 'Afled $t^2$: $2t$ – en faktor 2 for meget, så gang med $\tfrac{1}{2}$. (Arealet er en trekant.)'
+  hint: 'Prøv at aflede $a t^2$. Hvad får du?'
+
+- nr: 18
+  type: begreb
+  spm: 'Hvordan kan du altid tjekke, om du har integreret rigtigt?'
+  svar: 'Afled dit resultat. Får du den funktion, du startede med, er det rigtigt.'
+  hint: 'Integration er det omvendte af …'
+
+- nr: 19
+  type: begreb
+  spm: 'Skriv $\int_{3}^{6} v \, \mathrm{d}t$ ved hjælp af stamfunktionen $S$. Hvad sker der med konstanten $C$?'
+  svar: '$S(6) - S(3)$. $C$ er med i begge led og går ud.'
+  hint: 'Stort areal minus lille areal. Øverste grænse først.'
+
+- nr: 20
+  type: begreb
+  enhed: true
+  spm: 'Hvad hedder $\Delta p = \int F \, \mathrm{d}t$, og hvilken enhed har den? Vis at det er det samme som kg·m/s.'
+  svar: 'Kraftens impuls. N·s = kg·m/s² · s = kg·m/s.'
+  hint: '1 N = 1 kg·m/s².'
+
+# ---------- C. Integrér funktionen ----------
+- nr: 21
+  type: funktion
+  spm: 'Find en stamfunktion til $f(x) = 5$'
+  svar: '$F(x) = 5x + C$'
+  hint: 'Hvad skal du aflede for at få 5?'
+
+- nr: 22
+  type: funktion
+  spm: 'Find en stamfunktion til $f(x) = 3x$'
+  svar: '$F(x) = \tfrac{3}{2}x^2 + C$'
+  hint: 'Gæt $x^2$, afled, og ret faktoren til.'
+
+- nr: 23
+  type: funktion
+  spm: 'Find en stamfunktion til $f(x) = x^2$'
+  svar: '$F(x) = \tfrac{1}{3}x^3 + C$'
+  hint: 'Læg 1 til eksponenten, og divider med den nye eksponent.'
+
+- nr: 24
+  type: funktion
+  spm: 'Find en stamfunktion til $f(x) = 4x^3 + 2$'
+  svar: '$F(x) = x^4 + 2x + C$'
+  hint: 'Tag ét led ad gangen.'
+
+- nr: 25
+  type: funktion
+  spm: 'Find en stamfunktion til $f(x) = \dfrac{1}{x}$ (for $x > 0$)'
+  svar: '$F(x) = \ln(x) + C$'
+  hint: 'Potensreglen virker ikke her. Hvilken funktion har $\tfrac{1}{x}$ som afledt?'
+
+- nr: 26
+  type: funktion
+  spm: 'Find en stamfunktion til $f(x) = \dfrac{1}{x^2}$'
+  svar: '$F(x) = -\dfrac{1}{x} + C$'
+  hint: 'Skriv $\tfrac{1}{x^2} = x^{-2}$, og brug potensreglen.'
+
+- nr: 27
+  type: funktion
+  spm: 'Find en stamfunktion til $f(x) = \cos(x)$'
+  svar: '$F(x) = \sin(x) + C$'
+  hint: 'Hvad giver $\cos(x)$, når du afleder?'
+
+- nr: 28
+  type: funktion
+  spm: 'Find en stamfunktion til $f(x) = \sin(x)$'
+  svar: '$F(x) = -\cos(x) + C$'
+  hint: '$(\cos x)'' = -\sin x$. Pas på fortegnet!'
+
+- nr: 29
+  type: funktion
+  spm: 'Vis at $F(x) = x \ln(x) - x$ er en stamfunktion til $f(x) = \ln(x)$'
+  svar: '$F''(x) = 1 \cdot \ln(x) + x \cdot \tfrac{1}{x} - 1 = \ln(x)$ ✓'
+  hint: 'Afled $F$. Brug produktreglen på $x \ln(x)$.'
+
+- nr: 30
+  type: funktion
+  enhed: true
+  spm: 'Accelerationen er $a(t) = 6{,}0\ \mathrm{m/s^3} \cdot t$. Find $v(t)$, når $v_0 = 0$. Tjek enheden.'
+  svar: '$v(t) = 3{,}0\ \mathrm{m/s^3} \cdot t^2$. Enhed: m/s³ · s² = m/s ✓'
+  hint: 'Gæt $t^2$, afled, og ret faktoren til.'

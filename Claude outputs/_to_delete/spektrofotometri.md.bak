@@ -34,7 +34,7 @@ Forestil jer en kop vand, som I hælder mere og mere saftevand i:
 - Jo mere saftevand, jo mørkere/mere farvet bliver vandet — og jo mindre lys kan I se igennem den, hvis I holder den op mod en lampe.
 - Et spektrofotometer gør præcis det samme, bare med et tal i stedet for et øje: det måler, hvor meget lys der kommer igennem, og omregner det til absorbans.
 
-Vi bruger samme idé med et konkret eksempel: **rødt farvestof i sodavand**. Rød sodavand og saftevand er farvet med et farvestof som E120 (karmin), E124 (Ponceau 4R) eller E129 (Allura Red AC) — tjek varedeklarationen på jeres flaske. Jo mere farvestof, jo højere absorbans.
+Vi bruger samme idé med et konkret eksempel: **rødt farvestof i sodavand**. Rød sodavand og saftevand er farvet med et farvestof som E124 (Ponceau 4R) eller E129 (Allura Red AC) — tjek varedeklarationen på jeres flaske. Jo mere farvestof, jo højere absorbans.
 
 ## Opgave: byg en standardkurve i Excel
 I har lavet det her før i NV hvor vi undersøgte C-vitaminindhold i appelsinjuice. 
@@ -70,4 +70,15 @@ Brug tendenslinjens ligning til at regne koncentrationen $c$ ud for hver prøve 
 
 ## Eksperiment
 
-Nu skal I selv prøve metoden: [Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}).
+**Den enkle version** (kræver ikke rent farvestof):
+
+1. Lav en fortyndingsrække direkte af sodavanden selv: fx 100 %, 80 %, 60 %, 40 %, 20 % og 0 % (rent vand) af den ufortyndede sodavand, ved at blande med vand i målekolber.
+2. Mål absorbansen af hver fortynding på spektrofotometeret. Hvis I ikke kender $\lambda_{max}$ i forvejen, så scan hele det synlige spektrum for én af de kraftigst farvede prøver, og aflæs, hvor absorbansen er højst — det er jeres måle-bølgelængde.
+3. Plot absorbans mod fortyndingsprocent i Excel som ovenfor. I får en **relativ** koncentration (i procent af den ufortyndede sodavand), ikke en absolut værdi i mg/L — det er fint til formålet.
+4. Lad en gruppe lave en "hemmelig" fortynding (fx 55 %) af en anden gruppes sodavand, og få den anden gruppe til at bestemme fortyndingsgraden ud fra deres egen standardkurve. Det er en god måde at teste metoden på.
+
+**Udvidet version** (giver en absolut koncentration i mg/L): brug i stedet en fortyndingsrække lavet ud fra en indvejet mængde rent farvestof (fødevarefarve/E124 eller E129 i pulverform), akkurat som i regneeksemplet ovenfor.
+
+Hvis skolen har et Vernier SpectroVis Plus (samme type udstyr og software som LoggerPro), har det typisk en indbygget "Concentration"-funktion, der selv plotter standardkurven og beregner koncentrationen af en ukendt prøve automatisk. Lad eleverne regne det manuelt i Excel først, så de forstår metoden, og brug evt. LoggerPro-funktionen bagefter til at tjekke deres eget resultat.
+
+**Sikkerhed:** almindelig fødevarefarve og sodavand er ufarligt at håndtere — ingen særlige sikkerhedsforanstaltninger nødvendige ud over almindelig laboratorieadfærd.

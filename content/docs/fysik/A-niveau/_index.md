@@ -17,7 +17,7 @@ kvantefysikkens manglende dele som elektronvolt og opgaver med planckkonstanten 
 | 0 | 1–2 | 2 | Repetition Fysik B + opfølgning på årsprøve | Teori / opgaver |  |
 | 1 | 3–4 | 2 | Hookes lov + Python-projekt | Eksp. + IT | Fjeder, F = k · x |
 | 2 | 5–10 | 6 | [Kinematik i 2D og skråt kast]({{< relref "/docs/fysik/emner-a/frit-fald-luftmodstand-skraat-kast" >}}) | Teori + Eksp. | [Videoanalyse af kast]({{< relref "docs/fysik/A-Eksp/kasteparabel" >}}) |
-| 3 | 11–15 | 5 | [Bevægelsesmængde og stød]({{< relref "/docs/fysik/emner-a/stoed" >}}) | Teori + Eksp. | [Stød på luftpudebane]({{< relref "stoed-luftpudebane" >}}) · [Hop på kraftplatform]({{< relref "kraftplatform-hop" >}}) |
+| 3 | 11–15 | 5 | [Bevægelsesmængde og stød]({{< relref "/docs/fysik/emner-a/stoed" >}}) | Teori + Eksp. | [Stød på luftpudebane]({{< relref "stoed-luftpudebane" >}}) · [Hop på kraftplatform]({{< relref "kraftplatform-hop" >}}) · [Spil: Stød-billard]({{< relref "stoed-spil" >}}) |
 | 4 | 16–19 | 4 | [Jævn cirkelbevægelse (centripetalkraft)]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Eksp. | [Roterende lod (Del 3)]({{< relref "jaevn-cirkelbevaegelse" >}}) / kraftmåler |
 | 5 | 20–24 | 5 | [Gravitation og bevægelse om centrallegeme]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Sim. | Simulering af satellit/planetbane |
 | 6 | 25–29 | 5 | [Harmonisk svingning – kraft og energi]({{< relref "/docs/fysik/emner-a/harmonisk-svingning" >}}) | Eksp. + IT | Fjederpendul + matematisk pendul |
@@ -53,6 +53,8 @@ flere frames og et rigere datasæt end frit fald.
 ### Blok 3 · Bevægelsesmængde og stød (modul 11–15)
 Bevarelsessætningen for bevægelsesmængde, elastiske og uelastiske stød i én
 dimension. Luftpudebanen er kerneeksperimentet, med kraftmåler som udvidelse.
+Spillet [Stød-billard]({{< relref "stoed-spil" >}}) bruges til at træne
+forudsigelser af stød, både til opvarmning og til repetition.
 
 ### Blok 4 · Jævn cirkelbevægelse (modul 16–19)
 Centripetalacceleration og centripetalkraft. **Bemærk:** centrifugalkraften er

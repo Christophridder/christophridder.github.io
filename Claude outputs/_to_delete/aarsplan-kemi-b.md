@@ -15,7 +15,7 @@ Den bygger på [Studieplan 2wKe]({{< relref "/docs/Studieplaner/2wke" >}}) (modu
 |---|---|---|---|---|---|---|
 | 0 | 1–5 | 5 | Repetition fra 1.g: ionforbindelser, elektronprikformler, koncentrationer | *I gang med kemi* | [Salt i ting]({{< relref "/docs/kemi/C-Eksp/salt-i-ting" >}}), [Salmiak]({{< relref "/docs/kemi/B-Eksp/salmiak" >}}) | Ionstørrelse og ionernes biologiske opførsel |
 | 1 | 6–12 | 7 | Redox: oxidationstal, afstemning, spændingsrækken | (egne T-sider) | [Mangans oxidationstal]({{< relref "/docs/kemi/B-Eksp/mangans-oxidationstal" >}}), [Jernindhold i ståluld]({{< relref "/docs/kemi/B-Eksp/staaluld" >}}) | Redox i organisk kemi (senere) |
-| 2 | 13–17 | 5 | Farvede forbindelser og spektrofotometri | Kap. 1 | [Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}) ([Spektrofotometri]({{< relref "/docs/kemi/Metoder/spektrofotometri" >}})) | Farver og lys i biologiske stoffer |
+| 2 | 13–17 | 5 | Farvede forbindelser og spektrofotometri | Kap. 1 | Farvestof i rød sodavand ([Spektrofotometri]({{< relref "/docs/kemi/Metoder/spektrofotometri" >}})) | Farver og lys i biologiske stoffer |
 | 3 | 18–24 | 7 | Kemiske ligevægte og forskydning | Kap. 2 | Indgreb i et ligevægtssystem | **Transport af dioxygen i blodet** |
 | 4 | 25–34 | 10 | Syre-base og pH-beregninger, titrering | Kap. 3 | [Phosphorsyre i cola]({{< relref "/docs/kemi/B-Eksp/phosphorsyre-cola" >}}), [Syre i vingummibamser]({{< relref "/docs/kemi/C-Eksp/vingummi" >}}) | **pH og syre-base i kroppen** |
 | 5 | 35–41 | 7 | Organisk kemi: stofklasser, isomeri, reaktionstyper | Kap. 4 | Oxidation af alkoholer, [Substitution i heptan]({{< relref "/docs/kemi/C-Eksp/heptan" >}}) | Sukker og geleringsmidler |
@@ -41,7 +41,7 @@ Oxidationstal, afstemning af redoxreaktioner med oxidationstal og anvendelse af 
 - Eksperimenter: [Mangans oxidationstal]({{< relref "/docs/kemi/B-Eksp/mangans-oxidationstal" >}}) (modul 6–7), [Jernindhold i ståluld]({{< relref "/docs/kemi/B-Eksp/staaluld" >}}), evt. repetition med [Kobber og dibrom]({{< relref "/docs/kemi/C-Eksp/kobber-dibrom" >}}) og [Spændingsrækken]({{< relref "/docs/kemi/C-Eksp/spaendingsraekke" >}})
 
 ### Blok 2 · Farvede forbindelser og spektrofotometri (modul 13–17)
-Stråling, lys og farver, komplementærfarver, farvede uorganiske og organiske forbindelser. Spektrofotometri med absorbans, molar absorptionskoefficient, Lambert-Beers lov og standardkurve. Spektrofotometri er kernestof på B. Eksperiment: [Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}).
+Stråling, lys og farver, komplementærfarver, farvede uorganiske og organiske forbindelser. Spektrofotometri med absorbans, molar absorptionskoefficient, Lambert-Beers lov og standardkurve. Spektrofotometri er kernestof på B. Eksperiment: farvestof i rød sodavand.
 
 ### Blok 3 · Kemiske ligevægte (modul 18–24)
 Reversible og irreversible reaktioner, ligevægtsloven, reaktionsbrøk og ligevægtskonstant, og forskydning på kvalitativt og simpelt kvantitativt grundlag (Le Chateliers princip). Kun **homogene** ligevægte hører til B. **Biologi:** transport af dioxygen i blodet som gennemgående eksempel (hæmoglobin og forskydning af ligevægten).
@@ -84,7 +84,7 @@ Eleverne skal selv arbejde eksperimentelt i mindst **20 %** af undervisningstide
 | 5 | [Kobber og dibrom]({{< relref "/docs/kemi/C-Eksp/kobber-dibrom" >}}) | Simpel redox | 1 | Lavet (fra C) |
 | 6 | [Spændingsrækken]({{< relref "/docs/kemi/C-Eksp/spaendingsraekke" >}}) | Redox | 1 | Lavet (fra C) |
 | 7 | [Fældningsreaktioner]({{< relref "/docs/kemi/C-Eksp/faeldning" >}}) | Ioner og opløselighed | 0–1 | Lavet (fra C) |
-| 8 | [Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}) | Spektrofotometri, standardkurve ([Spektrofotometri]({{< relref "/docs/kemi/Metoder/spektrofotometri" >}})) | 2 | **Lavet (B)** |
+| 8 | Farvestof i rød sodavand | [Spektrofotometri]({{< relref "/docs/kemi/Metoder/spektrofotometri" >}}) | 2 | Metode og forsøgsforslag i crsite, selve eksperimentopstillingen fra eksamenssiden |
 | 9 | Indgreb i et ligevægtssystem | Ligevægt, forskydning | 3 | Fra eksamenssiden, ikke i crsite |
 | 10 | [Phosphorsyre i cola]({{< relref "/docs/kemi/B-Eksp/phosphorsyre-cola" >}}) | Syre-base, titrering | 4 | **Lavet (B)** |
 | 11 | [Syre i vingummibamser]({{< relref "/docs/kemi/C-Eksp/vingummi" >}}) | Syre-base, titrering | 4 | Lavet (fra C) |
@@ -98,7 +98,7 @@ Eleverne skal selv arbejde eksperimentelt i mindst **20 %** af undervisningstide
 | 19 | [Fremstilling af sæbe]({{< relref "/docs/kemi/C-Eksp/saebe" >}}) | Hydrolyse af fedt | 7 | Lavet (fra C) |
 | 20 | Dannelse af svovl | Reaktionshastighed | 9 | Fra eksamenssiden, ikke i crsite |
 
-**Status:** 5 er lavet til B-niveau, 7 er lavet til C og genbruges, 7 findes på eksamenssiden på Google Sites (ikke flyttet til crsite endnu) og 1 er et forslag. Se også [Eksperimenter B]({{< relref "/docs/kemi/B-Eksp" >}}) og [Eksperimenter C]({{< relref "/docs/kemi/C-Eksp" >}}).
+**Status:** 4 er lavet til B-niveau, 7 er lavet til C og genbruges, 8 findes på eksamenssiden på Google Sites (ikke flyttet til crsite endnu) og 1 er et forslag. Se også [Eksperimenter B]({{< relref "/docs/kemi/B-Eksp" >}}) og [Eksperimenter C]({{< relref "/docs/kemi/C-Eksp" >}}).
 
 ## Eksamensspørgsmål og blokke
 
@@ -111,7 +111,7 @@ Eksamensspørgsmålene på din side dækker disse temaer. Tabellen viser, hvor d
 | Reaktionshastighed (dannelse af svovl) | 9 |
 | Acetylsalicylsyre-syntese, oxidation af alkoholer, dobbeltbindinger i fedtstoffer | 5, 7 |
 | Jernindhold i ståluld, mangans oxidationstal | 1 |
-| [Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}) ([Spektrofotometri]({{< relref "/docs/kemi/Metoder/spektrofotometri" >}})) | 2 |
+| Farvestof i rød sodavand ([Spektrofotometri]({{< relref "/docs/kemi/Metoder/spektrofotometri" >}})) | 2 |
 | Gæring og ethanolbestemmelse, opløselighed af alkoholer | 5 |
 
 ## Kernestof-tjekliste (Kemi B)

@@ -1,0 +1,146 @@
+---
+title: "Spektrofotometri"
+weight: 1
+---
+
+**Niveau: Kemi B (2.g)** · **Emne: Farvede forbindelser og analysemetoder**
+
+[Tilbage til Metoder]({{< relref "/docs/kemi/Metoder" >}})
+
+## Video: hvad er spektrofotometri?
+
+{{< yt id="Bi3N-gbYpCo" >}}
+
+*Kilde: Biotech Academy — "Metoder: Spektrofotometri".*
+
+## Kort forklaret
+
+- Et spektrofotometer sender lys med én bestemt bølgelængde (monokromatisk lys) gennem en opløsning i en lille glas- eller plastbeholder, en **kuvette**.
+- Molekylerne i opløsningen absorberer noget af lyset. Den farve, vi *ser*, er det lys, der **ikke** bliver absorberet.
+- Jo mere stof der er opløst, jo mere lys bliver absorberet. Apparatet måler dette som **absorbans**, $A$ (ingen enhed).
+- Sammenhængen mellem absorbans og koncentration er givet ved **Beer-Lamberts lov**:
+
+$$A = \varepsilon \cdot b \cdot c$$
+
+  hvor $\varepsilon$ er stoffets molare absorptionskoefficient (afhænger af stof og bølgelængde), $b$ er kuvettens bredde (typisk 1 cm), og $c$ er koncentrationen.
+
+- Ved en fast bølgelængde og en fast kuvette er $\varepsilon \cdot b$ en konstant — så $A$ er **proportional** med $c$. Det er derfor, metoden er så nyttig: mål absorbansen, og du kan regne koncentrationen ud.
+- I praksis vælger man den bølgelængde, hvor stoffet absorberer *mest* ($\lambda_{max}$), fordi metoden så er mest følsom over for små ændringer i koncentration.
+
+## Et meget simpelt eksempel
+
+Forestil jer en kop vand, som I hælder mere og mere saftevand i:
+
+- Jo mere saftevand, jo mørkere/mere farvet bliver vandet — og jo mindre lys kan I se igennem den, hvis I holder den op mod en lampe.
+- Et spektrofotometer gør præcis det samme, bare med et tal i stedet for et øje: det måler, hvor meget lys der kommer igennem, og omregner det til absorbans.
+
+Vi bruger samme idé med et konkret eksempel: **rødt farvestof i sodavand**. Rød sodavand og saftevand er farvet med et farvestof som E124 (Ponceau 4R) eller E129 (Allura Red AC) — tjek varedeklarationen på jeres flaske. Jo mere farvestof, jo højere absorbans.
+
+## Opgave: byg en standardkurve i Excel
+I har lavet det her før i NV hvor vi undersøgte C-vitaminindhold i appelsinjuice. 
+I kan måske huske at vi havde 4 standardopløsninger i NV med $25mg/L$, $50mg/L$, $75mg/L$ og $100mg/L$
+
+Til en standardkurve bruger man en række opløsninger med *kendt* koncentration, i det her forsøg er det det røde farvestof (en fortyndingsrække), og I har målt følgende absorbanser ved farvestoffets $\lambda_{max}$:
+
+| Koncentration (mg/L) | Absorbans $A$ |
+|---|---|
+| 0 | 0,010 |
+| 2 | 0,176 |
+| 4 | 0,352 |
+| 6 | 0,505 |
+| 8 | 0,687 |
+| 10 | 0,839 |
+
+**Sådan gør I:**
+
+1. Indtast tallene i Excel i to kolonner (koncentration og absorbans).
+2. Indsæt et punktdiagram (scatter plot) med koncentration på x-aksen og absorbans på y-aksen.
+3. Tilføj en lineær tendenslinje, og få Excel til at vise ligningen ($y = a\,x+b$) og $R^2$.
+4. $R^2$ bør ligge tæt på 1 — det fortæller jer, hvor godt Beer-Lamberts lov (en ret linje) passer på jeres data.
+
+**Nu har I "rigtige" målinger** — tre ukendte prøver af rød sodavand, som I har fortyndet og målt absorbansen af:
+
+| Prøve | Absorbans $A$ |
+|---|---|
+| A | 0,410 |
+| B | 0,622 |
+| C | 0,235 |
+
+Brug tendenslinjens ligning til at regne koncentrationen $c$ ud for hver prøve (isolér $c$ i $y=ax+b$). Diskutér bagefter: hvis prøve A var 50 gange fortyndet, før I målte den — hvad var koncentrationen så i den *ufortyndede* sodavand?
+
+## Eksperiment: standardkurve for β-caroten
+
+β-caroten er det orange farvestof i gulerødder (E160a). Det er **ikke opløseligt i vand**, fordi molekylet er et langt, upolært kulbrinte. Derfor er det opløst i **heptan**, der er et upolært opløsningsmiddel.
+
+### Stamopløsningen
+
+> Læreren har opløst $10{,}0$ mg rent β-caroten i heptan i en $500{,}0$ mL målekolbe. Det er jeres **stamopløsning**.
+
+**Opgave 1 – Koncentrationen af stamopløsningen**
+
+β-caroten har formlen $\ce{C40H56}$.
+
+a) Beregn den molare masse $M$ af β-caroten. Brug $M(\ce{C}) = 12{,}01$ g/mol og $M(\ce{H}) = 1{,}008$ g/mol.
+
+b) Beregn stofmængden $n$ af β-caroten i kolben. Husk $n = \dfrac{m}{M}$.
+
+c) Beregn den molære koncentration $c$ af stamopløsningen i mol/L og i µmol/L. Husk $c = \dfrac{n}{V}$.
+
+d) Beregn også massekoncentrationen i mg/L.
+
+### Fortyndingsrækken
+
+Stamopløsningen er for koncentreret til at måle direkte. I laver derfor 5 standardopløsninger:
+
+1. Afpipettér den mængde stamopløsning, der står i tabellen, over i en $25{,}00$ mL målekolbe.
+2. Fyld op til stregen med heptan, sæt prop i, og vend kolben et par gange.
+3. Beregn koncentrationen af hver standard med fortyndingsformlen $c_1 \cdot V_1 = c_2 \cdot V_2$, og skriv den i tabellen.
+
+| Standard | Stamopløsning $V_1$ (mL) | Samlet volumen $V_2$ (mL) | $c_2$ (µmol/L) | Absorbans $A$ |
+|---|---|---|---|---|
+| 0 (blind) | 0 | 25,00 | 0 | 0 |
+| 1 | 1,00 | 25,00 | | |
+| 2 | 2,00 | 25,00 | | |
+| 3 | 3,00 | 25,00 | | |
+| 4 | 4,00 | 25,00 | | |
+| 5 | 5,00 | 25,00 | | |
+
+### Måling
+
+1. Nulstil spektrofotometeret med en kuvette med **ren heptan** (blindprøve).
+2. Scan spektret for standard 5 fra 380 til 600 nm. β-caroten har tre toppe. Aflæs $\lambda_{max}$ for den midterste top (omkring 450 nm), og brug den bølgelængde til resten af målingerne.
+3. Mål absorbansen af standard 1–5 ved $\lambda_{max}$. Start med den mest fortyndede.
+4. Lav standardkurven i Excel som ovenfor: $A$ på y-aksen, $c$ på x-aksen, lineær tendenslinje, ligning og $R^2$.
+5. Mål absorbansen af den **ukendte prøve**, som I får af læreren, og bestem dens koncentration ud fra standardkurven.
+
+### Opgave 2 – Den molare absorptionskoefficient
+
+a) Hældningen på standardkurven er $\varepsilon \cdot b$. Kuvetten er $b = 1{,}00$ cm. Bestem $\varepsilon$ for β-caroten i L/(mol·cm).
+
+b) Sammenlign med litteraturværdien for β-caroten i et upolært opløsningsmiddel ved ca. 450 nm: $\varepsilon \approx 1{,}4 \cdot 10^{5}$ L/(mol·cm). Hvad kan forklare en forskel?
+
+> **Model:** Beer-Lamberts lov gælder kun for fortyndede opløsninger, typisk med $A$ under ca. 1. Ved højere koncentrationer bøjer standardkurven af. Loven forudsætter også, at stoffet ikke ændrer sig undervejs – β-caroten nedbrydes langsomt af lys og ilt.
+
+### Praktiske noter til læreren
+
+- **Opløsning:** β-caroten opløses langsomt. Brug magnetomrører eller ultralydsbad i 10–15 min. Stamopløsningen er langt under opløseligheden i hexan/heptan (ca. 0,1–0,6 g/L i litteraturen).
+- **Holdbarhed:** Lav stamopløsningen samme dag. Opbevar den i brun flaske eller kolbe pakket i sølvpapir.
+- **Kuvetter:** Brug glaskuvetter. Plastkuvetter kan tage skade af heptan.
+- **Forventede absorbanser** (med $\varepsilon \approx 1{,}39 \cdot 10^5$ L/(mol·cm)): ca. 0,21 – 0,41 – 0,62 – 0,83 – 1,04 for standard 1–5.
+- **Ukendt prøve:** fx 3,50 mL stamopløsning fortyndet til 25,00 mL ($c = 5{,}22$ µmol/L, $A \approx 0{,}72$).
+- **Vernier:** Hvis skolen har et Vernier SpectroVis Plus (samme udstyr og software som LoggerPro), har det en indbygget "Concentration"-funktion, der selv laver standardkurven. Lad eleverne regne det manuelt i Excel først, så de forstår metoden, og brug evt. LoggerPro bagefter til at tjekke resultatet.
+
+### Facit til opgave 1
+
+- a) $M = 40 \cdot 12{,}01 + 56 \cdot 1{,}008 = 536{,}8$ g/mol
+- b) $n = \dfrac{10{,}0 \cdot 10^{-3}\ \text{g}}{536{,}8\ \text{g/mol}} = 1{,}86 \cdot 10^{-5}$ mol
+- c) $c = \dfrac{1{,}86 \cdot 10^{-5}\ \text{mol}}{0{,}5000\ \text{L}} = 3{,}73 \cdot 10^{-5}$ mol/L $= 37{,}3$ µmol/L
+- d) $\dfrac{10{,}0\ \text{mg}}{0{,}5000\ \text{L}} = 20{,}0$ mg/L
+- Standarderne: $c_2 = 37{,}3\ \text{µmol/L} \cdot \dfrac{V_1}{25{,}00\ \text{mL}}$ giver 1,49 – 2,98 – 4,47 – 5,96 – 7,45 µmol/L.
+
+## Sikkerhed
+
+- **Heptan** er meget brandfarligt (H225), kan være dødeligt ved indtagelse og indtrængen i luftvejene (H304), irriterer huden (H315), kan give sløvhed og svimmelhed (H336) og er meget giftigt for vandlevende organismer (H410).
+- Arbejd i stinkskab, og hold åben ild og varmekilder væk. Brug handsker og briller.
+- Heptanaffald hældes i beholderen til **organisk affald uden halogen** – aldrig i vasken.
+- β-caroten i sig selv er ufarligt (det er et fødevarefarvestof).

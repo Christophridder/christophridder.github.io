@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stød-billard – bevægelsesmængde</title>
+<style>
+:root{
+  --bg:#eef2f1; --panel:#ffffff; --ink:#1c2a27; --muted:#56655f; --line:#cfd8d5;
+  --felt:#1d6b50; --felt2:#16563f; --rail:#5a3a22; --rail2:#43291a;
+  --ball1:#f1ece0; --ball2:#b8322a; --tot:#1d6b50;
+  --ok:#23703f; --bad:#b8322a; --focus:#e0a100;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121917; --panel:#1a2320; --ink:#e4ece9; --muted:#9aaba6; --line:#2e3b37;
+    --tot:#4fb488; --ok:#5cc184; --bad:#ec6b61;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121917; --panel:#1a2320; --ink:#e4ece9; --muted:#9aaba6; --line:#2e3b37;
+  --tot:#4fb488; --ok:#5cc184; --bad:#ec6b61;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums}
+main{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:1.6rem;line-height:1.2;margin:0 0 4px;letter-spacing:-.01em}
+h2{font-size:1.2rem;margin:0 0 6px}
+p{margin:0 0 10px}
+.lead{color:var(--muted);margin-bottom:14px}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:12px}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:8px 12px;font:inherit;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--felt);font-weight:600}
+canvas{display:block;width:100%;border-radius:10px;touch-action:manipulation}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:12px}
+.levels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.levels button{min-width:42px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;cursor:pointer;line-height:1.2}
+.levels button small{display:block;font-size:.7rem;color:#c99a1a;min-height:1em}
+.levels button[aria-current="true"]{border-color:var(--felt);outline:2px solid var(--felt);outline-offset:-2px}
+dl.givet{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:8px 0 12px}
+dl.givet dt{color:var(--muted)}
+dl.givet dd{margin:0;font-weight:600}
+.svar{display:grid;gap:8px;margin-bottom:10px}
+.svar label{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.svar label span.nm{min-width:7.5em}
+.svar input{width:7em;padding:6px 8px;font:inherit;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.svar input.ok{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok)}
+.svar input.bad{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad)}
+.knapper{display:flex;flex-wrap:wrap;gap:8px}
+.knap{padding:8px 14px;border-radius:8px;border:1px solid var(--felt);background:var(--felt);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.knap.sek{background:transparent;color:var(--ink);border-color:var(--line)}
+.knap:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.besked{margin-top:10px;min-height:1.5em}
+.besked.ok{color:var(--ok);font-weight:600}
+.besked.bad{color:var(--bad)}
+.hint{margin-top:10px;padding:10px 12px;border-left:4px solid #c99a1a;background:color-mix(in srgb,#c99a1a 10%,transparent);border-radius:0 6px 6px 0}
+.slider{display:grid;grid-template-columns:5.5em 1fr 5.5em;align-items:center;gap:8px;margin-bottom:6px}
+.slider input{width:100%;accent-color:var(--felt)}
+.slider output{text-align:right;font-weight:600}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:380px}
+th,td{padding:5px 8px;text-align:right;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+thead th{color:var(--muted);font-weight:600}
+tr.sum td{font-weight:700}
+.note{color:var(--muted);font-size:.93rem;margin-top:8px}
+details{margin-top:12px}
+summary{cursor:pointer;font-weight:600}
+details ul{margin:8px 0 0;padding-left:1.2em}
+svg text{fill:var(--ink);font:12px system-ui,sans-serif}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <h1>Stød-billard</h1>
+  <p class="lead">Forudsig, hvad der sker, når to kugler støder sammen. Tjek dit svar, og se om bevægelsesmængden er bevaret.</p>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-m" aria-selected="true" aria-controls="missioner">Opgaver</button>
+    <button role="tab" id="tab-s" aria-selected="false" aria-controls="sandkasse">Sandkasse</button>
+  </div>
+
+  <canvas id="bord" aria-label="Billardbord set fra oven med to kugler på en ret linje"></canvas>
+
+  <section id="missioner" class="panel" role="tabpanel" aria-labelledby="tab-m">
+    <div class="levels" id="levels"></div>
+    <h2 id="m-titel"></h2>
+    <p id="m-tekst"></p>
+    <dl class="givet" id="m-givet"></dl>
+    <div class="svar" id="m-svar"></div>
+    <div class="knapper">
+      <button class="knap" id="b-tjek">Tjek svar</button>
+      <button class="knap sek" id="b-foer">Se op til stødet</button>
+      <button class="knap sek" id="b-hint">Vis hint</button>
+      <button class="knap sek" id="b-los">Vis løsning</button>
+      <button class="knap" id="b-naeste" hidden>Næste opgave</button>
+    </div>
+    <div class="besked" id="m-besked" role="status" aria-live="polite"></div>
+    <div class="hint" id="m-hint" hidden></div>
+  </section>
+
+  <section id="sandkasse" class="panel" role="tabpanel" aria-labelledby="tab-s" hidden>
+    <div id="sliders"></div>
+    <div class="knapper"><button class="knap" id="s-afspil">Afspil stødet</button></div>
+    <div class="besked" id="s-besked" role="status" aria-live="polite"></div>
+  </section>
+
+  <section id="resultat" class="panel" hidden>
+    <h2>Før og efter stødet</h2>
+    <svg id="soejler" viewBox="0 0 320 150" width="100%" role="img" aria-label="Søjlediagram over bevægelsesmængde før og efter"></svg>
+    <div class="tbl-wrap"><table id="tabel"></table></div>
+    <p class="note" id="r-note"></p>
+  </section>
+
+  <details class="panel">
+    <summary>Modellens gyldighed</summary>
+    <ul>
+      <li>Der virker ingen ydre kræfter langs bevægelsesretningen (ingen gnidning), så den samlede bevægelsesmængde er bevaret.</li>
+      <li>Stødet er centralt og foregår i én dimension. Positiv retning er mod højre.</li>
+      <li>Kuglerne glider i modellen. Rigtige billardkugler ruller, og noget af energien ligger i rotationen. Det ignorerer modellen.</li>
+      <li>Den kinetiske energi er kun bevaret ved et elastisk stød (e = 1). Ellers bliver en del til varme, lyd og deformation.</li>
+    </ul>
+  </details>
+</main>
+
+<script>
+(() => {
+"use strict";
+const L = 2.0;            // bordets længde i m
+const SPEED = 0.7;        // afspilning i forhold til virkelig tid
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// ---------- fysik ----------
+function stoed(m1,m2,v1,v2,e){
+  const M=m1+m2;
+  return {v1p:(m1*v1+m2*v2+m2*e*(v2-v1))/M, v2p:(m1*v1+m2*v2+m1*e*(v1-v2))/M};
+}
+const Ek = (m,v) => 0.5*m*v*v;
+function beregn(p){
+  const r=stoed(p.m1,p.m2,p.v1,p.v2,p.e);
+  return {...r, Eb:Ek(p.m1,p.v1)+Ek(p.m2,p.v2), Ea:Ek(p.m1,r.v1p)+Ek(p.m2,r.v2p)};
+}
+
+// ---------- formatering ----------
+const fmt = (x,d=2) => (Math.abs(x)<1e-9?0:x).toFixed(d).replace(".",",").replace("-","−");
+const tal = s => parseFloat(String(s).trim().replace("−","-").replace(",","."));
+
+// ---------- opgaver ----------
+const Q = {
+  v1p:{nm:"v₁′", enh:"m/s"}, v2p:{nm:"v₂′", enh:"m/s"},
+  vf:{nm:"Fælles v′", enh:"m/s"}, dE:{nm:"Tab af E<sub>kin</sub>", enh:"J"},
+  m2:{nm:"m₂", enh:"kg"}
+};
+const ELASTISK_VEJ = "Elastisk stød med v₂ = 0: v₁′ = (m₁ − m₂)/(m₁ + m₂) · v₁ og v₂′ = 2m₁/(m₁ + m₂) · v₁.";
+const LEVELS = [
+ {titel:"Stilstående mål", tekst:"Kugle 1 rammer den stillestående kugle 2 centralt. Kuglerne vejer det samme, og stødet er elastisk.",
+  m1:0.20,m2:0.20,v1:2.0,v2:0,e:1, spoerg:["v1p","v2p"],
+  hint:"Ved et elastisk stød er både p og E<sub>kin</sub> bevaret. Hvad sker der, hvis kuglerne bare bytter hastighed? Tjek at begge bevarelser holder.",
+  vej:"Lige store masser og elastisk stød: kuglerne bytter hastighed."},
+ {titel:"Kuglerne klæber sammen", tekst:"Kugle 2 er beklædt med velcro, så kuglerne hænger sammen efter stødet.",
+  m1:0.40,m2:0.20,v1:1.5,v2:0,e:0, spoerg:["vf"],
+  hint:"Kun p er bevaret. Efter stødet bevæger én samlet masse m₁ + m₂ sig med én fælles hastighed.",
+  vej:"v′ = (m₁v₁ + m₂v₂)/(m₁ + m₂)"},
+ {titel:"Hvor blev energien af?", tekst:"Samme stød som før. Hvor meget kinetisk energi går tabt?",
+  m1:0.40,m2:0.20,v1:1.5,v2:0,e:0, spoerg:["dE"],
+  hint:"Beregn E<sub>kin</sub> = ½mv² for begge kugler før stødet og for den samlede masse efter.",
+  vej:"ΔE = E<sub>kin,før</sub> − E<sub>kin,efter</sub>"},
+ {titel:"Tung rammer let", tekst:"En tung kugle rammer en let, stillestående kugle. Stødet er elastisk.",
+  m1:0.30,m2:0.10,v1:2.0,v2:0,e:1, spoerg:["v1p","v2p"],
+  hint:"Brug de to bevarelseslove, eller formlerne for elastisk stød mod en stillestående kugle.", vej:ELASTISK_VEJ},
+ {titel:"Let rammer tung", tekst:"Nu er det omvendt: en let kugle rammer en tung. Stødet er elastisk.",
+  m1:0.10,m2:0.30,v1:2.0,v2:0,e:1, spoerg:["v1p","v2p"],
+  hint:"Samme formler som før. Hold øje med fortegnet: positiv retning er mod højre.", vej:ELASTISK_VEJ},
+ {titel:"Frontalt sammenstød", tekst:"Kuglerne kører mod hinanden og klæber sammen.",
+  m1:0.20,m2:0.20,v1:1.5,v2:-1.0,e:0, spoerg:["vf"],
+  hint:"Kugle 2 kører mod venstre, så v₂ er negativ. Den samlede bevægelsesmængde kan godt være lille.",
+  vej:"v′ = (m₁v₁ + m₂v₂)/(m₁ + m₂)"},
+ {titel:"Ukendt stødtype", tekst:"Du ved ikke, om stødet er elastisk. Efter stødet måler du v₁′.",
+  m1:0.20,m2:0.20,v1:2.0,v2:0,e:0.5, skjulE:true, givet:["v1p"], spoerg:["v2p","dE"],
+  hint:"Du behøver ikke kende stødtypen: p er bevaret under alle omstændigheder. Find v₂′ først, og beregn så energitabet.",
+  vej:"v₂′ = (m₁v₁ + m₂v₂ − m₁v₁′)/m₂, derefter ΔE = E<sub>kin,før</sub> − E<sub>kin,efter</sub>"},
+ {titel:"Den ukendte masse", tekst:"Kugle 1 rammer en stillestående kugle med ukendt masse, og de klæber sammen. Du måler den fælles hastighed.",
+  m1:0.20,m2:0.30,v1:2.0,v2:0,e:0, skjulM2:true, givet:["vf"], spoerg:["m2"],
+  hint:"Opskriv bevarelse af p: m₁v₁ = (m₁ + m₂)·v′, og isolér m₂.",
+  vej:"m₂ = m₁(v₁ − v′)/v′"}
+];
+
+function tilfaeldig(){
+  const pick = a => a[Math.floor(Math.random()*a.length)];
+  const m1=pick([0.10,0.15,0.20,0.25,0.30,0.40]), m2=pick([0.10,0.15,0.20,0.25,0.30,0.40]);
+  const v1=pick([1.0,1.5,2.0,2.5,3.0]), v2=pick([0,0,-0.5,-1.0,0.5]);
+  const e=pick([1,0]);
+  return e===1
+   ? {titel:"Tilfældigt elastisk stød", tekst:"Stødet er elastisk.", m1,m2,v1,v2,e, spoerg:["v1p","v2p"],
+      hint:"Både p og E<sub>kin</sub> er bevaret. Den generelle løsning: v₁′ = ((m₁−m₂)v₁ + 2m₂v₂)/(m₁+m₂).",
+      vej:"v₁′ = ((m₁−m₂)v₁ + 2m₂v₂)/(m₁+m₂) og v₂′ = ((m₂−m₁)v₂ + 2m₁v₁)/(m₁+m₂)", rnd:true}
+   : {titel:"Tilfældigt uelastisk stød", tekst:"Kuglerne klæber sammen.", m1,m2,v1,v2,e, spoerg:["vf","dE"],
+      hint:"Kun p er bevaret. Efter stødet har den samlede masse én fælles hastighed.",
+      vej:"v′ = (m₁v₁ + m₂v₂)/(m₁ + m₂) og ΔE = E<sub>kin,før</sub> − E<sub>kin,efter</sub>", rnd:true};
+}
+function facit(lv,key){
+  const r=beregn(lv);
+  return {v1p:r.v1p, vf:r.v1p, v2p:r.v2p, dE:r.Eb-r.Ea, m2:lv.m2}[key];
+}
+
+// ---------- gemt fremgang (kun i denne browser) ----------
+const KEY="stoed-billard-v1";
+let stjerner={};
+try{ stjerner=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ stjerner={}; }
+function gem(){ try{ localStorage.setItem(KEY,JSON.stringify(stjerner)); }catch(e){} }
+
+// ---------- tegning ----------
+const cv=document.getElementById("bord"), ctx=cv.getContext("2d");
+let W=0,H=0,RAIL=16;
+const rad = m => 0.075*Math.cbrt(m/0.2);    // visuel radius i m
+function resize(){
+  const w=cv.clientWidth, dpr=window.devicePixelRatio||1;
+  W=w; H=Math.max(160,Math.round(w*0.36));
+  cv.style.height=H+"px"; cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  tegn();
+}
+const sx = x => RAIL + x*(W-2*RAIL)/L;
+const sm = m => m*(W-2*RAIL)/L;
+
+let scene=null; // {par, res, anim-data}
+function lavScene(par){
+  const res=beregn(par), r1=rad(par.m1), r2=rad(par.m2);
+  const x10=0.35, x20=par.v2<0?1.45:1.0;
+  const gap=(x20-r2)-(x10+r1), rel=par.v1-par.v2;
+  const tc= rel>1e-9 ? gap/rel : Infinity;
+  const xc1=x10+par.v1*(isFinite(tc)?tc:0), xc2=x20+par.v2*(isFinite(tc)?tc:0);
+  const ud=(xc,v,r)=> v>1e-6?(L+r-xc)/v : v<-1e-6?(xc+r)/(-v) : Infinity;
+  let tAfter = Math.min(2.5, Math.max(ud(xc1,res.v1p,r1),ud(xc2,res.v2p,r2)));
+  if(!isFinite(tAfter)) tAfter=1.5;
+  return {par,res,r1,r2,x10,x20,tc,xc1,xc2,t:0,tEnd:isFinite(tc)?tc+tAfter:2.5,mode:"idle"};
+}
+function pos(s,t){
+  if(t<s.tc) return [s.x10+s.par.v1*t, s.x20+s.par.v2*t, s.par.v1, s.par.v2];
+  const dt=t-s.tc;
+  return [s.xc1+s.res.v1p*dt, s.xc2+s.res.v2p*dt, s.res.v1p, s.res.v2p];
+}
+
+function tegnKugle(x,y,r,farve,nr,label){
+  const g=ctx.createRadialGradient(x-r*.35,y-r*.35,r*.1,x,y,r);
+  g.addColorStop(0,"#ffffff"); g.addColorStop(.25,farve); g.addColorStop(1,shade(farve));
+  ctx.fillStyle="rgba(0,0,0,.28)"; ctx.beginPath(); ctx.ellipse(x+3,y+4,r,r*.9,0,0,7); ctx.fill();
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
+  ctx.fillStyle= nr===1?"#1c2a27":"#fff";
+  ctx.font=`700 ${Math.max(11,r*.8)}px system-ui,sans-serif`; ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText(nr,x,y+1);
+  ctx.fillStyle="rgba(255,255,255,.85)"; ctx.font="12px system-ui,sans-serif"; ctx.textBaseline="top";
+  ctx.fillText(label,x,y+r+6);
+}
+function shade(hex){
+  const n=parseInt(hex.slice(1),16), f=.55;
+  return `rgb(${(n>>16&255)*f|0},${(n>>8&255)*f|0},${(n&255)*f|0})`;
+}
+function pil(x,y,v,navn,ukendt){
+  ctx.fillStyle=ctx.strokeStyle="rgba(255,255,255,.92)";
+  ctx.font="600 12px system-ui,sans-serif"; ctx.textAlign="center"; ctx.textBaseline="bottom";
+  const tekst = ukendt ? `${navn} = ?` : `${navn} = ${fmt(v)} m/s`;
+  if(!ukendt && Math.abs(v)>0.02){
+    const len=sm(v*0.25), x2=x+len;
+    ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x2,y); ctx.stroke();
+    const d=Math.sign(len)*7; ctx.beginPath(); ctx.moveTo(x2,y); ctx.lineTo(x2-d,y-5); ctx.lineTo(x2-d,y+5); ctx.fill();
+    ctx.fillText(tekst,x+len/2,y-5);
+  } else ctx.fillText(tekst,x,y-5);
+}
+function tegn(){
+  if(!W) return;
+  ctx.clearRect(0,0,W,H);
+  // bande
+  ctx.fillStyle=getVar("--rail"); roundRect(0,0,W,H,10); ctx.fill();
+  // filt
+  const fg=ctx.createRadialGradient(W/2,H/2,10,W/2,H/2,W*.7);
+  fg.addColorStop(0,getVar("--felt")); fg.addColorStop(1,getVar("--felt2"));
+  ctx.fillStyle=fg; ctx.fillRect(RAIL,RAIL,W-2*RAIL,H-2*RAIL);
+  // diamanter på banden hver 0,25 m + meterangivelse
+  ctx.fillStyle="#e9dcc0"; ctx.font="10px system-ui,sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+  for(let i=0;i<=8;i++){
+    const x=sx(i*0.25);
+    ctx.beginPath(); ctx.moveTo(x,RAIL/2-3); ctx.lineTo(x+3,RAIL/2); ctx.lineTo(x,RAIL/2+3); ctx.lineTo(x-3,RAIL/2); ctx.fill();
+    if(i%2===0) ctx.fillText(fmt(i*0.25,1).replace(",0","")+" m",Math.min(Math.max(x,16),W-16),H-RAIL/2);
+  }
+  // sporlinje
+  const y=H*0.58;
+  ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.setLineDash([4,6]); ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(RAIL,y); ctx.lineTo(W-RAIL,y); ctx.stroke(); ctx.setLineDash([]);
+  if(!scene) return;
+  const s=scene, [x1,x2,u1,u2]=pos(s,s.t);
+  const efter = s.t>=s.tc;
+  const skjul = s.mode==="foer" && efter;
+  ctx.save(); ctx.beginPath(); ctx.rect(RAIL,RAIL,W-2*RAIL,H-2*RAIL); ctx.clip();
+  const R1=sm(s.r1), R2=sm(s.r2);
+  const lab2 = s.par.skjulM2 ? "m₂ = ?" : `${fmt(s.par.m2)} kg`;
+  tegnKugle(sx(x1),y,R1,getVar("--ball1"),1,`${fmt(s.par.m1)} kg`);
+  tegnKugle(sx(x2),y,R2,getVar("--ball2"),2,lab2);
+  const top=y-Math.max(R1,R2)-14;
+  pil(sx(x1),top-(efter?0:0),u1,efter?"v₁′":"v₁",skjul);
+  pil(sx(x2),top-18,u2,efter?"v₂′":"v₂",skjul);
+  ctx.restore();
+  ctx.fillStyle="rgba(255,255,255,.8)"; ctx.font="12px system-ui,sans-serif"; ctx.textAlign="left"; ctx.textBaseline="top";
+  ctx.fillText(`t = ${fmt(s.t,2)} s`,RAIL+6,RAIL+4);
+}
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function getVar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+
+let raf=null;
+function afspil(mode, done){
+  cancelAnimationFrame(raf);
+  scene.mode=mode; scene.t=0;
+  const slut = mode==="foer" ? (isFinite(scene.tc)?scene.tc:scene.tEnd) : scene.tEnd;
+  if(reduceMotion){ scene.t=slut; tegn(); done&&done(); return; }
+  let last=null;
+  const step=ts=>{
+    if(last===null) last=ts;
+    scene.t=Math.min(slut, scene.t+(ts-last)/1000*SPEED); last=ts;
+    tegn();
+    if(scene.t<slut) raf=requestAnimationFrame(step); else done&&done();
+  };
+  raf=requestAnimationFrame(step);
+}
+function visStart(par){ cancelAnimationFrame(raf); scene=lavScene(par); scene.t=0; tegn(); }
+
+// ---------- resultat ----------
+function visResultat(par){
+  const r=beregn(par);
+  const p1b=par.m1*par.v1, p2b=par.m2*par.v2, p1a=par.m1*r.v1p, p2a=par.m2*r.v2p;
+  const rows=[
+    ["p₁ (kg·m/s)",p1b,p1a],["p₂ (kg·m/s)",p2b,p2a],["p<sub>total</sub> (kg·m/s)",p1b+p2b,p1a+p2a,true],
+    ["E<sub>kin,total</sub> (J)",r.Eb,r.Ea,true]
+  ];
+  document.getElementById("tabel").innerHTML =
+    "<thead><tr><th></th><th>Før</th><th>Efter</th><th>Ændring</th></tr></thead><tbody>"+
+    rows.map(([n,a,b,s])=>`<tr class="${s?"sum":""}"><td>${n}</td><td>${fmt(a,3)}</td><td>${fmt(b,3)}</td><td>${fmt(b-a,3)}</td></tr>`).join("")+"</tbody>";
+  const tab = r.Eb>0 ? (r.Eb-r.Ea)/r.Eb*100 : 0;
+  document.getElementById("r-note").innerHTML =
+    `Kraftens impuls: Δp₁ = ${fmt(p1a-p1b,3)} kg·m/s og Δp₂ = ${fmt(p2a-p2b,3)} kg·m/s. De er lige store og modsat rettede (Newtons 3. lov), så p<sub>total</sub> ændrer sig ikke. `+
+    (tab<0.05 ? "Den kinetiske energi er bevaret: stødet er elastisk." : `${fmt(tab,0)} % af den kinetiske energi er omsat til andre energiformer.`);
+  // søjler
+  const vals=[p1b,p2b,p1b+p2b,p1a,p2a,p1a+p2a];
+  const mx=Math.max(0.05,...vals.map(Math.abs));
+  const y0 = vals.some(v=>v<0) ? 75 : 120, sc=(vals.some(v=>v<0)?55:100)/mx;
+  const farver=[getVar("--ball1"),getVar("--ball2"),getVar("--tot")];
+  let svg=`<line x1="10" x2="310" y1="${y0}" y2="${y0}" stroke="currentColor" stroke-opacity=".4"/>`;
+  ["Før","Efter"].forEach((g,gi)=>{
+    const gx=30+gi*150;
+    for(let i=0;i<3;i++){
+      const v=vals[gi*3+i], h=Math.abs(v)*sc, x=gx+i*38, y=v>=0?y0-h:y0;
+      svg+=`<rect x="${x}" y="${y}" width="30" height="${Math.max(h,1)}" fill="${farver[i]}" stroke="#56655f" stroke-width=".6" rx="2"/>`;
+    }
+    svg+=`<text x="${gx+53}" y="146" text-anchor="middle">${g}</text>`;
+  });
+  svg+=`<text x="12" y="12">p₁</text><rect x="28" y="3" width="10" height="10" fill="${farver[0]}" stroke="#56655f" stroke-width=".6"/>`+
+       `<text x="48" y="12">p₂</text><rect x="64" y="3" width="10" height="10" fill="${farver[1]}"/>`+
+       `<text x="84" y="12">p total</text><rect x="126" y="3" width="10" height="10" fill="${farver[2]}"/>`;
+  document.getElementById("soejler").innerHTML=svg;
+  document.getElementById("resultat").hidden=false;
+  sendHeight();
+}
+
+// ---------- opgave-UI ----------
+let cur=0, lv=null, forsoeg=0, loest=false;
+const $=id=>document.getElementById(id);
+function tegnLevels(){
+  $("levels").innerHTML = LEVELS.map((l,i)=>{
+    const st=stjerner[i]||0;
+    return `<button data-i="${i}" ${i===cur?'aria-current="true"':""} aria-label="Opgave ${i+1}${st?`, ${st} stjerner`:""}">${i+1}<small>${"★".repeat(st)}</small></button>`;
+  }).join("") + `<button data-i="rnd" ${cur==="rnd"?'aria-current="true"':""}>Tilfældig<small></small></button>`;
+}
+function vaelg(i){
+  cur=i; lv = i==="rnd" ? tilfaeldig() : LEVELS[i]; forsoeg=0; loest=false;
+  tegnLevels();
+  $("m-titel").textContent = i==="rnd" ? lv.titel : `${i+1}. ${lv.titel}`;
+  $("m-tekst").textContent = lv.tekst;
+  const r=beregn(lv);
+  const type = lv.skjulE ? "ukendt" : lv.e===1 ? "elastisk" : lv.e===0 ? "fuldstændig uelastisk" : `delvist elastisk (e = ${fmt(lv.e,1)})`;
+  let g=`<dt>m₁</dt><dd>${fmt(lv.m1)} kg</dd><dt>m₂</dt><dd>${lv.skjulM2?"?":fmt(lv.m2)+" kg"}</dd>`+
+        `<dt>v₁</dt><dd>${fmt(lv.v1)} m/s</dd><dt>v₂</dt><dd>${fmt(lv.v2)} m/s</dd><dt>Stødtype</dt><dd>${type}</dd>`;
+  (lv.givet||[]).forEach(k=> g+=`<dt>${Q[k].nm}</dt><dd>${fmt(facit(lv,k))} ${Q[k].enh}</dd>`);
+  $("m-givet").innerHTML=g;
+  $("m-svar").innerHTML = lv.spoerg.map(k=>
+    `<label><span class="nm">${Q[k].nm}</span><input id="in-${k}" inputmode="decimal" autocomplete="off" aria-label="${Q[k].nm.replace(/<[^>]+>/g,"")} i ${Q[k].enh}"> ${Q[k].enh}</label>`).join("");
+  $("m-besked").textContent=""; $("m-besked").className="besked";
+  $("m-hint").hidden=true; $("b-naeste").hidden=true; $("b-tjek").disabled=false;
+  $("resultat").hidden=true;
+  visStart(lv);
+  sendHeight();
+}
+function tjek(){
+  if(loest) return;
+  let alle=true, tomme=false;
+  lv.spoerg.forEach(k=>{
+    const inp=$("in-"+k), x=tal(inp.value), f=facit(lv,k);
+    if(isNaN(x)){ tomme=true; alle=false; inp.className=""; return; }
+    const ok=Math.abs(x-f) <= Math.max(0.015, 0.03*Math.abs(f));
+    inp.className= ok?"ok":"bad"; if(!ok) alle=false;
+  });
+  if(tomme && !lv.spoerg.some(k=>!isNaN(tal($("in-"+k).value)))){
+    $("m-besked").className="besked bad"; $("m-besked").textContent="Skriv et tal i felterne. Du kan bruge komma som decimaltegn."; return;
+  }
+  forsoeg++;
+  if(alle){
+    loest=true;
+    const st = forsoeg===1?3:forsoeg===2?2:1;
+    if(cur!=="rnd"){ stjerner[cur]=Math.max(stjerner[cur]||0,st); gem(); tegnLevels(); }
+    $("m-besked").className="besked ok";
+    $("m-besked").textContent = `Rigtigt! ${"★".repeat(st)} Se stødet udspille sig.`;
+    afslut();
+  } else {
+    $("m-besked").className="besked bad";
+    $("m-besked").textContent = "Et eller flere svar er ikke rigtige endnu. Tjek fortegn og enheder, eller brug hintet.";
+  }
+}
+function afslut(){
+  $("b-tjek").disabled=true; $("b-naeste").hidden=false;
+  afspil("hel",()=>visResultat(lv));
+}
+function losning(){
+  if(loest) return;
+  loest=true;
+  lv.spoerg.forEach(k=>{ const inp=$("in-"+k); inp.value=fmt(facit(lv,k)); inp.className=""; });
+  $("m-besked").className="besked";
+  $("m-besked").innerHTML = `Løsning: ${lv.vej}`;
+  afslut();
+}
+$("levels").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  vaelg(b.dataset.i==="rnd"?"rnd":+b.dataset.i);
+});
+$("b-tjek").onclick=tjek;
+$("m-svar").addEventListener("keydown",e=>{ if(e.key==="Enter") tjek(); });
+$("b-foer").onclick=()=>{ if(!loest){ scene=lavScene(lv); afspil("foer"); } else afspil("hel"); };
+$("b-hint").onclick=()=>{ $("m-hint").innerHTML=lv.hint; $("m-hint").hidden=false; sendHeight(); };
+$("b-los").onclick=losning;
+$("b-naeste").onclick=()=>vaelg(cur==="rnd"?"rnd":(cur+1<LEVELS.length?cur+1:"rnd"));
+
+// ---------- sandkasse ----------
+const SL=[
+  {k:"m1",nm:"m₁",min:0.05,max:0.5,step:0.01,v:0.2,enh:"kg"},
+  {k:"m2",nm:"m₂",min:0.05,max:0.5,step:0.01,v:0.2,enh:"kg"},
+  {k:"v1",nm:"v₁",min:0,max:3,step:0.1,v:2,enh:"m/s"},
+  {k:"v2",nm:"v₂",min:-3,max:3,step:0.1,v:0,enh:"m/s"},
+  {k:"e",nm:"e (stødtal)",min:0,max:1,step:0.05,v:1,enh:""}
+];
+const sp={};
+$("sliders").innerHTML = SL.map(s=>{ sp[s.k]=s.v;
+  return `<div class="slider"><label for="sl-${s.k}">${s.nm}</label><input type="range" id="sl-${s.k}" min="${s.min}" max="${s.max}" step="${s.step}" value="${s.v}"><output id="o-${s.k}">${fmt(s.v)} ${s.enh}</output></div>`;
+}).join("") + `<p class="note">e = 1 er et elastisk stød, e = 0 er fuldstændig uelastisk (kuglerne hænger sammen).</p>`;
+SL.forEach(s=>{
+  $("sl-"+s.k).addEventListener("input",ev=>{
+    sp[s.k]=+ev.target.value; $("o-"+s.k).textContent=`${fmt(sp[s.k])} ${s.enh}`;
+    $("s-besked").textContent=""; $("resultat").hidden=true; visStart({...sp}); sendHeight();
+  });
+});
+$("s-afspil").onclick=()=>{
+  const par={...sp};
+  if(par.v1-par.v2<=1e-9){
+    $("s-besked").className="besked bad";
+    $("s-besked").textContent="Kuglerne mødes aldrig. Kugle 1 skal bevæge sig hurtigere mod højre end kugle 2.";
+    return;
+  }
+  $("s-besked").textContent="";
+  scene=lavScene(par); afspil("hel",()=>visResultat(par));
+};
+
+// ---------- faner ----------
+function fane(s){
+  $("tab-m").setAttribute("aria-selected",!s); $("tab-s").setAttribute("aria-selected",s);
+  $("missioner").hidden=s; $("sandkasse").hidden=!s; $("resultat").hidden=true;
+  if(s) visStart({...sp}); else vaelg(cur);
+}
+$("tab-m").onclick=()=>fane(false);
+$("tab-s").onclick=()=>fane(true);
+
+// ---------- højde til Hugo-iframen ----------
+function sendHeight(){
+  requestAnimationFrame(()=>{ try{ parent.postMessage({spil:"stoed-billard",hoejde:document.documentElement.scrollHeight},"*"); }catch(e){} });
+}
+new ResizeObserver(()=>{ resize(); sendHeight(); }).observe(document.body);
+
+vaelg(0);
+resize();
+})();
+</script>
+</body>
+</html>

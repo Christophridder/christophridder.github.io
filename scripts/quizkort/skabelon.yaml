@@ -1,0 +1,36 @@
+# SKABELON – Quiz og byt
+# 1) Kopiér til data/quiz/<navn>.yaml  (fx data/quiz/redox.yaml)
+# 2) Billeder/grafer: static/img/quiz-<navn>/<billede>.svg (web) + .pdf (print)
+# 3) Side: content/docs/.../quiz-og-byt-<navn>.md med {{< quizkort "<navn>" >}} og pdf: "pdfs/quiz-<navn>.pdf"
+# 4) Print: python3 scripts/quizkort/build_pdf.py <navn>   (8 kort pr. A4, 2 x 4)
+#
+# Felter pr. kort: nr, type, spm, svar, hint (valgfri), billede (valgfri), maerke (valgfri, fx "enhed")
+# Matematik: $...$ virker både på web (MathJax) og i print (LaTeX). Brug \cdot i matematik, {,} til decimalkomma.
+# Brug enkelte anførselstegn '...' så backslash virker. Et ' i teksten skrives ''.
+
+titel: "Quiz og byt – EMNE"
+maerke_filter: "Enheder"        # navn på filterknappen for kort med maerke
+typer:                           # kategorier: navn -> label + farve (hex)
+  graf:     { label: "Aflæs grafen", farve: "2471A3" }
+  begreb:   { label: "Begreb",       farve: "1E8449" }
+  regn:     { label: "Regn",         farve: "CA6F1E" }
+
+kort:
+- nr: 1
+  type: graf
+  maerke: enhed
+  spm: 'Spørgsmål med graf. Find $\Delta p$.'
+  billede: g01-navn
+  svar: '$6 \cdot 4 = 24$ N·s'
+  hint: 'Arealet er et rektangel.'
+
+- nr: 2
+  type: begreb
+  spm: 'Begrebsspørgsmål?'
+  svar: 'Kort svar.'
+  hint: 'Et lille skub i den rigtige retning.'
+
+- nr: 3
+  type: regn
+  spm: 'Regn: $2{,}0 \cdot 3{,}0 = ?$'
+  svar: '$6{,}0$'
