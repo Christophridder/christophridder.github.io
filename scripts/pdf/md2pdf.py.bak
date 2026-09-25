@@ -59,29 +59,19 @@ for k, v in {"₀":"0","₁":"1","₂":"2","₃":"3","₄":"4","₅":"5","₆":"
     body = body.replace(k, "~" + v + "~")
 body = body.replace("~~", "")
 
-# mhchem: brug pakken hvis TeX har den; ellers advar og lav simple \ce{} om til \mathrm med subscripts
-har_mhchem = subprocess.run(["kpsewhich", "mhchem.sty"], capture_output=True, text=True).stdout.strip() != ""
-if not har_mhchem and r"\ce{" in body:
-    print("ADVARSEL: mhchem.sty mangler i din TeX -> installér med:  sudo tlmgr install mhchem\n"
-          "          Indtil da laves simple \\ce{}-formler om til \\mathrm{} (kun tal -> subscript).", file=sys.stderr)
-    def ce2mathrm(m):
-        f = re.sub(r"(?<=[A-Za-z)\]])(\d+)", r"_{\1}", m.group(1))
-        return r"\mathrm{" + f + "}"
-    body = re.sub(r"\\ce\{([^{}]*)\}", ce2mathrm, body)
-
 header = r"""\usepackage{xcolor}\definecolor{barblue}{HTML}{3498DB}\definecolor{headblue}{HTML}{2471A3}
-MHCHEM\usepackage{tikz}\usepackage{titlesec}\usepackage{float}\usepackage{booktabs}
+\IfFileExists{mhchem.sty}{\usepackage[version=4]{mhchem}}{\providecommand{\ce}[1]{\mathrm{##1}}}\usepackage{tikz}\usepackage{titlesec}\usepackage{float}\usepackage{booktabs}
 \titleformat*{\section}{\Large\bfseries\sffamily\color{headblue}}
 \titleformat*{\subsection}{\large\bfseries\sffamily\color{headblue}}
 \titleformat*{\subsubsection}{\normalsize\bfseries\sffamily\color{headblue}}
-\AtBeginDocument{\hypersetup{colorlinks=true,urlcolor=headblue,linkcolor=headblue}}% nyere pandoc indlæser hyperref efter -H
+\hypersetup{colorlinks=true,urlcolor=headblue,linkcolor=headblue}
 \makeatletter\renewcommand{\maketitle}{%
 \begin{tikzpicture}[remember picture,overlay]
 \fill[barblue] (current page.north west) rectangle ([yshift=-24mm]current page.north east);
 \node[anchor=north west,text=white,font=\sffamily\bfseries\LARGE] at ([xshift=12mm,yshift=-5mm]current page.north west) {\@title};
 \node[anchor=north west,text=white,font=\sffamily\small] at ([xshift=12mm,yshift=-15mm]current page.north west) {SUBTITLE};
 \end{tikzpicture}\vspace*{8mm}}\makeatother
-""".replace("SUBTITLE", sub).replace("MHCHEM", r"\usepackage[version=4]{mhchem}" if har_mhchem else r"\providecommand{\ce}[1]{\mathrm{#1}}")
+""".replace("SUBTITLE", sub)
 
 open(os.path.join(tmp, "h.tex"), "w").write(header)
 open(os.path.join(tmp, "in.md"), "w").write(f'---\ntitle: "{title}"\n---\n' + body)

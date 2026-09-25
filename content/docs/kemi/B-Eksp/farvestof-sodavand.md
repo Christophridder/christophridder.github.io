@@ -18,7 +18,7 @@ I bestemmer koncentrationen af E120 i en rød sodavand med en standardkurve, pr�
 ## Det skal I bruge
 
 - Spektrofotometer, kuvetter og computer med LoggerPro
-- Rød sodavand med E120 (tjek varedeklarationen). Den skal være **uden CO₂** – lad den stå åben, eller ryst den godt eller varm det op så alt $\ce{CO_2}$ fordamper
+- Rød sodavand med E120 (tjek varedeklarationen). Den skal være **uden CO₂** – lad den stå åben, eller ryst den godt eller varm det op så alt $\ce{CO2}$ fordamper
 - Stamopløsning af E120: **250 mg/L**
 - 0,01 M HCl
 - 25 mL målekolber med prop
@@ -26,7 +26,7 @@ I bestemmer koncentrationen af E120 i en rød sodavand med en standardkurve, pr�
 
 ## Opgave 1 – Stamopløsningen i mol/L
 
-Det farvede stof i E120 er karminsyre, $\ce{C22H20O13}$.
+Det farvede stof i E120 er karminsyre, $\mathrm{C_{22}H_{20}O_{13}}$.
 
 a) Beregn den molare masse $M$ af karminsyre. Brug $M(\ce{C}) = 12{,}01$ g/mol, $M(\ce{H}) = 1{,}008$ g/mol og $M(\ce{O}) = 16{,}00$ g/mol.
 
@@ -39,16 +39,20 @@ Karminsyre skifter farve med pH: den er orange-rød i sur opløsning og bliver m
 1. Mål pH i sodavanden med indikatorpapir, og skriv den ned.
 2. Afpipettér stamopløsning over i en 25,00 mL målekolbe. Mikropipetten tager 1 mL ad gangen, så gentag, til I har det volumen, der står i tabellen.
 3. Fyld op til stregen med 0,01 M HCl, sæt prop i, og vend kolben et par gange.
-4. Beregn koncentrationen med $c_1 \cdot V_1 = c_2 \cdot V_2$, og tjek pH i én af standarderne med indikatorpapir.
+4. Tjek pH i én af standarderne med indikatorpapir. Den skal ligge tæt på sodavandens.
+
+Koncentrationerne $c_2$ i tabellen er beregnet med $c_1 \cdot V_1 = c_2 \cdot V_2$, fx for standard 1:
+
+$$c_2 = \frac{250 \text{ mg/L} \cdot 1{,}00 \text{ mL}}{25{,}00 \text{ mL}} = 10{,}0 \text{ mg/L}$$
 
 | Standard | Stamopløsning $V_1$ (mL) | Samlet volumen $V_2$ (mL) | $c_2$ (mg/L) | Absorbans $A$ |
 |---|---|---|---|---|
 | 0 (blind) | 0 | 25,00 | 0 | 0 |
-| 1 | 1,00 | 25,00 | | |
-| 2 | 2,00 | 25,00 | | |
-| 3 | 3,00 | 25,00 | | |
-| 4 | 4,00 | 25,00 | | |
-| 5 | 5,00 | 25,00 | | |
+| 1 | 1,00 | 25,00 | 10,0 | |
+| 2 | 2,00 | 25,00 | 20,0 | |
+| 3 | 3,00 | 25,00 | 30,0 | |
+| 4 | 4,00 | 25,00 | 40,0 | |
+| 5 | 5,00 | 25,00 | 50,0 | |
 
 ## Måling
 

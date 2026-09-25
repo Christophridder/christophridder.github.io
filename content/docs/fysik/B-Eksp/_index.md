@@ -1,6 +1,6 @@
 ---
 title: "Eksperimenter B"
-weight: 5
+weight: 13
 bookCollapseSection: true
 ---
 

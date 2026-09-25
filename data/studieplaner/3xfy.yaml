@@ -76,3 +76,11 @@ moduler:
     lektier: "Læs side 602 i fysikABbogen"
     kommentar: "Vi øver os på at løse integraler"
     maal: [Eksperiment med luftpudebane]
+  - nr: 10
+    dato: 2026-09-24
+    emne: Integralregning i fysik
+    forloeb: Mekanik
+    materialer: [integration-i-fysik]
+    lektier: "Regn opgave 1-4 fra [stoed-opgaver]"
+    kommentar: "Integraløvelser ud på tavlerne"
+    maal: [At forstå enheder og arealer]
