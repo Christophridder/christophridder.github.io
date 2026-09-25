@@ -12,4 +12,4 @@ bookCollapseSection: true
 | **B** | [Årsplan Fysik B]({{< relref "/docs/fysik/B-niveau" >}}) | [Emner B]({{< relref "/docs/fysik/emner" >}}) | [Eksperimenter B]({{< relref "/docs/fysik/B-Eksp" >}}) |
 | **C** | [Årsplan Fysik C]({{< relref "/docs/fysik/C-niveau" >}}) | [Emner C]({{< relref "/docs/fysik/emner-c" >}}) | [Eksperimenter C]({{< relref "/docs/fysik/C-Eksp" >}}) |
 
-[Præsentationer]({{< relref "/docs/fysik/slides" >}})
+[Præsentationer]({{< relref "/docs/fysik/slides" >}}) · [Faglige metoder]({{< relref "/docs/fysik/Metoder" >}})

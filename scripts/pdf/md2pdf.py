@@ -16,6 +16,13 @@ title = (re.search(r'^title:\s*"?(.*?)"?\s*$', front, re.M) or [None, "Uden tite
 pdfm = re.search(r'^pdf:\s*"?(.*?)"?\s*$', front, re.M)
 out = os.path.join(ROOT, "static", pdfm.group(1) if pdfm else f"pdfs/{os.path.splitext(os.path.basename(a.md))[0]}.pdf")
 
+# Mangler 'pdf:' i front matter? Så skriv den ind i .md-filen, så siden får den blå PDF-bjælke på hjemmesiden
+if fm and not pdfm:
+    rel = os.path.relpath(out, os.path.join(ROOT, "static")).replace(os.sep, "/")
+    ny_front = front.rstrip("\n") + f'\npdf: "{rel}"\npdf_ny_fane: true'
+    open(a.md, "w", encoding="utf-8").write(f"---\n{ny_front}\n---\n" + src[fm.end():])
+    print(f"Tilføjede 'pdf: \"{rel}\"' og 'pdf_ny_fane: true' til {a.md}")
+
 # Undertitel fra Niveau/Emne-linjen (fjernes fra brødteksten)
 sub = a.sub
 m = re.search(r"^\*\*Niveau:.*$", body, re.M)
@@ -49,6 +56,8 @@ islist = lambda l: re.match(r"\s*([-*]|\d+\.)\s", l)
 infence = False
 for l in lines:
     if l.startswith("```"): infence = not infence
+    # Vandrette streger (---, ***, ___) mellem afsnit droppes i PDF'en (de bliver på hjemmesiden)
+    if not infence and re.match(r"^\s*(-{3,}|\*{3,}|_{3,})\s*$", l): continue
     if not infence and fixed and fixed[-1].strip():
         if l.startswith("#") or (islist(l) and not islist(fixed[-1])): fixed.append("")
     fixed.append(l)

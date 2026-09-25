@@ -1,6 +1,7 @@
 ---
-title: "Prompts"
+title: "Prompts og cmd"
 weight: 5
+aliases: ["/docs/it/cr-ting/prompts/"]
 ---
 
 Mine faste prompts til Claude, så nye sider på crsite bliver lavet på samme måde. Kopiér en prompt, udfyld felterne i `[KANTEDE PARENTESER]`, og slet de linjer, du ikke skal bruge.
@@ -13,10 +14,38 @@ Mine faste prompts til Claude, så nye sider på crsite bliver lavet på samme m
 | Opgaver | `emne-opgaver.md` | Opgave 1, 2, 3 … → Hint 1, 2, 3 … → Løsning 1, 2, 3 … |
 | Quiz og byt | `quiz-og-byt-emne.md` + `data/quiz/emne.yaml` | 24–32 kort til CL-øvelsen + print-PDF |
 
-**Faste værktøjer i crsite:**
+## Kommandoer (cmd)
 
-- PDF med blå bjælke: `python3 scripts/pdf/md2pdf.py content/docs/.../side.md`
-- Quizkort som PDF: `python3 scripts/quizkort/build_pdf.py <navn>` (se `scripts/quizkort/README.md`)
+Kør dem i terminalen fra crsite-roden (`cd ~/Nextcloud/crsite`).
+
+### PDF'er
+
+| Hvad | Kommando |
+|---|---|
+| **PDF med blå bjælke** fra en side | `python3 scripts/pdf/md2pdf.py content/docs/.../side.md` |
+| Quizkort som PDF (2×4 pr. A4) | `python3 scripts/quizkort/build_pdf.py <navn>` |
+
+- PDF'en lander i `static/` efter `pdf:` i front matter, ellers i `static/pdfs/<filnavn>.pdf`.
+- Undertitlen i bjælken tages fra linjen `**Niveau: …** · **Emne: …**`.
+- Kemiformler med `\ce{}` kræver mhchem i TeX. Installér én gang: `sudo tlmgr install mhchem`
+
+### Åbn filer
+
+| Hvad | Kommando |
+|---|---|
+| PDF i Skim (genindlæser selv) | `open -a Skim fil.pdf` |
+| Tekstdokument i LibreOffice | `open -a LibreOffice fil.odt` |
+| Præsentation i LibreOffice | `open -a LibreOffice fil.odp` |
+| Start præsentation direkte som diasshow | `/Applications/LibreOffice.app/Contents/MacOS/soffice --show fil.odp` |
+| Åbn med standardprogrammet | `open fil.pdf` |
+| Filnavn med mellemrum | `open -a Skim "min fil.pdf"` |
+
+### Hugo
+
+| Hvad | Kommando |
+|---|---|
+| Lokal forhåndsvisning med kladder (localhost:1313) | `./hugoserver` |
+| Udgiv til GitHub Pages (git add/commit/push) | `./hugopush` |
 
 ---
 
