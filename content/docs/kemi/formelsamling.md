@@ -218,7 +218,7 @@ Uædle metaller (venstre for H) opløses i ikke-oxiderende syre under udvikling 
 | Størrelse | Formel | Bemærkning |
 |---|---|---|
 | Absorbans | $A = \log\!\left(\dfrac{I_0}{I}\right) = -\log T$ | $T$: transmittans |
-| Lambert–Beers lov | $A = \varepsilon \cdot l \cdot c$ | $\varepsilon$: molar absorptionskoefficient (M⁻¹·cm⁻¹), $l$: kuvettens længde (cm) |
+| Lambert–Beers lov | $A_\lambda = \varepsilon_\lambda \cdot l \cdot [\text{stof}]$ | $\varepsilon_\lambda$: molar absorptionskoefficient ved $\lambda$ (M⁻¹·cm⁻¹), $l$: kuvettens længde (cm), $[\text{stof}]$: **aktuel** koncentration |
 | Standardkurve | $A = k \cdot c$ | en ret linje gennem (0, 0) → $c = A/k$ |
 
 > **Gyldighed:** Lambert–Beer er kun lineær ved **lave koncentrationer** (typisk $A \lesssim 1$).

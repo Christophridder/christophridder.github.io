@@ -18,13 +18,27 @@ weight: 1
 - Et spektrofotometer sender lys med én bestemt bølgelængde (monokromatisk lys) gennem en opløsning i en lille glas- eller plastbeholder, en **kuvette**.
 - Molekylerne i opløsningen absorberer noget af lyset. Den farve, vi *ser*, er det lys, der **ikke** bliver absorberet.
 - Jo mere stof der er opløst, jo mere lys bliver absorberet. Apparatet måler dette som **absorbans**, $A$ (ingen enhed).
-- Sammenhængen mellem absorbans og koncentration er givet ved **Beer-Lamberts lov**:
+- Absorbansen beregnes ud fra, hvor meget lys der sendes ind ($I_0$), og hvor meget der kommer igennem ($I$):
 
-$$A = \varepsilon \cdot b \cdot c$$
+$$A = \log\left(\frac{I_0}{I}\right)$$
 
-  hvor $\varepsilon$ er stoffets molare absorptionskoefficient (afhænger af stof og bølgelængde), $b$ er kuvettens bredde (typisk 1 cm), og $c$ er koncentrationen.
+- Måler man på en kuvette med rent opløsningsmiddel (blindprøven, som apparatet nulstilles med), kommer alt lyset igennem, så $I = I_0$:
 
-- Ved en fast bølgelængde og en fast kuvette er $\varepsilon \cdot b$ en konstant — så $A$ er **proportional** med $c$. Det er derfor, metoden er så nyttig: mål absorbansen, og du kan regne koncentrationen ud.
+$$A = \log\left(\frac{I_0}{I_0}\right) = \log(1) = 0$$
+
+- Slipper kun 10 % af lyset igennem, er absorbansen 1:
+
+$$A = \log\left(\frac{100\ \%}{10\ \%}\right) = \log(10) = 1$$
+
+  $A = 1$ er den **maksimalt tilladte absorbans** i vores forsøg. Ved højere absorbans kommer der så lidt lys igennem, at målingen bliver upræcis, og sammenhængen med koncentrationen er ikke længere lineær – så skal prøven fortyndes.
+
+- Sammenhængen mellem absorbans og koncentration er givet ved **Lambert-Beers lov**:
+
+$$A_\lambda = \varepsilon_\lambda \cdot l \cdot [\text{stof}]$$
+
+  hvor $\varepsilon_\lambda$ er stoffets molare absorptionskoefficient ved bølgelængden $\lambda$, $l$ er kuvettens længde, dvs. den vej lyset går gennem opløsningen (typisk 1 cm), og $[\text{stof}]$ er stoffets **aktuelle** koncentration. Der bruges den aktuelle og ikke den formelle koncentration, fordi det kun er de partikler, der faktisk findes i opløsningen, som absorberer lyset.
+
+- Ved en fast bølgelængde og en fast kuvette er $\varepsilon_\lambda \cdot l$ en konstant — så $A$ er **proportional** med $[\text{stof}]$. Det er derfor, metoden er så nyttig: mål absorbansen, og du kan regne koncentrationen ud.
 - I praksis vælger man den bølgelængde, hvor stoffet absorberer *mest* ($\lambda_{max}$), fordi metoden så er mest følsom over for små ændringer i koncentration.
 
 ## Et meget simpelt eksempel
@@ -56,7 +70,7 @@ Til en standardkurve bruger man en række opløsninger med *kendt* koncentration
 1. Indtast tallene i Excel i to kolonner (koncentration og absorbans).
 2. Indsæt et punktdiagram (scatter plot) med koncentration på x-aksen og absorbans på y-aksen.
 3. Tilføj en lineær tendenslinje, og få Excel til at vise ligningen ($y = a\,x+b$) og $R^2$.
-4. $R^2$ bør ligge tæt på 1 — det fortæller jer, hvor godt Beer-Lamberts lov (en ret linje) passer på jeres data.
+4. $R^2$ bør ligge tæt på 1 — det fortæller jer, hvor godt Lambert-Beers lov (en ret linje) passer på jeres data.
 
 **Nu har I "rigtige" målinger** — tre ukendte prøver af rød sodavand, som I har fortyndet og målt absorbansen af:
 
