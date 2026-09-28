@@ -1,5 +1,5 @@
 ---
 title: Matematik
-weight: 5
+weight: 4
 bookCollapseSection: true
 ---

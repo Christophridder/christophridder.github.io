@@ -1,6 +1,6 @@
 ---
 title: "Legeplads"
-weight: 11
+weight: 7
 bookCollapseSection: true
 ---
 
