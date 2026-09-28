@@ -47,6 +47,47 @@ Kør dem i terminalen fra crsite-roden (`cd ~/Nextcloud/crsite`).
 | Lokal forhåndsvisning med kladder (localhost:1313) | `./hugoserver` |
 | Udgiv til GitHub Pages (git add/commit/push) | `./hugopush` |
 
+### Hent video fra YouTube/Vimeo (yt-dlp)
+
+Til fx ordblinde elever, der skal have videoen som fil. `yt-dlp` lægger en `.mp4` i den mappe, du står i. Stå derfor i **Overførsler** (`cd ~/Downloads`), ikke i crsite.
+
+**Installér én gang**
+
+| System | Kommando |
+|---|---|
+| Mac | `brew install pipx ffmpeg deno` → `pipx ensurepath` → `pipx install "yt-dlp[default]" --pip-args="--pre"` → åbn en ny terminal |
+| Windows | `winget install yt-dlp`, `winget install ffmpeg` og `winget install DenoLand.Deno` |
+| Linux Mint | `sudo apt install ffmpeg pipx` → `curl -fsSL https://deno.land/install.sh \| sh` → `pipx install "yt-dlp[default]" --pip-args="--pre"` |
+
+- Brug **pipx**-versionen. Den er nyest, og `[default]` henter `yt-dlp-ejs`, som YouTube kræver sammen med deno.
+- Tjek bagefter med `which yt-dlp`. Den skal vise `~/.local/bin/yt-dlp`. Viser den fx `/opt/anaconda3/bin/yt-dlp`, kører du en gammel udgave. Fjern den med `/opt/anaconda3/bin/pip uninstall -y yt-dlp`.
+
+**Hent**
+
+| Hvad | Kommando |
+|---|---|
+| Én video som mp4 | `yt-dlp --no-playlist -f "bv*+ba/b" --merge-output-format mp4 "URL"` |
+| Med undertekster (da/en) i filen | `yt-dlp --no-playlist -f "bv*+ba/b" --merge-output-format mp4 --write-subs --write-auto-subs --sub-langs "da,en" --embed-subs "URL"` |
+| Kun lyd (mp3) | `yt-dlp --no-playlist -x --audio-format mp3 "URL"` |
+| Vimeo | samme kommando, bare med Vimeo-linket |
+| Version / hvor ligger den | `yt-dlp --version` · `which yt-dlp` |
+| Opdatér (når det pludselig ikke virker) | `pipx upgrade yt-dlp --pip-args="--pre"` (Mac/Linux) · `winget upgrade yt-dlp` (Windows) |
+
+**Fejlfinding**
+
+| Symptom | Løsning |
+|---|---|
+| `HTTP Error 403: Forbidden` | Opdatér yt-dlp, og tjek `which yt-dlp`. En gammel version (fx fra Anaconda) er den typiske synder. |
+| `No supported JavaScript runtime` | Installér **deno**. |
+| `Downloading item 15 of 478` | Stop med **Ctrl+C**. Du har glemt `--no-playlist` (linket har `&list=…`). |
+| `Resuming download at byte …` + 403 | Slet de halve filer: `rm -f -- *.part(N)` |
+| Stadig 403 | Tilføj `--cookies-from-browser firefox` (eller `chrome`/`safari`). |
+
+- Sæt **altid** URL'en i `"…"`. Ellers klipper `&` i linket kommandoen over.
+- zsh: `rm *.part *.ytdl` stopper helt, hvis ét mønster ikke matcher. Brug `(N)`, fx `rm -f -- *.part(N) *.ytdl(N)`.
+- Automatiske undertekster (`--write-auto-subs`) er ikke altid fejlfri.
+- Brug det kun til materiale, I må gemme (egen brug/undervisning inden for Copydan-aftalen). Ikke til videredistribution.
+
 ---
 
 ## Husregler (står i alle prompts)
