@@ -17,6 +17,7 @@ Hvis jeg var jer så vil jeg starte med at browse de her uni-sider (lige nedenun
 **Vær i god tid her!!!!!** Universiteterne har få pladser så det er først til mølle. 
 
 **Aarhus Universitet (AU)**
+- [SRP- og SOP-forløb på Natural Sciences – tilbud til gymnasielærere](https://nat.au.dk/samarbejde/skoler-og-gymnasier/tilbud-til-gymnasielaerere/srp-og-sop-forloeb-paa-nat)
 - [Liste over alle SRP-/SOP-forløb – Faculty of Natural Sciences](https://nat.au.dk/samarbejde/skoler-og-gymnasier/tilbud-til-gymnasieelever/lav-dit-srp-forloeb-hos-os/liste-over-alle-srp-forloeb)
 - [SOP og SRP – Institut for Fysik og Astronomi](https://phys.au.dk/vidensudveksling/for-fysiklaereren/sop-og-srp)
 - [SRP og SOP – Institut for Kemi](https://chem.au.dk/stx-og-htx/srp-og-sop)

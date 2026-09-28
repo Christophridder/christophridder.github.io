@@ -14,12 +14,10 @@ bookToc: true
 
 # Formelsamling – Fysik
 
-**Niveau: Fysik C–A** · Opbygning: først det, der gælder **alle niveauer**, derefter
-**C-niveau**, **B-niveau** og **A-niveau**. Hvert niveau bygger oven på niveauerne over det –
-på A-niveau skal du altså også kunne alt fra C og B.
+**Niveau: Fysik C–A**: Jeg har bygget det op sådan at den første del er til ALLE niveauer. Så kan man springe ned til FysikB og FysikA.  
 
 > **Brug formlerne med omtanke.** En formel er en *model* med et gyldighedsområde.
-> Når der står en bemærkning om gyldighed (fx "uden luftmodstand" eller "for små
+> Når der står en bemærkning om **gyldighed**(fx "uden luftmodstand" eller "for små
 > udsving"), er det en del af formlen – og noget du skal kunne diskutere til eksamen.
 
 ---
@@ -43,12 +41,12 @@ på A-niveau skal du altså også kunne alt fra C og B.
 > **Pas på:** $\text{m}$ betyder både *milli* (foran en enhed) og *meter* (som enhed):
 > $1\ \text{mm}$ = 1 millimeter. Og kg er den eneste SI-grundenhed, der allerede har et præfiks.
 
-### Konstanter og naturkonstanter
+### Konstanter 
 
 Værdier med ● er **eksakte** (fastlagt ved SI-definitionen fra 2019). De øvrige er målte
 værdier, afrundet.
 
-| Navn | Symbol | Værdi | Bruges fra |
+| Navn | Symbol | Værdi | Niveau|
 |---|---|---|---|
 | Tyngdeacceleration (Danmark) | $g$ | $9{,}82\ \text{m/s}^2 = 9{,}82\ \text{N/kg}$ | C |
 | Lysets fart i vakuum ● | $c$ | $2{,}99792458 \cdot 10^{8}\ \text{m/s} \approx 3{,}00 \cdot 10^8\ \text{m/s}$ | C |
@@ -62,7 +60,7 @@ værdier, afrundet.
 | Protonens masse | $m_p$ | $1{,}67262 \cdot 10^{-27}\ \text{kg} = 1{,}007276\ \text{u}$ | B |
 | Neutronens masse | $m_n$ | $1{,}67493 \cdot 10^{-27}\ \text{kg} = 1{,}008665\ \text{u}$ | B |
 | Avogadros tal ● | $N_A$ | $6{,}02214076 \cdot 10^{23}\ \text{mol}^{-1}$ | B |
-| Gaskonstanten | $R$ | $8{,}314\ \text{J/(mol·K)}$ | B |
+| Gaskonstanten | $R$ | $8{,}314\ \text{J/(mol·K)} = 8{,}314\ \text{m}^3\text{·Pa/(mol·K)}$ – flere enheder nedenfor | B |
 | Boltzmanns konstant ● | $k_B$ | $1{,}380649 \cdot 10^{-23}\ \text{J/K}$ | B |
 | Stefan–Boltzmanns konstant | $\sigma$ | $5{,}670 \cdot 10^{-8}\ \text{W/(m}^2\text{·K}^4)$ | B |
 | Wiens konstant | $b$ | $2{,}898 \cdot 10^{-3}\ \text{m·K}$ | B |
@@ -71,9 +69,20 @@ værdier, afrundet.
 | Vakuumpermittivitet | $\varepsilon_0$ | $8{,}854 \cdot 10^{-12}\ \text{C}^2/(\text{N·m}^2)$ | A |
 | Vakuumpermeabilitet | $\mu_0$ | $1{,}2566 \cdot 10^{-6}\ \text{T·m/A} \approx 4\pi \cdot 10^{-7}\ \text{T·m/A}$ | A |
 
+**Gaskonstanten $R$ i forskellige enheder** – vælg den, der passer til enhederne for $p$ og $V$ i $p \cdot V = n \cdot R \cdot T$:
+
+| Værdi af $R$ | Enheder for $p$ og $V$ | Bemærkning |
+|---|---|---|
+| $8{,}314\ \text{J/(mol·K)} = 8{,}314\ \text{m}^3\text{·Pa/(mol·K)}$ | Pa og m³ | SI; eksakt $8{,}314462618\ldots$ (fordi $R = N_A \cdot k_B$) |
+| $8{,}314\ \text{L·kPa/(mol·K)}$ | kPa og L | |
+| $0{,}08314\ \text{L·bar/(mol·K)}$ | bar og L | |
+| $0{,}08206\ \text{L·atm/(mol·K)}$ | atm og L | |
+| $62{,}36\ \text{L·mmHg/(mol·K)}$ | mmHg (torr) og L | 1 mmHg = 133,3 Pa |
+| $1{,}987\ \text{cal/(mol·K)}$ | – | energi i kalorier |
+
 **Stof- og astronomiske data**
 
-| Størrelse | Værdi | Bruges fra |
+| Størrelse | Værdi | Niveau|
 |---|---|---|
 | Absolut nulpunkt | $0\ \text{K} = -273{,}15\ \text{°C}$ | C |
 | Normalt lufttryk | $1\ \text{atm} = 101\,325\ \text{Pa} \approx 1{,}013\ \text{bar}$ | B |
@@ -157,6 +166,38 @@ Alle andre enheder kan skrives som produkter af de syv grundenheder.
 | mAh | ladning | $1\ \text{mAh} = 3{,}6\ \text{C}$ |
 | AU, ly, pc | længde | se tabellen over astronomiske data |
 
+### Amerikanske og britiske enheder
+
+Siden 1959 er de fleste defineret **eksakt** ud fra SI-enheder (markeret med ●).
+
+| Enhed | Størrelse | Omregning til SI | Bemærkning |
+|---|---|---|---|
+| inch (in, ″) ● | længde | $1\ \text{in} = 2{,}54\ \text{cm}$ | skærme, fælge, rør |
+| foot (ft, ′) ● | længde | $1\ \text{ft} = 12\ \text{in} = 0{,}3048\ \text{m}$ | flyvehøjde |
+| yard (yd) ● | længde | $1\ \text{yd} = 3\ \text{ft} = 0{,}9144\ \text{m}$ | |
+| mile (mi) ● | længde | $1\ \text{mi} = 1760\ \text{yd} = 1609{,}344\ \text{m}$ | |
+| sømil (nautical mile, NM) ● | længde | $1\ \text{NM} = 1852\ \text{m}$ | international; ≈ 1 bueminut på en længdegrad |
+| knob (kn) | fart | $1\ \text{kn} = 1\ \text{NM/h} = 0{,}5144\ \text{m/s}$ | skibe og fly |
+| mph ● | fart | $1\ \text{mph} = 0{,}44704\ \text{m/s} = 1{,}609\ \text{km/h}$ | |
+| acre | areal | $1\ \text{acre} = 4047\ \text{m}^2$ | |
+| US gallon (gal) ● | rumfang | $1\ \text{gal} = 3{,}785\ \text{L}$ | **UK-gallon er større:** $4{,}546\ \text{L}$ |
+| US fluid ounce (fl oz) | rumfang | $1\ \text{fl oz} = 29{,}57\ \text{mL}$ | UK fl oz = 28,41 mL |
+| cup (US) | rumfang | $\approx 237\ \text{mL}$ | på næringsdeklarationer bruges 240 mL |
+| barrel (olie, bbl) ● | rumfang | $1\ \text{bbl} = 42\ \text{gal} = 159{,}0\ \text{L}$ | oliepriser |
+| pound (lb) ● | masse | $1\ \text{lb} = 0{,}45359237\ \text{kg}$ | |
+| ounce (oz) ● | masse | $1\ \text{oz} = \tfrac{1}{16}\ \text{lb} = 28{,}35\ \text{g}$ | |
+| short ton (US) ● | masse | $1\ \text{ton} = 2000\ \text{lb} = 907{,}2\ \text{kg}$ | UK long ton = 1016 kg; metrisk ton = 1000 kg |
+| stone (UK) ● | masse | $1\ \text{st} = 14\ \text{lb} = 6{,}350\ \text{kg}$ | kropsvægt i Storbritannien |
+| pound-force (lbf) | kraft | $1\ \text{lbf} = 4{,}448\ \text{N}$ | |
+| psi (lbf/in²) | tryk | $1\ \text{psi} = 6895\ \text{Pa} \approx 0{,}0690\ \text{bar}$ | dæktryk |
+| grader Fahrenheit (°F) | temperatur | $t_F = 1{,}8 \cdot t_C + 32$, $\ t_C = \dfrac{t_F - 32}{1{,}8}$ | $0\ \text{°C} = 32\ \text{°F}$, $100\ \text{°C} = 212\ \text{°F}$; $-40\ \text{°C} = -40\ \text{°F}$ |
+| BTU | energi | $1\ \text{BTU} \approx 1055\ \text{J}$ | varmepumper, aircondition; definitionen varierer (1054–1060 J) |
+| foot-pound (ft·lbf) | energi, arbejde | $1\ \text{ft·lbf} = 1{,}356\ \text{J}$ | |
+| horsepower (hp) | effekt | $1\ \text{hp} = 745{,}7\ \text{W}$ | **metrisk hestekraft (hk, PS) er 735,5 W** |
+| mpg (miles per US gallon) | brændstofforbrug | $1\ \text{mpg} = 0{,}4251\ \text{km/L}$ | $\text{L/100 km} = \dfrac{235{,}2}{\text{mpg}}$ |
+
+Eksempel: En amerikansk bil kører 30 mpg: $30 \cdot 0{,}4251 = 12{,}8\ \text{km/L}$, dvs. $\dfrac{235{,}2}{30} = 7{,}8\ \text{L/100 km}$.
+
 ---
 
 ## C-niveau
@@ -210,7 +251,7 @@ Alle andre enheder kan skrives som produkter af de syv grundenheder.
 | Kemisk energi | $E_{\text{kem}} = B \cdot m$ | Energi bundet i kemiske bindinger, som frigives fx ved forbrænding af mad, træ eller benzin. |
 | Elektrisk energi | $E_{\text{el}} = U \cdot I \cdot t$ | Energi, der transporteres af en elektrisk strøm. |
 | Strålingsenergi | $E_{\text{foton}} = h \cdot f$ | Energi, der transporteres af elektromagnetisk stråling (fotoner), fx sollys, som planterne bruger til fotosyntese. (α- og β-stråling er *partikelstråling* – her er energien partiklernes kinetiske energi.) |
-| Kerneenergi | $E = \Delta m \cdot c^2$ *(B-niveau)* | Energi frigivet ved **kernereaktioner**: fission (spaltning af fx U-235 i et kernekraftværk), fusion (i Solen) og radioaktive henfald. Energien bliver til kinetisk energi af partiklerne → termisk energi → fx damp, der driver en turbine. |
+| Kerneenergi | $E = \Delta m \cdot c^2$  | Energi frigivet ved **kernereaktioner**: fission (spaltning af fx U-235 i et kernekraftværk), fusion (i Solen) og radioaktive henfald. Energien bliver til kinetisk energi af partiklerne → termisk energi → fx damp, der driver en turbine. |
 
 > **Energibevarelse:** Energi kan hverken skabes eller forsvinde – kun omdannes fra én
 > form til en anden: $E_{\text{før}} = E_{\text{efter}}$.
