@@ -16,8 +16,9 @@ Her kommer der en liste over nogle af de mest brugte **fagfaglige** metoder. Als
 | Metode | Kort fortalt | Bruges fx i |
 |---|---|---|
 |Standardkurve|Ud fra en række standardopløsninger med kendt koncentration fremstiller man en graf som bruges til at aflæse ukendte koncentrationer fra |C-vitamin i NV /[Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}) |
-| [Spektrofotometri]({{< relref "/docs/kemi/Metoder/spektrofotometri" >}}) | Koncentration ud fra, hvor meget lys opløsningen absorberer (Beer-Lamberts lov, standardkurve) | [Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}) |
-| Kolometrisk syre-base-titrering | Koncentration af en syre eller base ud fra, hvor meget base eller syre der skal til for at neutralisere den (farveindikator) | [Syre i vingummibamser]({{< relref "/docs/kemi/C-Eksp/vingummi" >}}) |
+| [Spektrofotometri]({{< relref "/docs/kemi/Metoder/spektrofotometri" >}}) | Koncentration ud fra, hvor meget lys opløsningen absorberer (Lambert-Beers lov, standardkurve) | [Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}) |
+| [Titrering]({{< relref "/docs/kemi/Metoder/titrering" >}}) | Grundprincippet: tilsæt en opløsning med kendt koncentration, til alt stoffet i prøven har reageret – og regn baglæns | Alle titreringerne nedenfor |
+| Kolorimetrisk syre-base-titrering | Koncentration af en syre eller base ud fra, hvor meget base eller syre der skal til for at neutralisere den (farveindikator) | [Syre i vingummibamser]({{< relref "/docs/kemi/C-Eksp/vingummi" >}}) |
 | potentiometrisk - pH-titrering | Som syre-base-titrering, men pH måles hele vejen med et pH-meter, så du får en titrerkurve | [Phosphorsyre i cola]({{< relref "/docs/kemi/B-Eksp/phosphorsyre-cola" >}}) |
 | Redoxtitrering | Titrering, hvor en elektronoverførsel er selve reaktionen – fx med permanganat | [Jern i ståluld]({{< relref "/docs/kemi/B-Eksp/staaluld" >}}) |
 | Fældningstitrering | Titrering, hvor der dannes et tungtopløseligt salt – fx klorid med sølvioner | [Salt i ting]({{< relref "/docs/kemi/C-Eksp/salt-i-ting" >}}) |
