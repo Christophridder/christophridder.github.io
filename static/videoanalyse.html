@@ -43,6 +43,8 @@ table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nu
 th, td { border-bottom: 1px solid var(--line); padding: 3px 6px; text-align: right; }
 th { position: sticky; top: 0; background: #fff; }
 tr.current td { background: #fff3c4; }
+.exportbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 8px; }
+.exportbar button { padding: 5px 9px; font-size: .88rem; white-space: nowrap; }
 #tablewrap { max-height: 260px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; }
 #plot { width: 100%; height: 300px; display: block; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
 #fitresult { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .92rem; margin-top: 6px; min-height: 2.4em; }
@@ -143,6 +145,8 @@ small.muted { color: var(--muted); }
         <option value="lin">lineær: y = a·x + b</option>
         <option value="quad">andengrads: y = a·x² + b·x + c</option>
         <option value="prop">proportional: y = a·x</option>
+        <option value="sin">svingning: y = A·sin(ω·x + φ) + C</option>
+        <option value="dsin">dæmpet svingning: y = A·e^(−b·x)·sin(ω·x + φ) + C</option>
       </select>
       <label><input type="checkbox" id="t0" checked> t = 0 ved første punkt</label>
     </div>
@@ -152,14 +156,13 @@ small.muted { color: var(--muted); }
 
   <div class="panel" style="margin-top:14px">
     <h2>Data</h2>
-    <div class="row">
-      <button id="copyExcel" title="Kopierer med komma som decimaltegn – sæt direkte ind i dansk Excel">Kopiér til Excel</button>
+    <div class="exportbar">
+      <button id="copyExcel" title="Kopierer med komma som decimaltegn – sæt direkte ind i dansk Excel">📋 Kopiér til Excel</button>
+      <button id="dlCsv" title="Download CSV – semikolon-separeret med punktum som decimaltegn">⬇ CSV</button>
+      <button id="dlPy" title="Download kort Python-program med alle data som numpy-arrays, andengradsfit og graf">⬇ Python: fit</button>
+      <button id="dlPyDrag" title="Download Python-program der fitter en model med luftmodstand (F = k·v²) til x(t) og y(t)">⬇ Python: luftmodstand</button>
     </div>
-    <div class="row">
-      <button id="dlCsv" title="Semikolon-separeret med punktum som decimaltegn">Download CSV</button>
-      <button id="dlPy" title="Kort Python-program med alle data som numpy-arrays, andengradsfit og graf">Download Python-fitprogram (.py)</button>
-      <small class="muted" id="copyMsg"></small>
-    </div>
+    <small class="muted" id="copyMsg"></small>
     <div id="tablewrap"><table id="table"><thead></thead><tbody></tbody></table></div>
     <p><small class="muted">v og a beregnes med centrale differenser mellem nabopunkter. De støjer derfor mere end x og y – fit hellere til stedgraferne.</small></p>
   </div>
@@ -472,8 +475,69 @@ small.muted { color: var(--muted); }
     }
     return A.map((r, i) => r[n] / r[i]);
   }
+  // ---- ikke-lineær tilpasning (Levenberg–Marquardt) ----
+  function lm(model, xs, ys, p0, iter = 200) {
+    let p = p0.slice(), lam = 1e-3;
+    const ssr = q => xs.reduce((s, x, i) => s + (ys[i] - model(x, q)) ** 2, 0);
+    let cur = ssr(p);
+    for (let it = 0; it < iter; it++) {
+      const m = p.length, J = xs.map(x => {
+        const f0 = model(x, p);
+        return p.map((v, j) => { const h = 1e-6 * Math.max(1, Math.abs(v)); const q = p.slice(); q[j] += h; return (model(x, q) - f0) / h; });
+      });
+      const r = xs.map((x, i) => ys[i] - model(x, p));
+      const JTJ = Array.from({ length: m }, (_, a) => Array.from({ length: m }, (_, b) => J.reduce((s, row) => s + row[a] * row[b], 0)));
+      const JTr = Array.from({ length: m }, (_, a) => J.reduce((s, row, i) => s + row[a] * r[i], 0));
+      let improved = false;
+      for (let k = 0; k < 16; k++) {
+        const Am = JTJ.map((row, a) => row.map((v, b) => a === b ? v * (1 + lam) + 1e-12 : v));
+        const dp = solve(Am, JTr); if (!dp) { lam *= 10; continue; }
+        const q = p.map((v, j) => v + dp[j]), nq = ssr(q);
+        if (isFinite(nq) && nq < cur) { const rel = (cur - nq) / (cur + 1e-30); p = q; cur = nq; lam = Math.max(lam / 5, 1e-12); improved = true; if (rel < 1e-12) it = iter; break; }
+        lam *= 10;
+      }
+      if (!improved) break;
+    }
+    return { p, ssr: cur };
+  }
+  function sinFit(xs, ys, damped) {
+    const n = xs.length, need = damped ? 6 : 5;
+    if (n < need) return { err: `Kræver mindst ${need} punkter.` };
+    const sx = xs.slice().sort((a, b) => a - b), x0 = sx[0], span = sx[n - 1] - x0;
+    let dmin = Infinity; for (let i = 1; i < n; i++) { const d = sx[i] - sx[i - 1]; if (d > 1e-12 && d < dmin) dmin = d; }
+    if (!(span > 0) || !isFinite(dmin)) return { err: "For få forskellige x-værdier." };
+    // 1) find ω ved at scanne: for hvert ω er y = a·sin + b·cos + c lineær
+    const wmin = 0.5 * Math.PI / span, wmax = Math.PI / dmin, N = Math.max(800, 4 * n);
+    const bs = damped ? Array.from({ length: 21 }, (_, i) => i * 0.25 / span) : [0];   // dæmpning: scan også b
+    let best = null;
+    for (const bd of bs) for (let k = 0; k <= N; k++) {
+      const w = wmin + (wmax - wmin) * k / N;
+      const B = x => { const e = Math.exp(-bd * (x - x0)); return [e * Math.sin(w * (x - x0)), e * Math.cos(w * (x - x0)), 1]; };
+      const A = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], bb = [0, 0, 0];
+      for (let i = 0; i < n; i++) { const f = B(xs[i]); for (let r = 0; r < 3; r++) { bb[r] += f[r] * ys[i]; for (let c = 0; c < 3; c++) A[r][c] += f[r] * f[c]; } }
+      const q = solve(A, bb); if (!q) continue;
+      let e = 0; for (let i = 0; i < n; i++) { const f = B(xs[i]); e += (ys[i] - q[0] * f[0] - q[1] * f[1] - q[2]) ** 2; }
+      if (!best || e < best.e) best = { e, w, q, bd };
+    }
+    if (!best) return { err: "Kunne ikke finde en svingning i data." };
+    // 2) forfin med Levenberg–Marquardt. Internt måles x fra x0.
+    let p0 = [Math.hypot(best.q[0], best.q[1]), best.w, Math.atan2(best.q[1], best.q[0]), best.q[2]];
+    let model = (x, p) => p[0] * Math.sin(p[1] * (x - x0) + p[2]) + p[3];
+    if (damped) { p0 = [...p0, best.bd]; model = (x, p) => p[0] * Math.exp(-p[4] * (x - x0)) * Math.sin(p[1] * (x - x0) + p[2]) + p[3]; }
+    let { p } = lm(model, xs, ys, p0);
+    if (p[0] < 0) { p[0] = -p[0]; p[2] += Math.PI; }
+    if (p[1] < 0) { p[1] = -p[1]; p[2] = Math.PI - p[2]; }
+    // fase regnet om, så den gælder for x (ikke x − x0)
+    let phi = p[2] - p[1] * x0; phi = Math.atan2(Math.sin(phi), Math.cos(phi));
+    const f = x => model(x, p);
+    const ym = ys.reduce((s, v) => s + v, 0) / n;
+    let ssr = 0, sst = 0; for (let i = 0; i < n; i++) { ssr += (ys[i] - f(xs[i])) ** 2; sst += (ys[i] - ym) ** 2; }
+    return { kind: damped ? "dsin" : "sin", f, r2: sst > 0 ? 1 - ssr / sst : 1, A: p[0], w: p[1], phi, C: p[3], b: damped ? p[4] : 0, x0, span, periods: span * p[1] / (2 * Math.PI), p: [] };
+  }
+
   function fit(xs, ys, kind) {
     const n = xs.length; if (kind === "none") return null;
+    if (kind === "sin" || kind === "dsin") return sinFit(xs, ys, kind === "dsin");
     const need = { lin: 2, quad: 3, prop: 1 }[kind]; if (n < need + 1) return { err: `Kræver mindst ${need + 1} punkter.` };
     let basis;
     if (kind === "lin") basis = x => [x, 1];
@@ -581,12 +645,23 @@ small.muted { color: var(--muted); }
     else if (F.err) out.textContent = F.err;
     else {
       const p = F.p.map(v => fmt(v, 4));
-      const eq = F.kind === "lin" ? `y = ${p[0]}·x + ${p[1]}` : F.kind === "quad" ? `y = ${p[0]}·x² + ${p[1]}·x + ${p[2]}` : `y = ${p[0]}·x`;
+      let eq = F.kind === "lin" ? `y = ${p[0]}·x + ${p[1]}` : F.kind === "quad" ? `y = ${p[0]}·x² + ${p[1]}·x + ${p[2]}` : `y = ${p[0]}·x`;
       let extra = "";
+      if (F.kind === "sin" || F.kind === "dsin") {
+        const T = 2 * Math.PI / F.w;
+        const xarg = F.kind === "dsin" && Math.abs(F.x0) > 1e-9 ? `(x − ${fmt(F.x0, 4)})` : "x";
+        eq = F.kind === "sin"
+          ? `y = ${fmt(F.A, 4)}·sin(${fmt(F.w, 4)}·x + ${fmt(F.phi, 3)}) + ${fmt(F.C, 4)}`
+          : `y = ${fmt(F.A, 4)}·e^(−${fmt(F.b, 4)}·${xarg})·sin(${fmt(F.w, 4)}·x + ${fmt(F.phi, 3)}) + ${fmt(F.C, 4)}`;
+        extra = `\n→ ω = ${fmt(F.w, 4)} rad/s   T = 2π/ω = ${fmt(T, 4)} s   f = ${fmt(1 / T, 4)} Hz`;
+        if (xk === "t" && (yk === "x" || yk === "y")) extra += `\n→ fjederpendul: k/m = ω² = ${fmt(F.w * F.w, 4)} s⁻²`;
+        if (F.kind === "dsin") extra += F.b * F.span > 0.03 ? `\n→ dæmpning b = ${fmt(F.b, 4)} s⁻¹   amplituden halveres på ln2/b = ${fmt(Math.LN2 / F.b, 3)} s` : `\n→ ingen målbar dæmpning (b ≈ 0)`;
+        if (F.periods < 1.5) extra += `\n⚠ Kun ${fmt(F.periods, 2)} periode(r) med i data – fittet er usikkert. Markér flere perioder.`;
+      }
       if (F.kind === "quad" && xk === "t" && (yk === "y" || yk === "x")) extra = `\n→ acceleration = 2·a = ${fmt(2 * F.p[0], 4)} m/s²` + (yk === "y" ? `  (g ≈ ${fmt(-2 * F.p[0], 4)} m/s²)` : "");
       if (F.kind === "lin" && xk === "t" && (yk === "vy" || yk === "vx")) extra = `\n→ hældning = acceleration = ${fmt(F.p[0], 4)} m/s²`;
       if (F.kind === "lin" && xk === "t" && (yk === "x" || yk === "y")) extra = `\n→ hældning = hastighed = ${fmt(F.p[0], 4)} m/s`;
-      out.textContent = `${eq}   R² = ${fmt(F.r2, 5)}${extra}`.replace(/\+ -/g, "− ");
+      out.textContent = `${eq}   R² = ${fmt(F.r2, 5)}${extra}`.replace(/\+ -/g, "− ").replace(/\(−-/g, "(");
       out.style.whiteSpace = "pre-wrap";
     }
   }
@@ -627,7 +702,7 @@ small.muted { color: var(--muted); }
   $("dlPy").onclick = () => {
     const rows = data();
     if (rows.length < 3) { alert("Markér mindst 3 punkter først."); return; }
-    const arr = k => "np.array([" + rows.map(r => (r[k] === null || !isFinite(r[k])) ? "np.nan" : String(+r[k].toPrecision(6))).join(", ") + "])";
+    const arr = k => "np.array([" + rows.map(r => (r[k] === null || !isFinite(r[k])) ? "np.nan" : (Math.abs(r[k]) < 1e-9 ? "0" : String(+r[k].toPrecision(6)))).join(", ") + "])";
     const d = new Date().toLocaleDateString("da-DK");
     const py = `# Videoanalyse fra crsite – ${d}
 # Kør programmet i fx VS Code, Spyder eller Jupyter.
@@ -663,6 +738,80 @@ plt.show()
 `;
     const el = document.createElement("a");
     el.href = URL.createObjectURL(new Blob([py], { type: "text/x-python" })); el.download = "videoanalyse_fit.py"; el.click();
+  };
+  $("dlPyDrag").onclick = () => {
+    const rows = data();
+    if (rows.length < 6) { alert("Markér mindst 6 punkter først."); return; }
+    const arr = k => "np.array([" + rows.map(r => (r[k] === null || !isFinite(r[k])) ? "np.nan" : (Math.abs(r[k]) < 1e-9 ? "0" : String(+r[k].toPrecision(6)))).join(", ") + "])";
+    const d = new Date().toLocaleDateString("da-DK");
+    const py = `# Kast med luftmodstand – videoanalyse fra crsite, ${d}
+# Model: m·a = m·g + F_luft, hvor F_luft = k·v² og peger modsat hastigheden.
+# Programmet finder k/m ved at løse bevægelsesligningerne numerisk og
+# tilpasse løsningen til de målte x(t) og y(t) (mindste kvadraters metode).
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+from scipy.optimize import least_squares
+
+# ---- Målinger (nan = kan ikke beregnes i første og sidste punkt) ----
+t  = ${arr("t")}  # s
+x  = ${arr("x")}  # m
+y  = ${arr("y")}  # m
+vx = ${arr("vx")}  # m/s
+vy = ${arr("vy")}  # m/s
+v  = ${arr("v")}  # m/s
+ax = ${arr("ax")}  # m/s^2
+ay = ${arr("ay")}  # m/s^2
+
+g = 9.82          # m/s^2 – holdes fast
+m = None          # masse i kg (fx 0.0027) – valgfri, bruges til C_d
+d = None          # diameter i m (fx 0.040) – valgfri, bruges til C_d
+
+def model(p):
+    km, x0, y0, vx0, vy0 = p
+    def f(_, s):
+        X, Y, VX, VY = s
+        V = np.hypot(VX, VY)
+        return [VX, VY, -km*V*VX, -g - km*V*VY]
+    sol = solve_ivp(f, (t[0], t[-1]), [x0, y0, vx0, vy0], t_eval=t, rtol=1e-8)
+    return sol.y[0], sol.y[1]
+
+def residualer(p):
+    xm, ym = model(p)
+    return np.concatenate([xm - x, ym - y])
+
+start = [0.05, x[0], y[0], vx[1], vy[1]]                      # startgæt
+fit = least_squares(residualer, start, bounds=([0, -np.inf, -np.inf, -np.inf, -np.inf], np.inf))
+km, x0, y0, vx0, vy0 = fit.x
+
+print(f"k/m        = {km:.3g} 1/m")
+print(f"v0         = ({vx0:.3g}, {vy0:.3g}) m/s")
+if km > 0:
+    print(f"v_graense  = {np.sqrt(g/km):.3g} m/s")
+if m and d and km > 0:
+    Cd = 2*km*m/(1.2*np.pi*(d/2)**2)                          # luftens densitet 1,2 kg/m^3
+    print(f"C_d        = {Cd:.2g}")
+
+# Til sammenligning: parabel (uden luftmodstand) fittet til y(t)
+a2, a1, a0 = np.polyfit(t, y, 2)
+
+tf = np.linspace(t[0], t[-1], 300)
+xm, ym = model(fit.x)
+plt.subplot(2, 1, 1)
+plt.plot(t, y, "o", label="målinger")
+plt.plot(t, ym, "-", label="model med luftmodstand")
+plt.plot(tf, a2*tf**2 + a1*tf + a0, "--", label="parabel uden luftmodstand")
+plt.ylabel("y (m)"); plt.grid(True); plt.legend()
+plt.subplot(2, 1, 2)                                            # residualer: model minus måling
+plt.plot(t, ym - y, "o-", label="luftmodstand")
+plt.plot(t, np.polyval([a2, a1, a0], t) - y, "s--", label="parabel")
+plt.axhline(0, color="k", lw=0.8)
+plt.xlabel("t (s)"); plt.ylabel("residual y (m)"); plt.grid(True); plt.legend()
+plt.tight_layout()
+plt.show()
+`;
+    const el = document.createElement("a");
+    el.href = URL.createObjectURL(new Blob([py], { type: "text/x-python" })); el.download = "kast_luftmodstand.py"; el.click();
   };
   $("dlCsv").onclick = () => {
     const txt = exportText(";", fmtDot).replace(/ \(([^)]*)\)/g, "_$1").replace(/[ₓ]/g, "x").replace(/_y/g, "y");
