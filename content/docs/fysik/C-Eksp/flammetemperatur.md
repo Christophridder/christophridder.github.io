@@ -47,7 +47,7 @@ Alle størrelser har enheder:
 - varmekapaciteterne $c$ i $\left[\dfrac{\text{J}}{\text{kg} \cdot \text{K}}\right]$
 - temperaturer og temperaturforskelle i $\text{K}$ eller $^\circ\text{C}$
 
-![Forsøgsopstilling med alle størrelser](/images/flammetemperatur.png)
+![Forsøgsopstilling med alle størrelser: bolten i flammen, vandet før og bolten i vandet](/images/flammetemperatur.svg)
 
 ## Variabelkontrol
 
@@ -69,11 +69,38 @@ Alle størrelser har enheder:
 
 1. Vej bolten, og noter dens masse $m_{\text{bolt}}$.
 2. Afmål en kendt mængde vand, og mål vandets starttemperatur $T_{\text{vand-start}}$.
-3. Varm bolten op i flammen, til den har flammens temperatur.
-4. Overfør hurtigt bolten til vandet, rør rundt, og aflæs den **fælles**
+3. Lad bolten hænge i flammen, til den er **rødglødende** i bunden.
+4. Skub brænderen til side, og løft forsigtigt koppen med vand op om bolten,
+   til hele bolten er dækket af vand. *(Så undgår I at tabe varme på vejen.)*
+5. Rør **godt** rundt med bolten, og aflæs den **fælles**
    sluttemperatur. Det er både $T_{\text{vand-slut}}$ og $T_{\text{bolt-slut}}$.
-5. Sørg for at have målt **alle** størrelser, før I går videre til beregningen —
+6. Gentag forsøget med nyt, koldt vand (forsøg 2).
+7. Sørg for at have målt **alle** størrelser, før I går videre til beregningen —
    den eneste ukendte skal være $T_{\text{bolt-start}}$ (= flammetemperaturen).
+
+## Måletabel
+
+Størrelser, som skal måles eller bestemmes **før** eller **efter** forsøget:
+
+- Vej bolten med en vægt med mindst **1 decimal**.
+- Vandet skal også vejes, men her er 1 g nøjagtighed fint.
+
+| Navn | Størrelse | Værdi med enhed |
+|---|---|---|
+| Specifik varmekapacitet, bolt (jern) | $c_{\text{jern}}$ | $444\ \dfrac{\text{J}}{\text{kg} \cdot \text{K}}$ |
+| Specifik varmekapacitet, vand | $c_{\text{vand}}$ | $4180\ \dfrac{\text{J}}{\text{kg} \cdot \text{K}}$ |
+| Boltens masse | $m_{\text{bolt}}$ | |
+| **Første forsøg** | | |
+| Vandets masse | $m_{\text{vand-1}}$ | |
+| Vandets starttemperatur | $T_{\text{vand-start-1}}$ | |
+| Vandets sluttemperatur | $T_{\text{vand-slut-1}}$ | |
+| Beregnet starttemperatur for bolten | $T_{\text{bolt-start-1}}$ | |
+| **Andet forsøg** | | |
+| Vandets masse | $m_{\text{vand-2}}$ | |
+| Vandets starttemperatur | $T_{\text{vand-start-2}}$ | |
+| Vandets sluttemperatur | $T_{\text{vand-slut-2}}$ | |
+| Beregnet starttemperatur for bolten | $T_{\text{bolt-start-2}}$ | |
+| **Gennemsnitlig starttemperatur for bolten** | $T_{\text{bolt-start, gns}}$ | |
 
 ---
 
@@ -82,7 +109,7 @@ Alle størrelser har enheder:
 Sæt formel **(2)** og **(3)** ind i **(1)**, erstat $\Delta T$ med udtrykkene
 $(a)$ og $(b)$, og isolér $T_{\text{bolt-start}}$. Resultatet bliver:
 
-$$T_{\text{bolt-start}} = \frac{m_{\text{vand}} \cdot c_{\text{vand}} \cdot \Delta T_{\text{vand}}}{m_{\text{bolt}} \cdot c_{\text{bolt}}} + T_{\text{bolt-slut}}$$
+$$T_{\text{bolt-start}} = \frac{m_{\text{vand}} \cdot c_{\text{vand}} \cdot \Delta T_{\text{vand}}}{m_{\text{bolt}} \cdot c_{\text{jern}}} + T_{\text{bolt-slut}}$$
 
 Indsæt jeres målte værdier, og beregn flammetemperaturen. **Husk, at alle værdier
 skal være i SI-enheder.**

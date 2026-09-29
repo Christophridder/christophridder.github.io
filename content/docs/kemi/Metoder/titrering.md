@@ -35,23 +35,34 @@ $$n = c \cdot V \qquad\qquad m = M \cdot n$$
 
 > **Husk enheden!** $V$ skal være i **liter**, når $c$ er i mol/L. 6,85 mL = 0,00685 L.
 
-## Et meget simpelt eksempel
+## Hvad sker der i kolben undervejs?
 
-Forestil dig, at du vil vide, hvor mange **sure bolsjer** der er i en lukket pose – men du må ikke kigge i den.
+Vi følger **kontrolforsøget** fra [Salt i ting]({{< relref "/docs/kemi/C-Eksp/salt-i-ting" >}}): 10,00 mL af en NaCl-opløsning, som vi selv har lavet, så vi **ved**, at der er præcis $1{,}00 \cdot 10^{-3}$ mol Cl⁻ i kolben. Vi titrerer med 0,100 M AgNO₃ og bruger DCF som indikator.
 
-- Du har en æske med **makker-bolsjer**, og hver gang du putter ét makker-bolsje i posen, "parrer" det sig med præcis ét surt bolsje.
-- Der er en klokke, der ringer, i det øjeblik der ikke er flere sure bolsjer tilbage uden en makker.
-- Når klokken ringer, tæller du, hvor mange makker-bolsjer du har brugt: **27**. Så var der **27 sure bolsjer** i posen.
+Hver mL sølvnitrat indeholder $n = c \cdot V = 0{,}100\ \tfrac{\text{mol}}{\text{L}} \cdot 0{,}00100\ \text{L} = 1{,}00 \cdot 10^{-4}$ mol Ag⁺. Hver sølvion fælder præcis én chloridion:
 
-Titrering er præcis det samme – bare med ioner i stedet for bolsjer:
+$$\text{Ag}^+\text{(aq)} + \text{Cl}^-\text{(aq)} \rightarrow \text{AgCl(s)}$$
 
-| Bolsje-eksemplet | Titrering |
-|---|---|
-| sure bolsjer i posen | chloridioner (Cl⁻) i småkagen |
-| makker-bolsjer | sølvioner (Ag⁺) fra buretten |
-| "parrer sig 1 til 1" | $\text{Ag}^+ + \text{Cl}^- \rightarrow \text{AgCl(s)}$ |
-| klokken ringer | indikatoren skifter farve |
-| du tæller bolsjer | du aflæser buretten (mL) og regner om til mol |
+| Tilsat AgNO₃ | $n(\text{Ag}^+)$ tilsat | $n(\text{Cl}^-)$ tilbage i opløsningen | $n(\text{Ag}^+)$ i overskud | Hvad ser du? |
+|---|---|---|---|---|
+| 0 mL | 0 | $1{,}00 \cdot 10^{-3}$ mol | 0 | klar, gullig-grøn opløsning |
+| 2,00 mL | $2{,}0 \cdot 10^{-4}$ mol | $8{,}0 \cdot 10^{-4}$ mol | 0 | hvidt bundfald af AgCl dannes |
+| 5,00 mL | $5{,}0 \cdot 10^{-4}$ mol | $5{,}0 \cdot 10^{-4}$ mol | 0 | mere bundfald – halvdelen af Cl⁻ er fældet |
+| 9,90 mL | $9{,}9 \cdot 10^{-4}$ mol | $1{,}0 \cdot 10^{-5}$ mol | 0 | stadig gullig-grøn – **næsten** færdig |
+| **10,00 mL** | $1{,}00 \cdot 10^{-3}$ mol | ≈ 0 | ≈ 0 | **ækvivalenspunktet** |
+| 10,05 mL (én dråbe mere) | $1{,}005 \cdot 10^{-3}$ mol | ≈ 0 | $5 \cdot 10^{-6}$ mol | bundfaldet bliver **lyserødt** → stop! |
+
+**Pointen:** Så længe der er Cl⁻ tilbage, "forsvinder" hver sølvion ned i bundfaldet. Først når det sidste Cl⁻ er fældet, er der sølvioner i overskud – og **det** er det, indikatoren reagerer på. Ved endepunktet gælder derfor:
+
+$$n(\text{Ag}^+)_{\text{tilsat}} = n(\text{Cl}^-)_{\text{i prøven}}$$
+
+**Hvorfor skifter DCF farve?** Bundfaldskornene af AgCl binder de ioner på overfladen, der er i overskud i opløsningen:
+- **Før ækvivalenspunktet** er der overskud af Cl⁻, så kornene bliver **negativt** ladede. Indikatoren er selv en negativ ion og frastødes – opløsningen er gullig-grøn.
+- **Efter ækvivalenspunktet** er der overskud af Ag⁺, så kornene bliver **positivt** ladede. Nu bindes indikatorens negative ioner til overfladen, og bundfaldet farves **lyserødt**.
+
+> Det er derfor, farveskiftet sidder på *bundfaldet* og ikke i selve opløsningen – og derfor skal der røres godt hele tiden.
+
+**Tjek af metoden:** Brugte du 10,00 mL, rammer metoden præcist. Brugte du fx 10,40 mL, er afvigelsen $\dfrac{10{,}00 - 10{,}40}{10{,}00} \cdot 100\ \% = -4{,}0\ \%$ – typisk fordi farveskiftet først ses lidt efter ækvivalenspunktet. Den viden bruger du, når du bagefter titrerer prøver med **ukendt** indhold.
 
 ## Eksempel: salt i en småkage – trin for trin
 

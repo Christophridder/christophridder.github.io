@@ -20,7 +20,25 @@ Metoden er god til bevægelser, der er for hurtige til at måle med stopur, men 
 - Telefon, tablet eller kamera på **stativ** – kameraet må ikke flytte sig
 - En **målestok** (fx en meterstok) i samme plan som bevægelsen
 - God belysning og en genstand med god kontrast til baggrunden
-- Et analyseprogram: **LoggerPro** (skolens program) eller **Tracker** (gratis)
+- Et analyseprogram: **[crsite-videoanalyse](/videoanalyse.html)** (kører i browseren, ingen installation), **LoggerPro** (skolens program) eller **Tracker** (gratis)
+
+## Videoanalyse i browseren
+
+<a href="/videoanalyse.html" target="_blank"><strong>▶ Åbn videoanalyse-værktøjet</strong></a> – virker på Mac, Windows og Chromebook. Videoen bliver på din egen computer; intet uploades.
+
+1. **Indlæs videoen** – træk den ind i vinduet (mp4 eller mov).
+2. **Tjek fps** – skriv, hvor mange billeder pr. sekund videoen har, eller tryk *Find fps*. Har du filmet i slowmotion, skriver du den *optagede* fps i feltet "Optaget med".
+3. **Kalibrér** – klik på målestokkens to ender, og skriv dens længde i meter.
+4. **Placér origo** – klik der, hvor $(0, 0)$ skal være. $y$-aksen peger opad.
+5. **Markér punkter** – klik midt på genstanden. Programmet hopper selv til næste frame.
+6. **Graf og regression** – vælg fx $t$ og $y$ og *andengrads*-regression. Programmet skriver $g$ direkte.
+7. **Eksport** – *Kopiér til Excel* (dansk decimalkomma), *Download CSV*, eller *Download Python-fitprogram*: et kort program med alle dine data som numpy-arrays, der laver andengradsfittet og tegner grafen med matplotlib.
+
+**Find hurtigt det rigtige sted i en lang video:** Tryk *Afspil* (gerne ved ¼×), tryk pause lige før bevægelsen, og tryk *Sæt start her*. Gør det samme ved slutningen med *Sæt slut her* – så dækker slideren kun det vigtige stykke. Knapperne ‹ › (1 frame) og « » (10 frames) kører videre, når du holder dem nede.
+
+**Gamle videoer:** Mange ældre optagelser (fx fra Apollo-missionerne) er filmet med ca. 12 billeder pr. sekund, men gemt som 30 fps – så hvert billede står der 2–3 gange. Lad *Spring gentagne billeder over* være slået til, ellers bliver dine data "trappeformede".
+
+Vil du prøve værktøjet uden egen video? Hent [testvideoen](/video/testkast.webm) – et skråt kast med $g = 9{,}82$ m/s² og en målestok på 1,00 m.
 
 ## Sådan gør du
 
@@ -75,7 +93,7 @@ Eksportér tabellen fra LoggerPro eller Tracker som en csv-fil med kolonnerne `t
 ```python
 import numpy as np
 
-t, x, y = np.loadtxt("kast.csv", delimiter=";", skiprows=1, unpack=True)
+t, x, y = np.loadtxt("kast.csv", delimiter=";", skiprows=1, usecols=(0, 1, 2), unpack=True)
 
 a2, a1, a0 = np.polyfit(t, y, 2)   # parabel til y(t)
 b1, b0 = np.polyfit(t, x, 1)       # ret linje til x(t)

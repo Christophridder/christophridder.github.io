@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Videoanalyse</title>
+<style>
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --ink: #1d2733; --muted: #5d6b7a; --line: #d9dee5;
+  --blue: #1f5fa8; --blue-soft: #e3edf8; --red: #c0392b; --green: #2e8b57; --orange: #d9822b;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); font-size: 15px; }
+header { background: var(--blue); color: #fff; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+header h1 { font-size: 1.15rem; margin: 0; font-weight: 600; }
+header a { color: #fff; opacity: .85; font-size: .9rem; }
+main { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr); gap: 14px; padding: 14px; }
+@media (max-width: 980px) { main { grid-template-columns: 1fr; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.panel h2 { font-size: .95rem; margin: 0 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.steps { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.steps button { flex: 1 1 140px; }
+button, .btn { font: inherit; border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 7px 10px; cursor: pointer; color: var(--ink); }
+button:hover { border-color: var(--blue); }
+button.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+button.done::after { content: " ✓"; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button.locked { opacity: .55; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
+label { font-size: .9rem; color: var(--muted); }
+input[type=number] { width: 84px; font: inherit; padding: 5px 6px; border: 1px solid var(--line); border-radius: 5px; }
+select { font: inherit; padding: 5px 6px; border: 1px solid var(--line); border-radius: 5px; }
+#drop { border: 2px dashed var(--line); border-radius: 8px; padding: 26px; text-align: center; color: var(--muted); }
+#drop.hover { border-color: var(--blue); background: var(--blue-soft); }
+#stage { position: relative; display: none; background: #000; border-radius: 6px; overflow: hidden; }
+#stage video { display: block; width: 100%; height: auto; }
+#overlay { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; }
+.hint { background: var(--blue-soft); border-left: 4px solid var(--blue); padding: 8px 10px; border-radius: 4px; margin: 8px 0; font-size: .92rem; }
+.hint.warn { background: #fdf0e3; border-color: var(--orange); }
+#frameinfo { font-variant-numeric: tabular-nums; min-width: 190px; }
+input[type=range] { flex: 1; min-width: 120px; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .88rem; }
+th, td { border-bottom: 1px solid var(--line); padding: 3px 6px; text-align: right; }
+th { position: sticky; top: 0; background: #fff; }
+tr.current td { background: #fff3c4; }
+#tablewrap { max-height: 260px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; }
+#plot { width: 100%; height: 300px; display: block; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+#fitresult { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .92rem; margin-top: 6px; min-height: 2.4em; }
+.kbd { font-family: ui-monospace, Menlo, monospace; background: #eef1f4; border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; font-size: .85em; }
+small.muted { color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Videoanalyse</h1>
+  <span style="opacity:.85;font-size:.9rem">Kører helt i din browser – videoen bliver ikke uploadet nogen steder.</span>
+  <a href="/docs/fysik/metoder/videoanalyse/">Vejledning</a>
+</header>
+
+<main>
+<section>
+  <div class="panel">
+    <div id="drop">
+      <p><strong>Træk en video herind</strong> eller vælg en fil</p>
+      <input type="file" id="file" accept="video/*,.mov,.mp4,.webm,.m4v">
+      <p><small class="muted">mp4 og mov virker i alle nyere browsere. avi virker ikke i browsere – konvertér den først.</small></p>
+    </div>
+
+    <div id="work" style="display:none">
+      <div class="row">
+        <label for="fpsFile">Frames pr. sekund i filen</label>
+        <input type="number" id="fpsFile" value="30" min="1" step="any">
+        <label for="fpsReal">Optaget med (fps)</label>
+        <input type="number" id="fpsReal" value="30" min="1" step="any">
+        <button id="detectFps" title="Afspiller et øjeblik og måler billedraten">Find fps</button>
+      </div>
+      <div class="hint warn" id="slowmoHint" style="display:none"></div>
+
+      <div class="steps">
+        <button id="modeCal">1. Kalibrér</button>
+        <button id="modeOrigin">2. Placér origo</button>
+        <button id="modeMark">3. Markér punkter</button>
+      </div>
+      <div class="hint" id="modeHint">Start med at kalibrere: klik på de to ender af din målestok.</div>
+      <div class="row" id="calRow" style="display:none">
+        <label for="calLen">Målestokkens længde</label>
+        <input type="number" id="calLen" value="1.00" min="0" step="any"> <span>m</span>
+        <small class="muted" id="calInfo"></small>
+      </div>
+
+      <div id="stage">
+        <video id="video" muted playsinline preload="auto"></video>
+        <canvas id="overlay"></canvas>
+      </div>
+
+      <div class="row" style="margin-top:8px">
+        <button id="play" title="Afspil / pause (mellemrum)" style="min-width:92px">▶ Afspil</button>
+        <select id="speed" title="Afspilningshastighed">
+          <option value="1">1×</option><option value="0.5">½×</option><option value="0.25" selected>¼×</option>
+        </select>
+        <button id="back10" title="10 frames tilbage (Shift + ←) – hold knappen nede">«</button>
+        <button id="prev" title="1 frame tilbage (←) – hold knappen nede">‹</button>
+        <button id="next" title="1 frame frem (→) – hold knappen nede">›</button>
+        <button id="fwd10" title="10 frames frem (Shift + →) – hold knappen nede">»</button>
+        <span id="frameinfo"></span>
+      </div>
+      <div class="row">
+        <input type="range" id="slider" min="0" max="0" value="0">
+      </div>
+      <div class="row">
+        <label>Afsnit af videoen:</label>
+        <button id="setA" title="Slideren starter her">Sæt start her</button>
+        <button id="setB" title="Slideren slutter her">Sæt slut her</button>
+        <button id="rangeAll">Hele videoen</button>
+        <small class="muted" id="rangeInfo"></small>
+      </div>
+      <div class="row">
+        <label for="stepN">Spring efter hvert punkt</label>
+        <input type="number" id="stepN" value="1" min="1" step="1"> <span>frame(s)</span>
+        <button id="undo">Fortryd sidste punkt</button>
+        <button id="delCur">Slet punkt i denne frame</button>
+        <button id="clearAll">Slet alle punkter</button>
+        <label><input type="checkbox" id="trail" checked> Vis sporet</label>
+        <label title="Mange ældre videoer har hvert billede 2–3 gange. Så springer programmet videre til næste nye billede."><input type="checkbox" id="skipDup" checked> Spring gentagne billeder over</label>
+      </div>
+      <p><small class="muted">Tip: Afspil videoen, tryk pause lige før bevægelsen, og tryk <em>Sæt start her</em>. Gør det samme ved slutningen – så dækker slideren kun det vigtige stykke.<br>
+      Tastatur: <span class="kbd">←</span> <span class="kbd">→</span> 1 frame · <span class="kbd">Shift</span>+<span class="kbd">←</span> <span class="kbd">→</span> 10 frames · <span class="kbd">mellemrum</span> afspil/pause · <span class="kbd">Backspace</span> sletter punktet i den aktuelle frame.</small></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="panel">
+    <h2>Graf</h2>
+    <div class="row">
+      <label for="xvar">x-akse</label>
+      <select id="xvar"></select>
+      <label for="yvar">y-akse</label>
+      <select id="yvar"></select>
+      <label for="fit">Regression</label>
+      <select id="fit">
+        <option value="none">ingen</option>
+        <option value="lin">lineær: y = a·x + b</option>
+        <option value="quad">andengrads: y = a·x² + b·x + c</option>
+        <option value="prop">proportional: y = a·x</option>
+      </select>
+      <label><input type="checkbox" id="t0" checked> t = 0 ved første punkt</label>
+    </div>
+    <canvas id="plot"></canvas>
+    <div id="fitresult"></div>
+  </div>
+
+  <div class="panel" style="margin-top:14px">
+    <h2>Data</h2>
+    <div class="row">
+      <button id="copyExcel" title="Kopierer med komma som decimaltegn – sæt direkte ind i dansk Excel">Kopiér til Excel</button>
+    </div>
+    <div class="row">
+      <button id="dlCsv" title="Semikolon-separeret med punktum som decimaltegn">Download CSV</button>
+      <button id="dlPy" title="Kort Python-program med alle data som numpy-arrays, andengradsfit og graf">Download Python-fitprogram (.py)</button>
+      <small class="muted" id="copyMsg"></small>
+    </div>
+    <div id="tablewrap"><table id="table"><thead></thead><tbody></tbody></table></div>
+    <p><small class="muted">v og a beregnes med centrale differenser mellem nabopunkter. De støjer derfor mere end x og y – fit hellere til stedgraferne.</small></p>
+  </div>
+</section>
+</main>
+
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const video = $("video"), overlay = $("overlay"), octx = overlay.getContext("2d");
+  const plot = $("plot"), pctx = plot.getContext("2d");
+
+  const S = {
+    fpsFile: 30, fpsReal: 30, frame: 0, nFrames: 0,
+    mode: "cal",
+    cal: { p: [], len: 1.0 },          // p: [{x,y}] i videopixel
+    origin: null,                      // {x,y} i videopixel
+    pts: new Map(),                    // frame -> {x,y} i videopixel
+    dragging: null
+  };
+  const COLS = [
+    { k: "t", label: "t (s)" }, { k: "x", label: "x (m)" }, { k: "y", label: "y (m)" },
+    { k: "vx", label: "vₓ (m/s)" }, { k: "vy", label: "v_y (m/s)" }, { k: "v", label: "v (m/s)" },
+    { k: "ax", label: "aₓ (m/s²)" }, { k: "ay", label: "a_y (m/s²)" }
+  ];
+
+  // ---------- tal ----------
+  const fmt = (v, d = 4) => {
+    if (v === null || v === undefined || !isFinite(v)) return "";
+    if (Math.abs(v) < 1e-9) return "0";
+    if (Math.abs(v) < 1e-3 || Math.abs(v) >= 1e6) return v.toExponential(d - 1).replace(".", ",").replace("e", "·10^");
+    return Number(v).toLocaleString("da-DK", { maximumSignificantDigits: d, useGrouping: false });
+  };
+  const fmtDot = v => (v === null || v === undefined || !isFinite(v)) ? "" : String(+v.toPrecision(6));
+
+  // ---------- video ----------
+  function loadFile(f) {
+    if (!f) return;
+    if (/\.avi$/i.test(f.name)) { alert("avi-filer kan ikke afspilles i en browser. Konvertér til mp4 først (fx med VLC eller HandBrake)."); return; }
+    video.src = URL.createObjectURL(f);
+    S.pts.clear(); S.cal.p = []; S.origin = null; S.frame = 0;
+    video.onloadedmetadata = () => {
+      $("drop").style.display = "none"; $("work").style.display = ""; $("stage").style.display = "block";
+      recalcFrames(); setMode("cal"); seek(0);
+    };
+    video.onerror = () => alert("Browseren kan ikke afspille denne video. Prøv at konvertere den til mp4 (H.264).");
+  }
+  $("file").addEventListener("change", e => loadFile(e.target.files[0]));
+  const drop = $("drop");
+  ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("hover"); }));
+  ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("hover"); }));
+  drop.addEventListener("drop", e => loadFile(e.dataTransfer.files[0]));
+
+  function recalcFrames() {
+    S.fpsFile = parseFloat($("fpsFile").value) || 30;
+    S.fpsReal = parseFloat($("fpsReal").value) || S.fpsFile;
+    S.nFrames = Math.max(1, Math.floor((video.duration || 0) * S.fpsFile + 1e-6));
+    S.rangeA = 0; S.rangeB = S.nFrames - 1;
+    $("slider").min = 0; $("slider").max = S.nFrames - 1; $("rangeInfo").textContent = "";
+    const f = S.fpsReal / S.fpsFile;
+    const h = $("slowmoHint");
+    if (Math.abs(f - 1) > 1e-6) {
+      h.style.display = "";
+      h.textContent = `Slowmotion: 1 frame = ${fmt(1 / S.fpsReal, 4)} s i virkeligheden (videoen afspilles ${fmt(f, 3)} gange langsommere).`;
+    } else h.style.display = "none";
+    if (S.frame > S.nFrames - 1) S.frame = S.nFrames - 1;
+    update();
+  }
+  $("fpsFile").addEventListener("change", recalcFrames);
+  $("fpsReal").addEventListener("change", recalcFrames);
+
+  let seekToken = 0;
+  function seek(fr) {
+    S.frame = Math.max(0, Math.min(S.nFrames - 1, fr));
+    const tok = ++seekToken;
+    const target = (S.frame + 0.5) / S.fpsFile;
+    S.seeking = true; overlay.style.cursor = "wait";
+    updateFrameInfo();
+    return new Promise(resolve => {
+      const done = () => { if (tok === seekToken) { S.seeking = false; overlay.style.cursor = "crosshair"; update(); } resolve(); };
+      if (Math.abs(video.currentTime - target) < 1e-4) { done(); return; }
+      video.addEventListener("seeked", done, { once: true });
+      video.currentTime = Math.min(target, Math.max(0, video.duration - 1e-3));
+    });
+  }
+
+  // "Fingeraftryk" af det viste billede – bruges til at finde gentagne billeder
+  const sigCanvas = document.createElement("canvas"), sigCtx = sigCanvas.getContext("2d", { willReadFrequently: true });
+  function frameSig() {
+    const w = Math.max(1, Math.round(video.videoWidth / 2)), h = Math.max(1, Math.round(video.videoHeight / 2));
+    sigCanvas.width = w; sigCanvas.height = h;
+    sigCtx.drawImage(video, 0, 0, w, h);
+    const d = sigCtx.getImageData(0, 0, w, h).data, g = new Uint8Array(w * h);
+    for (let i = 0, j = 0; i < d.length; i += 4, j++) g[j] = (d[i] * 3 + d[i + 1] * 6 + d[i + 2]) / 10;
+    return g;
+  }
+  function sameImage(a, b) {
+    if (!a || !b || a.length !== b.length) return false;
+    let n = 0; for (let i = 0; i < a.length; i++) if (Math.abs(a[i] - b[i]) > 20 && ++n > 3) return false;
+    return true;
+  }
+  async function advance(step) {
+    const before = $("skipDup").checked ? frameSig() : null;
+    let fr = S.frame + step;
+    if (fr > S.nFrames - 1) return;
+    await seek(fr);
+    let guard = 0;
+    while (before && sameImage(before, frameSig()) && S.frame < S.nFrames - 1 && guard++ < 15) await seek(S.frame + 1);
+  }
+  // knapper der gentager, når man holder dem nede
+  function holdButton(id, delta) {
+    const b = $(id); let t1 = null, t2 = null;
+    const stop = () => { clearTimeout(t1); clearInterval(t2); t1 = t2 = null; };
+    b.addEventListener("pointerdown", e => {
+      e.preventDefault(); stopPlay();
+      seek(S.frame + delta);
+      t1 = setTimeout(() => { t2 = setInterval(() => { if (!S.seeking) seek(S.frame + delta); }, 70); }, 400);
+    });
+    ["pointerup", "pointerleave", "pointercancel"].forEach(ev => b.addEventListener(ev, stop));
+  }
+  holdButton("prev", -1); holdButton("next", 1); holdButton("back10", -10); holdButton("fwd10", 10);
+
+  // afspil / pause
+  function stopPlay() {
+    if (video.paused) return;
+    video.pause();
+  }
+  video.addEventListener("pause", () => {
+    $("play").textContent = "▶ Afspil";
+    if (S.playing) { S.playing = false; seek(Math.floor(video.currentTime * S.fpsFile)); }
+  });
+  $("play").onclick = () => {
+    if (!video.paused) { stopPlay(); return; }
+    S.playing = true;
+    video.playbackRate = parseFloat($("speed").value) || 1;
+    if (S.frame >= S.rangeB) seek(S.rangeA);
+    $("play").textContent = "❚❚ Pause";
+    video.play();
+    const tick = () => {
+      if (video.paused) return;
+      S.frame = Math.min(S.nFrames - 1, Math.floor(video.currentTime * S.fpsFile));
+      if (S.frame >= S.rangeB) { stopPlay(); return; }
+      $("slider").value = S.frame; updateFrameInfo(); drawOverlay();
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  $("speed").addEventListener("change", () => { video.playbackRate = parseFloat($("speed").value) || 1; });
+
+  // afsnit
+  function setRange(a, b) {
+    S.rangeA = Math.max(0, Math.min(a, S.nFrames - 1));
+    S.rangeB = Math.max(S.rangeA, Math.min(b, S.nFrames - 1));
+    $("slider").min = S.rangeA; $("slider").max = S.rangeB;
+    const full = S.rangeA === 0 && S.rangeB === S.nFrames - 1;
+    $("rangeInfo").textContent = full ? "" : `Slideren viser frame ${S.rangeA}–${S.rangeB} (${S.rangeB - S.rangeA + 1} frames)`;
+    if (S.frame < S.rangeA || S.frame > S.rangeB) seek(Math.max(S.rangeA, Math.min(S.frame, S.rangeB)));
+    else $("slider").value = S.frame;
+  }
+  $("setA").onclick = () => { stopPlay(); setRange(S.frame, S.rangeB > S.frame ? S.rangeB : S.nFrames - 1); };
+  $("setB").onclick = () => { stopPlay(); setRange(S.rangeA < S.frame ? S.rangeA : 0, S.frame); };
+  $("rangeAll").onclick = () => setRange(0, S.nFrames - 1);
+  $("slider").addEventListener("input", e => { const v = parseInt(e.target.value, 10); if (v !== S.frame) seek(v); });
+  document.addEventListener("keydown", e => {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+    if (e.key === "ArrowLeft") { stopPlay(); seek(S.frame - (e.shiftKey ? 10 : 1)); e.preventDefault(); }
+    if (e.key === "ArrowRight") { stopPlay(); seek(S.frame + (e.shiftKey ? 10 : 1)); e.preventDefault(); }
+    if (e.key === " ") { $("play").click(); e.preventDefault(); }
+    if (e.key === "Backspace" || e.key === "Delete") { S.pts.delete(S.frame); update(); e.preventDefault(); }
+  });
+
+  // Mål billedraten ved at afspille et øjeblik (requestVideoFrameCallback)
+  $("detectFps").onclick = () => {
+    if (!("requestVideoFrameCallback" in HTMLVideoElement.prototype)) { alert("Din browser kan ikke måle fps automatisk. Skriv den ind manuelt."); return; }
+    const times = []; const start = video.currentTime; let finished = false;
+    const cb = (now, meta) => { times.push(meta.mediaTime); if (times.length < 60 && !video.paused) video.requestVideoFrameCallback(cb); else finish(); };
+    const finish = () => {
+      if (finished) return; finished = true;
+      video.pause(); video.playbackRate = 1;
+      const d = []; for (let i = 1; i < times.length; i++) { const dt = times[i] - times[i - 1]; if (dt > 0) d.push(dt); }
+      d.sort((a, b) => a - b);
+      if (!d.length) { alert("Kunne ikke måle fps."); return; }
+      const small = d.filter(x => x < d[0] * 1.5);            // kun intervaller mellem nabobilleder
+      const med = small[Math.floor(small.length / 2)];
+      let fps = Math.round(1 / med * 100) / 100;
+      const std = [12, 15, 23.976, 24, 25, 29.97, 30, 48, 50, 59.94, 60, 120, 240];
+      const best = std.reduce((m, f) => Math.abs(fps - f) < Math.abs(fps - m) ? f : m, std[0]);
+      const snap = Math.abs(fps - best) / best < 0.025 ? best : null;   // tæt på en standardværdi → brug den
+      if (snap) fps = snap;
+      $("copyMsg").textContent = "";
+      alert(`Målt: ca. ${fmt(fps, 4)} fps. Tjek gerne i videoens filinfo (fx QuickTime: Vindue → Vis filminspektør).`);
+      $("fpsFile").value = fps; if (parseFloat($("fpsReal").value) === S.fpsReal && S.fpsReal === S.fpsFile) $("fpsReal").value = fps;
+      video.currentTime = start; recalcFrames(); seek(S.frame);
+    };
+    video.playbackRate = 0.25; video.requestVideoFrameCallback(cb);
+    video.addEventListener("ended", finish, { once: true });
+    video.play();
+    setTimeout(finish, 8000);
+  };
+
+  // ---------- tilstande ----------
+  const HINTS = {
+    cal: "Kalibrér: klik på den ene ende af målestokken og derefter på den anden. Skriv længden i meter. Du kan trække i endepunkterne bagefter.",
+    origin: "Placér origo: klik der, hvor (0, 0) skal være – fx genstandens startposition. y-aksen peger opad.",
+    mark: "Markér: klik midt på genstanden. Programmet hopper automatisk frem til næste frame."
+  };
+  function setMode(m) {
+    S.mode = m;
+    $("modeCal").classList.toggle("active", m === "cal");
+    $("modeOrigin").classList.toggle("active", m === "origin");
+    $("modeMark").classList.toggle("active", m === "mark");
+    $("calRow").style.display = (m === "cal" || S.cal.p.length === 2) ? "" : "none";
+    $("modeHint").textContent = HINTS[m];
+    update();
+  }
+  $("modeCal").onclick = () => setMode("cal");
+  $("modeOrigin").onclick = () => setMode("origin");
+  $("modeMark").onclick = () => {
+    if (!scale()) {
+      setMode("cal");
+      $("modeHint").textContent = "⚠ Du skal kalibrere, før du kan markere punkter: klik på målestokkens to ender, og skriv længden.";
+      return;
+    }
+    setMode("mark");
+  };
+  $("calLen").addEventListener("input", () => { S.cal.len = parseFloat($("calLen").value) || 0; update(); });
+
+  // ---------- koordinater ----------
+  function scale() {
+    if (S.cal.p.length < 2 || !(S.cal.len > 0)) return null;
+    const [a, b] = S.cal.p; const d = Math.hypot(b.x - a.x, b.y - a.y);
+    return d > 0 ? S.cal.len / d : null;   // m pr. pixel
+  }
+  function toWorld(p) {
+    const s = scale(); if (!s) return null;
+    const o = S.origin || { x: 0, y: video.videoHeight };
+    return { x: (p.x - o.x) * s, y: -(p.y - o.y) * s };
+  }
+  function evtToVideo(e) {
+    const r = overlay.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * video.videoWidth / r.width, y: (e.clientY - r.top) * video.videoHeight / r.height };
+  }
+  const near = (a, b, px) => Math.hypot(a.x - b.x, a.y - b.y) < px * video.videoWidth / overlay.getBoundingClientRect().width;
+
+  overlay.addEventListener("mousedown", e => {
+    const p = evtToVideo(e);
+    // træk i eksisterende kalibreringsender / origo / punkt
+    if (S.mode === "cal") for (let i = 0; i < S.cal.p.length; i++) if (near(S.cal.p[i], p, 9)) { S.dragging = { type: "cal", i }; return; }
+    if (S.mode === "origin" && S.origin && near(S.origin, p, 9)) { S.dragging = { type: "origin" }; return; }
+    const cur = S.pts.get(S.frame);
+    if (S.mode === "mark" && cur && near(cur, p, 12)) { S.dragging = { type: "pt" }; return; }
+
+    if (S.mode === "cal") {
+      if (S.cal.p.length >= 2) S.cal.p = [];
+      S.cal.p.push(p);
+      if (S.cal.p.length === 2) { $("calLen").focus(); $("calLen").select(); $("modeCal").classList.add("done"); }
+      $("calRow").style.display = ""; update();
+    } else if (S.mode === "origin") {
+      S.origin = p; $("modeOrigin").classList.add("done"); update();
+    } else if (S.mode === "mark") {
+      if (!scale()) { alert("Kalibrér først (trin 1)."); return; }
+      if (S.seeking) return;   // vent til det nye billede er vist
+      S.pts.set(S.frame, p); update();
+      const step = Math.max(1, parseInt($("stepN").value, 10) || 1);
+      advance(step);
+    }
+  });
+  overlay.addEventListener("mousemove", e => {
+    if (!S.dragging) return;
+    const p = evtToVideo(e);
+    if (S.dragging.type === "cal") S.cal.p[S.dragging.i] = p;
+    else if (S.dragging.type === "origin") S.origin = p;
+    else if (S.dragging.type === "pt") S.pts.set(S.frame, p);
+    update();
+  });
+  window.addEventListener("mouseup", () => { S.dragging = null; });
+
+  $("undo").onclick = () => { const k = [...S.pts.keys()]; if (!k.length) return; const last = k[k.length - 1]; S.pts.delete(last); seek(last); };
+  $("delCur").onclick = () => { S.pts.delete(S.frame); update(); };
+  $("clearAll").onclick = () => { if (confirm("Slet alle punkter?")) { S.pts.clear(); update(); } };
+
+  // ---------- data ----------
+  function data() {
+    const frames = [...S.pts.keys()].sort((a, b) => a - b);
+    const f0 = ($("t0").checked && frames.length) ? frames[0] : 0;
+    const rows = frames.map(fr => { const w = toWorld(S.pts.get(fr)); return { fr, t: (fr - f0) / S.fpsReal, x: w ? w.x : null, y: w ? w.y : null }; });
+    const n = rows.length;
+    for (let i = 0; i < n; i++) {
+      const r = rows[i];
+      if (i > 0 && i < n - 1 && r.x !== null) {
+        const a = rows[i - 1], b = rows[i + 1];
+        r.vx = (b.x - a.x) / (b.t - a.t); r.vy = (b.y - a.y) / (b.t - a.t); r.v = Math.hypot(r.vx, r.vy);
+        const dt1 = r.t - a.t, dt2 = b.t - r.t;
+        r.ax = 2 * ((b.x - r.x) / dt2 - (r.x - a.x) / dt1) / (dt1 + dt2);
+        r.ay = 2 * ((b.y - r.y) / dt2 - (r.y - a.y) / dt1) / (dt1 + dt2);
+      } else { r.vx = r.vy = r.v = r.ax = r.ay = null; }
+    }
+    return rows;
+  }
+
+  // ---------- regression ----------
+  function solve(A, b) { // Gauss med delvis pivotering
+    const n = b.length; A = A.map((r, i) => [...r, b[i]]);
+    for (let c = 0; c < n; c++) {
+      let m = c; for (let r = c + 1; r < n; r++) if (Math.abs(A[r][c]) > Math.abs(A[m][c])) m = r;
+      [A[c], A[m]] = [A[m], A[c]];
+      if (Math.abs(A[c][c]) < 1e-15) return null;
+      for (let r = 0; r < n; r++) if (r !== c) { const f = A[r][c] / A[c][c]; for (let k = c; k <= n; k++) A[r][k] -= f * A[c][k]; }
+    }
+    return A.map((r, i) => r[n] / r[i]);
+  }
+  function fit(xs, ys, kind) {
+    const n = xs.length; if (kind === "none") return null;
+    const need = { lin: 2, quad: 3, prop: 1 }[kind]; if (n < need + 1) return { err: `Kræver mindst ${need + 1} punkter.` };
+    let basis;
+    if (kind === "lin") basis = x => [x, 1];
+    if (kind === "quad") basis = x => [x * x, x, 1];
+    if (kind === "prop") basis = x => [x];
+    const m = basis(0).length, A = Array.from({ length: m }, () => Array(m).fill(0)), b = Array(m).fill(0);
+    for (let i = 0; i < n; i++) { const f = basis(xs[i]); for (let r = 0; r < m; r++) { b[r] += f[r] * ys[i]; for (let c = 0; c < m; c++) A[r][c] += f[r] * f[c]; } }
+    const p = solve(A, b); if (!p) return { err: "Kunne ikke beregne regressionen." };
+    const f = x => basis(x).reduce((s, v, i) => s + v * p[i], 0);
+    const ym = ys.reduce((s, v) => s + v, 0) / n;
+    let ssr = 0, sst = 0; for (let i = 0; i < n; i++) { ssr += (ys[i] - f(xs[i])) ** 2; sst += (ys[i] - ym) ** 2; }
+    return { p, f, r2: sst > 0 ? 1 - ssr / sst : 1, kind };
+  }
+
+  // ---------- tegning ----------
+  function drawOverlay() {
+    const r = overlay.getBoundingClientRect(); const dpr = window.devicePixelRatio || 1;
+    overlay.width = Math.round(r.width * dpr); overlay.height = Math.round(r.height * dpr);
+    const k = r.width / (video.videoWidth || 1);
+    octx.setTransform(dpr * k, 0, 0, dpr * k, 0, 0);
+    octx.clearRect(0, 0, video.videoWidth, video.videoHeight);
+    const lw = 1.6 / k, rad = 5 / k;
+    // akser
+    if (S.origin) {
+      const o = S.origin;
+      octx.strokeStyle = "rgba(230,80,230,.85)"; octx.lineWidth = lw;
+      octx.beginPath(); octx.moveTo(0, o.y); octx.lineTo(video.videoWidth, o.y); octx.moveTo(o.x, 0); octx.lineTo(o.x, video.videoHeight); octx.stroke();
+      octx.fillStyle = "rgba(230,80,230,.95)"; octx.font = `${13 / k}px system-ui`;
+      octx.fillText("x", video.videoWidth - 14 / k, o.y - 6 / k); octx.fillText("y", o.x + 6 / k, 14 / k);
+    }
+    // kalibrering
+    if (S.cal.p.length) {
+      octx.strokeStyle = "#3aa0ff"; octx.fillStyle = "#3aa0ff"; octx.lineWidth = 2.2 / k;
+      if (S.cal.p.length === 2) { octx.beginPath(); octx.moveTo(S.cal.p[0].x, S.cal.p[0].y); octx.lineTo(S.cal.p[1].x, S.cal.p[1].y); octx.stroke(); }
+      S.cal.p.forEach(p => { octx.beginPath(); octx.arc(p.x, p.y, rad, 0, 7); octx.stroke(); });
+      if (S.cal.p.length === 2) {
+        const m = { x: (S.cal.p[0].x + S.cal.p[1].x) / 2, y: (S.cal.p[0].y + S.cal.p[1].y) / 2 };
+        octx.font = `bold ${14 / k}px system-ui`; octx.fillText(`${fmt(S.cal.len, 4)} m`, m.x + 8 / k, m.y);
+      }
+    }
+    // punkter (spor)
+    const frames = [...S.pts.keys()].sort((a, b) => a - b);
+    octx.lineWidth = lw;
+    if ($("trail").checked) frames.forEach(fr => {
+      if (fr === S.frame) return;
+      const p = S.pts.get(fr);
+      octx.fillStyle = "rgba(255,77,77,.9)";
+      octx.beginPath(); octx.arc(p.x, p.y, 2.2 / k, 0, 7); octx.fill();
+    });
+    const cp = S.pts.get(S.frame);
+    if (cp) {
+      octx.strokeStyle = "#ffd400"; octx.lineWidth = 1.4 / k;
+      octx.beginPath(); octx.arc(cp.x, cp.y, 9 / k, 0, 7);
+      octx.moveTo(cp.x - 13 / k, cp.y); octx.lineTo(cp.x - 4 / k, cp.y); octx.moveTo(cp.x + 4 / k, cp.y); octx.lineTo(cp.x + 13 / k, cp.y);
+      octx.moveTo(cp.x, cp.y - 13 / k); octx.lineTo(cp.x, cp.y - 4 / k); octx.moveTo(cp.x, cp.y + 4 / k); octx.lineTo(cp.x, cp.y + 13 / k);
+      octx.stroke();
+    }
+  }
+
+  function niceTicks(lo, hi, n = 6) {
+    if (!(hi > lo)) { hi = lo + 1; lo = lo - 1; }
+    const raw = (hi - lo) / n, mag = 10 ** Math.floor(Math.log10(raw)), norm = raw / mag;
+    const step = (norm < 1.5 ? 1 : norm < 3 ? 2 : norm < 7 ? 5 : 10) * mag;
+    const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + step * 1e-6; v += step) out.push(+v.toPrecision(12));
+    return out;
+  }
+  function drawPlot(rows) {
+    const r = plot.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    plot.width = Math.round(r.width * dpr); plot.height = Math.round(r.height * dpr);
+    pctx.setTransform(dpr, 0, 0, dpr, 0, 0); pctx.clearRect(0, 0, r.width, r.height);
+    const xk = $("xvar").value, yk = $("yvar").value;
+    const pts = rows.filter(d => d[xk] !== null && d[yk] !== null && isFinite(d[xk]) && isFinite(d[yk]));
+    const L = 58, R = 12, T = 12, B = 40, W = r.width - L - R, H = r.height - T - B;
+    pctx.font = "12px system-ui"; pctx.fillStyle = "#5d6b7a"; pctx.strokeStyle = "#d9dee5";
+    if (!pts.length) {
+      pctx.fillText(scale() ? "Ingen punkter endnu – markér genstanden i videoen." : "Kalibrér og markér punkter for at se en graf.", L, T + 20);
+      $("fitresult").textContent = ""; return;
+    }
+    const xs = pts.map(d => d[xk]), ys = pts.map(d => d[yk]);
+    let x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+    if (x1 === x0) { x0 -= 1; x1 += 1; } if (y1 === y0) { y0 -= 1; y1 += 1; }
+    const px = (x1 - x0) * .05, py = (y1 - y0) * .08; x0 -= px; x1 += px; y0 -= py; y1 += py;
+    const X = v => L + (v - x0) / (x1 - x0) * W, Y = v => T + H - (v - y0) / (y1 - y0) * H;
+    // gitter + akser
+    pctx.lineWidth = 1;
+    niceTicks(x0, x1).forEach(v => { pctx.beginPath(); pctx.moveTo(X(v), T); pctx.lineTo(X(v), T + H); pctx.stroke(); pctx.textAlign = "center"; pctx.fillText(fmt(v, 3), X(v), T + H + 15); });
+    niceTicks(y0, y1).forEach(v => { pctx.beginPath(); pctx.moveTo(L, Y(v)); pctx.lineTo(L + W, Y(v)); pctx.stroke(); pctx.textAlign = "right"; pctx.fillText(fmt(v, 3), L - 6, Y(v) + 4); });
+    pctx.strokeStyle = "#1d2733"; pctx.strokeRect(L, T, W, H);
+    pctx.fillStyle = "#1d2733"; pctx.textAlign = "center";
+    pctx.fillText(COLS.find(c => c.k === xk).label, L + W / 2, r.height - 6);
+    pctx.save(); pctx.translate(14, T + H / 2); pctx.rotate(-Math.PI / 2); pctx.fillText(COLS.find(c => c.k === yk).label, 0, 0); pctx.restore();
+    // fit
+    const F = fit(xs, ys, $("fit").value);
+    if (F && F.f) {
+      pctx.strokeStyle = "#c0392b"; pctx.lineWidth = 2; pctx.beginPath();
+      for (let i = 0; i <= 200; i++) { const xv = x0 + (x1 - x0) * i / 200, yv = F.f(xv); const cy = Math.max(T - 5, Math.min(T + H + 5, Y(yv))); i ? pctx.lineTo(X(xv), cy) : pctx.moveTo(X(xv), cy); }
+      pctx.stroke();
+    }
+    // punkter
+    pctx.fillStyle = "#1f5fa8";
+    pts.forEach(d => { pctx.beginPath(); pctx.arc(X(d[xk]), Y(d[yk]), 3.5, 0, 7); pctx.fill(); });
+    // resultat
+    const out = $("fitresult");
+    if (!F) out.textContent = "";
+    else if (F.err) out.textContent = F.err;
+    else {
+      const p = F.p.map(v => fmt(v, 4));
+      const eq = F.kind === "lin" ? `y = ${p[0]}·x + ${p[1]}` : F.kind === "quad" ? `y = ${p[0]}·x² + ${p[1]}·x + ${p[2]}` : `y = ${p[0]}·x`;
+      let extra = "";
+      if (F.kind === "quad" && xk === "t" && (yk === "y" || yk === "x")) extra = `\n→ acceleration = 2·a = ${fmt(2 * F.p[0], 4)} m/s²` + (yk === "y" ? `  (g ≈ ${fmt(-2 * F.p[0], 4)} m/s²)` : "");
+      if (F.kind === "lin" && xk === "t" && (yk === "vy" || yk === "vx")) extra = `\n→ hældning = acceleration = ${fmt(F.p[0], 4)} m/s²`;
+      if (F.kind === "lin" && xk === "t" && (yk === "x" || yk === "y")) extra = `\n→ hældning = hastighed = ${fmt(F.p[0], 4)} m/s`;
+      out.textContent = `${eq}   R² = ${fmt(F.r2, 5)}${extra}`.replace(/\+ -/g, "− ");
+      out.style.whiteSpace = "pre-wrap";
+    }
+  }
+
+  function drawTable(rows) {
+    const thead = $("table").tHead, tbody = $("table").tBodies[0];
+    thead.innerHTML = "<tr>" + COLS.map(c => `<th>${c.label}</th>`).join("") + "</tr>";
+    tbody.innerHTML = rows.map(r => `<tr data-fr="${r.fr}" class="${r.fr === S.frame ? "current" : ""}">` + COLS.map(c => `<td>${fmt(r[c.k])}</td>`).join("") + "</tr>").join("");
+  }
+  $("table").addEventListener("click", e => { const tr = e.target.closest("tr[data-fr]"); if (tr) seek(parseInt(tr.dataset.fr, 10)); });
+
+  function updateFrameInfo() {
+    $("frameinfo").textContent = `frame ${S.frame} / ${S.nFrames - 1}   t = ${fmt(S.frame / S.fpsReal, 4)} s`;
+  }
+  function update() {
+    if (!video.videoWidth) return;
+    if (parseInt($("slider").value, 10) !== S.frame) $("slider").value = S.frame;
+    updateFrameInfo();
+    const s = scale();
+    $("calInfo").textContent = s ? `(1 pixel = ${fmt(s * 1000, 3)} mm)` : "";
+    $("modeMark").classList.toggle("locked", !s);
+    $("modeMark").title = s ? "" : "Kalibrér først (trin 1)";
+    $("modeCal").classList.toggle("done", !!s);
+    const rows = data();
+    drawOverlay(); drawTable(rows); drawPlot(rows);
+  }
+
+  // ---------- eksport ----------
+  function exportText(sep, fmtFn) {
+    const rows = data();
+    return [COLS.map(c => c.label).join(sep), ...rows.map(r => COLS.map(c => fmtFn(r[c.k])).join(sep))].join("\n");
+  }
+  $("copyExcel").onclick = async () => {
+    const txt = exportText("\t", v => (v === null || !isFinite(v)) ? "" : String(+v.toPrecision(6)).replace(".", ","));
+    try { await navigator.clipboard.writeText(txt); $("copyMsg").textContent = "Kopieret – sæt ind i Excel med Cmd/Ctrl + V."; }
+    catch { $("copyMsg").textContent = "Kopiering blev blokeret af browseren – brug Download CSV i stedet."; }
+  };
+  $("dlPy").onclick = () => {
+    const rows = data();
+    if (rows.length < 3) { alert("Markér mindst 3 punkter først."); return; }
+    const arr = k => "np.array([" + rows.map(r => (r[k] === null || !isFinite(r[k])) ? "np.nan" : String(+r[k].toPrecision(6))).join(", ") + "])";
+    const d = new Date().toLocaleDateString("da-DK");
+    const py = `# Videoanalyse fra crsite – ${d}
+# Kør programmet i fx VS Code, Spyder eller Jupyter.
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ---- Målinger (nan = kan ikke beregnes i første og sidste punkt) ----
+t  = ${arr("t")}  # s
+x  = ${arr("x")}  # m
+y  = ${arr("y")}  # m
+vx = ${arr("vx")}  # m/s
+vy = ${arr("vy")}  # m/s
+v  = ${arr("v")}  # m/s
+ax = ${arr("ax")}  # m/s^2
+ay = ${arr("ay")}  # m/s^2
+
+# ---- Vælg data – skift fx y ud med x, vy eller et af de andre arrays ----
+X, Y = t, y
+
+ok = ~np.isnan(X) & ~np.isnan(Y)          # fjern nan-værdier
+a, b, c = np.polyfit(X[ok], Y[ok], 2)     # andengradsfit: Y = a*X^2 + b*X + c
+print(f"Y = {a:.4g}*X^2 + {b:.4g}*X + {c:.4g}")
+print(f"acceleration = 2a = {2*a:.4g} m/s^2")
+
+Xf = np.linspace(X[ok].min(), X[ok].max(), 200)
+plt.plot(X, Y, "o", label="målinger")
+plt.plot(Xf, a*Xf**2 + b*Xf + c, "-", label="andengradsfit")
+plt.xlabel("t (s)")
+plt.ylabel("y (m)")
+plt.grid(True)
+plt.legend()
+plt.show()
+`;
+    const el = document.createElement("a");
+    el.href = URL.createObjectURL(new Blob([py], { type: "text/x-python" })); el.download = "videoanalyse_fit.py"; el.click();
+  };
+  $("dlCsv").onclick = () => {
+    const txt = exportText(";", fmtDot).replace(/ \(([^)]*)\)/g, "_$1").replace(/[ₓ]/g, "x").replace(/_y/g, "y");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([txt], { type: "text/csv" })); a.download = "videoanalyse.csv"; a.click();
+  };
+
+  // ---------- akse-valg ----------
+  COLS.forEach(c => { $("xvar").add(new Option(c.label, c.k)); $("yvar").add(new Option(c.label, c.k)); });
+  $("xvar").value = "t"; $("yvar").value = "y";
+  ["xvar", "yvar", "fit", "t0", "trail"].forEach(id => $(id).addEventListener("change", update));
+  window.addEventListener("resize", update);
+  video.addEventListener("loadeddata", update);
+
+  // til test
+  window.__VA = { S, data, seek, setMode, fit };
+})();
+</script>
+</body>
+</html>
