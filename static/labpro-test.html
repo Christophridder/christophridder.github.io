@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LabPro-test</title>
+<style>
+:root { --bg:#f6f7f9; --panel:#fff; --ink:#1d2733; --muted:#5d6b7a; --line:#d9dee5; --blue:#1f5fa8; --green:#2e8b57; --red:#c0392b; --orange:#d9822b; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); font-size:15px; }
+header { background:var(--blue); color:#fff; padding:10px 16px; }
+header h1 { margin:0; font-size:1.15rem; }
+main { max-width:1100px; margin:0 auto; padding:14px; display:grid; gap:14px; }
+.panel { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; }
+.panel h2 { font-size:1rem; margin:0 0 6px; }
+.grid3 { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; }
+@media (max-width: 900px) { .grid3 { grid-template-columns:1fr; } }
+button { font:inherit; border:1px solid var(--line); background:#fff; border-radius:6px; padding:7px 11px; cursor:pointer; }
+button:hover { border-color:var(--blue); }
+button.primary { background:var(--blue); color:#fff; border-color:var(--blue); }
+button:disabled { opacity:.45; cursor:not-allowed; }
+.row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:6px 0; }
+.ok { color:var(--green); font-weight:600; } .bad { color:var(--red); font-weight:600; } .muted { color:var(--muted); font-size:.9rem; }
+#status { font-weight:600; }
+#log { font-family: ui-monospace, Menlo, Consolas, monospace; font-size:.82rem; background:#0f1720; color:#d6e2ee; border-radius:6px; padding:10px; height:340px; overflow:auto; white-space:pre-wrap; }
+.tx { color:#7fc8ff; } .rx { color:#9be89b; } .err { color:#ff8a80; } .info { color:#e0c070; }
+ol { margin:6px 0 0 18px; padding:0; } li { margin:3px 0; }
+.big { font-size:1.6rem; font-weight:700; font-variant-numeric:tabular-nums; }
+</style>
+</head>
+<body>
+<header><h1>LabPro-test – kan browseren tale med LabPro-kassen?</h1></header>
+<main>
+
+<div class="panel">
+  <h2>Sådan tester du</h2>
+  <ol>
+    <li>Brug <strong>Chrome</strong> eller <strong>Edge</strong> (Safari og Firefox kan ikke tale med USB-udstyr).</li>
+    <li><strong>Luk Logger Pro</strong> – ellers "optager" Logger Pro kassen, og browseren kan ikke få fat i den.</li>
+    <li>Sæt LabPro til <strong>strøm</strong> (adapteren, ikke batterier) og sæt gerne et <strong>termometer i CH1</strong>.</li>
+    <li>Prøv forbindelserne herunder én ad gangen – start med <strong>A</strong>. Tryk derefter på knapperne under <em>Kommandoer</em>.</li>
+    <li>Tryk til sidst <strong>Kopiér log</strong> og send loggen til Claude – også hvis intet virker. Loggen fortæller præcis, hvad der skete.</li>
+  </ol>
+  <p class="muted" id="support"></p>
+</div>
+
+<div class="grid3">
+  <div class="panel">
+    <h2>A · USB-kablet (WebUSB)</h2>
+    <p class="muted">LabPros eget USB-kabel direkte i computeren (evt. via USB-C-adapter).</p>
+    <div class="row"><button class="primary" id="usbConnect">Forbind via USB</button></div>
+    <div class="row"><button id="usbAll" title="Vis alle USB-enheder, hvis LabPro ikke dukker op">Vis alle USB-enheder</button></div>
+  </div>
+  <div class="panel">
+    <h2>B · USB som HID (WebHID)</h2>
+    <p class="muted">Samme kabel – prøves, hvis A ikke kan "gøre krav" på kassen.</p>
+    <div class="row"><button class="primary" id="hidConnect">Forbind via HID</button></div>
+  </div>
+  <div class="panel">
+    <h2>C · Seriel port (Web Serial)</h2>
+    <p class="muted">LabPros runde serielle stik via seriel-til-USB-adapter. Kan også prøves med USB-kablet.</p>
+    <div class="row"><button class="primary" id="serConnect">Forbind via seriel</button>
+      <select id="baud"><option>38400</option><option>115200</option><option>9600</option></select></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Kommandoer <span id="status" class="muted">– ikke forbundet</span></h2>
+  <div class="row">
+    <button id="cWake" disabled>1. Vågn op (s)</button>
+    <button id="cStatus" disabled>2. Status s{7}</button>
+    <button id="cCh1Info" disabled>3. Kanalinfo CH1 s{115,1}</button>
+    <button id="cCh1Read" disabled>4. Læs CH1 én gang</button>
+    <button id="cLive" disabled>5. Læs CH1 hvert sekund</button>
+    <button id="cReset" disabled>Nulstil s{0}</button>
+  </div>
+  <div class="row"><span class="muted">Seneste værdi fra CH1:</span> <span class="big" id="ch1">–</span> <span class="muted" id="ch1unit"></span></div>
+  <div class="row"><label class="muted">Egen kommando:</label> <input id="custom" value="s{7}" style="font:inherit;padding:5px;border:1px solid var(--line);border-radius:5px;width:180px"> <button id="cCustom" disabled>Send</button></div>
+</div>
+
+<div class="panel">
+  <div class="row" style="justify-content:space-between"><h2 style="margin:0">Log</h2>
+    <span><button id="copyLog">Kopiér log</button> <button id="clearLog">Ryd</button></span></div>
+  <div id="log"></div>
+</div>
+
+</main>
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const VERNIER = 0x08f7;
+  const logEl = $("log");
+  const enc = new TextEncoder(), dec = new TextDecoder();
+
+  function log(msg, cls = "info") {
+    const t = new Date().toISOString().slice(11, 23);
+    const d = document.createElement("div"); d.className = cls; d.textContent = `${t}  ${msg}`;
+    logEl.appendChild(d); logEl.scrollTop = logEl.scrollHeight;
+  }
+  const hex = u8 => Array.from(u8, b => b.toString(16).padStart(2, "0")).join(" ");
+  const printable = s => s.replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/[^\x20-\x7e\\]/g, "·");
+
+  // ---------- understøttelse ----------
+  const sup = [
+    ["WebUSB", "usb" in navigator], ["WebHID", "hid" in navigator], ["Web Serial", "serial" in navigator]
+  ];
+  $("support").innerHTML = "Din browser: " + sup.map(([n, ok]) => `${n} <span class="${ok ? "ok" : "bad"}">${ok ? "✓" : "✗"}</span>`).join(" · ") +
+    ` · ${navigator.userAgent.includes("Mac") ? "Mac" : navigator.userAgent.includes("Win") ? "Windows" : "Linux/andet"}`;
+  log(`Browser: ${navigator.userAgent}`);
+  sup.forEach(([n, ok]) => log(`${n}: ${ok ? "understøttet" : "IKKE understøttet"}`, ok ? "info" : "err"));
+
+  // ---------- fælles transport ----------
+  let T = null;            // { kind, write(str), close() }
+  let rxBuf = "";           // modtaget tekst, der endnu ikke er brugt
+  let liveTimer = null;
+
+  function onRx(u8) {
+    const s = dec.decode(u8, { stream: true });
+    rxBuf += s;
+    log(`RX ${u8.length} B  "${printable(s)}"  [${hex(u8.slice(0, 48))}${u8.length > 48 ? " …" : ""}]`, "rx");
+  }
+  function setConnected(kind, name) {
+    $("status").textContent = `– forbundet via ${kind}: ${name}`; $("status").className = "ok";
+    ["cWake", "cStatus", "cCh1Info", "cCh1Read", "cLive", "cReset", "cCustom"].forEach(id => $(id).disabled = false);
+  }
+  async function send(str) {
+    if (!T) { log("Ikke forbundet.", "err"); return; }
+    const data = str + "\r";
+    log(`TX "${printable(data)}" via ${T.kind}`, "tx");
+    try { await T.write(data); } catch (e) { log(`Fejl ved afsendelse: ${e.name}: ${e.message}`, "err"); }
+  }
+  // vent på et svar af formen {…}\r\n
+  async function waitBrace(ms = 1500) {
+    const t0 = performance.now();
+    while (performance.now() - t0 < ms) {
+      const i = rxBuf.indexOf("{"), j = rxBuf.indexOf("}", i);
+      if (i >= 0 && j > i) { const body = rxBuf.slice(i + 1, j); rxBuf = rxBuf.slice(j + 1); return body; }
+      await new Promise(r => setTimeout(r, 30));
+    }
+    log(`Intet komplet svar inden for ${ms} ms. Modtaget indtil nu: "${printable(rxBuf)}"`, "err");
+    return null;
+  }
+  const nums = body => body.split(",").map(s => parseFloat(s));
+
+  // ---------- A: WebUSB ----------
+  async function usbConnect(all) {
+    if (!("usb" in navigator)) { log("WebUSB findes ikke i denne browser – brug Chrome eller Edge.", "err"); return; }
+    try {
+      const dev = await navigator.usb.requestDevice({ filters: all ? [] : [{ vendorId: VERNIER }] });
+      log(`USB-enhed valgt: ${dev.manufacturerName || "?"} / ${dev.productName || "?"}  VID=0x${dev.vendorId.toString(16)} PID=0x${dev.productId.toString(16)}`);
+      await dev.open();
+      if (dev.configuration === null) await dev.selectConfiguration(1);
+      let chosen = null;
+      for (const itf of dev.configuration.interfaces) {
+        for (const alt of itf.alternates) {
+          log(`  interface ${itf.interfaceNumber} alt ${alt.alternateSetting}: klasse 0x${alt.interfaceClass.toString(16)} subklasse 0x${alt.interfaceSubclass.toString(16)} protokol 0x${alt.interfaceProtocol.toString(16)}`);
+          for (const ep of alt.endpoints) log(`    endpoint ${ep.endpointNumber} ${ep.direction} ${ep.type} pakkestørrelse ${ep.packetSize}`);
+          const epIn = alt.endpoints.find(e => e.direction === "in" && e.type !== "isochronous");
+          const epOut = alt.endpoints.find(e => e.direction === "out" && e.type !== "isochronous");
+          if (!chosen && epIn && epOut) chosen = { itf, alt, epIn, epOut };
+        }
+      }
+      if (!chosen) { log("Fandt ingen interface med både ind- og ud-endpoint.", "err"); return; }
+      if (chosen.alt.interfaceClass === 3) log("Bemærk: interfacet er HID (klasse 3). Styresystemet låser ofte HID-enheder – prøv B (WebHID), hvis næste trin fejler.", "info");
+      await dev.claimInterface(chosen.itf.interfaceNumber);
+      if (chosen.alt.alternateSetting) await dev.selectAlternateInterface(chosen.itf.interfaceNumber, chosen.alt.alternateSetting);
+      log(`Gjorde krav på interface ${chosen.itf.interfaceNumber}. Bruger IN ${chosen.epIn.endpointNumber} og OUT ${chosen.epOut.endpointNumber}.`, "ok");
+      let open = true;
+      (async () => {
+        while (open) {
+          try {
+            const r = await dev.transferIn(chosen.epIn.endpointNumber, chosen.epIn.packetSize || 64);
+            if (r.data && r.data.byteLength) onRx(new Uint8Array(r.data.buffer, r.data.byteOffset, r.data.byteLength));
+          } catch (e) { if (open) log(`Læsefejl: ${e.name}: ${e.message}`, "err"); open = false; }
+        }
+      })();
+      const ps = chosen.epOut.packetSize || 64;
+      T = {
+        kind: "WebUSB",
+        write: async s => {
+          const b = enc.encode(s);
+          for (let i = 0; i < b.length; i += ps) await dev.transferOut(chosen.epOut.endpointNumber, b.slice(i, i + ps));
+        },
+        close: async () => { open = false; try { await dev.close(); } catch {} }
+      };
+      setConnected("USB", dev.productName || "Vernier-enhed");
+    } catch (e) {
+      log(`USB: ${e.name}: ${e.message}`, "err");
+      if (e.name === "SecurityError" || /claim/i.test(e.message)) log("→ Styresystemet (eller Logger Pro) har allerede fat i enheden. Luk Logger Pro, eller prøv B/C.", "info");
+      if (e.name === "NotFoundError") log("→ Ingen enhed valgt, eller LabPro blev ikke fundet. Prøv 'Vis alle USB-enheder'.", "info");
+    }
+  }
+  $("usbConnect").onclick = () => usbConnect(false);
+  $("usbAll").onclick = () => usbConnect(true);
+
+  // ---------- B: WebHID ----------
+  $("hidConnect").onclick = async () => {
+    if (!("hid" in navigator)) { log("WebHID findes ikke i denne browser – brug Chrome eller Edge.", "err"); return; }
+    try {
+      let [dev] = await navigator.hid.requestDevice({ filters: [{ vendorId: VERNIER }] });
+      if (!dev) { [dev] = await navigator.hid.requestDevice({ filters: [] }); }
+      if (!dev) { log("Ingen HID-enhed valgt.", "err"); return; }
+      log(`HID-enhed: ${dev.productName}  VID=0x${dev.vendorId.toString(16)} PID=0x${dev.productId.toString(16)}`);
+      await dev.open();
+      let outLen = 8, outId = 0;
+      for (const c of dev.collections) {
+        log(`  collection usagePage 0x${c.usagePage.toString(16)} usage 0x${c.usage.toString(16)}`);
+        for (const r of c.outputReports || []) {
+          const bits = (r.items || []).reduce((s, it) => s + it.reportSize * it.reportCount, 0);
+          log(`    output-rapport id ${r.reportId}: ${bits / 8} bytes`); outLen = Math.max(1, bits / 8); outId = r.reportId;
+        }
+        for (const r of c.inputReports || []) {
+          const bits = (r.items || []).reduce((s, it) => s + it.reportSize * it.reportCount, 0);
+          log(`    input-rapport id ${r.reportId}: ${bits / 8} bytes`);
+        }
+      }
+      dev.addEventListener("inputreport", e => onRx(new Uint8Array(e.data.buffer, e.data.byteOffset, e.data.byteLength)));
+      T = {
+        kind: "WebHID",
+        write: async s => {
+          const b = enc.encode(s);
+          for (let i = 0; i < b.length; i += outLen) { const chunk = new Uint8Array(outLen); chunk.set(b.slice(i, i + outLen)); await dev.sendReport(outId, chunk); }
+        },
+        close: async () => { try { await dev.close(); } catch {} }
+      };
+      setConnected("HID", dev.productName);
+    } catch (e) { log(`HID: ${e.name}: ${e.message}`, "err"); }
+  };
+
+  // ---------- C: Web Serial ----------
+  $("serConnect").onclick = async () => {
+    if (!("serial" in navigator)) { log("Web Serial findes ikke i denne browser – brug Chrome eller Edge.", "err"); return; }
+    try {
+      const port = await navigator.serial.requestPort();
+      const info = port.getInfo();
+      const baud = parseInt($("baud").value, 10);
+      log(`Seriel port valgt: VID=${info.usbVendorId !== undefined ? "0x" + info.usbVendorId.toString(16) : "?"} PID=${info.usbProductId !== undefined ? "0x" + info.usbProductId.toString(16) : "?"}  baud ${baud}`);
+      await port.open({ baudRate: baud, dataBits: 8, stopBits: 1, parity: "none", flowControl: "none" });
+      const writer = port.writable.getWriter();
+      const reader = port.readable.getReader();
+      let open = true;
+      (async () => {
+        while (open) {
+          try { const { value, done } = await reader.read(); if (done) break; if (value && value.length) onRx(value); }
+          catch (e) { if (open) log(`Læsefejl: ${e.name}: ${e.message}`, "err"); break; }
+        }
+      })();
+      T = {
+        kind: "Web Serial",
+        write: async s => { await writer.write(enc.encode(s)); },
+        close: async () => { open = false; try { reader.cancel(); writer.releaseLock(); await port.close(); } catch {} }
+      };
+      setConnected("seriel port", `${baud} baud`);
+    } catch (e) { log(`Seriel: ${e.name}: ${e.message}`, "err"); }
+  };
+
+  // ---------- kommandoer ----------
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  $("cWake").onclick = async () => { rxBuf = ""; await send("s"); await sleep(100); await send("s"); log("Sendt 'vågn op'. LabPro svarer normalt ikke på denne – fortsæt med Status.", "info"); };
+  $("cReset").onclick = async () => { rxBuf = ""; await send("s"); await sleep(50); await send("s{0}"); };
+  $("cStatus").onclick = async () => {
+    rxBuf = ""; await send("s"); await sleep(50); await send("s{7}");
+    const b = await waitBrace(2000); if (b === null) return;
+    const v = nums(b);
+    if (v[3] === 8888) {
+      log(`✓ LabPro svarer korrekt! Firmware ${v[0]}, fejlkode ${v[1]}, batteri ${v[2]}, temperatur ${v[11]} – kontrolværdi 8888 fundet.`, "ok");
+    } else log(`Svar modtaget, men kontrolværdien 8888 mangler: {${b}}`, "err");
+  };
+  $("cCh1Info").onclick = async () => {
+    rxBuf = ""; await send("s{1,1,1}"); await sleep(300); await send("s{115,1}");
+    const b = await waitBrace(2000); if (b === null) return;
+    const v = nums(b);
+    log(`CH1-opsætning: min ${v[2]}, max ${v[3]}, ligning nr. ${v[8]}, kalibrering K0=${v[10]}, K1=${v[11]}, K2=${v[12]}`, "ok");
+  };
+  async function readCh1() {
+    rxBuf = ""; await send("s{9,1,0}"); await sleep(80); await send("g");
+    const b = await waitBrace(1500); if (b === null) return;
+    const v = nums(b)[0];
+    $("ch1").textContent = isFinite(v) ? v.toLocaleString("da-DK", { maximumSignificantDigits: 5 }) : b;
+    log(`CH1 = ${v}`, "ok");
+  }
+  $("cCh1Read").onclick = async () => { await send("s{1,1,1}"); await sleep(300); await readCh1(); };
+  $("cLive").onclick = async () => {
+    if (liveTimer) { clearInterval(liveTimer); liveTimer = null; $("cLive").textContent = "5. Læs CH1 hvert sekund"; return; }
+    await send("s{1,1,1}"); await sleep(300);
+    $("cLive").textContent = "Stop"; liveTimer = setInterval(readCh1, 1000);
+  };
+  $("cCustom").onclick = async () => { rxBuf = ""; await send($("custom").value.trim()); };
+
+  // ---------- log ----------
+  $("copyLog").onclick = async () => {
+    const txt = logEl.innerText;
+    try { await navigator.clipboard.writeText(txt); log("Loggen er kopieret – sæt den ind i chatten.", "ok"); }
+    catch { const r = document.createRange(); r.selectNodeContents(logEl); getSelection().removeAllRanges(); getSelection().addRange(r); log("Kunne ikke kopiere automatisk – loggen er markeret, tryk Cmd/Ctrl + C.", "err"); }
+  };
+  $("clearLog").onclick = () => { logEl.innerHTML = ""; };
+
+  window.__LP = { onRx, setT: t => { T = t; setConnected(t.kind, "mock"); } };   // til test
+})();
+</script>
+</body>
+</html>

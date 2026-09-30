@@ -41,7 +41,7 @@ select { font: inherit; padding: 5px 6px; border: 1px solid var(--line); border-
 input[type=range] { flex: 1; min-width: 120px; }
 table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .88rem; }
 th, td { border-bottom: 1px solid var(--line); padding: 3px 6px; text-align: right; }
-th { position: sticky; top: 0; background: #fff; }
+th { position: sticky; top: 0; background: #fff; white-space: nowrap; }
 tr.current td { background: #fff3c4; }
 .exportbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 8px; }
 .exportbar button { padding: 5px 9px; font-size: .88rem; white-space: nowrap; }
@@ -186,8 +186,8 @@ small.muted { color: var(--muted); }
   };
   const COLS = [
     { k: "t", label: "t (s)" }, { k: "x", label: "x (m)" }, { k: "y", label: "y (m)" },
-    { k: "vx", label: "vₓ (m/s)" }, { k: "vy", label: "v_y (m/s)" }, { k: "v", label: "v (m/s)" },
-    { k: "ax", label: "aₓ (m/s²)" }, { k: "ay", label: "a_y (m/s²)" }
+    { k: "vx", label: "vx (m/s)", html: "v<sub>x</sub> (m/s)" }, { k: "vy", label: "vy (m/s)", html: "v<sub>y</sub> (m/s)" }, { k: "v", label: "v (m/s)" },
+    { k: "ax", label: "ax (m/s²)", html: "a<sub>x</sub> (m/s²)" }, { k: "ay", label: "ay (m/s²)", html: "a<sub>y</sub> (m/s²)" }
   ];
 
   // ---------- tal ----------
@@ -668,7 +668,7 @@ small.muted { color: var(--muted); }
 
   function drawTable(rows) {
     const thead = $("table").tHead, tbody = $("table").tBodies[0];
-    thead.innerHTML = "<tr>" + COLS.map(c => `<th>${c.label}</th>`).join("") + "</tr>";
+    thead.innerHTML = "<tr>" + COLS.map(c => `<th>${c.html || c.label}</th>`).join("") + "</tr>";
     tbody.innerHTML = rows.map(r => `<tr data-fr="${r.fr}" class="${r.fr === S.frame ? "current" : ""}">` + COLS.map(c => `<td>${fmt(r[c.k])}</td>`).join("") + "</tr>").join("");
   }
   $("table").addEventListener("click", e => { const tr = e.target.closest("tr[data-fr]"); if (tr) seek(parseInt(tr.dataset.fr, 10)); });
@@ -814,7 +814,7 @@ plt.show()
     el.href = URL.createObjectURL(new Blob([py], { type: "text/x-python" })); el.download = "kast_luftmodstand.py"; el.click();
   };
   $("dlCsv").onclick = () => {
-    const txt = exportText(";", fmtDot).replace(/ \(([^)]*)\)/g, "_$1").replace(/[ₓ]/g, "x").replace(/_y/g, "y");
+    const txt = exportText(";", fmtDot).replace(/ \(([^)]*)\)/g, "_$1");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([txt], { type: "text/csv" })); a.download = "videoanalyse.csv"; a.click();
   };
