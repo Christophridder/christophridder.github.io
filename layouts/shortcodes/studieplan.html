@@ -32,7 +32,7 @@
         {{ " " }}
       {{- end -}}
       </td>
-      <td>{{ .lektier | markdownify }}</td>
+      <td>{{ $.Page.RenderString .lektier }}</td>
       <td>
       {{- $maal := .maal -}}
       {{- $kommentar := .kommentar -}}

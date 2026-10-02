@@ -1,6 +1,6 @@
 ---
 title: "1z Eksp"
-weight: 31
+weight: 23
 ---
 
 # 1z Eksp · 2026/2027

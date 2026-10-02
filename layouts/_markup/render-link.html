@@ -1,0 +1,13 @@
+{{- $destination := .Destination -}}
+{{- if .Page.Site.Params.BookPortableLinks -}}
+  {{- $destination = partial "docs/links/portable-link" . -}}
+{{- else if not (or (strings.Contains $destination ":") (hasPrefix $destination "/") (hasPrefix $destination "#") (strings.Contains $destination "/")) -}}
+  {{- $parts := split $destination "#" -}}
+  {{- $slug := strings.TrimSuffix ".md" (index $parts 0) -}}
+  {{- with where site.RegularPages "File.ContentBaseName" $slug -}}
+    {{- $destination = (index . 0).RelPermalink -}}
+    {{- if gt (len $parts) 1 }}{{ $destination = printf "%s#%s" $destination (index $parts 1) }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if strings.Contains $destination "://" }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- /**/ -}}

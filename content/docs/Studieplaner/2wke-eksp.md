@@ -1,6 +1,6 @@
 ---
 title: "2w Eksp"
-weight: 21
+weight: 22
 ---
 
 # 2w Eksp · 2026/2027
@@ -11,6 +11,7 @@ Eksperimenter for 2w Kemi B, i den rækkefølge de er lavet. Se også [Årsplan 
 |---|---|---|---|---|---|
 | 20.8 | 4 | Salt i ting | R i Lectio | DCF driller lidt  | ja |
 | 17.9 | 2 | Mangan oxid | J i Lectio | meget simpelt  | nej|
+| 29.9 | 4 | Spektrofotometri| J i Lectio | mellem  | ja|
 
 <!--
 Eksempel på en række (fjern kommentaren, når du skriver):

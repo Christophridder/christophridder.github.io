@@ -69,12 +69,12 @@ moduler:
     kommentar: "Optaver fra Orbit samt start på luftpudebane"
     maal: [Definition på bevægelsesmængde]
   - nr: 9
-    dato: 2026-09-17
+    dato: 2026-09-21
     emne: Stød og bevægelsesmængde
     forloeb: Mekanik
     materialer: [stoed-opgaver]
     lektier: "Læs side 602 i fysikABbogen"
-    kommentar: "Vi øver os på at løse integraler"
+    kommentar: "Integraler om kraftens impuls"
     maal: [Eksperiment med luftpudebane]
   - nr: 10
     dato: 2026-09-24
@@ -84,3 +84,36 @@ moduler:
     lektier: "Regn opgave 1-4 fra [stoed-opgaver]"
     kommentar: "Integraløvelser ud på tavlerne"
     maal: [At forstå enheder og arealer]
+  - nr: 11
+    dato: 2026-09-28
+    emne: Projektforløb5
+    forloeb: Projektforløb5
+    materialer: [idebank-srp-fysik] 
+    lektier: "Læs [klik her](akademisk-opgave)"
+    kommentar: "Meget individuelle projekter"
+    maal: [modul 1]
+
+  - nr: 12
+    dato: 2026-09-29
+    emne: Projektforløb5
+    forloeb: Projektforløb5
+    materialer: [idebank-srp-fysik] 
+    lektier: "Læs [klik her](akademisk-opgave)"
+    kommentar: "Meget individuelle projekter"
+    maal: [modul 2]
+  - nr: 13
+    dato: 2026-10-01
+    emne: Projektforløb5
+    forloeb: Projektforløb5
+    materialer: [idebank-srp-fysik] 
+    lektier: "Læs [klik her](akademisk-opgave)"
+    kommentar: "Vejledning i skrivefase"
+    maal: [modul 3]
+  - nr: 14
+    dato: 2026-10-06
+    emne: Projektforløb5
+    forloeb: Projektforløb5
+    materialer: [akademisk-opgave] 
+    lektier: "Læs [klik her](akademisk-opgave)"
+    kommentar: "Vejledning i skrivefase"
+    maal: [modul 4]

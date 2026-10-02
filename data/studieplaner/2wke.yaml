@@ -53,21 +53,64 @@ moduler:
     materialer: [mangans-oxidationstal]
     lektier: "Find oxidationstal "
     maal: [At repetere oxidationstal]
-    kommentar: ""
+    kommentar: "Vi gennemfører forsøget"
   - nr: 7
-    dato: 2026-09-17
+    dato: 2026-09-18
     emne: "Redoxkemi"
     forloeb: "Redox"
     materialer: [mangans-oxidationstal]
-    lektier: "Øvelsesvejledningen og afstemning "
-    maal: [Vi gennemfører eksperimentet]
-    kommentar: "Aflevering i slutningen af modulet"
+    lektier: "Journalskrivning"
+    maal: [Aflevering 15:15]
+    kommentar: "U"
   - nr: 8
     dato: 2026-09-22
+    emne: "Intro til spektrofotometri"
+    forloeb: "Spektrofotometri"
+    materialer: [spektrofotometri]
+    lektier: "VmK intro til spektrofotometri "
+    maal: [intro til spektrofotometri]
+    kommentar: "Forstår farver og lys"
+  - nr: 9
+    dato: 2026-09-24
     emne: "Redoxkemi"
-    forloeb: "Redox"
-    materialer: [mangans-oxidationstal]
-    lektier: "ingen lektier"
-    maal: [Vi skriver journalen lidt mere sammen]
-    kommentar: "Genaflevering"
+    forloeb: "Spektrofotometri"
+    materialer: [spektrofotometri]
+    lektier: "VmK side 9 -16 + elevfeedback"
+    maal: [Lidt spektrofotometri]
+    kommentar: "Modul til intro af AI Prompt til AI om oxidationstal"
+  - nr: 10
+    dato: 2026-09-25
+    emne: "Spektrofotometri"
+    forloeb: "spektrofotometri"
+    materialer: [spektrofotometri]
+    lektier: "VmK 34 - 37"
+    maal: [forstår spektrofotometri]
+    kommentar: "film [link](https://www.youtube.com/watch?v=Bi3N-gbYpCo&t=12s)"
+  - nr: 11
+    dato: 2026-09-28
+    emne: "Spektrofotometri"
+    forloeb: "spektrofotometri"
+    materialer: [spektrofotometri]
+    lektier: "læs Øvelsesvejledningen"
+    maal: [eksperiment]
+    kommentar: "link til pdf om farvestoffer [link](https://www.gymnasiekemi.com/uploads/9/3/4/8/93484852/fotokemi_2_-_farvestoffer.pdf)"
+  - nr: 12
+    dato: 2026-09-29
+    emne: "Spektrofotometri"
+    forloeb: "spektrofotometri"
+    materialer: [spektrofotometri]
+    lektier: "læse Øvelsesvejledningen"
+    maal: [eksperiment]
+    kommentar: "vi blev lidt presset under eksperient og nåede ikke journalen"
+  - nr: 12
+    dato: 2026-10-02
+    emne: "Spektrofotometri"
+    forloeb: "spektrofotometri"
+    materialer: [spektrofotometri]
+    lektier: "skriv journalen færdig "
+    maal: [skrive journalen færdig]
+    kommentar: "Aflever i slutningen af moduler"
+
+
+
 

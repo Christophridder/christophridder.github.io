@@ -8,7 +8,7 @@ bookCollapseSection: true
 
 Her samles de faglige metoder, vi bruger i fysik – kort forklaret, med eksempler og forslag til forsøg. Metoder uden link er på vej.
 
-## To niveauer af metode
+## To niveauer af metoder
 
 **1. De overordnede metoder** – sådan skaber fysik ny viden. Dem kan du læse om under [Naturvidenskabelig metode]({{< relref "/docs/nat/naturvidenskabelig-metode" >}}).
 
@@ -25,7 +25,7 @@ Her samles de faglige metoder, vi bruger i fysik – kort forklaret, med eksempl
 
 | Metode | Kort fortalt | Bruges fx i |
 |---|---|---|
-| [Videoanalyse]({{< relref "/docs/fysik/Metoder/videoanalyse" >}}) · [Videoanalyseprogram]({{< relref "/docs/fysik/Metoder/videoanalyseprogram" >}}) | Position frame for frame ud fra en video → $(t, x, y)$-data | [Kasteparabel]({{< relref "/docs/fysik/A-Eksp/kasteparabel" >}}) |
+| [Videoanalyse]({{< relref "/docs/fysik/Metoder/videoanalyse" >}}) | Position frame for frame ud fra en video → $(t, x, y)$-data | [Kasteparabel]({{< relref "/docs/fysik/A-Eksp/kasteparabel" >}}) |
 | Sensorer og dataopsamling | Kraft, position, temperatur eller spænding logget automatisk med LoggerPro | [Hop på kraftplatform]({{< relref "/docs/fysik/A-Eksp/kraftplatform-hop" >}}), [Hookes lov]({{< relref "/docs/fysik/A-Eksp/Hookes-lov" >}}) |
 | GM-rør og tællinger | Radioaktiv stråling målt som tælletal – med baggrund og tællestatistik | [Afstandskvadratloven]({{< relref "/docs/fysik/C-Eksp/afstandskvadratloven" >}}), [Halveringstid]({{< relref "/docs/fysik/C-Eksp/halveringstid" >}}), [Halveringstykkelse]({{< relref "/docs/fysik/C-Eksp/halveringstykkelse" >}}) |
 | Spektroskopi med gitter | Bølgelængder bestemt ud fra afbøjningsvinkler | [Gitterligningen]({{< relref "/docs/fysik/C-Eksp/gitterligningen" >}}) |
@@ -36,8 +36,8 @@ Her samles de faglige metoder, vi bruger i fysik – kort forklaret, med eksempl
 
 | Metode | Kort fortalt |
 |---|---|
-| [Lineær regression]({{< relref "/docs/nat/lineaer-regression" >}}) | Hældningen på en ret linje giver en fysisk størrelse, fx $g$ eller en fjederkonstant |
-| [Linearisering (aksetransformation)]({{< relref "/docs/nat/lineaer-regression" >}}) | Du omskriver en potens- eller eksponentialsammenhæng, så den bliver lineær |
+| Lineær regression | Hældningen på en ret linje giver en fysisk størrelse, fx $g$ eller en fjederkonstant |
+| Linearisering | Du omskriver en potens- eller eksponentialsammenhæng, så den bliver lineær |
 | Usikkerhed og fejlforplantning | Hvor sikkert er resultatet? Se også [Fejlkilder]({{< relref "/docs/nat/fejlkilder" >}}) og [Betydende cifre]({{< relref "/docs/nat/betydendecifre" >}}) |
 | Enhedsanalyse | Passer enhederne? Et hurtigt tjek af formler og resultater |
 | Numeriske metoder | Euler og Runge-Kutta til bevægelser med fx luftmodstand |

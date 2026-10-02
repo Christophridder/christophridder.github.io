@@ -1,6 +1,6 @@
 ---
 title: 2w Kemi B
-weight: 20
+weight: 12
 ---
 
 # 2w Kemi B · 2026/2027

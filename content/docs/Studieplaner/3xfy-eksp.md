@@ -1,6 +1,6 @@
 ---
 title: "3x Eksp"
-weight: 11
+weight: 21
 ---
 
 # 3x Eksp · 2026/2027
@@ -9,8 +9,9 @@ Eksperimenter for 3x Fysik A, i den rækkefølge de er lavet. Se også [Årsplan
 
 | Dato | Elevtimer | Eksperiment | Aflevering | Kommentar | Eksamen |
 |---|---|---|---|---|---|
-|20.8 | 5 | Hookes lov | R i Lectio| Aflevert i Lectio rettes | ja |
-|17.9 | 3  | Kasteparabel | J i timen | Afleveret i lectio skal ikker rettes | ja |
+|20.8 | 5  | [Hookes lov](hookes-lov) | R i Lectio| Aflevert i Lectio rettes | ja |
+|17.9 | 3  | [Kasteparabel](kasteparabel) | J i timen | Afleveret i lectio skal ikke rettes | ja |
+|8.10 | 3  | [Stød på luftpudebane](stoed-luftpudebane)| J i timen | Afleveret i lectio skal ikke rettes | ja | 
 |  |  |  |  |  | |
 
 <!--
