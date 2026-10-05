@@ -136,10 +136,9 @@ summary{cursor:pointer;color:var(--graa)}
 </section>
 
 <section class="panel">
-  <div class="ph"><h2>4. Eksport</h2><span class="info">Kun toppene over tærsklen eksporteres – for alle indlæste lyde.</span></div>
+  <div class="ph"><h2>4. Eksport</h2><span class="info">Alle indlæste lyde. Excel: ark 1 = toppene over tærsklen side om side, derefter ét ark pr. lyd med hele spektret A(f) i området Fra–Til.</span></div>
   <div class="row" style="margin-top:0">
     <button id="xlsx" class="primary">Excel (.xlsx)</button>
-    <label><input type="checkbox" id="medspek"> Medtag hele spektret (Fra–Til) i Excel</label>
     <button id="py" class="primary">Python (.py)</button>
   </div>
   <details>
@@ -983,11 +982,12 @@ const xesc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace
 function kol(i) { let s = ''; i++; while (i > 0) { const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; }
 function arkXml(ark) {
   let x = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">';
-  x += '<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>';
+  const fr = ark.frys || 1;
+  x += `<sheetViews><sheetView workbookViewId="0"><pane ySplit="${fr}" topLeftCell="A${fr + 1}" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>`;
   x += '<cols>' + ark.bredder.map((b, i) => `<col min="${i + 1}" max="${i + 1}" width="${b}" customWidth="1"/>`).join('') + '</cols><sheetData>';
   ark.raekker.forEach((r, ri) => {
     x += `<row r="${ri + 1}">`;
-    r.forEach((v, ci) => {
+    Array.from(r, (v, ci) => [v, ci]).forEach(([v, ci]) => {
       if (v == null || v === '' || (typeof v === 'number' && !Number.isFinite(v))) return;
       const ref = kol(ci) + (ri + 1), st = ri === 0 || ark.fed?.includes(ri) ? ' s="1"' : '';
       x += typeof v === 'number' ? `<c r="${ref}"${st}><v>${v}</v></c>` : `<c r="${ref}" t="inlineStr"${st}><is><t xml:space="preserve">${xesc(v)}</t></is></c>`;
@@ -1022,27 +1022,41 @@ const rund = (x, d) => Number.isFinite(x) ? Math.round(x * 10 ** d) / 10 ** d : 
 $('xlsx').onclick = () => {
   const L = loadede();
   if (!L.length) { besked('Der er ingen lyd at eksportere.'); return; }
-  const vindue = $('vindue').value === 'hann' ? 'Hann' : 'Intet (rektangulært)';
-  const info = {navn: 'Info', bredder: [30, 16, 16, 16, 16], fed: [], raekker: [
-    ['Lydanalyse – eksport', ''], ['Dato', new Date().toLocaleString('da-DK')],
-    ['Frekvensområde fra (Hz)', fmin], ['Frekvensområde til (Hz)', fmax], ['Vindue', vindue], ['Amplitude', 'Relativ: største top over 20 Hz = 1'], []]};
-  info.fed.push(info.raekker.length);
-  info.raekker.push(['Lyd', 'Samplingsfrekvens (Hz)', 'Udsnit start (s)', 'Udsnit slut (s)', 'Varighed T (s)', 'Opløsning 1/T (Hz)', 'Tærskel', 'Grundtone f1 (Hz)', 'Antal toppe']);
-  for (const {s, i} of L) info.raekker.push([`${i + 1}: ${s.navn}`, s.fs, rund(s.t0, 3), rund(s.t1, 3), rund(s.t1 - s.t0, 3), rund(1 / (s.t1 - s.t0), 3), rund(s.taerskel, 3), rund(s.f1, 2), s.toppe.length]);
-  info.bredder = [30, 22, 16, 16, 16, 18, 10, 18, 12];
-  const ark = [info];
+  for (const {s} of L) if (!(s.f1 > 0) && s.toppe.length) s.f1 = s.toppe[0].f;
+
+  // Ark 1: toppene for alle lyde side om side (5 kolonner pr. lyd + en tom)
+  const B = 6, r1 = [], r2 = [], data = [];
+  const n = Math.max(0, ...L.map(({s}) => s.toppe.length));
+  for (let k = 0; k < n; k++) data.push([]);
+  L.forEach(({s, i}, b) => {
+    const c = b * B;
+    r1[c] = `${i + 1}: ${s.navn}` + (s.f1 ? `  (f1 = ${fmt(s.f1, 1)} Hz)` : '');
+    ['Frekvens f (Hz)', 'Rel. amplitude', 'f/f1', 'Harmonisk n', 'Afvigelse fra n·f1 (%)'].forEach((h, k) => r2[c + k] = h);
+    s.toppe.forEach((t, k) => {
+      const h = harmInfo(t.f, s.f1);
+      [rund(t.f, 2), rund(t.A, 4), rund(h.r, 3), h.n, rund(h.afv, 2)].forEach((v, m) => data[k][c + m] = v);
+    });
+  });
+  const bred = []; L.forEach((_, b) => bred.push(15, 14, 8, 11, 20, 3));
+  const ark = [{navn: 'Toppe', bredder: bred, fed: [0, 1], frys: 2, raekker: [r1, r2, ...data]}];
+
+  // Ark 2–5: hele spektret A(f) i området Fra–Til – klar til at plotte
   for (const {s, i} of L) {
-    const r = [['Nr.', 'Frekvens f (Hz)', 'Rel. amplitude', 'f/f1', 'Nærmeste harmoniske n', 'Afvigelse fra n·f1 (%)']];
-    s.toppe.forEach((t, j) => { const h = harmInfo(t.f, s.f1); r.push([j + 1, rund(t.f, 2), rund(t.A, 4), rund(h.r, 3), h.n, rund(h.afv, 2)]); });
-    ark.push({navn: `Toppe ${i + 1} ${s.navn}`, bredder: [6, 16, 15, 9, 22, 22], raekker: r});
+    const sp = spektrumUdsnit(s, 10000), r = [['Frekvens f (Hz)', 'Rel. amplitude', '', `${i + 1}: ${s.navn}`]];
+    sp.A.forEach((a, j) => r.push([rund(sp.f0 + j * sp.df, 3), rund(a, 5)]));
+    r[1][3] = `Område ${fmt(fmin, 0)}–${fmt(fmax, 0)} Hz, ${sp.A.length} punkter`;
+    r[2] = r[2] || []; r[2][3] = 'Plot: marker kolonne A og B → Indsæt diagram → XY-punkt med linjer';
+    ark.push({navn: `Spektrum ${i + 1} ${s.navn}`, bredder: [16, 15, 3, 60], raekker: r});
   }
-  if ($('medspek').checked) {
-    for (const {s, i} of L) {
-      const sp = spektrumUdsnit(s, 20000), r = [['Frekvens f (Hz)', 'Rel. amplitude']];
-      sp.A.forEach((a, j) => r.push([rund(sp.f0 + j * sp.df, 3), rund(a, 5)]));
-      ark.push({navn: `Spektrum ${i + 1} ${s.navn}`, bredder: [16, 15], raekker: r});
-    }
-  }
+
+  // Sidste ark: info
+  const vindue = $('vindue').value === 'hann' ? 'Hann' : 'Intet (rektangulært)';
+  const info = {navn: 'Info', bredder: [30, 22, 16, 16, 16, 18, 10, 18, 12], fed: [7], raekker: [
+    ['Lydanalyse – eksport', ''], ['Dato', new Date().toLocaleString('da-DK')],
+    ['Frekvensområde fra (Hz)', fmin], ['Frekvensområde til (Hz)', fmax], ['Vindue', vindue], ['Amplitude', 'Relativ: største top over 20 Hz = 1'], [],
+    ['Lyd', 'Samplingsfrekvens (Hz)', 'Udsnit start (s)', 'Udsnit slut (s)', 'Varighed T (s)', 'Opløsning 1/T (Hz)', 'Tærskel', 'Grundtone f1 (Hz)', 'Antal toppe']]};
+  for (const {s, i} of L) info.raekker.push([`${i + 1}: ${s.navn}`, s.fs, rund(s.t0, 3), rund(s.t1, 3), rund(s.t1 - s.t0, 3), rund(1 / (s.t1 - s.t0), 3), rund(s.taerskel, 3), rund(s.f1, 2), s.toppe.length]);
+  ark.push(info);
   downloadBlob(lavXlsx(ark), filnavn() + '.xlsx');
 };
 

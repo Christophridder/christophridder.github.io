@@ -57,7 +57,7 @@ Programmet kan også åbne MP3, FLAC, OGG og M4A (fx fra en telefon). Virker en 
 
 | Knap | Hvad får du? |
 |---|---|
-| **Excel (.xlsx)** | Et ark pr. lyd med toppene over tærsklen: $f$, relativ amplitude, $f/f_1$, $n$ og afvigelse. Tallene er rigtige tal, så Excel viser dansk decimalkomma. Sæt flueben, hvis du også vil have hele spektret med. |
+| **Excel (.xlsx)** | **Ark 1 – Toppe:** toppene over tærsklen for alle lyde side om side: $f$, relativ amplitude, $f/f_1$, $n$ og afvigelse. **Ark 2–5 – Spektrum:** hele spektret $A(f)$ for hver lyd i området *Fra–Til*, klar til at plotte (marker kolonne A og B → *XY-punkt med linjer*). Tallene er rigtige tal, så Excel viser dansk decimalkomma. |
 | **Python (.py)** | Et færdigt script med dine data: Spektrene plottes under hinanden med identisk x-akse, og overtonemønstret vises som søjlediagram. Ret `FMIN` og `FMAX` øverst i filen og kør igen. |
 
 ## Eksempellyde
