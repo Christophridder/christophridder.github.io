@@ -1,15 +1,15 @@
 ---
 title: "Lydanalyse (FFT)"
-weight: 20
+weight: 3
 ---
-
-# Lydanalyse – frekvensspektrum med FFT
 
 **Niveau: Fysik C** · **Emne: Lyd og bølger – metode**
 
+[Tilbage til Faglige metoder i fysik]({{< relref "/docs/fysik/Metoder" >}})
+
 Med [lydanalyseprogrammet](/lydanalyse.html) kan du se, hvilke frekvenser en lyd består af. Programmet laver en **FFT** (Fast Fourier Transformation) af din optagelse og tegner et **frekvensspektrum**: frekvens $f$ ud ad x-aksen og amplitude op ad y-aksen.
 
-[Åbn lydanalyseprogrammet](/lydanalyse.html) · [Om programmet]({{< relref "lydanalyseprogram" >}})
+[Åbn lydanalyseprogrammet](/lydanalyse.html) · [Om programmet]({{< relref "/docs/fysik/Metoder/lydanalyseprogram" >}})
 
 ## Lidt teori
 
@@ -22,7 +22,18 @@ $$f_n = n \cdot f_1, \qquad n = 1, 2, 3, \dots$$
 - En klarinet har næsten kun **ulige** harmoniske ($n = 1, 3, 5, \dots$), fordi røret virker som et rør, der er lukket i den ene ende.
 - Et metalrør, der bankes på, har **ikke** harmoniske overtoner: Forholdene er ca. $1 : 2{,}76 : 5{,}40$.
 
-## 1. Optag lyden i Audacity
+## 1. Optag lyden
+
+### Direkte i programmet
+
+1. Klik **🎤 Optag**, og tillad mikrofonen, når browseren spørger.
+2. Spil eller syng en **rolig, lang tone** i ca. 3 sekunder. Den grønne bjælke viser lydstyrken – bliver den **rød**, er lyden for kraftig (klipning). Gå længere væk.
+3. Klik **■ Stop optagelse**. Lyden lægges på en ledig plads og analyseres med det samme.
+4. Vil du beholde optagelsen, så klik **Gem som WAV**.
+
+Programmet beder browseren om at slå støjdæmpning og automatisk lydstyrke fra, fordi de ændrer overtonerne. Ikke alle computere overholder det – får du mærkelige resultater, så optag i Audacity i stedet.
+
+### I Audacity
 
 1. Sæt optagelsen til **mono** og **44100 Hz** (det er normalt standard).
 2. Hold mikrofonen 20–50 cm fra instrumentet. Spil eller syng en **rolig, lang tone** i ca. 3 sekunder.
