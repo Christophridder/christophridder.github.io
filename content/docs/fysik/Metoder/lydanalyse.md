@@ -49,8 +49,9 @@ Programmet kan også åbne MP3, FLAC, OGG og M4A (fx fra en telefon). Virker en 
 3. Vælg **frekvensområde** (*Fra/Til* eller knapperne *0–1 kHz*, *0–2 kHz* …), så toppene fylder grafen.
 4. Hold musen over grafen: Under grafen kan du aflæse frekvensen ved markøren og den nærmeste top.
 5. Træk den **røde tærskellinje** (eller slideren til højre) op, til kun de rigtige toppe er markeret. Støj og små toppe forsvinder fra tabellen.
-6. **Klik på grundtonen** i grafen (eller i tabellen). Så viser tabellen $f/f_1$ og hvor langt hver top ligger fra $n \cdot f_1$.
-7. *Sammenlign alle* viser alle lyde under hinanden med **samme frekvensakse**.
+6. Har din tone **vibrato**, bliver hver overtone til en lille klump af toppe. *Saml nabotoppe* (standard ± 3 %) lægger klumpen sammen til én top og angiver dens **middelfrekvens**.
+7. **Klik på grundtonen** i grafen (eller i tabellen). Så viser tabellen $f/f_1$ og hvor langt hver top ligger fra $n \cdot f_1$.
+8. *Sammenlign alle* viser alle lyde under hinanden med **samme frekvensakse**.
 
 ## 3. Eksportér
 
@@ -71,7 +72,7 @@ Vælg dem i menuen *Eksempellyde* i programmet, eller hent dem som WAV-filer:
 | [Guitar-lignende 110 Hz](/lyd/lydanalyse/guitar_110Hz.wav) | Overtonerne dør hurtigere ud end grundtonen – prøv et tidligt og et sent udsnit |
 | [Sang – stemme A, 262 Hz](/lyd/lydanalyse/sang_stemmeA_262Hz.wav) og [stemme B](/lyd/lydanalyse/sang_stemmeB_262Hz.wav) | Samme tone, forskelligt overtonemønster |
 | [Metalrør, slået 4 gange](/lyd/lydanalyse/metalroer_4slag.wav) | Ikke-harmoniske overtoner, og toppene "flækker", hvis udsnittet indeholder flere slag |
-| [Svævning 440 Hz + 443 Hz](/lyd/lydanalyse/svaevning_440_443Hz.wav) | To toner tæt på hinanden – kræver et langt udsnit og lille *min. afstand* |
+| [Svævning 440 Hz + 443 Hz](/lyd/lydanalyse/svaevning_440_443Hz.wav) | To toner tæt på hinanden – kræver et langt udsnit og *Saml nabotoppe* = ± 0,3 % |
 
 ## Hvornår kan du stole på resultatet?
 

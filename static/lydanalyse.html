@@ -128,8 +128,9 @@ summary{cursor:pointer;color:var(--graa)}
   <div class="ph"><h2>3. Toppe over tærsklen</h2><span id="toppeinfo" class="info"></span></div>
   <div class="row" style="margin-top:0">
     <label>Grundtone f₁ = <input type="number" id="f1" step="0.1" min="0"> Hz</label>
-    <label>Min. afstand mellem toppe <input type="number" id="minafst" step="1" min="0"> Hz</label>
-    <button id="autoafst">Auto</button>
+    <label>Saml nabotoppe inden for
+      <select id="saml" title="Toppe tættere på hinanden end dette lægges sammen til én"><option value="0.03|8" selected>± 3 % (anbefalet)</option><option value="0.01|3">± 1 %</option><option value="0.003|0">± 0,3 %</option><option value="0|0">Fra – vis alle toppe</option></select>
+    </label>
   </div>
   <div id="toppe"></div>
 </section>
@@ -293,7 +294,6 @@ function beregnSpektrum(s) {
 }
 
 // ---------- Topfinder ----------
-function autoAfst(s) { return s.spek ? Math.max(2, Math.round(3 * s.spek.oploesning * 10) / 10) : 10; }
 
 function findToppe(s) {
   s.toppe = [];
@@ -313,8 +313,21 @@ function findToppe(s) {
     }
   }
   kand.sort((p, q) => q.A - p.A);
-  const afst = s.minAfst ?? autoAfst(s), valgt = [];
-  for (const p of kand) if (!valgt.some(q => Math.abs(q.f - p.f) < afst)) valgt.push(p);
+  // Saml nabotoppe: inden for en vis procent af frekvensen beholdes kun den højeste.
+  // Vibrato og en tone, der svinger lidt, giver ellers mange små toppe omkring hver overtone.
+  // Vibrato (ca. 5–7 Hz) giver sidebånd med fast afstand, derfor også en mindsteafstand i Hz.
+  const [rel, hz] = $('saml').value.split('|').map(Number), gulv = Math.max(2 * s.spek.oploesning, hz), valgt = [];
+  for (const p of kand) {
+    const q = valgt.find(q => Math.abs(q.f - p.f) < Math.max(gulv, rel * Math.max(p.f, q.f)));
+    if (q) q.medl.push(p); else valgt.push({...p, medl: [p]});
+  }
+  // Frekvensen for en samlet top = effektvægtet middelværdi (A²) af de sammenlagte toppe.
+  // Det giver tonens middelfrekvens, også når den svinger lidt (vibrato).
+  for (const q of valgt) if (q.medl.length > 1) {
+    let sw = 0, sf = 0;
+    for (const m of q.medl) { sw += m.A * m.A; sf += m.A * m.A * m.f; }
+    q.f = sf / sw;
+  }
   valgt.sort((p, q) => p.f - q.f);
   s.toppe = valgt;
   if (s.f1 > 0) {                    // grundtonen følger med, hvis toppen flytter sig lidt
@@ -797,8 +810,6 @@ function harmInfo(f, f1) {
 function tegnToppe() {
   const s = slots[aktiv], el = $('toppe');
   $('f1').value = s && s.f1 ? s.f1.toFixed(1) : '';
-  $('minafst').value = s ? (s.minAfst ?? autoAfst(s)) : '';
-  $('autoafst').disabled = !s || s.minAfst == null;
   if (!s || !s.spek) { el.innerHTML = '<div class="tom-tekst">Ingen data</div>'; $('toppeinfo').textContent = ''; return; }
   $('toppeinfo').textContent = `${s.toppe.length} toppe i området ${fmt(fmin, 0)}–${fmt(fmax, 0)} Hz` + (s.toppe.length > 40 ? ' – hæv tærsklen for at få færre' : '');
   let h = '<table><tr><th>f₁</th><th>Nr.</th><th>Frekvens f / Hz</th><th>Rel. amplitude</th><th>f / f₁</th><th>Nærmeste n</th><th>Afvigelse fra n·f₁</th></tr>';
@@ -811,8 +822,7 @@ function tegnToppe() {
   el.querySelectorAll('tr[data-j]').forEach(tr => tr.onclick = () => { s.f1 = s.toppe[+tr.dataset.j].f; tegnToppe(); tegnSpek(); });
 }
 $('f1').onchange = () => { const s = slots[aktiv]; if (!s) return; const v = parseFloat($('f1').value.replace(',', '.')); s.f1 = v > 0 ? v : null; if (!s.f1) findToppe(s); tegnToppe(); tegnSpek(); };
-$('minafst').onchange = () => { const s = slots[aktiv]; if (!s) return; const v = parseFloat($('minafst').value); s.minAfst = v >= 0 ? v : null; taerskelAendret(); };
-$('autoafst').onclick = () => { const s = slots[aktiv]; if (!s) return; s.minAfst = null; taerskelAendret(); };
+$('saml').onchange = () => { for (const s of slots) if (s) findToppe(s); tegnSpek(); tegnToppe(); };
 
 // ---------- Frekvensområde og visning ----------
 function saetOmraade(a, b) {
