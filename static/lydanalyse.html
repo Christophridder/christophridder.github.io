@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lydanalyse – frekvensspektrum</title>
+<style>
+:root{
+  --blaa:#1f5fa8; --blaa-lys:#e8f0fa; --tekst:#1d2430; --graa:#5c6675; --linje:#d5dbe3;
+  --bg:#f4f6f9; --panel:#fff; --roed:#c62828; --groen:#2e7d32;
+  --c0:#1f5fa8; --c1:#d9730d; --c2:#2e7d32; --c3:#7b3fa0;
+}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tekst);background:var(--bg)}
+header{background:var(--blaa);color:#fff;padding:10px 18px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+header h1{margin:0;font-size:20px;font-weight:600}
+header .sub{opacity:.85;font-size:14px}
+header a{color:#fff;margin-left:auto;font-size:14px}
+main{max-width:1200px;margin:0 auto;padding:12px 14px 40px}
+.panel{background:var(--panel);border:1px solid var(--linje);border-radius:8px;padding:10px 14px 12px;margin-bottom:12px}
+.ph{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+h2{font-size:16px;margin:0;color:var(--blaa)}
+.info{color:var(--graa);font-size:13px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+button,.btn,select{font:inherit;font-size:14px;padding:5px 11px;border:1px solid #b8c2cf;border-radius:6px;background:#fff;color:var(--tekst);cursor:pointer}
+button:hover,.btn:hover{background:var(--blaa-lys)}
+button.primary,.btn.primary{background:var(--blaa);border-color:var(--blaa);color:#fff}
+button.primary:hover,.btn.primary:hover{background:#174c87}
+button.on{background:var(--blaa);color:#fff;border-color:var(--blaa)}
+button:disabled{opacity:.45;cursor:default;background:#fff}
+input[type=number]{font:inherit;font-size:14px;width:84px;padding:4px 6px;border:1px solid #b8c2cf;border-radius:6px}
+.seg{display:inline-flex}
+.seg button{border-radius:0;margin-left:-1px}
+.seg button:first-child{border-radius:6px 0 0 6px;margin-left:0}
+.seg button:last-child{border-radius:0 6px 6px 0}
+.slots{display:flex;gap:8px;flex-wrap:wrap}
+.slot{display:flex;align-items:center;gap:7px;min-width:180px;max-width:280px;padding:6px 10px;border:2px solid var(--linje);border-radius:8px;cursor:pointer;background:#fff;font-size:14px}
+.slot .sw{width:12px;height:12px;border-radius:3px;flex:none}
+.slot .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slot.tom{color:var(--graa);border-style:dashed}
+.slot.aktiv{border-color:var(--blaa);background:var(--blaa-lys)}
+canvas{display:block;width:100%;touch-action:none}
+#bolge{height:130px;border:1px solid var(--linje);border-radius:6px;cursor:crosshair}
+.plotwrap{display:flex;gap:6px;align-items:stretch}
+#spek{height:420px;border:1px solid var(--linje);border-radius:6px;cursor:crosshair;flex:1;min-width:0}
+.slid{display:flex;flex-direction:column;align-items:center;width:44px;font-size:11px;color:var(--graa);text-align:center}
+#taerskel{writing-mode:vertical-lr;direction:rtl;flex:1;width:28px;margin:4px 0;accent-color:var(--roed)}
+#readout{font-variant-numeric:tabular-nums;min-height:1.5em;margin-top:6px;font-size:14px}
+#readout b{color:var(--blaa)}
+table{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px;margin-top:8px}
+th,td{padding:4px 10px;border-bottom:1px solid var(--linje);text-align:right}
+th{background:#f0f3f7;font-weight:600;text-align:center}
+td:first-child,th:first-child{text-align:center}
+tr.f1 td{background:#fff4e0;font-weight:600}
+tr:hover td{background:var(--blaa-lys);cursor:pointer}
+.afv-stor{color:var(--roed)}
+#besked{display:none;margin:0 0 12px;padding:9px 14px;border-radius:8px;background:#fdecea;border:1px solid #f5c2c0;color:#8a1c1c}
+#besked.ok{background:#eaf5ea;border-color:#bfe0c0;color:#1d5e20}
+#drop{display:none;position:fixed;inset:0;background:rgba(31,95,168,.18);border:4px dashed var(--blaa);z-index:10;align-items:center;justify-content:center;font-size:26px;color:var(--blaa);font-weight:600}
+details{margin-top:8px;font-size:14px}
+summary{cursor:pointer;color:var(--graa)}
+.tom-tekst{color:var(--graa);padding:30px 0;text-align:center}
+@media (max-width:700px){#spek{height:320px}.slot{min-width:140px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Lydanalyse</h1><span class="sub">Frekvensspektrum med FFT (Fast Fourier Transformation)</span>
+  <a href="docs/fysik/metoder/lydanalyse/" target="_blank" rel="noopener">Vejledning</a>
+</header>
+<div id="drop">Slip lydfilen her</div>
+<main>
+<div id="besked"></div>
+
+<section class="panel">
+  <div class="ph"><h2>Lydfiler</h2><span class="info">Op til 4 lyde. Klik på en lyd for at arbejde med den.</span></div>
+  <div class="slots" id="slots"></div>
+  <div class="row">
+    <label class="btn primary">Åbn lydfil …<input type="file" id="fil" accept=".wav,.mp3,.flac,.ogg,.oga,.m4a,.aac,audio/*" multiple hidden></label>
+    <select id="demo">
+      <option value="">Eksempellyde …</option>
+    </select>
+    <button id="fjern">Fjern lyd</button>
+    <span class="info">eller træk filer ind på siden · WAV, MP3, FLAC, OGG, M4A</span>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><h2>1. Vælg udsnit</h2><span class="info">Træk i bølgeformen for at vælge den del, der skal analyseres. Spring anslaget over.</span></div>
+  <canvas id="bolge"></canvas>
+  <div class="row">
+    <button id="afspil">▶ Afspil udsnit</button>
+    <button id="hele">Hele filen</button>
+    <label>Start <input type="number" id="t0" step="0.01" min="0"> s</label>
+    <label>Slut <input type="number" id="t1" step="0.01" min="0"> s</label>
+    <span id="udsnitinfo" class="info"></span>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><h2>2. Frekvensspektrum</h2><span class="info">Hold musen over grafen for at aflæse. Klik på en top for at gøre den til grundtone. Træk i den røde linje eller brug slideren for at sætte tærsklen.</span></div>
+  <div class="row" style="margin-top:0;margin-bottom:8px">
+    <label>Fra <input type="number" id="fmin" value="0" min="0" step="10"> Hz</label>
+    <label>Til <input type="number" id="fmax" value="3000" min="10" step="100"> Hz</label>
+    <span class="seg" id="presets">
+      <button data-f="1000">0–1 kHz</button><button data-f="2000">0–2 kHz</button><button data-f="3000">0–3 kHz</button><button data-f="5000">0–5 kHz</button><button data-f="10000">0–10 kHz</button>
+    </span>
+    <span class="seg"><button id="ylin" class="on">Lineær</button><button id="ydb">dB</button></span>
+    <span class="seg"><button id="vEn" class="on">Én lyd</button><button id="vAlle">Sammenlign alle</button></span>
+  </div>
+  <div class="plotwrap">
+    <canvas id="spek"></canvas>
+    <div class="slid"><span>Tærskel</span><input type="range" id="taerskel" min="0" max="1000" value="200"><span id="tval"></span></div>
+  </div>
+  <div id="readout">&nbsp;</div>
+</section>
+
+<section class="panel">
+  <div class="ph"><h2>3. Toppe over tærsklen</h2><span id="toppeinfo" class="info"></span></div>
+  <div class="row" style="margin-top:0">
+    <label>Grundtone f₁ = <input type="number" id="f1" step="0.1" min="0"> Hz</label>
+    <label>Min. afstand mellem toppe <input type="number" id="minafst" step="1" min="0"> Hz</label>
+    <button id="autoafst">Auto</button>
+  </div>
+  <div id="toppe"></div>
+</section>
+
+<section class="panel">
+  <div class="ph"><h2>4. Eksport</h2><span class="info">Kun toppene over tærsklen eksporteres – for alle indlæste lyde.</span></div>
+  <div class="row" style="margin-top:0">
+    <button id="xlsx" class="primary">Excel (.xlsx)</button>
+    <label><input type="checkbox" id="medspek"> Medtag hele spektret (Fra–Til) i Excel</label>
+    <button id="py" class="primary">Python (.py)</button>
+  </div>
+  <details>
+    <summary>Avanceret</summary>
+    <div class="row">
+      <label>Vindue
+        <select id="vindue"><option value="hann">Hann (anbefalet – lav bundlinje)</option><option value="rect">Intet vindue (rektangulært)</option></select>
+      </label>
+    </div>
+    <p class="info">Uden vindue bliver toppene en anelse smallere, men der kommer mere "udsmøring" (lækage) ved foden af toppene, så bundlinjen ligger højere. Hann-vinduet giver den laveste bundlinje i lineær visning. Amplituderne er korrigeret for vinduet.</p>
+  </details>
+</section>
+</main>
+
+<script>
+"use strict";
+// ---------- Hjælpefunktioner ----------
+const $ = id => document.getElementById(id);
+const FARVER = ['#1f5fa8', '#d9730d', '#2e7d32', '#7b3fa0'];
+const fmt = (x, d = 1) => Number.isFinite(x) ? x.toLocaleString('da-DK', {minimumFractionDigits: d, maximumFractionDigits: d, useGrouping: false}) : '–';
+const MAXN = 1 << 21;
+
+function besked(txt, ok = false) {
+  const b = $('besked');
+  if (!txt) { b.style.display = 'none'; return; }
+  b.textContent = txt; b.className = ok ? 'ok' : ''; b.style.display = 'block';
+  if (ok) setTimeout(() => { if (b.textContent === txt) b.style.display = 'none'; }, 3500);
+}
+
+// ---------- Eksempellyde (syntetiseres i browseren) ----------
+// dele: [frekvens, amplitude, henfaldstid τ i s (null = vedvarende)]
+const DEMOS = [
+  {id: 'stemmegaffel', navn: 'Stemmegaffel 440 Hz', dur: 3, att: 0.005, dele: [[440, 1, 2.5]]},
+  {id: 'klarinet', navn: 'Klarinet-lignende 220 Hz', dur: 3, att: 0.06,
+    dele: [[220, 1], [440, .04], [660, .55], [880, .03], [1100, .38], [1320, .02], [1540, .22], [1760, .02], [1980, .12], [2420, .07]]},
+  {id: 'trompet', navn: 'Trompet-lignende 466 Hz', dur: 3, att: 0.04,
+    dele: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n, i) => [466.2 * n, [.55, 1, .8, .6, .42, .28, .18, .11, .07, .04][i]])},
+  {id: 'guitar', navn: 'Guitar-lignende 110 Hz (anslag)', dur: 3, att: 0.003,
+    dele: Array.from({length: 12}, (_, i) => [110 * (i + 1), 1 / (i + 1), 2.5 / (1 + 0.4 * i)])},
+  {id: 'sangA', navn: 'Sang – stemme A, 262 Hz', dur: 3, att: 0.08,
+    dele: [[262, 1], [524, .7], [786, .45], [1048, .12], [1310, .08], [1572, .05], [1834, .03]]},
+  {id: 'sangB', navn: 'Sang – stemme B, 262 Hz', dur: 3, att: 0.08,
+    dele: [[262, .45], [524, .35], [786, .5], [1048, .8], [1310, 1], [1572, .55], [1834, .3], [2096, .15]]},
+  {id: 'roer', navn: 'Metalrør, slået 4 gange', dur: 3.2, att: 0.002, slag: [0, 0.8, 1.6, 2.4],
+    dele: [[523.3, 1, 1.2], [523.3 * 2.756, .6, .5], [523.3 * 5.404, .35, .25], [523.3 * 8.933, .2, .12]]},
+  {id: 'svaevning', navn: 'Svævning 440 Hz + 443 Hz', dur: 4, att: 0.05, dele: [[440, 1], [443, 1]]},
+];
+
+function syntese(d, fs = 44100) {
+  const n = Math.round(d.dur * fs), x = new Float32Array(n);
+  const slag = d.slag || [0];
+  for (const [f, a, tau] of d.dele) {
+    const w = 2 * Math.PI * f / fs;
+    for (const ts of slag) {
+      const i0 = Math.round(ts * fs);
+      for (let i = i0; i < n; i++) {
+        const t = (i - i0) / fs;
+        let env = Math.min(1, t / d.att);
+        if (tau) env *= Math.exp(-t / tau);
+        else env *= Math.min(1, (d.dur - i / fs) / 0.05);   // blød udtoning
+        x[i] += a * env * Math.sin(w * (i - i0));
+      }
+    }
+  }
+  let s = 12345, mx = 0;
+  for (let i = 0; i < n; i++) mx = Math.max(mx, Math.abs(x[i]));
+  for (let i = 0; i < n; i++) {               // lidt baggrundsstøj, som i en rigtig optagelse
+    s = (s * 1103515245 + 12345) & 0x7fffffff;
+    x[i] = 0.8 * x[i] / mx + 0.002 * (s / 0x3fffffff - 1);
+  }
+  return x;
+}
+
+// ---------- Tilstand ----------
+const slots = [null, null, null, null];
+let aktiv = 0, yMode = 'lin', visAlle = false;
+let fmin = 0, fmax = 3000;
+
+function nySlot(navn, data, fs) {
+  const s = {navn, data, fs, dur: data.length / fs, t0: 0, t1: data.length / fs,
+    taerskel: 0.2, f1: null, minAfst: null, spek: null, toppe: [], bolgeCache: null};
+  foreslaaUdsnit(s);
+  return s;
+}
+
+function foreslaaUdsnit(s) {
+  // Start lidt efter anslaget, og tag op til 2 s
+  const x = s.data; let mx = 0;
+  for (let i = 0; i < x.length; i++) mx = Math.max(mx, Math.abs(x[i]));
+  let on = 0;
+  while (on < x.length && Math.abs(x[on]) < 0.5 * mx) on++;
+  let t0 = on / s.fs + 0.1, t1 = Math.min(t0 + 2, s.dur - 0.05);
+  if (t1 - t0 < 0.2) { t0 = 0; t1 = s.dur; }
+  s.t0 = t0; s.t1 = t1;
+}
+
+// ---------- FFT ----------
+function fftMag(sig, M) {
+  const re = new Float64Array(M), im = new Float64Array(M);
+  for (let i = 0; i < sig.length; i++) re[i] = sig[i];
+  for (let i = 1, j = 0; i < M; i++) {
+    let bit = M >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) { const t = re[i]; re[i] = re[j]; re[j] = t; }
+  }
+  for (let len = 2; len <= M; len <<= 1) {
+    const ang = -2 * Math.PI / len, half = len >> 1;
+    const tc = new Float64Array(half), ts = new Float64Array(half);
+    for (let k = 0; k < half; k++) { tc[k] = Math.cos(ang * k); ts[k] = Math.sin(ang * k); }
+    for (let i = 0; i < M; i += len) {
+      for (let k = 0; k < half; k++) {
+        const a = i + k, b = a + half;
+        const tr = re[b] * tc[k] - im[b] * ts[k], ti = re[b] * ts[k] + im[b] * tc[k];
+        re[b] = re[a] - tr; im[b] = im[a] - ti; re[a] += tr; im[a] += ti;
+      }
+    }
+  }
+  const mag = new Float32Array(M / 2 + 1);
+  for (let k = 0; k <= M / 2; k++) mag[k] = Math.hypot(re[k], im[k]);
+  return mag;
+}
+
+function beregnSpektrum(s) {
+  let i0 = Math.max(0, Math.round(s.t0 * s.fs)), i1 = Math.min(s.data.length, Math.round(s.t1 * s.fs));
+  let N = i1 - i0;
+  if (N < 64) { s.spek = null; s.toppe = []; return; }
+  let kortet = false;
+  if (N > MAXN) { N = MAXN; i1 = i0 + N; kortet = true; }
+  let p2 = 1; while (p2 < N) p2 <<= 1;
+  const M = Math.min(MAXN, p2 * 4);             // nul-udfyldning: glattere toppe
+  const seg = new Float64Array(N);
+  let mean = 0;
+  for (let i = 0; i < N; i++) mean += s.data[i0 + i];
+  mean /= N;
+  const hann = $('vindue').value === 'hann';
+  let wsum = 0;
+  for (let i = 0; i < N; i++) {
+    const w = hann ? 0.5 - 0.5 * Math.cos(2 * Math.PI * i / (N - 1)) : 1;
+    seg[i] = (s.data[i0 + i] - mean) * w; wsum += w;
+  }
+  const mag = fftMag(seg, M);
+  const df = s.fs / M;
+  const kmin = Math.ceil(20 / df);
+  let amax = 0;
+  for (let k = 0; k < mag.length; k++) { mag[k] *= 2 / wsum; if (k >= kmin && mag[k] > amax) amax = mag[k]; }
+  const A = new Float32Array(mag.length);
+  for (let k = 0; k < mag.length; k++) A[k] = amax > 0 ? mag[k] / amax : 0;
+  s.spek = {A, df, N, M, fs: s.fs, oploesning: s.fs / N, amax, kortet};
+  s.kolCache = null;
+  findToppe(s);
+}
+
+// ---------- Topfinder ----------
+function autoAfst(s) { return s.spek ? Math.max(2, Math.round(3 * s.spek.oploesning * 10) / 10) : 10; }
+
+function findToppe(s) {
+  s.toppe = [];
+  if (!s.spek) return;
+  const {A, df} = s.spek, thr = s.taerskel;
+  const k0 = Math.max(1, Math.floor(fmin / df)), k1 = Math.min(A.length - 2, Math.ceil(fmax / df));
+  const kand = [];
+  for (let k = k0; k <= k1; k++) {
+    if (A[k] >= thr && A[k] > A[k - 1] && A[k] >= A[k + 1]) {
+      // parabelinterpolation på log-amplitude => præcis frekvens og højde
+      const a = Math.log(A[k - 1] + 1e-12), b = Math.log(A[k] + 1e-12), c = Math.log(A[k + 1] + 1e-12);
+      const den = a - 2 * b + c;
+      const d = den !== 0 ? 0.5 * (a - c) / den : 0;
+      const f = (k + d) * df;
+      if (f < fmin || f > fmax) continue;
+      kand.push({f, A: Math.min(1, Math.exp(b - 0.25 * (a - c) * d)), k});
+    }
+  }
+  kand.sort((p, q) => q.A - p.A);
+  const afst = s.minAfst ?? autoAfst(s), valgt = [];
+  for (const p of kand) if (!valgt.some(q => Math.abs(q.f - p.f) < afst)) valgt.push(p);
+  valgt.sort((p, q) => p.f - q.f);
+  s.toppe = valgt;
+  if (s.f1 > 0) {                    // grundtonen følger med, hvis toppen flytter sig lidt
+    let b = null;
+    for (const p of valgt) if (Math.abs(p.f - s.f1) < 0.02 * s.f1 && (!b || Math.abs(p.f - s.f1) < Math.abs(b.f - s.f1))) b = p;
+    if (b) s.f1 = b.f;
+  } else s.f1 = valgt.length ? valgt[0].f : null;
+}
+
+// ---------- Indlæsning ----------
+function wavRate(buf) {
+  const v = new DataView(buf);
+  if (buf.byteLength > 44 && v.getUint32(0) === 0x52494646 && v.getUint32(8) === 0x57415645) {
+    let p = 12;
+    while (p + 8 <= buf.byteLength) {
+      const id = v.getUint32(p), sz = v.getUint32(p + 4, true);
+      if (id === 0x666d7420) return v.getUint32(p + 12, true);
+      p += 8 + sz + (sz & 1);
+    }
+  }
+  return 0;
+}
+
+async function dekod(buf) {
+  let rate = wavRate(buf) || 44100;
+  rate = Math.min(96000, Math.max(8000, rate));
+  try {
+    const oc = new OfflineAudioContext(1, 1, rate);
+    return await oc.decodeAudioData(buf.slice(0));
+  } catch (e) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    const ac = new AC();
+    const res = await new Promise((ok, fejl) => ac.decodeAudioData(buf.slice(0), ok, fejl));
+    ac.close();
+    return res;
+  }
+}
+
+function placering() {
+  if (!slots[aktiv]) return aktiv;
+  const tom = slots.indexOf(null);
+  return tom >= 0 ? tom : aktiv;
+}
+
+async function indlaesFiler(filer) {
+  for (const fil of filer) {
+    try {
+      const ab = await fil.arrayBuffer();
+      const ab2 = await dekod(ab);
+      const n = ab2.length, mono = new Float32Array(n);
+      for (let c = 0; c < ab2.numberOfChannels; c++) {
+        const d = ab2.getChannelData(c);
+        for (let i = 0; i < n; i++) mono[i] += d[i] / ab2.numberOfChannels;
+      }
+      const pl = placering();
+      slots[pl] = nySlot(fil.name.replace(/\.[^.]+$/, ''), mono, ab2.sampleRate);
+      aktiv = pl;
+      beregnSpektrum(slots[pl]);
+      besked(`"${fil.name}" indlæst (${fmt(ab2.duration, 2)} s, ${ab2.sampleRate} Hz).`, true);
+    } catch (e) {
+      console.error(e);
+      besked(`Filen "${fil.name}" kunne ikke åbnes i denne browser. Gem den som WAV i Audacity (Fil → Eksportér lyd → WAV) og prøv igen.`);
+    }
+  }
+  opdaterAlt();
+}
+
+function indlaesDemo(id) {
+  const d = DEMOS.find(x => x.id === id);
+  if (!d) return;
+  const pl = placering();
+  slots[pl] = nySlot(d.navn, syntese(d), 44100);
+  aktiv = pl;
+  beregnSpektrum(slots[pl]);
+  opdaterAlt();
+}
+
+// ---------- Brugerflade: lydfiler ----------
+function tegnSlots() {
+  const el = $('slots'); el.innerHTML = '';
+  slots.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'slot' + (s ? '' : ' tom') + (i === aktiv ? ' aktiv' : '');
+    d.innerHTML = `<span class="sw" style="background:${FARVER[i]}"></span><span class="nm"></span>`;
+    d.querySelector('.nm').textContent = `${i + 1}: ` + (s ? s.navn : 'tom');
+    d.title = s ? s.navn : 'Tom plads – åbn en fil eller vælg en eksempellyd';
+    d.onclick = () => { aktiv = i; opdaterAlt(); };
+    el.appendChild(d);
+  });
+}
+
+function opdaterAlt() {
+  stopAfspil();
+  tegnSlots();
+  const s = slots[aktiv];
+  $('t0').value = s ? s.t0.toFixed(2) : '';
+  $('t1').value = s ? s.t1.toFixed(2) : '';
+  $('fjern').disabled = !s;
+  $('afspil').disabled = $('hele').disabled = !s;
+  $('vAlle').disabled = slots.filter(Boolean).length < 2;
+  if (visAlle && $('vAlle').disabled) { visAlle = false; segOn('vEn', 'vAlle', true); }
+  saetSlider();
+  tegnBolge(); tegnSpek(); tegnToppe(); udsnitInfo();
+}
+
+// ---------- Bølgeform ----------
+const bc = $('bolge');
+let tidAfspil = null;
+
+function klargoer(cv) {
+  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  const w = Math.max(10, Math.round(r.width)), h = Math.max(10, Math.round(r.height));
+  if (cv.width !== w * dpr || cv.height !== h * dpr) { cv.width = w * dpr; cv.height = h * dpr; }
+  const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return {g, w, h};
+}
+
+const BL = 8, BR = 8;
+function tegnBolge() {
+  const {g, w, h} = klargoer(bc);
+  g.clearRect(0, 0, w, h);
+  const s = slots[aktiv];
+  if (!s) { g.fillStyle = '#5c6675'; g.font = '14px system-ui'; g.textAlign = 'center'; g.fillText('Ingen lyd indlæst', w / 2, h / 2); return; }
+  const W = w - BL - BR, H = h - 20, mid = H / 2;
+  const tx = t => BL + t / s.dur * W;
+  // udsnit
+  g.fillStyle = 'rgba(31,95,168,.13)';
+  g.fillRect(tx(s.t0), 0, tx(s.t1) - tx(s.t0), H);
+  // min/max pr. pixelkolonne
+  if (!s.bolgeCache || s.bolgeCache.W !== W) {
+    const mn = new Float32Array(W), mx = new Float32Array(W), x = s.data;
+    for (let c = 0; c < W; c++) {
+      const a = Math.floor(c / W * x.length), b = Math.max(a + 1, Math.floor((c + 1) / W * x.length));
+      let lo = 1, hi = -1;
+      for (let i = a; i < b; i++) { if (x[i] < lo) lo = x[i]; if (x[i] > hi) hi = x[i]; }
+      mn[c] = lo; mx[c] = hi;
+    }
+    s.bolgeCache = {W, mn, mx};
+  }
+  const {mn, mx} = s.bolgeCache;
+  g.strokeStyle = FARVER[aktiv]; g.lineWidth = 1; g.beginPath();
+  for (let c = 0; c < W; c++) { g.moveTo(BL + c + .5, mid - mx[c] * mid * .95); g.lineTo(BL + c + .5, mid - mn[c] * mid * .95 + .5); }
+  g.stroke();
+  // kanter
+  g.strokeStyle = '#1f5fa8'; g.lineWidth = 2;
+  for (const t of [s.t0, s.t1]) { g.beginPath(); g.moveTo(tx(t), 0); g.lineTo(tx(t), H); g.stroke(); }
+  // tidsakse
+  g.fillStyle = '#5c6675'; g.font = '11px system-ui'; g.textAlign = 'center';
+  const st = paentTrin(s.dur / (W / 70));
+  for (let t = 0; t <= s.dur + 1e-9; t += st) {
+    g.fillRect(tx(t), H, 1, 4);
+    g.fillText(fmt(t, st < 1 ? (st < .1 ? 2 : 1) : 0) + ' s', tx(t), H + 15);
+  }
+  if (tidAfspil != null) { g.strokeStyle = '#c62828'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(tx(tidAfspil), 0); g.lineTo(tx(tidAfspil), H); g.stroke(); }
+}
+
+let bTraek = null;
+bc.addEventListener('pointerdown', e => {
+  const s = slots[aktiv]; if (!s) return;
+  const r = bc.getBoundingClientRect(), W = r.width - BL - BR;
+  const t = Math.min(s.dur, Math.max(0, (e.clientX - r.left - BL) / W * s.dur));
+  const px = tt => BL + tt / s.dur * W;
+  const x = e.clientX - r.left;
+  if (Math.abs(x - px(s.t0)) < 7) bTraek = {kant: 0};
+  else if (Math.abs(x - px(s.t1)) < 7) bTraek = {kant: 1};
+  else { bTraek = {anker: t}; s.t0 = s.t1 = t; }
+  bc.setPointerCapture(e.pointerId);
+  tegnBolge();
+});
+bc.addEventListener('pointermove', e => {
+  const s = slots[aktiv]; if (!s) return;
+  const r = bc.getBoundingClientRect(), W = r.width - BL - BR;
+  const x = e.clientX - r.left;
+  const nearEdge = Math.abs(x - (BL + s.t0 / s.dur * W)) < 7 || Math.abs(x - (BL + s.t1 / s.dur * W)) < 7;
+  bc.style.cursor = nearEdge ? 'ew-resize' : 'crosshair';
+  if (!bTraek) return;
+  const t = Math.min(s.dur, Math.max(0, (x - BL) / W * s.dur));
+  if (bTraek.anker != null) { s.t0 = Math.min(bTraek.anker, t); s.t1 = Math.max(bTraek.anker, t); }
+  else if (bTraek.kant === 0) s.t0 = Math.min(t, s.t1 - 0.01);
+  else s.t1 = Math.max(t, s.t0 + 0.01);
+  tegnBolge(); udsnitInfo(true);
+});
+bc.addEventListener('pointerup', () => {
+  if (!bTraek) return; bTraek = null;
+  const s = slots[aktiv];
+  if (s.t1 - s.t0 < 0.02) { s.t1 = Math.min(s.dur, s.t0 + 0.5); }
+  nytUdsnit();
+});
+
+function nytUdsnit() {
+  const s = slots[aktiv]; if (!s) return;
+  $('t0').value = s.t0.toFixed(2); $('t1').value = s.t1.toFixed(2);
+  stopAfspil();
+  beregnSpektrum(s); tegnBolge(); tegnSpek(); tegnToppe(); udsnitInfo();
+}
+
+function udsnitInfo(foreloebig) {
+  const s = slots[aktiv];
+  if (!s) { $('udsnitinfo').textContent = ''; return; }
+  const T = s.t1 - s.t0;
+  let t = `Udsnit: ${fmt(T, 2)} s · frekvensopløsning Δf = 1/T ≈ ${fmt(1 / T, 2)} Hz · samplingsfrekvens ${s.fs} Hz`;
+  if (s.spek && s.spek.kortet && !foreloebig) t += ' · udsnittet er afkortet (for langt)';
+  $('udsnitinfo').textContent = t;
+}
+
+$('t0').onchange = $('t1').onchange = () => {
+  const s = slots[aktiv]; if (!s) return;
+  let a = parseFloat($('t0').value), b = parseFloat($('t1').value);
+  if (!(a >= 0)) a = 0; if (!(b <= s.dur)) b = s.dur;
+  if (b - a < 0.02) b = Math.min(s.dur, a + 0.5);
+  s.t0 = a; s.t1 = b; nytUdsnit();
+};
+$('hele').onclick = () => { const s = slots[aktiv]; if (!s) return; s.t0 = 0; s.t1 = s.dur; nytUdsnit(); };
+
+// ---------- Afspilning ----------
+let ac = null, kilde = null, raf = null;
+function stopAfspil() {
+  if (kilde) { try { kilde.stop(); } catch (e) {} kilde = null; }
+  if (raf) cancelAnimationFrame(raf); raf = null;
+  if (tidAfspil != null) { tidAfspil = null; tegnBolge(); }
+  $('afspil').textContent = '▶ Afspil udsnit';
+}
+$('afspil').onclick = () => {
+  const s = slots[aktiv]; if (!s) return;
+  if (kilde) { stopAfspil(); return; }
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!ac) ac = new AC();
+  ac.resume();
+  if (!s.abuf || s.abuf.sampleRate !== s.fs) {
+    s.abuf = ac.createBuffer(1, s.data.length, s.fs);
+    s.abuf.getChannelData(0).set(s.data);
+  }
+  kilde = ac.createBufferSource(); kilde.buffer = s.abuf; kilde.connect(ac.destination);
+  const start = ac.currentTime, varighed = s.t1 - s.t0;
+  kilde.start(0, s.t0, varighed);
+  kilde.onended = stopAfspil;
+  $('afspil').textContent = '■ Stop';
+  const trin = () => { tidAfspil = s.t0 + (ac.currentTime - start); tegnBolge(); if (kilde) raf = requestAnimationFrame(trin); };
+  trin();
+};
+
+// ---------- Spektrum ----------
+const sc = $('spek');
+const PL = 58, PR = 14, PT = 16, PB = 42;
+let mus = null, tTraek = false;
+
+function paentTrin(raa) {
+  const p = Math.pow(10, Math.floor(Math.log10(raa))), m = raa / p;
+  return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p;
+}
+const DBMIN = -80;
+function yAf(A, top, H) {
+  if (yMode === 'lin') return top + H * (1 - A / 1.08);
+  const db = 20 * Math.log10(Math.max(A, 1e-6));
+  return top + H * (Math.max(DBMIN, Math.min(2, db)) - 2) / (DBMIN - 2);
+}
+function AAfY(y, top, H) {
+  const u = (y - top) / H;
+  if (yMode === 'lin') return Math.max(0, Math.min(1, (1 - u) * 1.08));
+  return Math.min(1, Math.pow(10, (2 + u * (DBMIN - 2)) / 20));
+}
+
+function paneler(w, h) {
+  const synlige = visAlle ? slots.map((s, i) => i).filter(i => slots[i]) : [aktiv];
+  const H = h - PT - PB, n = synlige.length, gap = n > 1 ? 10 : 0, ph = (H - gap * (n - 1)) / n;
+  return synlige.map((i, j) => ({i, top: PT + j * (ph + gap), H: ph}));
+}
+
+function kolonner(s, W) {
+  // max pr. pixelkolonne, så smalle toppe aldrig forsvinder
+  const key = `${W}|${fmin}|${fmax}`;
+  if (s.kolCache && s.kolCache.key === key) return s.kolCache;
+  const {A, df} = s.spek;
+  const tæt = (fmax - fmin) / df / W > 1.5;
+  let pts;
+  if (tæt) {
+    pts = new Float32Array(W);
+    for (let c = 0; c < W; c++) {
+      const fa = fmin + c / W * (fmax - fmin), fb = fmin + (c + 1) / W * (fmax - fmin);
+      let ka = Math.max(0, Math.floor(fa / df)), kb = Math.min(A.length - 1, Math.ceil(fb / df));
+      let m = 0; for (let k = ka; k <= kb; k++) if (A[k] > m) m = A[k];
+      pts[c] = m;
+    }
+  }
+  s.kolCache = {key, tæt, pts};
+  return s.kolCache;
+}
+
+function tegnSpek() {
+  const {g, w, h} = klargoer(sc);
+  g.clearRect(0, 0, w, h);
+  const W = w - PL - PR;
+  const xAf = f => PL + (f - fmin) / (fmax - fmin) * W;
+  if (!slots.some(Boolean)) {
+    g.fillStyle = '#5c6675'; g.font = '15px system-ui'; g.textAlign = 'center';
+    g.fillText('Åbn en lydfil eller vælg en eksempellyd for at se spektret', w / 2, h / 2); return;
+  }
+  const pan = paneler(w, h);
+  // x-gitter (fælles)
+  const st = paentTrin((fmax - fmin) / Math.max(2, W / 55));
+  const mant = Math.round(st / Math.pow(10, Math.floor(Math.log10(st))));
+  const sm = st / (mant === 2 ? 4 : 5);
+  const yTop = pan[0].top, yBund = pan[pan.length - 1].top + pan[pan.length - 1].H;
+  g.lineWidth = 1;
+  for (let f = Math.ceil(fmin / sm) * sm; f <= fmax + 1e-9; f += sm) {
+    const x = Math.round(xAf(f)) + .5, major = Math.abs(f / st - Math.round(f / st)) < 1e-6;
+    g.strokeStyle = major ? '#d5dbe3' : '#eef1f5';
+    for (const p of pan) { g.beginPath(); g.moveTo(x, p.top); g.lineTo(x, p.top + p.H); g.stroke(); }
+    g.strokeStyle = '#5c6675'; g.beginPath(); g.moveTo(x, yBund); g.lineTo(x, yBund + (major ? 6 : 3)); g.stroke();
+  }
+  g.fillStyle = '#1d2430'; g.font = '12px system-ui'; g.textAlign = 'center';
+  const dec = st < 1 ? 1 : 0;
+  for (let f = Math.ceil(fmin / st) * st; f <= fmax + 1e-9; f += st) g.fillText(fmt(f, dec), xAf(f), yBund + 19);
+  g.font = '13px system-ui'; g.fillText('Frekvens  f / Hz', PL + W / 2, h - 5);
+
+  for (const p of pan) tegnPanel(g, p, W, xAf);
+
+  // musemarkør
+  if (mus && mus.x >= PL && mus.x <= PL + W) {
+    g.strokeStyle = 'rgba(29,36,48,.55)'; g.setLineDash([3, 3]); g.lineWidth = 1;
+    g.beginPath(); g.moveTo(mus.x + .5, yTop); g.lineTo(mus.x + .5, yBund); g.stroke(); g.setLineDash([]);
+    const f = fmin + (mus.x - PL) / W * (fmax - fmin);
+    const lbl = fmt(f, 1) + ' Hz';
+    g.font = 'bold 12px system-ui'; const tw = g.measureText(lbl).width + 10;
+    const bx = Math.min(Math.max(mus.x - tw / 2, PL), PL + W - tw);
+    g.fillStyle = '#1d2430'; g.fillRect(bx, yBund + 4, tw, 18);
+    g.fillStyle = '#fff'; g.textAlign = 'center'; g.fillText(lbl, bx + tw / 2, yBund + 17);
+  }
+}
+
+function tegnPanel(g, p, W, xAf) {
+  const s = slots[p.i], {top, H} = p, farve = FARVER[p.i];
+  if (!s) {
+    g.strokeStyle = '#d5dbe3'; g.strokeRect(PL + .5, top + .5, W, H);
+    g.fillStyle = '#5c6675'; g.font = '14px system-ui'; g.textAlign = 'center';
+    g.fillText(`Plads ${p.i + 1} er tom – åbn en fil eller vælg en eksempellyd`, PL + W / 2, top + H / 2); return;
+  }
+  g.strokeStyle = '#9aa5b3'; g.lineWidth = 1; g.strokeRect(PL + .5, top + .5, W, H);
+  // y-akse
+  g.fillStyle = '#5c6675'; g.font = '11px system-ui'; g.textAlign = 'right';
+  const yt = yMode === 'lin' ? (H > 160 ? [0, .2, .4, .6, .8, 1] : [0, .5, 1]) : (H > 160 ? [0, -20, -40, -60, -80] : [0, -40, -80]);
+  for (const v of yt) {
+    const A = yMode === 'lin' ? v : Math.pow(10, v / 20), y = yAf(A, top, H);
+    g.strokeStyle = '#eef1f5'; g.beginPath(); g.moveTo(PL, Math.round(y) + .5); g.lineTo(PL + W, Math.round(y) + .5); g.stroke();
+    g.fillText(yMode === 'lin' ? fmt(v, 1) : v + ' dB', PL - 6, y + 4);
+  }
+  if (!visAlle) {
+    g.save(); g.translate(14, top + H / 2); g.rotate(-Math.PI / 2); g.textAlign = 'center'; g.font = '13px system-ui'; g.fillStyle = '#1d2430';
+    g.fillText(yMode === 'lin' ? 'Rel. amplitude' : 'Niveau / dB', 0, 0); g.restore();
+  }
+  if (!s.spek) { g.fillStyle = '#5c6675'; g.textAlign = 'center'; g.fillText('Udsnittet er for kort', PL + W / 2, top + H / 2); return; }
+  g.save(); g.beginPath(); g.rect(PL, top, W, H); g.clip();
+  const k = kolonner(s, W), {A, df} = s.spek;
+  g.strokeStyle = farve; g.lineWidth = 1.3; g.beginPath();
+  if (k.tæt) {
+    for (let c = 0; c < W; c++) { const y = yAf(k.pts[c], top, H); c ? g.lineTo(PL + c + .5, y) : g.moveTo(PL + .5, y); }
+  } else {
+    const ka = Math.max(0, Math.floor(fmin / df)), kb = Math.min(A.length - 1, Math.ceil(fmax / df));
+    for (let i = ka; i <= kb; i++) { const x = xAf(i * df), y = yAf(A[i], top, H); i === ka ? g.moveTo(x, y) : g.lineTo(x, y); }
+  }
+  g.stroke();
+  // tærskel
+  const ty = yAf(s.taerskel, top, H), akt = p.i === aktiv;
+  g.strokeStyle = akt ? '#c62828' : 'rgba(198,40,40,.4)'; g.lineWidth = akt ? 1.6 : 1; g.setLineDash([6, 4]);
+  g.beginPath(); g.moveTo(PL, ty); g.lineTo(PL + W, ty); g.stroke(); g.setLineDash([]);
+  // toppe
+  const brugt = [];
+  const sorteret = [...s.toppe].sort((a, b) => b.A - a.A);
+  g.font = '11px system-ui'; g.textAlign = 'center';
+  for (const t of sorteret) {
+    const x = xAf(t.f), y = yAf(t.A, top, H), erF1 = s.f1 && Math.abs(t.f - s.f1) < 1e-6;
+    g.fillStyle = erF1 ? '#d9730d' : '#c62828';
+    g.beginPath(); g.arc(x, y, erF1 ? 4.5 : 3.2, 0, 2 * Math.PI); g.fill();
+    const lbl = (erF1 ? 'f₁ = ' : '') + fmt(t.f, 1);
+    const tw = g.measureText(lbl).width + 6;
+    if (brugt.some(b => Math.abs(b - x) < tw)) continue;
+    brugt.push(x);
+    const ly = Math.max(top + 11, y - 7);
+    g.fillStyle = 'rgba(255,255,255,.85)'; g.fillRect(x - tw / 2, ly - 10, tw, 13);
+    g.fillStyle = erF1 ? '#a35400' : '#1d2430'; g.fillText(lbl, x, ly);
+  }
+  g.restore();
+  if (visAlle) {
+    const nv = `${p.i + 1}: ${s.navn}`;
+    g.font = 'bold 12px system-ui'; g.textAlign = 'right';
+    const tw = g.measureText(nv).width;
+    g.fillStyle = 'rgba(255,255,255,.9)'; g.fillRect(PL + W - tw - 14, top + 3, tw + 10, 17);
+    g.fillStyle = farve; g.fillText(nv, PL + W - 9, top + 16);
+  }
+}
+
+function panelVed(y) {
+  const r = sc.getBoundingClientRect();
+  return paneler(r.width, r.height).find(p => y >= p.top - 5 && y <= p.top + p.H + 5);
+}
+function naermesteTop(s, x, W) {
+  let bedst = null, bd = 9;
+  for (const t of s.toppe) { const d = Math.abs(PL + (t.f - fmin) / (fmax - fmin) * W - x); if (d < bd) { bd = d; bedst = t; } }
+  return bedst;
+}
+
+sc.addEventListener('pointermove', e => {
+  const r = sc.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, W = r.width - PL - PR;
+  mus = {x, y};
+  const p = panelVed(y);
+  if (tTraek && slots[aktiv]) {
+    const pa = paneler(r.width, r.height).find(q => q.i === aktiv);
+    slots[aktiv].taerskel = AAfY(Math.max(pa.top, Math.min(pa.top + pa.H, y)), pa.top, pa.H);
+    taerskelAendret(); return;
+  }
+  if (p && slots[p.i] && slots[p.i].spek) {
+    const s = slots[p.i];
+    const naer = p.i === aktiv && Math.abs(y - yAf(s.taerskel, p.top, p.H)) < 6;
+    sc.style.cursor = naer ? 'ns-resize' : (naermesteTop(s, x, W) ? 'pointer' : 'crosshair');
+  }
+  readout(); tegnSpek();
+});
+sc.addEventListener('pointerleave', () => { if (!tTraek) { mus = null; readout(); tegnSpek(); } });
+sc.addEventListener('pointerdown', e => {
+  const r = sc.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, W = r.width - PL - PR;
+  const p = panelVed(y); if (!p) return;
+  mus = {x, y};
+  if (p.i !== aktiv) { aktiv = p.i; opdaterAlt(); return; }
+  const s = slots[aktiv]; if (!s || !s.spek) return;
+  if (Math.abs(y - yAf(s.taerskel, p.top, p.H)) < 6) { tTraek = true; sc.setPointerCapture(e.pointerId); return; }
+  const t = naermesteTop(s, x, W);
+  if (t) { s.f1 = t.f; tegnToppe(); tegnSpek(); readout(); }
+});
+sc.addEventListener('pointerup', () => { tTraek = false; });
+
+function readout() {
+  const el = $('readout');
+  const r = sc.getBoundingClientRect(), W = r.width - PL - PR;
+  if (!mus || mus.x < PL || mus.x > PL + W) { el.innerHTML = '&nbsp;'; return; }
+  const f = fmin + (mus.x - PL) / W * (fmax - fmin);
+  const p = panelVed(mus.y) || paneler(r.width, r.height).find(q => q.i === aktiv);
+  const s = p && slots[p.i];
+  let t = `Markør: <b>f = ${fmt(f, 1)} Hz</b>`;
+  if (s && s.spek) {
+    const k = Math.round(f / s.spek.df), A = s.spek.A[k] || 0;
+    t += yMode === 'lin' ? ` · A = ${fmt(A, 3)}` : ` · ${fmt(20 * Math.log10(Math.max(A, 1e-6)), 1)} dB`;
+    const top = naermesteTop(s, mus.x, W);
+    if (top) {
+      t += ` &nbsp;|&nbsp; Top: <b>${fmt(top.f, 1)} Hz</b>, A = ${fmt(top.A, 3)}`;
+      if (s.f1) t += `, f/f₁ = ${fmt(top.f / s.f1, 2)}`;
+    }
+    if (visAlle) t = `<span style="color:${FARVER[p.i]}">■</span> ${p.i + 1}: ` + t;
+  }
+  el.innerHTML = t;
+}
+
+// ---------- Tærskel ----------
+function saetSlider() {
+  const s = slots[aktiv];
+  const v = s ? s.taerskel : 0.2;
+  const u = yMode === 'lin' ? v / 1.08 : (Math.max(DBMIN, 20 * Math.log10(Math.max(v, 1e-6))) - DBMIN) / (2 - DBMIN);
+  $('taerskel').value = Math.round(Math.min(1, u) * 1000);
+  $('tval').textContent = s ? (yMode === 'lin' ? fmt(v, 2) : fmt(20 * Math.log10(Math.max(v, 1e-6)), 0) + ' dB') : '';
+  $('taerskel').disabled = !s;
+}
+function taerskelAendret() {
+  const s = slots[aktiv]; if (!s) return;
+  findToppe(s);
+  saetSlider(); tegnSpek(); tegnToppe(); readout();
+}
+$('taerskel').oninput = () => {
+  const s = slots[aktiv]; if (!s) return;
+  const u = $('taerskel').value / 1000;
+  s.taerskel = yMode === 'lin' ? u * 1.08 : Math.pow(10, (DBMIN + u * (2 - DBMIN)) / 20);
+  s.taerskel = Math.min(1, s.taerskel);
+  taerskelAendret();
+};
+
+// ---------- Topptabel ----------
+function harmInfo(f, f1) {
+  if (!f1) return {r: NaN, n: NaN, afv: NaN};
+  const r = f / f1, n = Math.max(1, Math.round(r));
+  return {r, n, afv: (f - n * f1) / (n * f1) * 100};
+}
+function tegnToppe() {
+  const s = slots[aktiv], el = $('toppe');
+  $('f1').value = s && s.f1 ? s.f1.toFixed(1) : '';
+  $('minafst').value = s ? (s.minAfst ?? autoAfst(s)) : '';
+  $('autoafst').disabled = !s || s.minAfst == null;
+  if (!s || !s.spek) { el.innerHTML = '<div class="tom-tekst">Ingen data</div>'; $('toppeinfo').textContent = ''; return; }
+  $('toppeinfo').textContent = `${s.toppe.length} toppe i området ${fmt(fmin, 0)}–${fmt(fmax, 0)} Hz` + (s.toppe.length > 40 ? ' – hæv tærsklen for at få færre' : '');
+  let h = '<table><tr><th>f₁</th><th>Nr.</th><th>Frekvens f / Hz</th><th>Rel. amplitude</th><th>f / f₁</th><th>Nærmeste n</th><th>Afvigelse fra n·f₁</th></tr>';
+  s.toppe.forEach((t, j) => {
+    const {r, n, afv} = harmInfo(t.f, s.f1), erF1 = s.f1 && Math.abs(t.f - s.f1) < 1e-6;
+    h += `<tr data-j="${j}" class="${erF1 ? 'f1' : ''}"><td><input type="radio" name="f1" ${erF1 ? 'checked' : ''}></td><td>${j + 1}</td><td>${fmt(t.f, 1)}</td><td>${fmt(t.A, 3)}</td>` +
+      `<td>${fmt(r, 2)}</td><td>${Number.isFinite(n) ? n : '–'}</td><td class="${Math.abs(afv) > 3 ? 'afv-stor' : ''}">${Number.isFinite(afv) ? fmt(afv, 1) + ' %' : '–'}</td></tr>`;
+  });
+  el.innerHTML = h + '</table>';
+  el.querySelectorAll('tr[data-j]').forEach(tr => tr.onclick = () => { s.f1 = s.toppe[+tr.dataset.j].f; tegnToppe(); tegnSpek(); });
+}
+$('f1').onchange = () => { const s = slots[aktiv]; if (!s) return; const v = parseFloat($('f1').value.replace(',', '.')); s.f1 = v > 0 ? v : null; if (!s.f1) findToppe(s); tegnToppe(); tegnSpek(); };
+$('minafst').onchange = () => { const s = slots[aktiv]; if (!s) return; const v = parseFloat($('minafst').value); s.minAfst = v >= 0 ? v : null; taerskelAendret(); };
+$('autoafst').onclick = () => { const s = slots[aktiv]; if (!s) return; s.minAfst = null; taerskelAendret(); };
+
+// ---------- Frekvensområde og visning ----------
+function saetOmraade(a, b) {
+  if (!(b > a)) return;
+  fmin = Math.max(0, a); fmax = b;
+  $('fmin').value = fmin; $('fmax').value = fmax;
+  for (const s of slots) if (s) { s.kolCache = null; findToppe(s); }
+  tegnSpek(); tegnToppe();
+}
+$('fmin').onchange = $('fmax').onchange = () => saetOmraade(parseFloat($('fmin').value) || 0, parseFloat($('fmax').value) || 1000);
+document.querySelectorAll('#presets button').forEach(b => b.onclick = () => saetOmraade(0, +b.dataset.f));
+function segOn(a, b, aOn) { $(a).classList.toggle('on', aOn); $(b).classList.toggle('on', !aOn); }
+$('ylin').onclick = () => { yMode = 'lin'; segOn('ylin', 'ydb', true); saetSlider(); tegnSpek(); };
+$('ydb').onclick = () => { yMode = 'db'; segOn('ylin', 'ydb', false); saetSlider(); tegnSpek(); };
+$('vEn').onclick = () => { visAlle = false; segOn('vEn', 'vAlle', true); tegnSpek(); };
+$('vAlle').onclick = () => { visAlle = true; segOn('vEn', 'vAlle', false); tegnSpek(); };
+$('vindue').onchange = () => { for (const s of slots) if (s) beregnSpektrum(s); tegnSpek(); tegnToppe(); };
+
+// ---------- Filer ----------
+$('fil').onchange = e => { indlaesFiler([...e.target.files]); e.target.value = ''; };
+DEMOS.forEach(d => { const o = document.createElement('option'); o.value = d.id; o.textContent = d.navn; $('demo').appendChild(o); });
+$('demo').onchange = e => { indlaesDemo(e.target.value); e.target.value = ''; };
+$('fjern').onclick = () => { slots[aktiv] = null; const i = slots.findIndex(Boolean); if (i >= 0) aktiv = i; opdaterAlt(); };
+let dragN = 0;
+window.addEventListener('dragenter', e => { e.preventDefault(); dragN++; $('drop').style.display = 'flex'; });
+window.addEventListener('dragleave', () => { if (--dragN <= 0) { dragN = 0; $('drop').style.display = 'none'; } });
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('drop', e => { e.preventDefault(); dragN = 0; $('drop').style.display = 'none'; indlaesFiler([...e.dataTransfer.files]); });
+window.addEventListener('resize', () => { tegnBolge(); tegnSpek(); });
+
+// ---------- Eksport: fælles ----------
+function loadede() { return slots.map((s, i) => s && s.spek ? {s, i} : null).filter(Boolean); }
+function downloadBlob(blob, navn) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = navn;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function filnavn() {
+  const d = new Date(), p = n => String(n).padStart(2, '0');
+  return `lydanalyse_${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+// Spektrum i området, ligeligt fordelt og højst maxPts punkter (max pr. gruppe bevarer toppene)
+function spektrumUdsnit(s, maxPts) {
+  const {A, df} = s.spek;
+  const ka = Math.max(0, Math.floor(fmin / df)), kb = Math.min(A.length - 1, Math.ceil(fmax / df));
+  const n = kb - ka + 1, gr = Math.max(1, Math.ceil(n / maxPts)), ud = [];
+  for (let k = ka; k <= kb; k += gr) { let m = 0; for (let j = k; j < Math.min(k + gr, kb + 1); j++) if (A[j] > m) m = A[j]; ud.push(m); }
+  return {f0: (ka + (gr - 1) / 2) * df, df: gr * df, A: ud};
+}
+
+// ---------- Excel (.xlsx) – skrevet uden eksterne biblioteker ----------
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(u8) { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zip(filer) {
+  const enc = new TextEncoder(), dele = [], central = []; let off = 0;
+  for (const [navn, tekst] of filer) {
+    const nb = enc.encode(navn), data = enc.encode(tekst), crc = crc32(data);
+    const h = new DataView(new ArrayBuffer(30));
+    h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint16(8, 0, true);
+    h.setUint16(10, 0, true); h.setUint16(12, 0x21, true); h.setUint32(14, crc, true);
+    h.setUint32(18, data.length, true); h.setUint32(22, data.length, true); h.setUint16(26, nb.length, true); h.setUint16(28, 0, true);
+    dele.push(new Uint8Array(h.buffer), nb, data);
+    const c = new DataView(new ArrayBuffer(46));
+    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true);
+    c.setUint16(10, 0, true); c.setUint16(12, 0, true); c.setUint16(14, 0x21, true); c.setUint32(16, crc, true);
+    c.setUint32(20, data.length, true); c.setUint32(24, data.length, true); c.setUint16(28, nb.length, true);
+    c.setUint32(42, off, true);
+    central.push(new Uint8Array(c.buffer), nb);
+    off += 30 + nb.length + data.length;
+  }
+  const csize = central.reduce((a, b) => a + b.length, 0);
+  const e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0, 0x06054b50, true); e.setUint16(8, filer.length, true); e.setUint16(10, filer.length, true);
+  e.setUint32(12, csize, true); e.setUint32(16, off, true);
+  return new Blob([...dele, ...central, new Uint8Array(e.buffer)], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+const xesc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function kol(i) { let s = ''; i++; while (i > 0) { const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; }
+function arkXml(ark) {
+  let x = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">';
+  x += '<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>';
+  x += '<cols>' + ark.bredder.map((b, i) => `<col min="${i + 1}" max="${i + 1}" width="${b}" customWidth="1"/>`).join('') + '</cols><sheetData>';
+  ark.raekker.forEach((r, ri) => {
+    x += `<row r="${ri + 1}">`;
+    r.forEach((v, ci) => {
+      if (v == null || v === '' || (typeof v === 'number' && !Number.isFinite(v))) return;
+      const ref = kol(ci) + (ri + 1), st = ri === 0 || ark.fed?.includes(ri) ? ' s="1"' : '';
+      x += typeof v === 'number' ? `<c r="${ref}"${st}><v>${v}</v></c>` : `<c r="${ref}" t="inlineStr"${st}><is><t xml:space="preserve">${xesc(v)}</t></is></c>`;
+    });
+    x += '</row>';
+  });
+  return x + '</sheetData></worksheet>';
+}
+function arknavn(t, brugt) {
+  let n = t.replace(/[\[\]:*?\/\\]/g, '').slice(0, 31) || 'Ark', b = n, i = 2;
+  while (brugt.has(n.toLowerCase())) n = b.slice(0, 28) + ' ' + i++;
+  brugt.add(n.toLowerCase()); return n;
+}
+function lavXlsx(ark) {
+  const brugt = new Set(); ark.forEach(a => a.navn = arknavn(a.navn, brugt));
+  const filer = [
+    ['[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+      ark.map((a, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('') + '</Types>'],
+    ['_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+    ['xl/workbook.xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>' +
+      ark.map((a, i) => `<sheet name="${xesc(a.navn)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('') + '</sheets></workbook>'],
+    ['xl/_rels/workbook.xml.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      ark.map((a, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('') +
+      `<Relationship Id="rId${ark.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
+    ['xl/styles.xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'],
+    ...ark.map((a, i) => [`xl/worksheets/sheet${i + 1}.xml`, arkXml(a)])
+  ];
+  return zip(filer);
+}
+const rund = (x, d) => Number.isFinite(x) ? Math.round(x * 10 ** d) / 10 ** d : null;
+
+$('xlsx').onclick = () => {
+  const L = loadede();
+  if (!L.length) { besked('Der er ingen lyd at eksportere.'); return; }
+  const vindue = $('vindue').value === 'hann' ? 'Hann' : 'Intet (rektangulært)';
+  const info = {navn: 'Info', bredder: [30, 16, 16, 16, 16], fed: [], raekker: [
+    ['Lydanalyse – eksport', ''], ['Dato', new Date().toLocaleString('da-DK')],
+    ['Frekvensområde fra (Hz)', fmin], ['Frekvensområde til (Hz)', fmax], ['Vindue', vindue], ['Amplitude', 'Relativ: største top over 20 Hz = 1'], []]};
+  info.fed.push(info.raekker.length);
+  info.raekker.push(['Lyd', 'Samplingsfrekvens (Hz)', 'Udsnit start (s)', 'Udsnit slut (s)', 'Varighed T (s)', 'Opløsning 1/T (Hz)', 'Tærskel', 'Grundtone f1 (Hz)', 'Antal toppe']);
+  for (const {s, i} of L) info.raekker.push([`${i + 1}: ${s.navn}`, s.fs, rund(s.t0, 3), rund(s.t1, 3), rund(s.t1 - s.t0, 3), rund(1 / (s.t1 - s.t0), 3), rund(s.taerskel, 3), rund(s.f1, 2), s.toppe.length]);
+  info.bredder = [30, 22, 16, 16, 16, 18, 10, 18, 12];
+  const ark = [info];
+  for (const {s, i} of L) {
+    const r = [['Nr.', 'Frekvens f (Hz)', 'Rel. amplitude', 'f/f1', 'Nærmeste harmoniske n', 'Afvigelse fra n·f1 (%)']];
+    s.toppe.forEach((t, j) => { const h = harmInfo(t.f, s.f1); r.push([j + 1, rund(t.f, 2), rund(t.A, 4), rund(h.r, 3), h.n, rund(h.afv, 2)]); });
+    ark.push({navn: `Toppe ${i + 1} ${s.navn}`, bredder: [6, 16, 15, 9, 22, 22], raekker: r});
+  }
+  if ($('medspek').checked) {
+    for (const {s, i} of L) {
+      const sp = spektrumUdsnit(s, 20000), r = [['Frekvens f (Hz)', 'Rel. amplitude']];
+      sp.A.forEach((a, j) => r.push([rund(sp.f0 + j * sp.df, 3), rund(a, 5)]));
+      ark.push({navn: `Spektrum ${i + 1} ${s.navn}`, bredder: [16, 15], raekker: r});
+    }
+  }
+  downloadBlob(lavXlsx(ark), filnavn() + '.xlsx');
+};
+
+// ---------- Python (.py) ----------
+function pyStr(t) { return JSON.stringify(String(t)); }
+function pyListe(a, d) { let s = '', l = 0; a.forEach((v, j) => { const t = (j ? ', ' : '') + (Number.isFinite(v) ? +v.toFixed(d) : 'float("nan")'); if (l + t.length > 100) { s += ',\n    '; l = 0; s += t.replace(/^, /, ''); l += t.length; } else { s += t; l += t.length; } }); return '[' + s + ']'; }
+
+$('py').onclick = () => {
+  const L = loadede();
+  if (!L.length) { besked('Der er ingen lyd at eksportere.'); return; }
+  let data = '';
+  for (const {s, i} of L) {
+    const sp = spektrumUdsnit(s, 8000);
+    data += `    dict(
+        navn=${pyStr(`${i + 1}: ${s.navn}`)},
+        fs=${s.fs}, start=${s.t0.toFixed(3)}, slut=${s.t1.toFixed(3)},
+        taerskel=${s.taerskel.toFixed(4)},
+        f1=${s.f1 ? s.f1.toFixed(3) : 'None'},
+        f_start=${sp.f0.toFixed(5)}, f_trin=${sp.df.toFixed(6)},
+        A=${pyListe(sp.A, 5)},
+        toppe_f=${pyListe(s.toppe.map(t => t.f), 3)},
+        toppe_A=${pyListe(s.toppe.map(t => t.A), 4)},
+    ),
+`;
+  }
+  const py = `# -*- coding: utf-8 -*-
+"""
+Lydanalyse – eksporteret fra lydanalyse.html ${new Date().toLocaleString('da-DK')}
+
+Kør filen (fx i VS Code / VSCodium, Spyder eller Jupyter). Den laver:
+  1) Spektre for alle lyde under hinanden med SAMME frekvensakse
+  2) Et søjlediagram over overtonemønsteret (amplitude for n = 1, 2, 3, ...)
+  3) En tabel over toppene i terminalen
+
+Du kan ændre FMIN og FMAX herunder og køre filen igen.
+Kræver: numpy og matplotlib
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import AutoMinorLocator
+
+FMIN, FMAX = ${fmin}, ${fmax}      # frekvensområde i Hz – ret selv
+MAX_HARMONISKE = 10                 # antal overtoner i søjlediagrammet
+VIS_TAERSKEL = True                 # tegn tærsklen fra programmet
+
+# Spektre fra programmet (relativ amplitude: største top over 20 Hz = 1)
+LYDE = [
+${data}]
+
+FARVER = ["tab:blue", "tab:orange", "tab:green", "tab:purple"]
+
+for lyd in LYDE:
+    lyd["f"] = lyd["f_start"] + lyd["f_trin"] * np.arange(len(lyd["A"]))
+    lyd["A"] = np.array(lyd["A"])
+    lyd["toppe_f"] = np.array(lyd["toppe_f"])
+    lyd["toppe_A"] = np.array(lyd["toppe_A"])
+
+
+# ---------- 1) Spektre under hinanden, fælles x-akse ----------
+n = len(LYDE)
+fig, akser = plt.subplots(n, 1, figsize=(11, 2.8 * n + 0.8), sharex=True, squeeze=False)
+for ax, lyd, farve in zip(akser[:, 0], LYDE, FARVER):
+    m = (lyd["f"] >= FMIN) & (lyd["f"] <= FMAX)
+    ax.plot(lyd["f"][m], lyd["A"][m], color=farve, lw=1)
+    if VIS_TAERSKEL:
+        ax.axhline(lyd["taerskel"], color="red", ls="--", lw=0.8)
+    t = (lyd["toppe_f"] >= FMIN) & (lyd["toppe_f"] <= FMAX)
+    ax.plot(lyd["toppe_f"][t], lyd["toppe_A"][t], "o", color="red", ms=4)
+    for f, a in zip(lyd["toppe_f"][t], lyd["toppe_A"][t]):
+        ax.annotate(f"{f:.0f}", (f, a), textcoords="offset points", xytext=(0, 4),
+                    ha="center", fontsize=8)
+    ax.set_ylim(0, 1.15)
+    ax.set_ylabel("Rel. amplitude")
+    ax.set_title(lyd["navn"] + (f"   (f1 = {lyd['f1']:.1f} Hz)" if lyd["f1"] else ""),
+                 loc="left", fontsize=10)
+    ax.grid(True, which="major", alpha=0.4)
+    ax.grid(True, which="minor", alpha=0.15)
+    ax.xaxis.set_minor_locator(AutoMinorLocator())
+    ax.tick_params(labelbottom=True)
+akser[-1, 0].set_xlim(FMIN, FMAX)
+akser[-1, 0].set_xlabel("Frekvens  f / Hz")
+fig.suptitle("Frekvensspektre", fontweight="bold")
+fig.tight_layout()
+fig.savefig("lydanalyse_spektre.png", dpi=150)
+
+
+# ---------- 2) Overtonemønster ----------
+def overtoner(lyd, nmax=MAX_HARMONISKE, tolerance=0.03):
+    """Højeste top tæt på n*f1 for n = 1..nmax (0 hvis ingen top over tærsklen)."""
+    amp = np.zeros(nmax)
+    if not lyd["f1"]:
+        return amp
+    for k in range(1, nmax + 1):
+        naer = np.abs(lyd["toppe_f"] - k * lyd["f1"]) < tolerance * k * lyd["f1"]
+        if naer.any():
+            amp[k - 1] = lyd["toppe_A"][naer].max()
+    return amp
+
+fig2, ax2 = plt.subplots(figsize=(11, 4))
+bredde = 0.8 / n
+nr = np.arange(1, MAX_HARMONISKE + 1)
+for j, (lyd, farve) in enumerate(zip(LYDE, FARVER)):
+    ax2.bar(nr + (j - (n - 1) / 2) * bredde, overtoner(lyd), bredde, color=farve, label=lyd["navn"])
+ax2.set_xticks(nr)
+ax2.set_xlabel("Harmonisk nummer n   (f = n · f1)")
+ax2.set_ylabel("Rel. amplitude")
+ax2.set_title("Overtonemønster (klangfarve)", fontweight="bold")
+ax2.grid(True, axis="y", alpha=0.4)
+ax2.legend()
+fig2.tight_layout()
+fig2.savefig("lydanalyse_overtoner.png", dpi=150)
+
+
+# ---------- 3) Tabel ----------
+for lyd in LYDE:
+    print()
+    print(lyd["navn"], f"   udsnit {lyd['start']:.2f}–{lyd['slut']:.2f} s,",
+          f"opløsning 1/T = {1 / (lyd['slut'] - lyd['start']):.2f} Hz")
+    print(f"{'nr':>3} {'f / Hz':>10} {'A':>7} {'f/f1':>7} {'n':>4} {'afv. %':>8}")
+    for i, (f, a) in enumerate(zip(lyd["toppe_f"], lyd["toppe_A"]), 1):
+        if lyd["f1"]:
+            r = f / lyd["f1"]
+            k = max(1, round(r))
+            print(f"{i:3d} {f:10.1f} {a:7.3f} {r:7.2f} {k:4d} {100 * (f - k * lyd['f1']) / (k * lyd['f1']):8.1f}")
+        else:
+            print(f"{i:3d} {f:10.1f} {a:7.3f}")
+
+plt.show()
+
+
+# ---------- Ekstra: lav selv FFT direkte fra en WAV-fil ----------
+# Fjern # i de sidste linjer og ret filnavn/tider. Kræver også scipy.
+def fft_fra_wav(filnavn, start=None, slut=None):
+    from scipy.io import wavfile
+    fs, x = wavfile.read(filnavn)
+    x = x.astype(float)
+    if x.ndim == 2:                       # stereo -> mono
+        x = x.mean(axis=1)
+    i0 = int((start or 0) * fs)
+    i1 = int(slut * fs) if slut else len(x)
+    x = x[i0:i1] - x[i0:i1].mean()
+    w = np.hanning(len(x))
+    A = np.abs(np.fft.rfft(x * w, n=4 * len(x))) * 2 / w.sum()
+    f = np.fft.rfftfreq(4 * len(x), 1 / fs)
+    m = f > 20
+    return f, A / A[m].max()
+
+# f, A = fft_fra_wav("min_optagelse.wav", start=0.5, slut=2.5)
+# plt.figure(figsize=(11, 3)); plt.plot(f, A); plt.xlim(FMIN, FMAX)
+# plt.xlabel("Frekvens  f / Hz"); plt.ylabel("Rel. amplitude"); plt.grid(); plt.show()
+`;
+  downloadBlob(new Blob([py], {type: 'text/x-python'}), filnavn() + '.py');
+};
+
+opdaterAlt();
+</script>
+</body>
+</html>

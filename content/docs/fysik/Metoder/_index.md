@@ -25,11 +25,11 @@ Her samles de faglige metoder, vi bruger i fysik – kort forklaret, med eksempl
 
 | Metode | Kort fortalt | Bruges fx i |
 |---|---|---|
-| [Videoanalyse]({{< relref "/docs/fysik/Metoder/videoanalyse" >}}) | Position frame for frame ud fra en video → $(t, x, y)$-data | [Kasteparabel]({{< relref "/docs/fysik/A-Eksp/kasteparabel" >}}) |
+| [Videoanalyse]({{< relref "/docs/fysik/Metoder/videoanalyse" >}}) | Position frame for frame ud fra en video → $(t, x, y)$-data | [Kasteparabel]({{< relref "/docs/fysik/A-Eksp/kasteparabel" >}}), [Tennis og badminton]({{< relref "/docs/fysik/emner-b/mekanik/tennis_badminton" >}}) |
 | Sensorer og dataopsamling | Kraft, position, temperatur eller spænding logget automatisk med LoggerPro | [Hop på kraftplatform]({{< relref "/docs/fysik/A-Eksp/kraftplatform-hop" >}}), [Hookes lov]({{< relref "/docs/fysik/A-Eksp/Hookes-lov" >}}) |
 | GM-rør og tællinger | Radioaktiv stråling målt som tælletal – med baggrund og tællestatistik | [Afstandskvadratloven]({{< relref "/docs/fysik/C-Eksp/afstandskvadratloven" >}}), [Halveringstid]({{< relref "/docs/fysik/C-Eksp/halveringstid" >}}), [Halveringstykkelse]({{< relref "/docs/fysik/C-Eksp/halveringstykkelse" >}}) |
 | Spektroskopi med gitter | Bølgelængder bestemt ud fra afbøjningsvinkler | [Gitterligningen]({{< relref "/docs/fysik/C-Eksp/gitterligningen" >}}) |
-| Lydoptagelse og frekvensanalyse (FFT) | Grundtone og overtoner fundet i en lydoptagelse | [Klang]({{< relref "/docs/fysik/C-Eksp/klang" >}}), [Lydens hastighed]({{< relref "/docs/fysik/C-Eksp/lydens-hastighed" >}}) |
+| [Lydanalyse (FFT)]({{< relref "/docs/fysik/Metoder/lydanalyse" >}}) | Grundtone og overtoner fundet i en lydoptagelse | [Klang]({{< relref "/docs/fysik/C-Eksp/klang" >}}), [Lydens hastighed]({{< relref "/docs/fysik/C-Eksp/lydens-hastighed" >}}) |
 | Kalorimetri | Energi bestemt ud fra temperaturændringer | [Varmekapacitet]({{< relref "/docs/fysik/C-Eksp/varmekapacitet" >}}) |
 
 ## Databehandling – sådan får du mening i målingerne

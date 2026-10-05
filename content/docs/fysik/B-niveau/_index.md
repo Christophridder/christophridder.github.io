@@ -17,10 +17,10 @@ Prøven har en **eksperimentel del (ca. 90 min.)** og en **individuel mundtlig d
 | 0 | ~5 % | Repetition fra Fysik C | — | — |
 | 1 | ~15 % | Elektriske kredsløb og sensorer | Elektriske kredsløb | Ohms lov · Ohms 2. lov · Karakteristikker · Resistivitet · Arduino |
 | 2 | ~12 % | Kinematik i 1D | Mekanik | Faldende kageforme · Moon Jump · Luftpudebane (konst. v og a) |
-| 3 | ~15 % | [Kræfter og Newtons love]({{< relref "/docs/fysik/emner/kraefter" >}}) | Mekanik | Gnidning · Statisk gnidning · Atwoods faldmaskine · Smartpulley |
+| 3 | ~15 % | [Kræfter og Newtons love]({{< relref "/docs/fysik/emner-b/kraefter" >}}) | Mekanik | Gnidning · Statisk gnidning · Atwoods faldmaskine · Smartpulley |
 | 4 | ~8 % | Energi i tyngdefeltet | Energi | Energibevarelse i tyngdefelt |
 | 5 | ~10 % | Tryk, opdrift og gasser + indre energi | Mekanik / Energi | Archimedes' lov · Boyle-Mariotte · Gay-Lussac |
-| 6 | ~15 % | [Atomfysik og radioaktivitet]({{< relref "/docs/fysik/emner/atomfysik" >}}) | Kvantefysik | Halveringstid · Halveringstykkelse · Afstandskvadratloven *(fra C)* |
+| 6 | ~15 % | [Atomfysik og radioaktivitet]({{< relref "/docs/fysik/emner-b/atomfysik" >}}) | Kvantefysik | Halveringstid · Halveringstykkelse · Afstandskvadratloven *(fra C)* |
 | 7 | ~5 % | Masse-energi og Q-værdi, grundstoffernes dannelse | Energi / Verdensbilledet | — |
 | 8 | ~5 % | Bølger: interferens | Bølger | Gitterligningen *(fra C)* |
 | 9 | ~3 % | Universets udvidelse og rødforskydning | Verdensbilledet | — |
