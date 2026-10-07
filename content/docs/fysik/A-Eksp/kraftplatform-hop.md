@@ -15,11 +15,11 @@ pdf_ny_fane: true
 
 ## Formål
 
-Bestemme din **afsætshastighed** $v_0$, dvs. farten i det øjeblik du forlader pladen, ved et lodret hop ud fra **kraftens impuls**, dvs. arealet under kraft–tid-grafen, og sammenligne med en uafhængig måling fx videoanalyse.
+Bestemme din **afsætshastighed** $v_0$, dvs. farten i det øjeblik du forlader pladen, ved et lodret hop ud fra **kraftens impuls**, dvs. arealet under kraft–tid-grafen, og sammenligne med en uafhængig måling fx [videoanalyse](/videoanalyse.html).
 
 ## Teori i korte træk
 
-Newtons 2. lov med **bevægelsesmængde** $p = m \cdot v$:
+Newtons 2. lov kan formuleres med **bevægelsesmængde** $p = m \cdot v$:
 
 $$F_{\text{res}} = \frac{dp}{dt}$$
 
@@ -66,7 +66,7 @@ $$m \cdot v_0 = \int_{t_1}^{t_2} F_n \, dt \;-\; F_t \cdot (t_2 - t_1)$$
 
 ### 2. Hoppet
 
-1. Stå helt stille midt på pladen med hænderne i siden (så armene ikke svinger med).
+1. Stå helt stille midt på pladen med hænderne i siden (så armene ikke svinger med, det er vigtigt, da armene ellers laver en bevægelse uafhænig af kroppen).
 2. Start målingen, og **bliv stående helt stille i mindst 2 sekunder**. Det er her, du senere finder din vægt $F_t$.
 3. Gå ned i benene, og sæt så kraftigt af lodret op (modbevægelseshop).
 4. **Land ved siden af pladen** på måtten. Så registreres kun afsætsfasen.
@@ -105,6 +105,8 @@ Alt kan aflæses direkte i LoggerPro. Du skal bruge **fem tal**, og så er reste
 
 Integralet i LoggerPro er hele det **lyserøde areal** mellem kraftkurven og 0-aksen, fra $t_1$ til $t_2$. Boksen $F_t \cdot (t_2 - t_1)$ er arealet under den vandrette linje i højden $F_t$. Forskellen mellem de to er den **nettokraft**, der ændrer din bevægelsesmængde: det, der ligger over linjen, tæller positivt, og det, der ligger under, tæller negativt.
 
+VIGTIGT: Det er ekstremt vigtigt at $t_1$ og $t_2$ er aflæst præcist som start og slut på dit integral. (jeg har prøvet at sjuske og det går grueligt galt)
+
 ### Beregn
 
 1. **Massen:** $m = \dfrac{F_t}{g}$ med $g = 9{,}82$ N/kg
@@ -116,7 +118,7 @@ $$v_0 = \frac{\Delta p}{m}$$
 5. **Hævning af tyngdepunktet:**
 $$h = \frac{v_0^2}{2 \cdot g}$$
 
-**Eksempel på udregning (tallene er ikke dine egne):** Hvis $F_t = 853$ N, $t_2 - t_1 = 1{,}21$ s og LoggerPro giver $\int F_n \, dt = 1249$ N·s, så er
+**Eksempel på udregning** (jeg har prøvet med nogle tal for at se om det kan passe.): Hvis $F_t = 853$ N, $t_2 - t_1 = 1{,}21$ s og LoggerPro giver $\int F_n \, dt = 1249$ N·s, så er
 
 $$m = \frac{853\ \text{N}}{9{,}82\ \text{N/kg}} = 86{,}9\ \text{kg} \qquad \Delta p = 1249\ \text{N·s} - 853\ \text{N} \cdot 1{,}21\ \text{s} = 217\ \text{N·s}$$
 
