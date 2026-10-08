@@ -532,6 +532,18 @@ $d = \dfrac{3000}{70}\ \text{Mpc} = 43\ \text{Mpc}$.
 
 ## A-niveau
 
+### Areal og enhed
+
+Arealet under en graf har enheden **y-enhed gange x-enhed**. Det er sådan, du finder enheden på en integreret størrelse:
+
+| y-akse | x-akse | Integral | Arealet er | Enhed |
+|---|---|---|---|---|
+| $F$ (N) | $t$ (s) | $\Delta p = \int F\,\mathrm{d}t$ | kraftens impuls $\Delta p$ | N·s (= kg·m/s) |
+| $v$ (m/s) | $t$ (s) | $s = \int v\,\mathrm{d}t$ | strækning $s$ | m/s · s = m |
+| $F$ (N) | $s$ eller $x$ (m) | $A = \int F\,\mathrm{d}s$ | arbejde $A$ | N·m = J |
+| $P$ (W) | $t$ (s) | $E = \int P\,\mathrm{d}t$ | energi $E$ | W·s = J |
+| $I$ (A) | $t$ (s) | $Q = \int I\,\mathrm{d}t$ | ladning $Q$ | A·s = C |
+
 ### Kinematik i 2D og skråt kast
 
 | Størrelse | Formel | Bemærkning |
