@@ -190,6 +190,70 @@ d) Sammenlign med opgave 9, hvor fortynding gav forskydning mod venstre. Find en
 
 ---
 
+## Regn med ligevægtsloven
+
+Ligevægtsloven siger: Ved ligevægt er reaktionsbrøken lig med ligevægtskonstanten, $Y = K_c$. Husk enheden på $K_c$.
+
+### Opgave 13 – Samme reaktion, tre skemaer
+
+Opskriv ligevægtsloven for følgende ligevægte:
+
+a) $\ce{N2(g) + O2(g) <=> 2NO(g)}$
+
+b) $\ce{2N2(g) + 2O2(g) <=> 4NO(g)}$
+
+c) $\ce{2NO(g) <=> N2(g) + O2(g)}$
+
+Er der nogen sammenhæng mellem de tre ligevægtskonstanter?
+
+### Opgave 14 – Er systemet i ligevægt?
+
+Vi ser på ligevægten
+
+$$\ce{PCl5(g) <=> PCl3(g) + Cl2(g)} \qquad K_c = 0{,}042\ \text{M} \quad (250\ ^\circ\text{C})$$
+
+En blanding har følgende sammensætning:
+
+$[\ce{PCl5}] = 0{,}20\ \text{M}$ $\quad$ $[\ce{PCl3}] = 0{,}050\ \text{M}$ $\quad$ $[\ce{Cl2}] = 0{,}10\ \text{M}$
+
+Temperaturen er $250\ ^\circ\text{C}$. Er systemet i ligevægt? Hvis ikke: Hvilken vej sker der en nettoreaktion?
+
+### Opgave 15 – Hydrogeniodid spaltes
+
+Ved en bestemt temperatur gælder
+
+$$\ce{2HI(g) <=> H2(g) + I2(g)} \qquad K_c = 0{,}0184$$
+
+Ren $\ce{HI}$ kommes i en lukket beholder. Ved ligevægt er $[\ce{HI}] = 0{,}50\ \text{M}$.
+
+a) Forklar, hvorfor $[\ce{H2}] = [\ce{I2}]$.
+
+b) Beregn $[\ce{H2}]$ og $[\ce{I2}]$ ved ligevægt.
+
+c) Ved samme temperatur har $\ce{H2(g) + I2(g) <=> 2HI(g)}$ ligevægtskonstanten $54{,}4$. Passer det med opgave 13?
+
+### Opgave 16 – Jernthiocyanat i reagensglasset
+
+$$\ce{Fe^3+(aq) + SCN-(aq) <=> FeSCN^2+(aq)} \qquad K_c = 150\ \text{M}^{-1}$$
+
+(Samme $K_c$ som i opgave 10.) I et reagensglas er der ligevægt med $[\ce{Fe^3+}] = 0{,}0025\ \text{M}$ og $[\ce{SCN-}] = 0{,}0012\ \text{M}$.
+
+Beregn $[\ce{FeSCN^2+}]$.
+
+### Opgave 17 – Eddikesyre i vand
+
+$$\ce{CH3COOH(aq) <=> CH3COO-(aq) + H+(aq)} \qquad K_c = 1{,}8 \cdot 10^{-5}\ \text{M} \quad (25\ ^\circ\text{C})$$
+
+I en eddikesyreopløsning er $[\ce{CH3COOH}] = 0{,}10\ \text{M}$ ved ligevægt. Der er ingen andre kilder til ionerne.
+
+a) Forklar, hvorfor $[\ce{CH3COO-}] = [\ce{H+}]$.
+
+b) Beregn $[\ce{H+}]$.
+
+c) Hvor stor en brøkdel af eddikesyren er på ionform? Passer det med, at eddikesyre er en *svag* syre?
+
+---
+
 ## Hints
 
 ### Hint 1
@@ -227,6 +291,21 @@ Sæt $2[\ce{NOBr}]$, $2[\ce{NO}]$ og $2[\ce{Br2}]$ ind i brøken. Husk at kvadre
 
 ### Hint 12
 Alle tre koncentrationer bliver $\tfrac{1}{10}$ så store. To faktorer i tælleren, én i nævneren.
+
+### Hint 13
+Opskriv de tre brøker, og sammenlign: Hvad sker der med brøken, når alle koefficienter fordobles? Når skemaet vendes om?
+
+### Hint 14
+Udregn $Y = \dfrac{[\ce{PCl3}]\cdot[\ce{Cl2}]}{[\ce{PCl5}]}$, og sammenlign med $K_c$.
+
+### Hint 15
+Kald $[\ce{H2}] = [\ce{I2}] = x$. Så er $K_c = \dfrac{x^2}{(0{,}50\ \text{M})^2}$. Isolér $x$.
+
+### Hint 16
+Isolér $[\ce{FeSCN^2+}]$ i ligevægtsloven: gang over med nævneren.
+
+### Hint 17
+Kald $[\ce{H+}] = x$. Så er $K_c = \dfrac{x^2}{0{,}10\ \text{M}}$.
 
 ---
 
@@ -335,3 +414,39 @@ $$Y = \frac{\tfrac{1}{10}[\ce{CH3COO-}]\cdot\tfrac{1}{10}[\ce{H+}]}{\tfrac{1}{10
 c) $K > Y$ → mod **højre**. En større brøkdel af syren bliver til ioner. (Opløsningen bliver alligevel mindre sur, fordi alt er fortyndet 10 gange.)
 
 d) I opgave 9 er der 2 opløste partikler til venstre og 1 til højre → venstre. Her er der 1 til venstre og 2 til højre → højre. **Regel:** Fortynding forskyder ligevægten mod siden med **flest** opløste partikler – ligesom større volumen forskyder en gasligevægt mod siden med flest gasmolekyler.
+
+### Løsning 13
+a) $K_a = \dfrac{[\ce{NO}]^2}{[\ce{N2}]\cdot[\ce{O2}]}$ (uden enhed)
+
+b) $K_b = \dfrac{[\ce{NO}]^4}{[\ce{N2}]^2\cdot[\ce{O2}]^2}$ (uden enhed)
+
+c) $K_c = \dfrac{[\ce{N2}]\cdot[\ce{O2}]}{[\ce{NO}]^2}$ (uden enhed)
+
+Sammenhæng: $K_b = K_a^2$ (alle koefficienter er fordoblet) og $K_c = \dfrac{1}{K_a}$ (skemaet er vendt om). En ligevægtskonstant hører altså til et *bestemt* reaktionsskema.
+
+### Løsning 14
+$$Y = \frac{[\ce{PCl3}]\cdot[\ce{Cl2}]}{[\ce{PCl5}]} = \frac{0{,}050\ \text{M}\cdot 0{,}10\ \text{M}}{0{,}20\ \text{M}} = 0{,}025\ \text{M}$$
+$Y = 0{,}025\ \text{M} < K_c = 0{,}042\ \text{M}$. Systemet er **ikke** i ligevægt. Reaktionsbrøken er for lille, så der sker en nettoreaktion mod **højre**: noget $\ce{PCl5}$ spaltes til $\ce{PCl3}$ og $\ce{Cl2}$.
+
+### Løsning 15
+a) Ifølge skemaet dannes $\ce{H2}$ og $\ce{I2}$ i forholdet 1 : 1, og der var ingen af dem fra start.
+
+b)
+$$K_c = \frac{[\ce{H2}]\cdot[\ce{I2}]}{[\ce{HI}]^2} = \frac{x^2}{(0{,}50\ \text{M})^2} \;\Rightarrow\; x = \sqrt{0{,}0184\cdot(0{,}50\ \text{M})^2} = 0{,}068\ \text{M}$$
+$[\ce{H2}] = [\ce{I2}] = 0{,}068\ \text{M}$.
+
+Tjek: $\dfrac{(0{,}068\ \text{M})^2}{(0{,}50\ \text{M})^2} = 0{,}018$ ✓
+
+c) Ja. Skemaet er vendt om, så $K = \dfrac{1}{54{,}4} = 0{,}0184$.
+
+### Løsning 16
+$$[\ce{FeSCN^2+}] = K_c\cdot[\ce{Fe^3+}]\cdot[\ce{SCN-}] = 150\ \text{M}^{-1}\cdot 0{,}0025\ \text{M}\cdot 0{,}0012\ \text{M} = 4{,}5\cdot 10^{-4}\ \text{M}$$
+
+### Løsning 17
+a) Hvert $\ce{CH3COOH}$-molekyle, der afgiver en $\ce{H+}$, danner præcis én $\ce{CH3COO-}$.
+
+b)
+$$K_c = \frac{x^2}{0{,}10\ \text{M}} \;\Rightarrow\; x = \sqrt{1{,}8\cdot 10^{-5}\ \text{M}\cdot 0{,}10\ \text{M}} = 1{,}3\cdot 10^{-3}\ \text{M}$$
+$[\ce{H+}] = 1{,}3\cdot 10^{-3}\ \text{M}$ (svarer til $\text{pH} = 2{,}9$).
+
+c) $\dfrac{1{,}3\cdot 10^{-3}\ \text{M}}{0{,}10\ \text{M}} = 0{,}013 = 1{,}3\ \%$. Kun ca. 1 % af syren er på ionform – den er en svag syre.
