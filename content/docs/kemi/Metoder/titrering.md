@@ -1,6 +1,6 @@
 ---
 title: "Titrering"
-weight: 2
+weight: 3
 ---
 
 **Niveau: Kemi C–B** · **Emne: Kvantitativ analyse – hvor meget stof er der?**
@@ -154,7 +154,7 @@ Det passer fint med åbent ocean. De danske farvande er mindre salte – især �
 
 </details>
 
-Flere opgaver af samme slags: [Titreringsopgaver]({{< relref "/docs/kemi/C-Mængdeberegninger/titreringsopgaver" >}}).
+Flere opgaver af samme slags: [Titreringsopgaver]({{< relref "titreringsopgaver" >}}).
 
 ## Typer af titrering – og hvor du møder dem
 

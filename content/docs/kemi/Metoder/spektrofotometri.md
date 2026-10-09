@@ -85,3 +85,7 @@ Brug tendenslinjens ligning til at regne koncentrationen $c$ ud for hver prøve 
 ## Eksperiment
 
 Nu skal I selv prøve metoden: [Farvestof i rød sodavand]({{< relref "/docs/kemi/B-Eksp/farvestof-sodavand" >}}).
+
+---
+
+Flere opgaver: [Spektroskopi – tillægsopgaver]({{< relref "spektroskopiopgaver" >}})

@@ -126,7 +126,7 @@ Eksempler: 0,010 M HCl har pH = 2,00. 0,050 M NaOH har pOH = 1,30 og pH = 12,70.
 
 ### Ioner og salte
 
-Se også [ionnavne]({{< relref "/docs/kemi/C-Ioner/ionnavne" >}}) og [opløselighedstabellen]({{< relref "/docs/kemi/C-Ioner/opløselighedstabel" >}}).
+Se også [ionnavne]({{< relref "ionnavne" >}}) og [opløselighedstabellen]({{< relref "opløselighedstabel" >}}).
 
 | Ion | Navn | Ion | Navn |
 |---|---|---|---|

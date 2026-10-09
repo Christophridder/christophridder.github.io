@@ -1,0 +1,10 @@
+{{/* Viser undersider og undermapper (to niveauer) for den aktuelle sektion. Sider med bookHidden: true udelades. Brug: {{< emneliste >}} */}}
+<ul class="emneliste">
+{{- range .Page.Pages.ByWeight }}{{ if not .Params.bookHidden }}
+  <li><a href="{{ .RelPermalink }}">{{ if .IsSection }}<strong>{{ .Title }}</strong>{{ else }}{{ .Title }}{{ end }}</a>
+  {{- if .IsSection }}{{ with .Pages }}
+    <ul>{{ range .ByWeight }}{{ if not .Params.bookHidden }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}{{ end }}</ul>
+  {{- end }}{{ end }}
+  </li>
+{{- end }}{{ end }}
+</ul>

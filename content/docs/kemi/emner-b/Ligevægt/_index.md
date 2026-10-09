@@ -1,5 +1,7 @@
 ---
-title: "B-Ligevægt"
+title: "Ligevægt"
 weight: 8
 bookCollapseSection: true
 ---
+
+{{< emneliste >}}

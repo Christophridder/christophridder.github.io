@@ -1,6 +1,8 @@
 ---
-title: "B-Organisk"
-weight: 10
+title: "Organisk"
+weight: 4
 bookCollapseSection: true
 bookHidden: true
 ---
+
+{{< emneliste >}}

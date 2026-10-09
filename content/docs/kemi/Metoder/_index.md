@@ -1,6 +1,6 @@
 ---
 title: "Faglige metoder i kemi"
-weight: 14
+weight: 30
 bookCollapseSection: true
 ---
 

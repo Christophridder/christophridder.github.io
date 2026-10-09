@@ -1,6 +1,6 @@
 ---
 title: "Årsplan Kemi B"
-weight: 1
+weight: 11
 ---
 
 **Niveau: Kemi B** · **2.g (løft fra C til B)** · skoleår 2026-27 · hold 2wKe
@@ -32,7 +32,7 @@ Den bygger på [Studieplan 2wKe]({{< relref "/docs/Studieplaner/2wke" >}}) (modu
 ### Blok 0 · Opstart og repetition (modul 1–5) — *gennemført*
 Repetition af ioner og ionforbindelser fra 1.g: elektronprikformler (fint for chlorid og ammonium, sværere for nitrat), ionnavne og opløselighed, koncentrationer og mængdeberegninger. Ammoniumchlorid åbner spørgsmålet om endoterm og eksoterm opløsning ([Salmiak]({{< relref "/docs/kemi/B-Eksp/salmiak" >}})). Ionstørrelsen er vigtig for ionernes biologiske opførsel. Titrering af salt i ting, chips, brakvand og havvand.
 
-- Relevante sider: [Ionnavne]({{< relref "/docs/kemi/C-Ioner/ionnavne" >}}), [Opløselighedstabel]({{< relref "/docs/kemi/C-Ioner/opløselighedstabel" >}}), [Titreringsopgaver]({{< relref "/docs/kemi/C-Mængdeberegninger/titreringsopgaver" >}})
+- Relevante sider: [Ionnavne]({{< relref "ionnavne" >}}), [Opløselighedstabel]({{< relref "opløselighedstabel" >}}), [Titreringsopgaver]({{< relref "titreringsopgaver" >}})
 
 ### Blok 1 · Redox (modul 6–12)
 Oxidationstal, afstemning af redoxreaktioner med oxidationstal og anvendelse af spændingsrækken. Kernestoffet på B er *fældnings- og redoxreaktioner, herunder afstemning med oxidationstal*, og redox skal omfatte eksempler fra både organisk og uorganisk kemi (den organiske del tages op i blok 5).

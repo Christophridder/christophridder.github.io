@@ -1,6 +1,8 @@
 ---
-title: "C-Syre-Base"
-weight: 5
+title: "Syre-base"
+weight: 9
 bookCollapseSection: true
 bookHidden: true
 ---
+
+{{< emneliste >}}

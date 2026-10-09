@@ -15,7 +15,7 @@ Husk de to metoder:
 
 ## Opgaver
 
-### Opgave 1 – Cykeltur
+### Opgave 1 – Cykeltur 
 
 Du cykler med den konstante fart $v = 6{,}0$ m/s i $90$ s. Brug integration til at finde, hvor langt du kommer.
 

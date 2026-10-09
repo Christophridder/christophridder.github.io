@@ -1,6 +1,6 @@
 ---
 title: "Spektroskopi – tillægsopgaver"
-weight: 20
+weight: 2
 ---
 
 # Spektroskopi – tillægsopgaver
