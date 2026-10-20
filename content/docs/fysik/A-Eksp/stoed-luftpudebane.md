@@ -38,6 +38,9 @@ $$v = \frac{\ell}{\Delta t}$$
 
 hvor $\ell$ er strimlens længde (ca. $0{,}100$ m, mål den med skydelære).
 
+**Definitioner:**
+- Hastigheder **før** stødet betegnes med $v_1$ for vogn 1 og $v_2$ for vogn to.
+- Hastigheder **efter** stødet betegnes med $u_1$ for vogn 1 og $u_2$ for vogn to. 
 - Fortegn: Vælg højre som positiv retning. Passerer en vogn fotocellen mod venstre, sættes fortegnet til $-$.
 - Vogne på luftpudebanen: Vej begge vogne inklusive strimmel og velcro, som de sidder under forsøget.
 - Opstilling: Sæt fotocelle A til venstre for stødstedet og fotocelle B til højre for stødstedet.
@@ -55,7 +58,7 @@ Vogn 2 ligger i ro på banen, og vogn 1 skydes ind i den. Begge vogne har fjeder
 
 - Vælg $m_1 \approx m_2$.
 - **Hypotese (før du måler):** Brug formlerne for elastisk stød med $v_2 = 0$ fra teorisiden. Hvad forudsiger de for $u_1$ og $u_2$, når $m_1 = m_2$?
-- Mål $v_1$, $u_1$ og $u_2$. Gentag mindst 3 gange.
+- Mål $v_1$, $u_1$ og $u_2$. Gentag mindst 3 gange, så kan du også tjekke om din bane er **helt** lige
 
 ### 1b) Lille masse mod stor masse
 
@@ -129,7 +132,13 @@ Husk at det der står her nedad i kolonnen skal være **overskrifter** i dit reg
 |2) uelastisk stød|||||||
 |3) luftgevær|||||||
 
-## Spørgsmål til journalen
+## Udled de relevante formler hvis du har lyst til lidt sjov algebra: 
+Brug formlerne for $p_{før}$, $p_{efter}$, $E_{før}$ og $E_{efter}$ til at finde:  
+
+$$u_1 = \frac{m_1 - m_2}{m_1 + m_2} \cdot v_1 \qquad u_2 = \frac{2 \cdot m_1}{m_1 + m_2} \cdot v_1$$
+
+Det er lidt tricky, men sjovt. Start med at sætte $v_2$ til $0$ i både energi og bevægeæsesmængdeformlen så falder det led bort. $\frac{1}{2}$ forsvinder i energiformlerne så er du på vej.  
+## Spørgsmål til journalen:
 
 1. **Bevarelse:** Er bevægelsesmængden bevaret i alle tre forsøg inden for måleusikkerheden? Hvor stor er afvigelsen i procent?
 2. **Energi:** Hvilke stød er elastiske, og hvilke er uelastiske ud fra kvotienten $E_{\text{efter}}/E_{\text{før}}$? Hvor blev energien af i de uelastiske stød?

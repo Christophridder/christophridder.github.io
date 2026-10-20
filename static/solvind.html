@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solvinden som lyd</title>
+<style>
+:root{
+  --bg:#0a0e1a; --panel:#121829; --line:#24304d; --txt:#e6e9f2; --dim:#8d97b3;
+  --v:#ffa94d; --n:#4fd1c5; --acc:#7aa2ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+h1{font-size:1.45rem;margin:0 0 2px}
+.sub{color:var(--dim);margin:0 0 14px;font-size:.92rem}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.bar label{color:var(--dim);font-size:.85rem;display:flex;gap:6px;align-items:center}
+select,button,input[type=range]{font:inherit}
+select,button{background:#1b2440;color:var(--txt);border:1px solid var(--line);border-radius:7px;padding:6px 10px}
+button{cursor:pointer}
+button.play{background:var(--acc);color:#081022;border:none;font-weight:600;min-width:110px}
+button:disabled{opacity:.5;cursor:default}
+.status{font-size:.82rem;color:var(--dim);margin-left:auto}
+.status.warn{color:#ffb4a2}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:12px;position:relative}
+.card h2{font-size:.82rem;font-weight:600;color:var(--dim);margin:0 0 6px;text-transform:uppercase;letter-spacing:.06em}
+canvas{display:block;width:100%;border-radius:6px}
+#space{height:210px} #spec{height:170px} #graph{height:230px;cursor:crosshair} #polar{height:300px}
+.readout{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ro{background:#0d1324;border:1px solid var(--line);border-radius:8px;padding:8px}
+.ro .k{font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+.ro .val{font-size:1.25rem;font-variant-numeric:tabular-nums;font-weight:600}
+.ro.v .val{color:var(--v)} .ro.n .val{color:var(--n)}
+.ro.wide{grid-column:1/-1}
+.note{font-size:.82rem;color:var(--dim)}
+.badge{display:inline-block;font-size:.72rem;padding:2px 7px;border-radius:99px;background:#3a2a10;color:#ffd08a;margin-left:6px;vertical-align:middle}
+details{margin-top:4px} summary{cursor:pointer;color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Solvinden som lyd <span id="badge" class="badge">syntetisk demo</span></h1>
+  <p class="sub">Hastighed → tonehøjde · tæthed → rytme · lydens spektrum (FFT) → farver</p>
+
+  <div class="bar">
+    <button id="play" class="play">▶ Afspil</button>
+    <label>Datasæt
+      <select id="src">
+        <option value="demo">Demo: 4 solrotationer (syntetisk)</option>
+        <option value="fil">Gemte data (solvind.json)</option>
+        <option value="live">Live: NOAA, seneste 7 døgn</option>
+      </select>
+    </label>
+    <label>Afspilningstid
+      <select id="dur">
+        <option value="30">30 s</option>
+        <option value="60">1 min</option>
+        <option value="120" selected>2 min</option>
+        <option value="300">5 min</option>
+      </select>
+    </label>
+    <label><input type="checkbox" id="pulseOn" checked> rytme</label>
+    <label>Lyd <input type="range" id="vol" min="0" max="1" step="0.01" value="0.6"></label>
+    <span id="status" class="status"></span>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card"><h2>Sol → Jord</h2><canvas id="space"></canvas></div>
+      <div class="card"><h2>Spektrogram (FFT af lyden)</h2><canvas id="spec"></canvas></div>
+      <div class="card"><h2>Måledata – klik for at hoppe i tid</h2><canvas id="graph"></canvas></div>
+    </div>
+    <div>
+      <div class="card">
+        <h2>Lige nu</h2>
+        <div class="readout">
+          <div class="ro wide"><div class="k">Tid</div><div class="val" id="roT">–</div></div>
+          <div class="ro v"><div class="k">Hastighed v</div><div class="val" id="roV">–</div></div>
+          <div class="ro n"><div class="k">Tæthed n</div><div class="val" id="roN">–</div></div>
+          <div class="ro"><div class="k">Grundtone</div><div class="val" id="roF">–</div></div>
+          <div class="ro"><div class="k">Puls</div><div class="val" id="roB">–</div></div>
+          <div class="ro wide"><div class="k">Rejsetid Sol → Jord (1 AU / v)</div><div class="val" id="roR">–</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Solrotationer (27,3 døgn pr. omgang)</h2>
+        <canvas id="polar"></canvas>
+        <p class="note">Hver omgang er én synodisk solrotation, indefra og ud. Farven er hastigheden. Kommer de orange felter igen i samme retning?</p>
+      </div>
+      <div class="card">
+        <h2>Sådan lyder dataene</h2>
+        <p class="note">
+          <b>Tonehøjde:</b> 250–900 km/s → 110–440 Hz (A2–A4, logaritmisk).<br>
+          <b>Rytme:</b> 1–40 partikler/cm³ → 50–240 slag/min.<br>
+          <b>Klang:</b> hurtig vind åbner et filter, så lyden bliver lysere.<br>
+          <b>Farver:</b> spektrogrammet viser lydens FFT; partiklernes farve følger spektrets tyngdepunkt.
+        </p>
+        <details><summary>Om datasættene</summary>
+          <p class="note"><b>Demo</b> er <i>konstrueret</i> ud fra typiske værdier: langsom vind ca. 350–400 km/s, to hurtige strømme fra koronale huller, der vender tilbage hver 27,3 døgn, og én CME omkring dag 58. Den er ikke målt.<br>
+          <b>Gemte data</b> hentes med <code>scripts/solvind/hent_solvind.py</code> (NOAA eller NASA OMNI).<br>
+          <b>Live</b> hentes direkte fra NOAA SWPC: de seneste 7 døgn målt af en satellit ved L1, ca. 1,5 mio. km fra Jorden. Tiden er måletidspunktet ved L1. Hvis hentningen fejler, vises en besked.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+// ---------- konstanter ----------
+const AU_KM = 1.495978707e8;
+const ROT_D = 27.2753;          // synodisk Carrington-rotation [døgn]
+const V_LO = 250, V_HI = 900, F_LO = 110, OCT = 2;
+const N_LO = 1, N_HI = 40, BPM_LO = 50, BPM_HI = 240;
+const DAY = 86400e3;
+
+const $ = id => document.getElementById(id);
+const clamp = (x,a,b) => Math.max(a, Math.min(b, x));
+const fOfV = v => F_LO * Math.pow(2, OCT * Math.log(clamp(v,V_LO,V_HI)/V_LO)/Math.log(V_HI/V_LO));
+const bpmOfN = n => BPM_LO + (BPM_HI-BPM_LO) * Math.log(clamp(n,N_LO,N_HI)/N_LO)/Math.log(N_HI/N_LO);
+const NOTES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","H"];
+function noteName(f){ const m = Math.round(69 + 12*Math.log2(f/440)); return NOTES[(m%12+12)%12] + (Math.floor(m/12)-1); }
+
+// ---------- data ----------
+let D = null;   // {t:[ms], v:[], n:[], relative:bool, label}
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
+function makeDemo(){
+  const R = mulberry32(42), gauss = () => { let u=0,w=0; while(!u)u=R(); while(!w)w=R(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*w); };
+  const days = 4*ROT_D, step = 1/24, t=[], v=[], n=[];
+  // hurtige strømme: [fase i rotation, amplitude pr. rotation]
+  const streams = [ {ph:0.22, amp:[330,350,310,290]}, {ph:0.63, amp:[230,260,200,120]} ];
+  let drift = 0;
+  for(let d=0; d<days; d+=step){
+    drift = 0.995*drift + 2.2*gauss();
+    let vv = 370 + drift, comp = 0;
+    const rot = Math.floor(d/ROT_D);
+    for(const s of streams){
+      for(let k=-1;k<=4;k++){
+        const on = (k + s.ph)*ROT_D, dx = d - on;
+        const A = s.amp[clamp(k,0,3)];
+        vv += A / (1+Math.exp(-dx/0.25)) * Math.exp(-Math.max(0,dx)/3.2);
+        comp += (A/300) * 16 * Math.exp(-((dx+0.35)**2)/(2*0.3**2));   // kompressionsregion foran strømmen
+      }
+    }
+    // CME omkring dag 58,3: chok, varm kappe, så aftagende
+    const dc = d - 58.3;
+    if (dc > 0) vv += 430*Math.exp(-dc/1.6);
+    const sheath = dc>0 ? 30*Math.exp(-dc/0.35) : 0;
+    vv += 7*gauss();
+    let nn = 6*Math.pow(380/vv,1.6) + comp + sheath;
+    nn *= Math.exp(0.15*gauss());
+    t.push(d*DAY); v.push(vv); n.push(Math.max(0.3,nn));
+  }
+  return {t, v, n, relative:true, label:"syntetisk demo"};
+}
+
+async function loadFile(){
+  const r = await fetch("data/solvind/solvind.json", {cache:"no-store"});
+  if(!r.ok) throw new Error("ingen gemt datafil endnu – kør scripts/solvind/hent_solvind.py");
+  const j = await r.json();
+  return {t:j.t.map(s=>Date.parse(s)), v:j.v, n:j.n, relative:false, label:j.kilde || "gemte data"};
+}
+
+// NOAA SWPC-kilder (testet 16.10.2026: den første tillader hentning fra browsere, den anden gør ikke)
+const LIVE_URLS = [
+  "https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind.json",
+  "https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json"
+];
+function parseUTC(s){ s = String(s).replace(" ","T"); return Date.parse(/Z$|[+-]\d\d:?\d\d$/.test(s) ? s : s+"Z"); }
+async function loadLive(){
+  let rows=null, fejl=[];
+  for(const u of LIVE_URLS){
+    try{ const r = await fetch(u, {cache:"no-store"}); if(!r.ok) throw new Error(r.status); rows = await r.json(); break; }
+    catch(e){ fejl.push(e.message); }
+  }
+  if(!rows) throw new Error("NOAA kunne ikke nås: "+fejl.join(", "));
+  const h = rows[0], iT=h.indexOf("time_tag"), iN=h.indexOf("density"), iV=h.indexOf("speed");
+  // midl over 10 min
+  const bins = new Map();
+  for(const row of rows.slice(1)){
+    const tt = parseUTC(row[iT]), vv = parseFloat(row[iV]), nn = parseFloat(row[iN]);
+    if(!isFinite(tt) || !isFinite(vv) || !isFinite(nn)) continue;
+    const k = Math.floor(tt/600e3);
+    const b = bins.get(k) || {v:0,n:0,c:0}; b.v+=vv; b.n+=nn; b.c++; bins.set(k,b);
+  }
+  const keys=[...bins.keys()].sort((a,b)=>a-b);
+  return {t:keys.map(k=>k*600e3+300e3), v:keys.map(k=>bins.get(k).v/bins.get(k).c),
+          n:keys.map(k=>bins.get(k).n/bins.get(k).c), relative:false, label:"live · NOAA SWPC"};
+}
+
+function setStatus(msg, warn){ const s=$("status"); s.textContent=msg||""; s.className="status"+(warn?" warn":""); }
+
+async function selectSource(){
+  stop();
+  const which = $("src").value;
+  setStatus("Henter…");
+  try{
+    D = which==="demo" ? makeDemo() : which==="fil" ? await loadFile() : await loadLive();
+    if(D.t.length < 10) throw new Error("for få datapunkter");
+    setStatus(D.t.length+" punkter · "+((D.t.at(-1)-D.t[0])/DAY).toFixed(1)+" døgn");
+  }catch(e){
+    D = makeDemo();
+    setStatus("Kunne ikke hente ("+e.message+") – viser demo", true);
+  }
+  $("badge").textContent = D.label;
+  $("badge").style.display = "inline-block";
+  pos = 0; drawPolarBase(); drawGraph(); updateReadout(sample(0));
+}
+
+// interpolation ved brøkdel 0..1
+function sample(p){
+  const N = D.t.length, x = clamp(p,0,1)*(N-1), i = Math.floor(x), f = x-i, j=Math.min(N-1,i+1);
+  return { t: D.t[i]+(D.t[j]-D.t[i])*f, v: D.v[i]+(D.v[j]-D.v[i])*f, n: D.n[i]+(D.n[j]-D.n[i])*f };
+}
+
+// ---------- lyd ----------
+let ctx=null, master, analyser, filt, oscs=[], droneG, nextPulse=0, schedTimer=null;
+let playing=false, pos=0, lastFrame=0;
+let cur = {v:400,n:5};
+
+function initAudio(){
+  if(ctx) return;
+  ctx = new (window.AudioContext||window.webkitAudioContext)();
+  master = ctx.createGain(); master.gain.value = +$("vol").value;
+  analyser = ctx.createAnalyser(); analyser.fftSize = 4096; analyser.smoothingTimeConstant = 0.6;
+  master.connect(analyser); analyser.connect(ctx.destination);
+  filt = ctx.createBiquadFilter(); filt.type="lowpass"; filt.Q.value=6; filt.frequency.value=900;
+  droneG = ctx.createGain(); droneG.gain.value = 0;
+  filt.connect(droneG); droneG.connect(master);
+  const spec = [["sawtooth",1,0],["sawtooth",1,7],["sine",0.5,0],["triangle",2,-4]];
+  oscs = spec.map(([type,mul,det])=>{ const o=ctx.createOscillator(); o.type=type; o.detune.value=det; o._mul=mul;
+    const g=ctx.createGain(); g.gain.value = type==="sine"?0.6:0.25; o.connect(g); g.connect(filt); o.start(); return o; });
+}
+
+function setDrone(v){
+  const f = fOfV(v), now = ctx.currentTime;
+  for(const o of oscs) o.frequency.setTargetAtTime(f*o._mul, now, 0.05);
+  const cut = 500 * Math.pow(8, (clamp(v,V_LO,V_HI)-V_LO)/(V_HI-V_LO));
+  filt.frequency.setTargetAtTime(cut, now, 0.08);
+}
+
+let noiseBuf=null;
+function pulse(time){
+  if(!noiseBuf){ noiseBuf = ctx.createBuffer(1, ctx.sampleRate*0.2, ctx.sampleRate);
+    const d=noiseBuf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; }
+  const f = fOfV(cur.v);
+  const s = ctx.createBufferSource(); s.buffer = noiseBuf;
+  const bp = ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=f*6; bp.Q.value=4;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.0001,time); g.gain.exponentialRampToValueAtTime(0.5,time+0.004); g.gain.exponentialRampToValueAtTime(0.0001,time+0.09);
+  s.connect(bp); bp.connect(g); g.connect(master); s.start(time); s.stop(time+0.12);
+  const o = ctx.createOscillator(); o.type="sine"; o.frequency.value=f*3;
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(0.0001,time); g2.gain.exponentialRampToValueAtTime(0.18,time+0.005); g2.gain.exponentialRampToValueAtTime(0.0001,time+0.15);
+  o.connect(g2); g2.connect(master); o.start(time); o.stop(time+0.17);
+}
+function scheduler(){
+  if(!playing) return;
+  while(nextPulse < ctx.currentTime + 0.12){
+    if($("pulseOn").checked) pulse(nextPulse);
+    nextPulse += 60 / bpmOfN(cur.n);
+  }
+}
+
+async function start(){
+  initAudio(); await ctx.resume();
+  if(pos >= 1) pos = 0;
+  playing = true; lastFrame = performance.now();
+  droneG.gain.setTargetAtTime(0.22, ctx.currentTime, 0.1);
+  nextPulse = ctx.currentTime + 0.05;
+  schedTimer = setInterval(scheduler, 25);
+  $("play").textContent = "❚❚ Pause";
+}
+function stop(){
+  playing = false; clearInterval(schedTimer);
+  if(ctx) droneG.gain.setTargetAtTime(0, ctx.currentTime, 0.08);
+  $("play").textContent = "▶ Afspil";
+}
+
+// ---------- tegning ----------
+function fit(c){ const r=c.getBoundingClientRect(), d=devicePixelRatio||1;
+  if(c.width!==Math.round(r.width*d) || c.height!==Math.round(r.height*d)){ c.width=Math.round(r.width*d); c.height=Math.round(r.height*d); return true; } return false; }
+
+function heat(x){ // 0..1 → rgb (sort → indigo → magenta → orange → gul)
+  const st=[[0,[8,10,26]],[0.25,[52,24,110]],[0.5,[170,40,140]],[0.75,[250,120,50]],[1,[255,240,160]]];
+  x=clamp(x,0,1); for(let i=1;i<st.length;i++) if(x<=st[i][0]){ const [a,ca]=st[i-1],[b,cb]=st[i],f=(x-a)/(b-a);
+    return ca.map((c,k)=>Math.round(c+(cb[k]-c)*f)); } return st.at(-1)[1];
+}
+function vColor(v,a=1){ const x=(clamp(v,300,850)-300)/550; const [r,g,b]=heat(0.2+0.8*x); return `rgba(${r},${g},${b},${a})`; }
+
+// -- Sol → Jord partikler
+const parts=[]; let hue=200;
+function drawSpace(dt){
+  const c=$("space"), g=c.getContext("2d"); fit(c);
+  const W=c.width, H=c.height, d=devicePixelRatio||1;
+  g.fillStyle="rgba(10,14,26,0.35)"; g.fillRect(0,0,W,H);
+  const sx=40*d, ex=W-50*d, cy=H/2;
+  // Sol
+  const sg=g.createRadialGradient(sx,cy,4*d,sx,cy,70*d); sg.addColorStop(0,"#fff6c8"); sg.addColorStop(0.25,"#ffb347"); sg.addColorStop(1,"rgba(255,120,40,0)");
+  g.fillStyle=sg; g.beginPath(); g.arc(sx,cy,70*d,0,7); g.fill();
+  // Jord + magnetosfære
+  g.strokeStyle="rgba(122,162,255,0.35)"; g.lineWidth=1.5*d;
+  const squeeze = clamp(cur.n*cur.v*cur.v/ (5*400*400), 0.5, 4);
+  g.beginPath(); g.ellipse(ex,cy,22*d/Math.pow(squeeze,1/6),30*d,0,Math.PI*0.5,Math.PI*1.5); g.stroke();
+  g.fillStyle="#3d7bff"; g.beginPath(); g.arc(ex,cy,8*d,0,7); g.fill();
+  // nye partikler ∝ n
+  const rate = playing ? cur.n*1.6 : 1.5;
+  for(let k=0;k<rate*dt*4;k++) parts.push({x:sx+20*d, y:cy+(Math.random()-0.5)*H*0.8, h:hue+(Math.random()-0.5)*30});
+  const speed = (cur.v/400) * 120*d;          // px/s – visuelt, ikke i skala
+  for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x += speed*dt*(0.85+0.3*Math.random());
+    p.y += (p.y-cy)*0.05*dt;
+    if(p.x>ex-14*d){ parts.splice(i,1); continue; }
+    g.fillStyle=`hsl(${p.h},90%,65%)`; g.fillRect(p.x,p.y,2.2*d,1.6*d); }
+  if(parts.length>3000) parts.splice(0,parts.length-3000);
+  g.fillStyle="#8d97b3"; g.font=`${12*d}px system-ui`; g.fillText("Sol",sx-10*d,H-10*d); g.fillText("Jord",ex-14*d,H-10*d);
+  g.fillText("ikke i skala – partiklernes fart ∝ v, antal ∝ n", W/2-140*d, 16*d);
+}
+
+// -- spektrogram
+const FMIN=40, FMAX=4000; let freqBuf=null;
+function drawSpec(){
+  const c=$("spec"), g=c.getContext("2d"), resized=fit(c), W=c.width, H=c.height, d=devicePixelRatio||1;
+  if(resized){ g.fillStyle="#080b16"; g.fillRect(0,0,W,H); }
+  if(!ctx || !playing) return;
+  if(!freqBuf) freqBuf=new Uint8Array(analyser.frequencyBinCount);
+  analyser.getByteFrequencyData(freqBuf);
+  const colW = Math.max(1,Math.round(2*d));
+  g.drawImage(c, -colW, 0);
+  const binHz = ctx.sampleRate/analyser.fftSize;
+  let num=0, den=0;
+  for(let y=0;y<H;y++){
+    const f = FMIN*Math.pow(FMAX/FMIN, 1-y/H), b=Math.round(f/binHz);
+    const val = freqBuf[b]/255, [r,gg,bb]=heat(Math.pow(val,1.4));
+    g.fillStyle=`rgb(${r},${gg},${bb})`; g.fillRect(W-colW,y,colW,1);
+  }
+  for(let b=1;b<freqBuf.length;b++){ const f=b*binHz; if(f>FMAX) break; num+=f*freqBuf[b]; den+=freqBuf[b]; }
+  if(den>0){ const cen=num/den; hue = 220 - 220*clamp(Math.log(cen/150)/Math.log(2000/150),0,1); }
+  // aksemærker
+  g.fillStyle="rgba(8,11,22,0.75)"; g.fillRect(0,0,44*d,H);
+  g.fillStyle="#8d97b3"; g.font=`${10*d}px system-ui`;
+  for(const f of [50,100,200,500,1000,2000]){ const y=H*(1-Math.log(f/FMIN)/Math.log(FMAX/FMIN)); g.fillText(f>=1000?(f/1000)+" kHz":f+" Hz",3*d,y+3*d); }
+}
+
+// -- graf
+function fmtT(t, short){
+  if(D.relative) return "dag "+(t/DAY).toFixed(short?0:1).replace(".",",");
+  const dt=new Date(t);
+  return short ? dt.toLocaleDateString("da-DK",{day:"numeric",month:"short",timeZone:"UTC"})
+               : dt.toLocaleString("da-DK",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:"UTC"})+" UTC";
+}
+let graphImg=null;
+function graphLayout(c){ const d=devicePixelRatio||1; return {L:48*d,R:c.width-44*d,T:12*d,B:c.height-26*d,d}; }
+function drawGraph(){
+  const c=$("graph"); fit(c); const g=c.getContext("2d"), {L,R,T,B,d}=graphLayout(c);
+  g.clearRect(0,0,c.width,c.height);
+  const t0=D.t[0], t1=D.t.at(-1), X=t=>L+(R-L)*(t-t0)/(t1-t0);
+  const vmax=Math.max(900,...D.v), Yv=v=>B-(B-T)*(v-200)/(vmax-200);
+  const ns=[...D.n].sort((a,b)=>a-b), nmax=Math.max(20, ns[Math.floor(0.995*(ns.length-1))]*1.1);
+  const Yn=n=>B-(B-T)*Math.min(n,nmax)/nmax*0.6;   // enkelte spidser klippes
+  g.font=`${10*d}px system-ui`; g.strokeStyle="#24304d"; g.fillStyle="#8d97b3"; g.lineWidth=1;
+  for(let v=300; v<=vmax; v+=100){ const y=Yv(v); g.beginPath(); g.moveTo(L,y); g.lineTo(R,y); g.stroke(); g.fillText(v,L-30*d,y+3*d); }
+  g.save(); g.translate(12*d,(T+B)/2); g.rotate(-Math.PI/2); g.fillStyle="#ffa94d"; g.fillText("v [km/s]",-20*d,0); g.restore();
+  g.save(); g.translate(c.width-6*d,(T+B)/2); g.rotate(-Math.PI/2); g.fillStyle="#4fd1c5"; g.fillText("n [cm⁻³]",-20*d,0); g.restore();
+  for(const n of [5,10,20,40]) if(n<=nmax){ g.fillStyle="#4fd1c5"; g.fillText(n,R+6*d,Yn(n)+3*d); }
+  // x-akse: hver rotation / døgn
+  const span=(t1-t0)/DAY, stepD = span>60?ROT_D/2 : span>20?5 : 1;
+  g.fillStyle="#8d97b3";
+  for(let t=t0; t<=t1; t+=stepD*DAY){ const x=X(t); g.strokeStyle="#1c2540"; g.beginPath(); g.moveTo(x,T); g.lineTo(x,B); g.stroke(); g.fillText(fmtT(t,true),x-14*d,B+16*d); }
+  // n som fyldt areal
+  g.beginPath(); g.moveTo(X(t0),B);
+  for(let i=0;i<D.t.length;i++) g.lineTo(X(D.t[i]),Yn(D.n[i]));
+  g.lineTo(X(t1),B); g.closePath(); g.fillStyle="rgba(79,209,197,0.22)"; g.fill();
+  // v som farvet linje
+  g.lineWidth=1.8*d;
+  for(let i=1;i<D.t.length;i++){ g.strokeStyle=vColor(D.v[i]); g.beginPath(); g.moveTo(X(D.t[i-1]),Yv(D.v[i-1])); g.lineTo(X(D.t[i]),Yv(D.v[i])); g.stroke(); }
+  graphImg = g.getImageData(0,0,c.width,c.height);
+}
+function drawPlayhead(){
+  const c=$("graph"); if(fit(c)) drawGraph(); const g=c.getContext("2d"), {L,R,T,B,d}=graphLayout(c);
+  if(graphImg) g.putImageData(graphImg,0,0);
+  const x=L+(R-L)*pos; g.strokeStyle="#fff"; g.lineWidth=1.5*d; g.beginPath(); g.moveTo(x,T); g.lineTo(x,B); g.stroke();
+}
+$("graph").addEventListener("click", e=>{
+  const c=$("graph"), r=c.getBoundingClientRect(), {L,R,d}=graphLayout(c);
+  pos = clamp(((e.clientX-r.left)*d - L)/(R-L),0,1); updateReadout(sample(pos));
+});
+
+// -- polar (solrotationer)
+let polarImg=null;
+function polarGeom(c){ const d=devicePixelRatio||1, W=c.width,H=c.height, cx=W/2, cy=H/2, rMax=Math.min(W,H)/2-12*d;
+  const nRot=Math.max(1,(D.t.at(-1)-D.t[0])/DAY/ROT_D), r0=rMax*0.18; return {cx,cy,rMax,r0,nRot,d}; }
+function polarXY(t,G){ const days=(t-D.t[0])/DAY, a=2*Math.PI*days/ROT_D - Math.PI/2, r=G.r0+(G.rMax-G.r0)*days/(G.nRot*ROT_D); return [G.cx+r*Math.cos(a), G.cy+r*Math.sin(a)]; }
+function drawPolarBase(){
+  const c=$("polar"); fit(c); const g=c.getContext("2d"), G=polarGeom(c);
+  g.clearRect(0,0,c.width,c.height);
+  g.strokeStyle="#24304d"; g.lineWidth=1;
+  for(let k=0;k<=Math.ceil(G.nRot);k++){ const r=G.r0+(G.rMax-G.r0)*k/G.nRot; if(r>G.rMax+1)break; g.beginPath(); g.arc(G.cx,G.cy,r,0,7); g.stroke(); }
+  g.lineWidth=5*G.d; g.lineCap="round";
+  for(let i=1;i<D.t.length;i++){ const [x0,y0]=polarXY(D.t[i-1],G),[x1,y1]=polarXY(D.t[i],G);
+    g.strokeStyle=vColor(D.v[i]); g.beginPath(); g.moveTo(x0,y0); g.lineTo(x1,y1); g.stroke(); }
+  g.fillStyle="#ffb347"; g.beginPath(); g.arc(G.cx,G.cy,G.r0*0.5,0,7); g.fill();
+  polarImg=g.getImageData(0,0,c.width,c.height);
+}
+function drawPolarHead(){
+  const c=$("polar"); if(fit(c)) drawPolarBase(); const g=c.getContext("2d"), G=polarGeom(c);
+  if(polarImg) g.putImageData(polarImg,0,0);
+  const [x,y]=polarXY(sample(pos).t,G); g.fillStyle="#fff"; g.beginPath(); g.arc(x,y,5*G.d,0,7); g.fill();
+}
+
+// -- aflæsning
+function updateReadout(s){
+  cur = s;
+  $("roT").textContent = fmtT(s.t);
+  $("roV").textContent = Math.round(s.v)+" km/s";
+  $("roN").textContent = s.n.toFixed(1).replace(".",",")+" cm⁻³";
+  const f=fOfV(s.v); $("roF").textContent = Math.round(f)+" Hz · "+noteName(f);
+  $("roB").textContent = Math.round(bpmOfN(s.n))+" /min";
+  $("roR").textContent = (AU_KM/s.v/86400).toFixed(1).replace(".",",")+" døgn";
+}
+
+// ---------- løkke ----------
+function frame(now){
+  const dt = Math.min(0.1,(now-(lastFrame||now))/1000); lastFrame=now;
+  if(playing && D){
+    pos += dt / +$("dur").value;
+    if(pos>=1){ pos=1; stop(); }
+    const s=sample(pos); updateReadout(s); setDrone(s.v);
+  }
+  if(D){ drawSpace(dt); drawSpec(); drawPlayhead(); drawPolarHead(); }
+  requestAnimationFrame(frame);
+}
+
+$("play").onclick = () => playing ? stop() : start();
+$("src").onchange = selectSource;
+$("vol").oninput = () => { if(master) master.gain.setTargetAtTime(+$("vol").value, ctx.currentTime, 0.05); };
+addEventListener("resize", ()=>{ if(D){ drawGraph(); drawPolarBase(); } });
+
+D = makeDemo(); $("badge").textContent=D.label;
+setStatus(D.t.length+" punkter · "+((D.t.at(-1)-D.t[0])/DAY).toFixed(1)+" døgn");
+drawGraph(); drawPolarBase(); updateReadout(sample(0));
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
