@@ -1,16 +1,15 @@
 ---
-title: IT Moduler på Egaa Gym
-weight: 1
+title: "IT-modul 2 – Noter og filer"
+weight: 2
 pdf: "pdfs/it-moduler.pdf"
+aliases: ["/docs/it/skoleit/it-moduler/"]
 ---
 
-Indhold af introduktionsmodulerne på Egaa Gymnasium.
+**Målgruppe: 1.g** · **Tidspunkt: efterår** · **Emne: Notetagning, filer og lektier ("find dine noter i 3.g")**
 
-## Modul 1
+[← IT-modul 1]({{< relref "ITModul1" >}}) · [IT-modul 3 →]({{< relref "ITModul3" >}})
 
-Ligger i første skoleuge, og her følger vi bare hjemmesiden [EgaaGym.dk/skolestart](https://egaa-gym.dk/om-egaa/skolens-it-systemer/), som omhandler intro.
-
-## Modul 2 — Notetagning, Filer, Lektier ("find dine noter i 3g")
+## Overblik
 
 Et helt modul individuelt i klassen.
 
@@ -83,11 +82,15 @@ Det er et stort problem for nogle elever at **finde den fil de lige har gemt**
 
 Mac skelner imellem **online placeringer** og **på dennem mac** denne forskel skal vises. 
 
+> Netprøver og ExamCookie gennemgås grundigt i [IT-modul 3]({{< relref "ITModul3" >}}).
+
 **Netprøver:** Kan vi få eleverne til at logge på Netprøver, for at vise dem, hvordan det ser ud? — Nej, de kan først logge på Netprøver, når de rent faktisk har haft en skriftlig eksamen.
 
 **Eksamenscookie:** Programmet kan downloades og installeres, selvom der ingen prøver er. Det er smart fordi det kan bruges til at tjekke om **unilogin** virker
 
 ### Unilogin
+> Uddybes i [IT-modul 3 – Unilogin]({{< relref "ITModul3#unilogin" >}}).
+
 **Unilogin** er tilbage !!! 
 De fleste elever er smidt af unilogin, de kan huske deres login (pete1234) men kan ikke huske deres kode eller koden virker ikke. 
 #### Løsning
