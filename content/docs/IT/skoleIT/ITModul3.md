@@ -15,8 +15,9 @@ Modulet holdes inden terminsprøver i det nye år.
 
 | ✔ | Jeg kan … | Afsnit |
 |---|---|---|
-| ☐ | logge på [mitunilogin.dk](https://mitunilogin.dk) med **Unilogin** ved selv at **skrive** brugernavn og kode. Uden telefon, fingeraftryk eller gemt kode | [Unilogin](#unilogin) · [Kend dine koder](#kend-dine-koder) |
-| ☐ | logge på [portal.supportcenter.dk](https://portal.supportcenter.dk) med **ITS-login** ved selv at **skrive** brugernavn og kode. Uden telefon, fingeraftryk eller gemt kode | [Kend dine koder](#kend-dine-koder) |
+| ☐ | logge på **Unilogin** ved selv at **skrive** brugernavn og kode. Uden telefon, fingeraftryk eller gemt kode | [Unilogin](#unilogin) · [Kend dine koder](#kend-dine-koder) |
+| ☐ | logge på med **ITS-login** ved selv at **skrive** brugernavn og kode. Uden telefon, fingeraftryk eller gemt kode | [Kend dine koder](#kend-dine-koder) |
+| ☐ | hente en fil fra nettet og flytte den til min **eksamensmappe** | [Download og eksamensmappe](#download-og-eksamensmappe) |
 | ☐ | starte **ExamCookie** og komme frem til login-skærmen | [ExamCookie](#examcookie) |
 | ☐ | finde ud af, om jeg har Mac eller Windows, og hvilken version | [Hvilken computer har jeg?](#hvilken-computer-har-jeg) |
 | ☐ | lave en **PDF** fra Word, WordMat og Maple, og finde den bagefter | [PDF](#pdf-fra-word-wordmat-og-maple) |
@@ -24,9 +25,9 @@ Modulet holdes inden terminsprøver i det nye år.
 | ☐ | gemme **lokalt** på min computer, ikke i iCloud eller OneDrive | [Mac: gem lokalt](#mac-gem-lokalt) |
 | ☐ | slukke for OneDrive, iCloud, Dropbox m.fl. under eksamen | [Offline til eksamen](#offline-til-eksamen) |
 | ☐ | tjekke, at **Copilot, tekstforudsigelser og anden AI** er slået fra. Stavekontrol må gerne være slået til | [AI og autotekst](#ai-og-autotekst-slået-fra) |
-| ☐ | hente en fil fra nettet og flytte den til min **eksamensmappe** | [Download og eksamensmappe](#download-og-eksamensmappe) |
 
-## Links
+## Links til hurtig adgang
+Men hvis du er i det mindste i tvivl om hvad det handler om eller om din kode virker så scroll ned til selve afsnittet. 
 
 | Hvad | Bruges til | Link |
 |---|---|---|
@@ -34,15 +35,16 @@ Modulet holdes inden terminsprøver i det nye år.
 | **ExamCookie** | Overvågningsprogram, der skal køre under eksamen | [examcookie.dk](https://examcookie.dk) |
 | ExamCookie, elevvejledning | Vejledning fra ExamCookie | [Elevinformation (PDF)](https://examcookie.dk/files/Elevinformation_WEB.pdf) |
 | **Netprøver** | Her henter du opgaven og afleverer din PDF | [netproever.dk](https://www.netproever.dk) |
-| Om eksamen på Egaa | Skolens eksamensregler | [egaa-gym.dk → Om eksamen](https://egaa-gym.dk/om-egaa/) |
+| Om eksamen på Egaa | Skolens eksamensregler | [egaa-gym.dk → Om eksamen](https://egaa-gym.dk/om-eksamen/) |
 
 ## Unilogin
 
 Til terminsprøver, årsprøver og eksamen har du **ikke din mobiltelefon**, og så kan du ikke bruge MitID. Derfor logger du på Netprøver og ExamCookie med **Unilogin**.
 
-De fleste kan huske brugernavnet (fx `pete1234`), men ikke koden. Koden skal derfor laves og afprøves **nu**, mens du stadig har din telefon.
+De fleste kan huske brugernavnet fra folke eller efterskolen (fx `pete1234`), men ikke koden den er sandsynligvis blevet nulstillet. Koden skal derfor laves og afprøves **nu**, mens du stadig har din telefon.
 
 ### Sådan får du en ny Unilogin-kode
+Mærkelig nok kan man ikke bare lave koden om på mitunilogin.dk så du skal gøre som det står her: 
 
 1. Installér og åbn **ExamCookie**, og gå frem til login-skærmen. Se [ExamCookie](#examcookie)
 2. Gå i en browser til **[mitunilogin.dk](https://mitunilogin.dk)**, og log på med **MitID** (her må du bruge telefonen)
@@ -54,8 +56,8 @@ De fleste kan huske brugernavnet (fx `pete1234`), men ikke koden. Koden skal der
 
 | Problem | Løsning |
 |---|---|
-| Kender ikke sit brugernavn | Det står på [mitunilogin.dk](https://mitunilogin.dk), når du er logget på med MitID |
-| Koden bliver afvist | Brug den kode, Unilogin foreslår |
+| Du kender ikke dit brugernavn | Det står på [mitunilogin.dk](https://mitunilogin.dk), når du er logget på med MitID |
+| Koden bliver afvist når du laver en ny| Brug den kode, Unilogin foreslår de er OK nem at huske |
 | Har ikke MitID | Kontakt kontoret/IT. Det skal løses **før** eksamensdagen |
 
 ## Kend dine koder
