@@ -15,11 +15,13 @@ Modulet holdes inden terminsprøver i det nye år.
 
 | ✔ | Jeg kan … | Afsnit |
 |---|---|---|
+| ☐ | finde ud af, om jeg har Mac eller Windows, og hvilken version | [Hvilken computer har jeg?](#hvilken-computer-har-jeg) |
 | ☐ | logge på **Unilogin** ved selv at **skrive** brugernavn og kode. Uden telefon, fingeraftryk eller gemt kode | [Unilogin](#unilogin) · [Kend dine koder](#kend-dine-koder) |
 | ☐ | logge på med **ITS-login** ved selv at **skrive** brugernavn og kode. Uden telefon, fingeraftryk eller gemt kode | [Kend dine koder](#kend-dine-koder) |
+| ☐ | hente **Ordbogen** ned, så den virker uden internet | [Ordbøger](#ordbøger) |
 | ☐ | hente en fil fra nettet og flytte den til min **eksamensmappe** | [Download og eksamensmappe](#download-og-eksamensmappe) |
 | ☐ | starte **ExamCookie** og komme frem til login-skærmen | [ExamCookie](#examcookie) |
-| ☐ | finde ud af, om jeg har Mac eller Windows, og hvilken version | [Hvilken computer har jeg?](#hvilken-computer-har-jeg) |
+| ☐ |tjekke at ingen GAI kører på computeren |[AI / GAI / Copilot](#ai-og-autotekst-slået-fra)  |
 | ☐ | lave en **PDF** fra Word, WordMat og Maple, og finde den bagefter | [PDF](#pdf-fra-word-wordmat-og-maple) |
 | ☐ | gemme i **versioner** (v01, v02 …) og redde mig, hvis Word, WordMat eller Maple går i stå | [Når programmet går i stå](#når-programmet-går-i-stå) |
 | ☐ | gemme **lokalt** på min computer, ikke i iCloud eller OneDrive | [Mac: gem lokalt](#mac-gem-lokalt) |
@@ -454,9 +456,13 @@ Til eksamen må du gerne bruge **stavekontrol**, men **ikke** noget, der skriver
 | ✅ Tilladt | ❌ Ikke tilladt |
 |---|---|
 | Stavekontrol (rød streg under ord) | Tekstforudsigelser (grå tekst, der foreslår næste ord) |
-| Grammatikkontrol (blå streg) | Copilot i Word eller Windows |
+| Almindelig grammatikkontrol (blå streg) | Copilot i Word eller Windows |
 | WordMat og Maple (regning) | Apple Intelligence / Skriveværktøjer (omskriv, opsummér) |
+| Digitale ordbøger, der slår **enkeltord** op (se [Ordbøger](#ordbøger)) | **Word Editor** (forslag til omskrivning og forbedring af sætninger) |
 | | ChatGPT, Gemini, Grammarly og andre AI-apps eller -udvidelser |
+| | Ordbøger/oversættere, der oversætter **hele sætninger** eller tekst |
+
+> Ministeriets hjælpemiddeloversigt (feb. 2026) siger: *"Eksaminanden må gerne anvende den gængse stave- og grammatikkontrol i eget tekstbehandlingsprogram"*, men ikke funktioner, der *"kan omskrive passager"* eller giver forslag, og *"avancerede redigeringsværktøjer … (fx Copilot, Grammarly og Word Editor)"* er ikke tilladt. Kilde: [UVM – Hjælpemiddeloversigt til gymnasiale prøver](https://uvm.dk/media/iuppxvjr/260223-hjaelpemiddeloversigt-til-gymnasiale-proever.pdf)
 
 > **Ja, det afhænger af version og computer.** Menuerne ser forskellige ud i Word til Mac og Word til Windows, og ældre Word-versioner har ikke en Copilot-menu. Tjek derfor **alle** punkterne for din computer herunder. Findes et punkt ikke, er funktionen der typisk ikke, og så er du færdig med det punkt.
 
@@ -472,9 +478,11 @@ Til eksamen må du gerne bruge **stavekontrol**, men **ikke** noget, der skriver
 
 | Hvad | Sådan slår du det fra |
 |---|---|
-| **Copilot** (Word 16.93 eller nyere) | **Word → Indstillinger → Redigerings- og korrekturværktøjer → Copilot** → fjern fluebenet ved **Aktivér Copilot** → genstart Word |
-| Ældre Word uden Copilot-menu | **Word → Indstillinger → Personlige indstillinger → Beskyttelse af personlige oplysninger → Administrer forbundne oplevelser** → fjern fluebenet ved *Slå oplevelser til, der analyserer dit indhold* → genstart Word |
+| **Copilot** (Word 16.93 eller nyere) | **Word → Indstillinger**. Står der et **Copilot**-ikon under *Værktøjer til oprettelse og korrektur*, så klik på det og fjern fluebenet ved **Aktivér Copilot** → genstart Word. **Er der intet Copilot-ikon**, er Copilot ikke slået til på din Word (typisk fordi kontoen ikke har Copilot), og du skal ikke gøre mere her. Tjek evt. også, at der ikke er en Copilot-knap på fanen **Hjem** |
+| Ekstra sikkerhed (alle versioner) | **Word → Indstillinger → Anonymitet** (under *Personlige indstillinger*) **→ Administrer forbundne oplevelser** → fjern fluebenet ved *Slå oplevelser til, der analyserer dit indhold* → genstart Word |
 | Tekstforudsigelser i Word | Word til Mac har ifølge Office Watch ikke Words egen tekstforudsigelse. Forslag til næste ord på en Mac kommer typisk fra **macOS** (se herunder) |
+
+> **Til lærer og tekniker:** Tjekket 21. okt. 2026 på en Egaa-**lærerkonto** (Word til Mac 16.112.2, Microsoft 365-abonnement): der er **ingen** Copilot-indstilling, så Copilot er ikke aktiveret for kontoen. Tjek én **elevcomputer**, før modulet. Er det det samme, kan Copilot-punktet springes over, og fokus kan ligge på tekstforudsigelser og Apple Intelligence.
 
 Find din Word-version: **Word → Om Word** (Mac) eller **Filer → Konto → Om Word** (Windows).
 
@@ -490,6 +498,9 @@ Find din Word-version: **Word → Om Word** (Mac) eller **Filer → Konto → Om
 ### Andre programmer og browseren
 
 - **Luk** ChatGPT-, Gemini-, Claude- og Copilot-apps, før prøven starter
+- **Microsoft 365 Copilot** med skolekontoen: Alle elever har gratis *Copilot Chat (Basic)* på [m365.cloud.microsoft](https://m365.cloud.microsoft) og kan installere **Microsoft 365 Copilot-skrivebordsappen**. Den må **ikke** være åben eller bruges under eksamen. Det er dén, der er den reelle risiko, ikke Copilot inde i Word
+  - Skrivebordsappen er et **separat program**. Den skriver ikke inde i Word, men tekst kan kopieres over
+  - ⚠️ Appen kører i **baggrunden** ("CopilotAppHost"), selvom vinduet er lukket. Før eksamen: **Mac:** højreklik på Copilot-ikonet i Dock'en/menulinjen → **Slut**, og slå den fra under ** → Systemindstillinger → Generelt → Loginemner og udvidelser**. **Windows:** højreklik på ikonet ved uret → **Afslut**, og slå den fra under **Indstillinger → Apps → Start**
 - **Grammarly** og lignende (som app eller i browseren): log ud, eller slå udvidelsen fra
 - **Edge:** Copilot-knappen i højre side må ikke bruges
 - Luk alle faner, der ikke har noget med prøven at gøre (husk: ExamCookie optager skærmen og ser, hvilke sider der er åbne)
@@ -504,6 +515,34 @@ Find din Word-version: **Word → Om Word** (Mac) eller **Filer → Konto → Om
 > **Til lærer og tekniker:** Skolens IT kan muligvis slå Copilot fra centralt for elevkonti. Det er værd at spørge om, men eleverne skal stadig tjekke deres egen computer, fordi tekstforudsigelser og Apple Intelligence ligger i styresystemet. Danske menunavne kan variere lidt fra version til version, så brug **søgefeltet** i indstillingerne, hvis et punkt ikke står præcis som her.
 
 Kilder: [Microsoft – Tekstforudsigelser i Word](https://support.microsoft.com/en-us/Word/editor-text-predictions-in-word) · [SlashGear – Slå Copilot fra i Word](https://www.slashgear.com/1764811/how-to-disable-copilot-ai-microsoft-word) · [Office Watch – Tekstforudsigelser fra som standard (sep. 2026)](https://office-watch.com/2026/text-predictions-off-by-default-word-outlook/) · [Creative Techs – macOS forudsigende tekst](https://www.creativetechs.com/2024/02/22/heres-how-to-turn-off-text-suggestions/) · [Apple – Apple Intelligence på dansk](https://www.apple.com/dk/newsroom/2025/11/apple-intelligence-features-are-now-available-in-danish/)
+
+## Ordbøger
+
+Digitale ordbøger er tilladt i de fleste fag, men der er regler:
+
+| Regel (UVM, feb. 2026) | Betyder for dig |
+|---|---|
+| *"En digital ordbog skal i udgangspunktet downloades og opbevares lokalt."* | Hent ordbogen ned på computeren **før** eksamen |
+| *"Det er dog tilladt at tilgå en given digital ordbog via internettet, såfremt den ikke kan downloades."* | Online-ordbog er kun okay, hvis der ikke findes en version, man kan hente |
+| Ikke tilladt: ordbøger, der kan oversætte *"hele udtryk, verbalformer, ordkæder og længere sammenhængende tekstmængder eller sætninger"* | Google Translate, DeepL, AI-oversættere og lignende er **forbudt** |
+| Ikke tilladt: hjælpemidler, *"hvis primære formål er at formbestemme enkelte ord"* | Bøjningsværktøjer er forbudt |
+
+**Undtagelser:** Fransk og spansk begyndersprog A, italiensk A og matematik A/B/C (1. delprøve) har særlige regler med færre eller ingen hjælpemidler. Se oversigten.
+
+### Ordbogen.com offline
+
+Ordbogen.com har et **skrivebordsprogram**, hvor ordbøgerne kan hentes ned og bruges uden internet (det gør fx DTU Bibliotek, maj 2026):
+
+1. Hent programmet under **Download** på [ordbogen.com](https://www.ordbogen.com/da/)
+2. Log på, og gå til **Mine ordbøger**. Ordbøgerne bliver hentet automatisk
+3. Starter det ikke: **Indstillinger → Force Offline**, og vent et par minutter
+4. Test: slå Wi-Fi fra, og slå et ord op
+
+> **Til lærer og tekniker:** Skolen har **offline-licens** til Ordbogen.com. Tjek i modulet, at alle elever har hentet programmet og ordbøgerne og kan slå op med Wi-Fi slået fra.
+
+> **AI i Ordbogen?** Ordbogen A/S lancerede i april 2026 **educhat.dk**, en AI-assistent til folkeskolen. Den er ikke en del af ordbøgerne og må **ikke** bruges til eksamen. Jeg har ikke fundet tegn på AI-funktioner i selve ordbogsopslaget (tjekket okt. 2026).
+
+Kilder: [UVM – Hjælpemiddeloversigt til gymnasiale prøver (23. feb. 2026)](https://uvm.dk/media/iuppxvjr/260223-hjaelpemiddeloversigt-til-gymnasiale-proever.pdf) · [DTU Bibliotek – Offline adgang til Ordbogen.com (maj 2026)](https://www.bibliotek.dtu.dk/nyhedsarkiv/2026/05/ordbogen-com) · [viden.ai – Ordbogen lancerer educhat.dk (apr. 2026)](https://viden.ai/ordbogen-lancerer-dansk-ai-platform-til-folkeskolen/)
 
 ## Download og eksamensmappe
 
