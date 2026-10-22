@@ -88,4 +88,4 @@ Nu skal I selv prøve metoden: [Farvestof i rød sodavand]({{< relref "/docs/kem
 
 ---
 
-Flere opgaver: [Spektroskopi – tillægsopgaver]({{< relref "spektroskopiopgaver" >}})
+Flere opgaver: [Spektrofotometri – tillægsopgaver]({{< relref "spektrofotometriopgaver" >}})

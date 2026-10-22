@@ -1,9 +1,10 @@
 ---
-title: "Spektroskopi – tillægsopgaver"
+title: "Spektrofotometri – tillægsopgaver"
 weight: 2
+aliases: ["/docs/kemi/metoder/spektroskopiopgaver/"]
 ---
 
-# Spektroskopi – tillægsopgaver
+# Spektrofotometri – tillægsopgaver
 
 **Niveau: Kemi B/C, 2.g** · **Emne: Spektrofotometri og Lambert-Beers lov**
 
@@ -23,7 +24,7 @@ c) Før du måler, nulstiller du spektrofotometret med en kuvette med rent vand 
 
 Du vil bestemme indholdet af tartrazin i en gul sportsdrik. Du laver standardopløsninger og får standardkurven nedenfor.
 
-![Standardkurve for tartrazin](/img/spektroskopi/standardkurve-tartrazin.svg)
+![Standardkurve for tartrazin](/img/spektrofotometri/standardkurve-tartrazin.svg)
 
 Sportsdrikken er for kraftigt farvet til at måle direkte, så du **fortynder den 5 gange** (10,0 mL sportsdrik fyldt op til 50,0 mL med vand). Den fortyndede opløsning har absorbansen **A = 0,43**.
 
