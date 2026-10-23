@@ -54,10 +54,13 @@ def card(k, col, row):
         bill = rf"\par\vspace{{1mm}}\centering\includegraphics[height=37mm,width=90mm,keepaspectratio]{{{os.path.join(IMG, k['billede'])}.pdf}}"
     body = (rf"\begin{{minipage}}[t][{H-24:.1f}mm][t]{{{W-10:.1f}mm}}{badge}\par\vspace{{{1.5 if har_bill else 4}mm}}"
             rf"{{{spm_str}\raggedright {tex(k['spm'])}\par}}{bill}\end{{minipage}}")
+    if k.get("svar"):
+        indhold = (rf"\textbf{{Svar:}} {tex(k['svar'])}"
+                   + (rf"\par\vspace{{0.6mm}}{{\scriptsize\color{{black!65}}\textbf{{Hint:}} {tex(k['hint'])}}}" if k.get('hint') else ""))
+    else:  # kun hint (fx flashcards uden svar)
+        indhold = rf"\textbf{{Hint:}} {tex(k.get('hint', ''))}"
     svar = (rf"\rotatebox{{180}}{{\begin{{minipage}}[c][14mm][c]{{{W-14:.1f}mm}}\footnotesize\raggedright"
-            rf"\textbf{{Svar:}} {tex(k['svar'])}"
-            + (rf"\par\vspace{{0.6mm}}{{\scriptsize\color{{black!65}}\textbf{{Hint:}} {tex(k['hint'])}}}" if k.get('hint') else "")
-            + r"\end{minipage}}")
+            + indhold + r"\end{minipage}}")
     return rf"""
 \node[anchor=north west,inner sep=0] at ([xshift={x0+5}mm,yshift=-{y0+4}mm]current page.north west) {{{body}}};
 \fill[svarbg] ([xshift={x0+3}mm,yshift=-{y0+H-3}mm]current page.north west) rectangle ([xshift={x0+W-3}mm,yshift=-{y0+H-19}mm]current page.north west);
@@ -68,6 +71,7 @@ doc = [r"""\documentclass[a4paper]{article}
 \usepackage[margin=0mm]{geometry}
 \usepackage{fontspec}
 \usepackage{amsmath,amssymb,graphicx,tikz,xcolor}
+\usepackage[version=4]{mhchem}
 """ + "".join(rf"\definecolor{{type{re.sub(r'[^a-zA-Z]', '', n)}}}{{HTML}}{{{str(t.get('farve','2471A3')).lstrip('#')}}}" for n, t in TYPER.items()) + r"""
 \definecolor{enhed}{HTML}{F9E79F}\definecolor{svarbg}{HTML}{EAF2F8}
 \pagestyle{empty}\setlength{\parindent}{0pt}

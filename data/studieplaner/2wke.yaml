@@ -102,14 +102,38 @@ moduler:
     lektier: "læse Øvelsesvejledningen"
     maal: [eksperiment]
     kommentar: "vi blev lidt presset under eksperient og nåede ikke journalen"
-  - nr: 12
-    dato: 2026-10-02
-    emne: "Spektrofotometri"
-    forloeb: "spektrofotometri"
-    materialer: [spektrofotometri]
+  - nr: 13
+    dato: 2026-10-08
+    emne: "Ligevægt"
+    forloeb: "Ligevægt"
+    materialer: [ligevaegt]
+    lektier: "Se filmen om ligevægt "
+    maal: [at forstå ligevægtsbrøken]
+    kommentar: "Intro, repetition af aktuel koncentration"
+  - nr: 14
+    dato: 2026-10-22
+    emne: "Ligevægt og Le Chatelier"
+    forloeb: "Ligevægt"
+    materialer: [ligevaegt]
+    lektier: "se filmen om Le Chatelier"
+    maal: [At forstå ligevægts forskydning]
+    kommentar: "Der er både RANI og PR så det blev et meget kort modul med kun halvdelen af klassen"
+  - nr: 15
+    dato: 2026-10-26
+    emne: "2 eksperimenter med Ligevægt"
+    forloeb: "Ligevægt"
+    materialer: [ligevaegt-jernthiocyanat]
     lektier: "skriv journalen færdig "
-    maal: [skrive journalen færdig]
-    kommentar: "Aflever i slutningen af moduler"
+    maal: [At få insigt til Le Chatelier]
+    kommentar: "Lad os se om to forsøg er for meget. "
+  - nr: 16
+    dato: 2026-10-27
+    emne: "2 eksperimenter med Ligevægt"
+    forloeb: "Ligevægt"
+    materialer: [ligevaegt-jernthiocyanat]
+    lektier: "skriv journalen færdig "
+    maal: [Opsamling på sidste modul ]
+    kommentar: ""
 
 
 

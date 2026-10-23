@@ -36,7 +36,7 @@
   <button data-f="enhed">{{ $maerke }}</button>
   <span class="qk-sep"></span>
   <button data-a="bland">🔀 Bland</button>
-  <button data-a="svar">Vis alle svar</button>
+  {{- if not .kun_hint }}<button data-a="svar">Vis alle svar</button>{{ end }}
 </div>
 <div class="qk-grid">
 {{- range sort .kort "nr" }}
@@ -48,7 +48,7 @@
     {{- with .billede }}<img src="{{ printf "img/quiz-%s/%s.svg" $navn . | relURL }}" alt="Graf til kort">{{ end }}
     <div class="qk-foot">
       {{- with .hint }}<details class="hint"><summary>Hint</summary><p>{{ . | markdownify }}</p></details>{{ end }}
-      <details class="svar" style="margin-top:.35rem"><summary>Svar</summary><p>{{ .svar | markdownify }}</p></details>
+      {{- with .svar }}<details class="svar" style="margin-top:.35rem"><summary>Svar</summary><p>{{ . | markdownify }}</p></details>{{ end }}
     </div>
   </div>
 {{- end }}
@@ -70,7 +70,7 @@
     cs.forEach(c=>grid.appendChild(c));
   };
   const sb=root.querySelector('[data-a=svar]');
-  sb.onclick=()=>{const aab=sb.textContent.startsWith("Vis");
+  if(sb) sb.onclick=()=>{const aab=sb.textContent.startsWith("Vis");
     grid.querySelectorAll("details.svar").forEach(d=>d.open=aab);
     sb.textContent=aab?"Skjul alle svar":"Vis alle svar"; sb.classList.toggle("on",aab);};
 })();

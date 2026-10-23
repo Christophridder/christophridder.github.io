@@ -9,6 +9,8 @@ pdf_ny_fane: true
 
 Du ser to korte film. Efter hver film løser du opgaverne. Forsøg først selv. Sidder du fast, så scroll ned til Hints, og til sidst til Løsninger.
 
+Flere opgaver: [Opgaver til ligevægt]({{< relref "opgaver-ligevaegt" >}})
+
 ## Film 1 – Kemisk ligevægt
 
 {{< yt id="XjLaGvq20YU" >}}

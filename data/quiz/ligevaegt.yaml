@@ -1,0 +1,300 @@
+# Flashcards – Ligevægt (Kemi B)
+# Kun hint – ingen svar. Hintet står på hovedet nederst på printkortet.
+# Felter: nr, type, maerke (valgfri), spm, billede (valgfri), hint
+# Grafer/billeder: static/img/quiz-ligevaegt/  (lav dem med scripts/quizkort/graphs_ligevaegt.py)
+# Print-PDF: python3 scripts/quizkort/build_pdf.py ligevaegt
+
+titel: "Flashcards – Ligevægt"
+kun_hint: true
+maerke_filter: "Reaktionsbrøk"
+typer:
+  begreb:   { label: "Begreb",   farve: "1E8449" }
+  forskyd:  { label: "Forskyd",  farve: "CA6F1E" }
+  graf:     { label: "Graf",     farve: "2471A3" }
+  forsoeg:  { label: "Forsøg",   farve: "8E44AD" }
+
+kort:
+
+# ---------- Begreber ----------
+- nr: 1
+  type: begreb
+  spm: 'Forklar, hvad det betyder, når en reaktion er i **dynamisk** ligevægt.'
+  hint: 'Reaktionen er ikke stoppet. Tænk på to hastigheder – frem og tilbage.'
+
+- nr: 2
+  type: begreb
+  spm: 'Ved ligevægt: Hvad er **lige stort**, og hvad er **konstant**?'
+  hint: 'Det ene handler om hastigheder, det andet om koncentrationer. De er ikke det samme!'
+
+- nr: 3
+  type: begreb
+  spm: 'Du tilsætter en katalysator til et system i ligevægt. Ændrer det ligevægtens beliggenhed?'
+  hint: 'En katalysator sænker aktiveringsenergien for **begge** retninger. Ændres $K$? Ændres $Y$?'
+
+- nr: 4
+  type: begreb
+  spm: 'Haber-processen: $\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$ + energi. Hvorfor kan høj temperatur give **mindre** ammoniak, selvom reaktionen går hurtigere?'
+  hint: 'Skeln mellem *hvor hurtigt* ligevægten indstiller sig, og *hvor* den ligger. Skriv $+\,Q$ på højre side.'
+
+- nr: 5
+  type: begreb
+  spm: 'Du tilsætter en inaktiv gas til en gasligevægt i en beholder med **fast volumen**. Forskydes ligevægten?'
+  hint: 'Ændres partialtrykkene af de stoffer, der står i reaktionsbrøken?'
+
+- nr: 6
+  type: begreb
+  maerke: Y
+  spm: 'Hvad er forskellen på reaktionsbrøken $Y$ og ligevægtskonstanten $K$?'
+  hint: '$Y$ kan udregnes på ethvert tidspunkt. Hvornår er $Y = K$?'
+
+- nr: 7
+  type: begreb
+  maerke: Y
+  spm: 'Opskriv reaktionsbrøken med partialtryk for $\ce{2SO2(g) + O2(g) <=> 2SO3(g)}$.'
+  hint: 'Produkter i tælleren, udgangsstoffer i nævneren. Koefficienter bliver til eksponenter. Brug $p(\ce{SO3})$ osv.'
+
+- nr: 8
+  type: begreb
+  maerke: Y
+  spm: 'Opskriv reaktionsbrøken for $\ce{Ca^2+(aq) + CO3^2-(aq) <=> CaCO3(s)}$.'
+  hint: 'Faste stoffer står ikke i brøken. Hvad står der så i tælleren?'
+
+# ---------- Forskyd: højre eller venstre? ----------
+- nr: 9
+  type: forskyd
+  spm: '$\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$ er eksoterm. Hvad sker der, når temperaturen **øges**?'
+  hint: 'Skriv $+\,Q$ på højre side. Øget temperatur = du tilfører $Q$. Argumentér kun ud fra skemaet.'
+
+- nr: 10
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{CO(g) + H2O(g) <=> CO2(g) + H2(g)}$. Du tilsætter mere $\ce{CO}$. Hvilken vej forskydes ligevægten?'
+  hint: '$p(\ce{CO})$ står i nævneren. Bliver $Y$ større eller mindre end $K$?'
+
+- nr: 11
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$. Trykket **falder**. Hvilken vej forskydes ligevægten?'
+  hint: 'Tæl gasmolekyler: $1 + 3$ mod $2$. Alle partialtryk bliver mindre – hvor står der flest faktorer i $Y$?'
+
+- nr: 12
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{H2(g) + I2(g) <=> 2HI(g)}$. Du fjerner $\ce{H2}$. Hvilken vej forskydes ligevægten?'
+  hint: 'Fjernet stof → hen mod stoffet. $p(\ce{H2})$ står i nævneren.'
+
+- nr: 13
+  type: forskyd
+  spm: '$\ce{CaCO3(s) <=> CaO(s) + CO2(g)}$ er endoterm. Hvad sker der ved en temperaturstigning?'
+  hint: 'Endoterm → skriv $Q$ på **venstre** side: $\ce{CaCO3(s)} + Q$.'
+
+- nr: 14
+  type: forskyd
+  spm: '$\ce{Fe^3+ + SCN- <=> FeSCN^2+}$ er svagt eksoterm mod højre. Hvad sker der med farven, når temperaturen **øges**?'
+  hint: 'Skriv $+\,Q$ på højre side. Hvilket stof er rødt?'
+
+- nr: 15
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{Fe^3+ + SCN- <=> FeSCN^2+}$. Du tilsætter ascorbinsyre (vitamin C). Hvad sker der med farven?'
+  hint: 'Ascorbinsyre er et reduktionsmiddel: $\ce{Fe^3+}$ bliver til $\ce{Fe^2+}$. Hvilket stof forsvinder fra ligevægten?'
+
+- nr: 16
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{Fe^3+ + SCN- <=> FeSCN^2+}$. Du tilsætter sølvnitrat, $\ce{AgNO3}$. Hvad sker der med farven?'
+  hint: 'Sølvioner fælder thiocyanat: $\ce{Ag+ + SCN- -> AgSCN(s)}$.'
+
+- nr: 17
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{Fe^3+ + SCN- <=> FeSCN^2+}$. Du tilsætter vand. Hvad sker der med farven – ud over at den bliver fortyndet?'
+  hint: 'Alle tre koncentrationer halveres. Sæt $\tfrac{1}{2}$ ind i $Y$: to faktorer i nævneren, én i tælleren.'
+
+- nr: 18
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{Fe^3+ + SCN- <=> FeSCN^2+}$. Du tilsætter fast $\ce{Fe(NO3)3}$. Hvad sker der med farven?'
+  hint: 'Det faste stof opløses og giver flere $\ce{Fe^3+}$. Volumen ændres næsten ikke.'
+
+- nr: 19
+  type: forskyd
+  maerke: Y
+  spm: '**Svær:** $\ce{Fe^3+ + SCN- <=> FeSCN^2+}$. Du tilsætter 1 mL af den samme $\ce{Fe(NO3)3}$-opløsning, som du brugte til at lave blandingen. Hvad sker der?'
+  hint: 'Du tilsætter $\ce{Fe^3+}$ **og** fortynder. Er $[\ce{Fe^3+}]$ i den tilsatte opløsning større end i blandingen?'
+
+- nr: 20
+  type: forskyd
+  maerke: Y
+  spm: 'En gasligevægt har **flere** gasmolekyler på venstre side end på højre. Hvad sker der, når volumen **øges**?'
+  hint: 'Større volumen → lavere partialtryk. Ligevægten forskydes mod siden med flest gasmolekyler.'
+
+- nr: 21
+  type: forskyd
+  spm: '$\ce{2SO2(g) + O2(g) <=> 2SO3(g)}$ bruges til at lave svovlsyre. Hvad sker der, når trykket **øges**?'
+  hint: 'Tæl gasmolekyler: $2 + 1$ mod $2$.'
+
+- nr: 22
+  type: forskyd
+  spm: '$\ce{N2O4(g) <=> 2NO2(g)}$ er endoterm. Hvad sker der, når temperaturen **sænkes**?'
+  hint: 'Skriv $Q$ på venstre side. Afkøling = du fjerner $Q$.'
+
+- nr: 23
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{CH4(g) + H2O(g) <=> CO(g) + 3H2(g)}$. Du fjerner $\ce{H2}$. Hvilken vej forskydes ligevægten?'
+  hint: 'Fjernet stof → hen mod stoffet. $p(\ce{H2})$ står i tælleren i tredje potens.'
+
+- nr: 24
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{PCl5(g) <=> PCl3(g) + Cl2(g)}$. Volumen **øges**. Hvilken vej forskydes ligevægten, og hvad sker der med $[\ce{PCl3}]$?'
+  hint: 'Tæl gasmolekyler. Kan forskydningen opveje, at alt bliver fortyndet?'
+
+- nr: 25
+  type: forskyd
+  spm: '$\ce{H+(aq) + OH-(aq) <=> H2O(l)}$ er eksoterm. Hvad sker der, når temperaturen **sænkes**?'
+  hint: 'Skriv $+\,Q$ på højre side. Afkøling = du fjerner $Q$.'
+
+- nr: 26
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{CO3^2-(aq) + 2H+(aq) <=> H2O(l) + CO2(g)}$. Du tilsætter $\ce{HCl}$. Hvad sker der?'
+  hint: '$\ce{HCl}$ giver flere $\ce{H+}$. Hvad sker der med $\ce{CO2}$-gassen, når den kan slippe væk?'
+
+- nr: 27
+  type: forskyd
+  maerke: Y
+  spm: '$\ce{Ca^2+(aq) + CO3^2-(aq) <=> CaCO3(s)}$. Du tilsætter mere $\ce{Ca^2+}$. Hvad sker der?'
+  hint: '$Y = \dfrac{1}{[\ce{Ca^2+}]\cdot[\ce{CO3^2-}]}$. Bliver $Y$ større eller mindre?'
+
+- nr: 28
+  type: forskyd
+  spm: '$\ce{NH4+(aq) <=> NH3(aq) + H+(aq)}$ er endoterm. Hvad sker der med pH, når temperaturen **øges**?'
+  hint: 'Skriv $Q$ på venstre side. Hvad sker der med $[\ce{H+}]$?'
+
+# ---------- Grafer ----------
+- nr: 29
+  type: graf
+  maerke: Y
+  spm: 'Hvornår er ligevægten indstillet? Aflæs, og beregn $K$.'
+  billede: g01-indstilling
+  hint: 'Ligevægt: kurverne er vandrette. $K = \dfrac{[\ce{B}]}{[\ce{A}]}$.'
+
+- nr: 30
+  type: graf
+  spm: 'Hvilken kurve er hastigheden **frem**, og hvilken er **tilbage**? Hvad betyder det, at de mødes?'
+  billede: g02-hastigheder
+  hint: 'Ved start er der kun A. Hvilken reaktion kan så slet ikke ske?'
+
+- nr: 31
+  type: graf
+  spm: 'Hvad er der gjort ved $t = 60$ s? Hvilken vej forskydes ligevægten?'
+  billede: g03-fe-indgreb
+  hint: 'Hvilken kurve springer? Hvad gør de to andre kurver bagefter?'
+
+- nr: 32
+  type: graf
+  spm: 'Hvad er der gjort ved $t = 60$ s? Hvad kunne du have tilsat?'
+  billede: g04-scn-indgreb
+  hint: 'Et stof er fjernet. Hvilket stof kan fælde $\ce{SCN-}$?'
+
+- nr: 33
+  type: graf
+  maerke: Y
+  spm: 'Hvad er der gjort ved $t = 60$ s? Forklar forskydningen med reaktionsbrøken.'
+  billede: g05-fortynding
+  hint: 'Alle kurver springer ned til det halve. Sæt $\tfrac{1}{2}$ ind i $Y$.'
+
+- nr: 34
+  type: graf
+  maerke: Y
+  spm: 'Hvad er der gjort ved $t = 60$ s? Hvorfor falder $[\ce{NO2}]$ bagefter?'
+  billede: g06-volumen
+  hint: 'Begge koncentrationer fordobles. $Y = \dfrac{[\ce{NO2}]^2}{[\ce{N2O4}]}$ – hvad sker der med $Y$?'
+
+- nr: 35
+  type: graf
+  spm: 'Ved $t = 60$ s er der **ikke** tilsat eller fjernet noget. Hvad er der så sket?'
+  billede: g07-temperatur
+  hint: 'Ingen kurve springer. Reaktionen er eksoterm mod højre. Hvilken vej går ligevægten?'
+
+- nr: 36
+  type: graf
+  spm: 'Den ene forsøgsrække har fået en katalysator. Hvilken? Hvorfor ender de samme sted?'
+  billede: g08-katalysator
+  hint: 'En katalysator ændrer hastigheden – ikke $K$.'
+
+- nr: 37
+  type: graf
+  maerke: Y
+  spm: 'Aflæs koncentrationerne ved ligevægt, og beregn $K$ med enhed.'
+  billede: g09-beregn-k
+  hint: '$K = \dfrac{[\ce{B}]^2}{[\ce{A}]}$. Enhed: $\dfrac{\text{M}^2}{\text{M}}$.'
+
+# ---------- Forsøg: hvad er der sket? ----------
+- nr: 38
+  type: forsoeg
+  spm: 'Jernthiocyanat bliver **mørkere** rød. Hvad kan der være tilsat? Hvilken vej er ligevægten forskudt?'
+  billede: b01-mere-roed
+  hint: 'Mere rød = mere $\ce{FeSCN^2+}$. Der er to muligheder.'
+
+- nr: 39
+  type: forsoeg
+  spm: 'Jernthiocyanat bliver **bleg**. Nævn to ting, der kan være tilsat.'
+  billede: b02-bleg
+  hint: 'Et af udgangsstofferne er fjernet. Tænk på sølvioner og vitamin C.'
+
+- nr: 40
+  type: forsoeg
+  spm: 'Jernthiocyanat går fra rød mod orange med koncentreret saltsyre. Forklar.'
+  billede: b08-feha
+  hint: '$\ce{Fe^3+ + 4Cl- <=> FeCl4-}$ (gul). Hvad sker der med $[\ce{Fe^3+}]$?'
+
+- nr: 41
+  type: forsoeg
+  spm: 'To kolber med $\ce{N2O4(g) <=> 2NO2(g)}$ (brun $\ce{NO2}$, endoterm mod højre). Hvilken står i kogende vand?'
+  billede: b07-no2-temp
+  hint: 'Skriv $Q$ på venstre side. Hvilken gas er brun?'
+
+- nr: 42
+  type: forsoeg
+  maerke: Y
+  spm: 'Kobbersulfat bliver grøn med koncentreret saltsyre. Forklar med $\ce{Cu(H2O)6^2+ + 4Cl- <=> CuCl4^2- + 6H2O}$.'
+  billede: b03-cu-hcl
+  hint: 'Blå $\ce{Cu(H2O)6^2+}$, gulgrøn $\ce{CuCl4^2-}$. Saltsyre giver flere $\ce{Cl-}$.'
+
+- nr: 43
+  type: forsoeg
+  maerke: Y
+  spm: 'Den grønne kobberopløsning bliver blå igen, når du tilsætter vand. Forklar med reaktionsbrøken.'
+  billede: b04-cu-vand
+  hint: 'Vand er opløsningsmiddel og står ikke i $Y$. Sæt $\tfrac{1}{2}$ ind: $[\ce{Cl-}]^4$ giver mange faktorer i nævneren.'
+
+- nr: 44
+  type: forsoeg
+  spm: 'Kobbersulfat bliver dybblå med ammoniak og lyseblå igen med svovlsyre. Forklar begge skift.'
+  billede: b05-cu-nh3
+  hint: 'Dybblå: $\ce{Cu(NH3)4(H2O)2^2+}$. Syre fjerner ammoniak: $\ce{NH3 + H+ -> NH4+}$.'
+
+- nr: 45
+  type: forsoeg
+  spm: 'De første dråber ammoniak giver et lyseblåt bundfald. Hvad er det, og hvorfor forsvinder det igen?'
+  billede: b06-cu-bundfald
+  hint: 'Ammoniak er en base og giver $\ce{OH-}$. Med mere $\ce{NH3}$ dannes et kompleks, som binder $\ce{Cu^2+}$.'
+
+- nr: 46
+  type: forsoeg
+  maerke: Y
+  spm: 'Opskriv reaktionsbrøken for $\ce{Cu(H2O)6^2+ + 4Cl- <=> CuCl4^2- + 6H2O}$. Hvorfor er vand ikke med?'
+  hint: 'Vand er opløsningsmiddel. $[\ce{Cl-}]$ får eksponenten 4.'
+
+- nr: 47
+  type: forsoeg
+  spm: 'Hvorfor bruger vi svovlsyre og **ikke** saltsyre til at fjerne ammoniak i kobberforsøget?'
+  hint: 'Saltsyre giver $\ce{Cl-}$. Hvad gjorde $\ce{Cl-}$ ved kobber i det andet glas?'
+
+- nr: 48
+  type: forsoeg
+  spm: 'Den dybblå kobber-ammoniak-opløsning bliver næsten ikke lyseblå, når du tilsætter vand. Hvorfor ikke?'
+  hint: '$K$ for ammoniakkomplekset er meget stor (ca. $10^{13}\ \text{M}^{-4}$). Ligevægten ligger langt til højre.'
