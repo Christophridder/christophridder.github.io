@@ -92,7 +92,6 @@ moduler:
     lektier: "Læs [klik her](akademisk-opgave)"
     kommentar: "Meget individuelle projekter"
     maal: [modul 1]
-
   - nr: 12
     dato: 2026-09-29
     emne: Projektforløb5
@@ -117,3 +116,27 @@ moduler:
     lektier: "Læs [klik her](akademisk-opgave)"
     kommentar: "Vejledning i skrivefase"
     maal: [modul 4]
+  - nr: 15
+    dato: 2026-10-08
+    emne: Stød
+    forloeb: p = m*v 
+    materialer: [kraftplatform-hop] 
+    lektier: "Læs stød i bogen" 
+    kommentar: "Vi laver forsøget med loggerpro hop på kraftplatform"
+    maal: [at forstå integral og impuls]
+  - nr: 16
+    dato: 2026-10-20
+    emne: Stød
+    forloeb: p = m*v 
+    materialer: [stoed-luftpudebane] 
+    lektier: "Forbered wordfil til forsøget" 
+    kommentar: "vi bruger 10cm strimler og loggerpro"
+    maal: [elastisk stød]
+  - nr: 17
+    dato: 2026-10-26
+    emne: Stød
+    forloeb: p = m*v 
+    materialer: [stoed-luftpudebane] 
+    lektier: "Vi gennemfører alle tre forsøg" 
+    kommentar: "Lad os se hvordan det går"
+    maal: [elastisk og uelastisk stød]
