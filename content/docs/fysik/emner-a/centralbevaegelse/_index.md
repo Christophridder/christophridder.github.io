@@ -6,7 +6,11 @@ bookCollapseSection: true
 
 **Kernestof:** Mekanik – cirkelbevægelse og gravitation
 
-| Fil | Emne |
+| Side | Emne |
 |---|---|
-| [Jævn cirkelbevægelse]({{< relref "jaevn-cirkelbevaegelse" >}}) | Centripetalkraft og -acceleration |
-| [Gravitation og bevægelse om et centrallegeme]({{< relref "gravitation-centrallegeme" >}}) | Gravitationsloven, satellit-/planetbaner, Keplers love |
+| [Jævn cirkelbevægelse]({{< relref "jaevn-cirkelbevaegelse" >}}) | Stedvektor, $v = \omega r$, $a = v^2/r$, kraft som vektor, centripetalkraft, forsøg |
+| [Newtons gravitationslov]({{< relref "gravitationsloven" >}}) | Gravitationsloven, tyngdefeltet, Newtons månetest, cirkulær bane |
+| [Keplers love]({{< relref "keplers-love" >}}) | Ellipse-, flade- og periodeloven, geostationær bane, **simulering** |
+| [Energi i centralbevægelse]({{< relref "energi-centralbevaegelse" >}}) | $E_{\text{pot}} = -GMm/r$, energi i bane, undvigelseshastighed |
+
+**Simulering:** [Kredsløb om Jorden](/sim/kredsloeb.html) – åbn i fuld skærm.

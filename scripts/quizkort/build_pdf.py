@@ -28,6 +28,7 @@ def tex(s):
             ud.append(d)
         else:
             d = re.sub(r"\*\*(.+?)\*\*", r"\\textbf{\1}", d)
+            d = re.sub(r"(?<![*\w])\*([^*\n]+?)\*(?![*\w])", r"\\emph{\1}", d)  # *kursiv*
             for a, b in ERSTAT.items():
                 d = d.replace(a, b)
             ud.append(d)
@@ -96,4 +97,7 @@ for _ in range(2):  # to gennemløb, så tikz kan placere kortene på siden
 if r.returncode != 0 or not os.path.exists(os.path.join(tmp, "kort.pdf")):
     print(r.stdout[-3000:]); sys.exit(f"Fejl – se {tmp}/kort.log")
 shutil.copy(os.path.join(tmp, "kort.pdf"), OUTPDF)
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pdf"))
+from printsikker import printsikker
+printsikker(OUTPDF)  # tekst -> kurver, så print ikke taber tegn
 print("Skrevet:", OUTPDF)

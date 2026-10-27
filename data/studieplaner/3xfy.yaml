@@ -140,3 +140,19 @@ moduler:
     lektier: "Vi gennemfører alle tre forsøg" 
     kommentar: "Lad os se hvordan det går"
     maal: [elastisk og uelastisk stød]
+  - nr: 18
+    dato: 2026-10-27
+    emne: Stød
+    forloeb: cirkelbevaegelse 
+    materialer: [jaevn-cirkelbevaegelse] 
+    lektier: "Læs side 592 i fysikABbogen " 
+    kommentar: "lad os se"
+    maal: [at forstå cirkelbevaegelse]
+  - nr: 19
+    dato: 2026-10-27
+    emne: Stød
+    forloeb: cirkelbevaegelse
+    materialer: [gravitation-centrallegeme] 
+    lektier: "Læs side 592 og regn opgaver " 
+    kommentar: "Lad os se hvordan det går"
+    maal: [centrallegeme]

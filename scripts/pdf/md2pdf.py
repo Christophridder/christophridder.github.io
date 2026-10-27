@@ -32,6 +32,14 @@ if m:
     body = body[:m.start()] + body[m.end():]
 sub = sub or ""
 
+# Græske bogstaver i titel/undertitel: bjælkens sans-serif-skrift har dem ikke -> brug matematik
+GRAESK = {"α": "alpha", "β": "beta", "γ": "gamma", "δ": "delta", "Δ": "Delta", "ε": "varepsilon",
+          "θ": "theta", "λ": "lambda", "μ": "mu", "ν": "nu", "π": "pi", "ρ": "rho", "σ": "sigma",
+          "τ": "tau", "φ": "varphi", "ω": "omega", "Ω": "Omega"}
+for g, navn in GRAESK.items():
+    sub = sub.replace(g, "\\ensuremath{\\" + navn + "}")
+    title = title.replace(g, "$\\\\" + navn + "$")   # i YAML-strengen bliver \\\\ til \\
+
 # Hugo -> pandoc: shortcodes væk, relref-links til tekst, blanke linjer før overskrifter/lister
 body = re.sub(r"\[([^\]]+)\]\(\{\{<\s*relref[^>]*>\}\}\)", r"\1", body)
 body = re.sub(r"\{\{[<%].*?[>%]\}\}", "", body)
@@ -71,8 +79,10 @@ body = body.replace("~~", "")
 # mhchem: brug pakken hvis TeX har den; ellers advar og lav simple \ce{} om til \mathrm med subscripts
 har_mhchem = subprocess.run(["kpsewhich", "mhchem.sty"], capture_output=True, text=True).stdout.strip() != ""
 if not har_mhchem and r"\ce{" in body:
-    print("ADVARSEL: mhchem.sty mangler i din TeX -> installér med:  sudo tlmgr install mhchem\n"
-          "          Indtil da laves simple \\ce{}-formler om til \\mathrm{} (kun tal -> subscript).", file=sys.stderr)
+    # Stop hellere end at lave en PDF, hvor +, −, ladninger, pile og parenteser forsvinder
+    sys.exit("FEJL: Siden bruger \\ce{}, men mhchem.sty mangler i din TeX.\n"
+             "      Installér med:  sudo tlmgr install mhchem   og kør igen.")
+    print("", file=sys.stderr)
     def ce2mathrm(m):
         f = re.sub(r"(?<=[A-Za-z)\]])(\d+)", r"_{\1}", m.group(1))
         return r"\mathrm{" + f + "}"
@@ -96,6 +106,9 @@ open(os.path.join(tmp, "h.tex"), "w").write(header)
 open(os.path.join(tmp, "in.md"), "w").write(f'---\ntitle: "{title}"\n---\n' + body)
 r = subprocess.run(["pandoc", "in.md", "-f", "markdown-auto_identifiers", "-o", out, "--pdf-engine=xelatex",
                     "-H", "h.tex", "-V", "lang=da", "-V", "fontsize=11pt",
-                    "-V", "geometry:top=30mm,bottom=22mm,left=22mm,right=22mm"], cwd=tmp, capture_output=True, text=True)
+                    "-V", "geometry:top=30mm,bottom=22mm,left=22mm,right=22mm", "-V", "papersize=a4"], cwd=tmp, capture_output=True, text=True)
 if r.returncode: sys.exit(r.stderr)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from printsikker import printsikker
+printsikker(out)  # tekst -> kurver, så print ikke taber tegn
 print("Skrevet:", out)

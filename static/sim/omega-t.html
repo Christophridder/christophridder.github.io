@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sukker og ωt – reguladetri</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; }
+:root {
+  --maengde: #2563eb;   /* kg sukker / tid t */
+  --pris:    #16a34a;   /* kr pr. kg / omega */
+  --resultat:#ea580c;   /* kroner / vinkel phi */
+}
+#ot {
+  background: #f1f5f9; border-radius: 14px; overflow: hidden;
+  max-width: 1000px; margin: 0 auto; box-shadow: 0 4px 24px rgba(0,0,0,0.13); user-select: none;
+}
+.head {
+  background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 12px 20px; color: white; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.head h1 { font-size: 1.2rem; font-weight: 800; }
+.head p { font-size: 0.8rem; opacity: 0.8; }
+.bar {
+  display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+  padding: 10px 12px 0; font-size: 0.82rem;
+}
+.bar button, .bar select {
+  border: 1.5px solid #cbd5e1; background: white; border-radius: 7px; padding: 5px 10px;
+  font: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer; color: #1e293b;
+}
+.bar button.on { background: #2563eb; color: white; border-color: #2563eb; }
+.bar .sep { flex: 1; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 12px 12px; }
+@media (max-width: 600px) { .cols { grid-template-columns: 1fr; } }
+.card { background: white; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 9px; }
+.card h2 { font-size: 1rem; font-weight: 800; }
+.given { font-size: 0.92rem; line-height: 1.5; min-height: 2.8em; }
+.ctrl label { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; color: #475569; }
+.ctrl label span { font-size: 0.95rem; }
+input[type=range] { width: 100%; }
+.mSl, .tSl { accent-color: var(--maengde); }
+.QSl, .TSl { accent-color: #64748b; }
+.ladder { display: grid; grid-template-columns: auto 1fr auto 1.35fr; align-items: center; gap: 4px 8px; font-size: 0.93rem; }
+.ladder .op { font-size: 0.75rem; color: #64748b; text-align: right; white-space: nowrap; }
+.ladder .q, .ladder .r { padding: 5px 8px; border-radius: 7px; font-weight: 700; text-align: center; white-space: nowrap; }
+.ladder .q { background: #dbeafe; color: var(--maengde); }
+.ladder .r { background: #ffedd5; color: var(--resultat); }
+.ladder .r.unit { background: #dcfce7; color: var(--pris); }
+.ladder .arr { color: #94a3b8; text-align: center; }
+.ladder .step { grid-column: 1 / -1; font-size: 0.72rem; color: #64748b; padding-left: 4px; }
+.vis { display: flex; justify-content: center; }
+svg text { font-family: 'Segoe UI', system-ui, sans-serif; }
+.formel {
+  margin: 0 12px 12px; background: white; border-radius: 10px; padding: 10px 14px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; font-size: 1.02rem; text-align: center;
+}
+@media (max-width: 600px) { .formel { grid-template-columns: 1fr; } }
+.formel .m { color: var(--maengde); font-weight: 700; }
+.formel .p { color: var(--pris); font-weight: 700; }
+.formel .r { color: var(--resultat); font-weight: 700; }
+.formel .lbl { font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.note { font-size: 0.78rem; color: #475569; line-height: 1.45; }
+</style>
+</head>
+<body>
+<div id="ot">
+  <div class="head">
+    <h1>Sukker og ωt</h1>
+    <p>Samme regning to gange: reguladetri (Dreisatz, rule of three).</p>
+  </div>
+
+  <div class="bar">
+    <button id="play">▶ Afspil</button>
+    <button id="nul">↺ Nulstil</button>
+    <select id="fart" title="Afspilningshastighed">
+      <option value="1">1× realtid</option>
+      <option value="0.5">½×</option>
+      <option value="0.25" selected>¼×</option>
+    </select>
+    <span class="sep"></span>
+    <button id="kobl" class="on" title="Begge sider får samme tal">🔗 Samme tal begge sider</button>
+    <button id="radmark" class="on">Radian-mærker</button>
+    <button id="grader">Vis også grader</button>
+  </div>
+
+  <div class="cols">
+    <div class="card" id="sideA"></div>
+    <div class="card" id="sideB"></div>
+  </div>
+
+  <div class="formel">
+    <div>
+      <div class="lbl">Sukker</div>
+      <span class="r">pris</span> = <span class="p">kr pr. kg</span> · <span class="m">m</span>
+      = <span class="p">2π/Q</span> · <span class="m">m</span>
+    </div>
+    <div>
+      <div class="lbl">Cirkelbevægelse</div>
+      <span class="r">φ</span> = <span class="p">ω</span> · <span class="m">t</span>
+      = <span class="p">2π/T</span> · <span class="m">t</span>
+    </div>
+    <div class="note" style="grid-column:1/-1">
+      <b>Farverne betyder det samme på begge sider:</b>
+      <span style="color:var(--maengde)">blå</span> er det, du har (kg sukker / sekunder),
+      <span style="color:var(--pris)">grøn</span> er "prisen pr. enhed" (kr pr. kg / rad pr. sekund = ω),
+      <span style="color:var(--resultat)">orange</span> er det, du vil finde (kroner / vinkel φ).
+      På pengecirklen er én hel omgang 2π kr ≈ 6,28 kr, og hvert radian-mærke er 1 kr.
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const C = { m: '#2563eb', p: '#16a34a', r: '#ea580c' };
+const TAU = 2 * Math.PI;
+
+// ---------- Talformat (dansk) ----------
+const f = (x, d = 2) => (+x.toFixed(d)).toLocaleString('da-DK', { maximumFractionDigits: d });
+const fFix = (x, d = 2) => x.toLocaleString('da-DK', { minimumFractionDigits: d, maximumFractionDigits: d });
+function piTxt(x) {            // (k/n)·π når det er pænt, ellers null
+  const k = x / Math.PI;
+  for (const n of [1, 2, 3, 4, 6, 8]) {
+    const z = k * n;
+    if (Math.abs(z - Math.round(z)) < 1e-6) {
+      const zz = Math.round(z);
+      if (zz === 0) return '0';
+      const num = zz === 1 ? 'π' : zz + 'π';
+      return n === 1 ? num : num + '/' + n;
+    }
+  }
+  return null;
+}
+function el(tag, attrs, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+// ---------- De to sider beskrives ens ----------
+const SIDER = {
+  A: {
+    titel: '🧂 Sukker → kroner',
+    given: Q => `<b>${f(Q)} kg</b> sukker koster <b>2π kr</b> ≈ 6,28 kr.`,
+    helLbl: 'Mængde for 2π kr, <i>Q</i>', helUnit: 'kg',
+    delLbl: 'Sukker <i>m</i>', delUnit: 'kg',
+    resUnit: 'kr', prisUnit: 'kr/kg', prisNavn: 'kr pr. kg',
+    trin1: Q => `(1) del med ${f(Q)} → hvad koster 1 kg?`,
+    trin2: m => `(2) gang med ${f(m)} → hvad koster ${f(m)} kg?`,
+    resNavn: 'pris', omgang: 'omgang à 2π kr', ylab: 'pris (kr)', xlab: 'm (kg)',
+    grader: false,
+  },
+  B: {
+    titel: '⟳ Tid → vinkel',
+    given: T => `Én omgang tager <b>T = ${f(T)} s</b> og svarer til <b>2π rad</b> (360°).`,
+    helLbl: 'Omløbstid <i>T</i>', helUnit: 's',
+    delLbl: 'Tid <i>t</i>', delUnit: 's',
+    resUnit: 'rad', prisUnit: 'rad/s', prisNavn: 'ω',
+    trin1: T => `(1) del med ${f(T)} → hvor stor en vinkel på 1 s? Det er ω`,
+    trin2: t => `(2) gang med t = ${f(t)} s → hvor stor en vinkel efter t?`,
+    resNavn: 'φ', omgang: 'omgang à 2π rad', ylab: 'φ (rad)', xlab: 't (s)',
+    grader: true,
+  },
+};
+const S = { A: { hel: 1, x: 0 }, B: { hel: 1, x: 0 } };
+let kobl = true, radmark = true, grader = false, spiller = false, last = 0;
+
+// Byg HTML for en side
+for (const k of ['A', 'B']) {
+  const d = SIDER[k];
+  $('side' + k).innerHTML = `
+    <h2>${d.titel}</h2>
+    <div class="given" id="giv${k}"></div>
+    <div class="ctrl"><label><b>${d.helLbl}</b> <span id="helV${k}"></span></label>
+      <input type="range" class="${k === 'A' ? 'QSl' : 'TSl'}" id="helS${k}" min="0.5" max="10" step="0.5" value="1"></div>
+    <div class="ctrl"><label><b>${d.delLbl}</b> <span id="delV${k}" style="color:var(--maengde)"></span></label>
+      <input type="range" class="${k === 'A' ? 'mSl' : 'tSl'}" id="delS${k}" min="0" max="1000" step="1" value="0"></div>
+    <div class="ladder" id="lad${k}"></div>
+    <div class="vis"><svg id="cir${k}" width="240" viewBox="-135 -152 270 287"></svg></div>
+    <div class="vis"><svg id="graf${k}" width="100%" viewBox="0 0 400 200"></svg></div>`;
+}
+
+// ---------- Reguladetri-stige ----------
+function ladder(target, rows) {
+  target.innerHTML = rows.map(r => r.step
+    ? `<div class="step">${r.step}</div>`
+    : `<div class="op">${r.op || ''}</div><div class="q">${r.q}</div><div class="arr">→</div><div class="r ${r.unit ? 'unit' : ''}">${r.r}</div>`
+  ).join('');
+}
+
+// ---------- Cirkel ----------
+function cirkel(svg, val, d) {
+  clear(svg);
+  const r = 90;
+  el('line', { x1: -120, y1: 0, x2: 120, y2: 0, stroke: '#cbd5e1' }, svg);
+  el('line', { x1: 0, y1: -120, x2: 0, y2: 120, stroke: '#cbd5e1' }, svg);
+  el('circle', { cx: 0, cy: 0, r, fill: 'none', stroke: '#94a3b8', 'stroke-width': 2 }, svg);
+  if (radmark) {
+    for (let k = 1; k <= 6; k++) {
+      el('line', { x1: (r - 6) * Math.cos(k), y1: -(r - 6) * Math.sin(k), x2: (r + 6) * Math.cos(k), y2: -(r + 6) * Math.sin(k), stroke: '#64748b', 'stroke-width': 1.5 }, svg);
+      el('text', { x: (r + 18) * Math.cos(k), y: -(r + 18) * Math.sin(k) + 4, 'text-anchor': 'middle', 'font-size': 11, fill: '#64748b' }, svg, k + (d.resUnit === 'kr' ? ' kr' : ''));
+    }
+    el('text', { x: r + 18, y: 4, 'text-anchor': 'middle', 'font-size': 11, fill: '#64748b' }, svg, '0');
+  }
+  const omg = Math.floor(val / TAU + 1e-9);
+  for (let k = 0; k < omg; k++) el('circle', { cx: 0, cy: 0, r: r + 28 + 5 * k, fill: 'none', stroke: C.r, 'stroke-width': 2.5, opacity: 0.55 }, svg);
+  const rest = val - omg * TAU;
+  if (rest > 1e-4) {
+    const big = rest > Math.PI ? 1 : 0, ra = 32;
+    el('path', { d: `M${ra},0 A${ra},${ra} 0 ${big} 0 ${ra * Math.cos(rest)},${-ra * Math.sin(rest)}`, fill: 'none', stroke: C.r, 'stroke-width': 3 }, svg);
+    el('path', { d: `M${r},0 A${r},${r} 0 ${big} 0 ${r * Math.cos(rest)},${-r * Math.sin(rest)}`, fill: 'none', stroke: C.r, 'stroke-width': 5, opacity: 0.55 }, svg);
+  }
+  const px = r * Math.cos(val), py = -r * Math.sin(val);
+  el('line', { x1: 0, y1: 0, x2: px, y2: py, stroke: '#334155', 'stroke-width': 2 }, svg);
+  el('circle', { cx: px, cy: py, r: 8, fill: C.r, stroke: 'white', 'stroke-width': 2 }, svg);
+  const a = rest > 0.3 ? rest / 2 : 0.3;
+  el('text', { x: 46 * Math.cos(a) - 5, y: -46 * Math.sin(a) + 5, 'font-size': 15, fill: C.r, 'font-weight': 700 }, svg, d.resNavn === 'pris' ? 'kr' : 'φ');
+  el('text', { x: 0, y: -140, 'text-anchor': 'middle', 'font-size': 12, fill: C.r, 'font-weight': 700 }, svg, `${omg} hel${omg === 1 ? '' : 'e'} ${d.omgang.replace('omgang', omg === 1 ? 'omgang' : 'omgange')}`);
+}
+
+// ---------- Graf ----------
+function graf(svg, o) {
+  clear(svg);
+  const L = 46, R = 390, T = 26, B = 168;
+  const X = x => L + (x / o.xmax) * (R - L), Y = y => B - (y / o.ymax) * (B - T);
+  o.xticks.forEach((gx, i) => {
+    el('line', { x1: X(gx), y1: T, x2: X(gx), y2: B, stroke: '#e2e8f0' }, svg);
+    el('text', { x: X(gx), y: B + 14, 'text-anchor': i === o.xticks.length - 1 ? 'end' : 'middle', 'font-size': 11, fill: '#64748b' }, svg, o.xfmt(i));
+  });
+  [0, 1, 2, 3].forEach(k => {
+    const gy = TAU * k;
+    el('line', { x1: L, y1: Y(gy), x2: R, y2: Y(gy), stroke: k ? '#fdba74' : '#e2e8f0', 'stroke-dasharray': k ? '4 3' : '' }, svg);
+    el('text', { x: L - 5, y: Y(gy) + 4, 'text-anchor': 'end', 'font-size': 11, fill: '#64748b' }, svg, k ? (2 * k) + 'π' : '0');
+  });
+  el('line', { x1: L, y1: B, x2: R, y2: B, stroke: '#334155' }, svg);
+  el('line', { x1: L, y1: T, x2: L, y2: B, stroke: '#334155' }, svg);
+  el('text', { x: R, y: B + 29, 'text-anchor': 'end', 'font-size': 12, fill: C.m, 'font-weight': 700 }, svg, o.xlab);
+  el('text', { x: L - 40, y: T - 12, 'font-size': 12, fill: C.r, 'font-weight': 700 }, svg, o.ylab);
+  el('line', { x1: X(0), y1: Y(0), x2: X(o.xmax), y2: Y(o.ymax), stroke: C.p, 'stroke-width': 2.5 }, svg);
+  el('text', { x: X(o.xmax * 0.42) + 10, y: Y(o.ymax * 0.42) + 18, 'font-size': 11, fill: C.p, 'font-weight': 700 }, svg, o.slopeLab);
+  const px = X(o.x), py = Y(o.y);
+  el('line', { x1: px, y1: B, x2: px, y2: py, stroke: C.m, 'stroke-dasharray': '4 3' }, svg);
+  el('line', { x1: L, y1: py, x2: px, y2: py, stroke: C.r, 'stroke-dasharray': '4 3' }, svg);
+  el('circle', { cx: px, cy: py, r: 6, fill: C.r, stroke: 'white', 'stroke-width': 2 }, svg);
+}
+
+// ---------- Tegn en side ----------
+function tegn(k) {
+  const d = SIDER[k], s = S[k], hel = s.hel, x = s.x;
+  const enh = TAU / hel, val = enh * x;
+  $('giv' + k).innerHTML = d.given(hel);
+  $('helV' + k).textContent = f(hel) + ' ' + d.helUnit;
+  $('delV' + k).textContent = fFix(x) + ' ' + d.delUnit;
+  $('helS' + k).value = hel;
+  $('delS' + k).value = Math.round(1000 * x / (3 * hel));
+  const p = piTxt(val);
+  let res = (p && p !== '0' ? p + ' = ' : '') + fFix(val) + ' ' + d.resUnit;
+  if (d.grader && grader) res += ' = ' + f(val * 180 / Math.PI, 1) + '°';
+  let helRes = '2π ' + d.resUnit + (d.grader && grader ? ' = 360°' : '');
+  const enhPi = piTxt(enh);
+  ladder($('lad' + k), [
+    { q: `${f(hel)} ${d.helUnit}`, r: helRes },
+    { step: d.trin1(hel) },
+    { op: `: ${f(hel)}`, q: `1 ${d.helUnit}`, r: `${d.prisNavn === 'ω' ? 'ω = ' : ''}${enhPi && enhPi !== '0' ? enhPi + ' = ' : ''}${fFix(enh)} ${d.prisUnit}`, unit: true },
+    { step: d.trin2(x) },
+    { op: `· ${f(x)}`, q: `${fFix(x)} ${d.delUnit}`, r: `${d.resNavn} = ${res}` },
+  ]);
+  cirkel($('cir' + k), val, d);
+  graf($('graf' + k), {
+    x, y: val, xmax: 3 * hel, ymax: 3 * TAU, xticks: [0, hel, 2 * hel, 3 * hel],
+    xfmt: i => i === 0 ? '0' : (k === 'B' ? (i === 1 ? 'T' : i + 'T') : f(i * hel) + ' kg'),
+    xlab: d.xlab, ylab: d.ylab,
+    slopeLab: `hældning = ${d.prisNavn === 'ω' ? 'ω = ' : ''}${fFix(enh)} ${d.prisUnit}`,
+  });
+}
+function tegnAlt() { tegn('A'); tegn('B'); }
+
+// ---------- Hændelser ----------
+function andenSide(k) { return k === 'A' ? 'B' : 'A'; }
+for (const k of ['A', 'B']) {
+  $('helS' + k).oninput = e => {
+    S[k].hel = +e.target.value; S[k].x = Math.min(S[k].x, 3 * S[k].hel);
+    if (kobl) { const o = andenSide(k); S[o].hel = S[k].hel; S[o].x = S[k].x; }
+    tegnAlt();
+  };
+  $('delS' + k).oninput = e => {
+    S[k].x = +e.target.value / 1000 * 3 * S[k].hel;
+    if (kobl) S[andenSide(k)].x = S[k].x;
+    tegnAlt();
+  };
+}
+$('kobl').onclick = () => {
+  kobl = !kobl; $('kobl').classList.toggle('on', kobl);
+  if (kobl) { S.A.hel = S.B.hel; S.A.x = S.B.x; }
+  tegnAlt();
+};
+$('radmark').onclick = () => { radmark = !radmark; $('radmark').classList.toggle('on', radmark); tegnAlt(); };
+$('grader').onclick = () => { grader = !grader; $('grader').classList.toggle('on', grader); tegnAlt(); };
+$('nul').onclick = () => { S.A.x = 0; S.B.x = 0; tegnAlt(); };
+$('play').onclick = () => {
+  spiller = !spiller; $('play').classList.toggle('on', spiller);
+  $('play').textContent = spiller ? '❚❚ Pause' : '▶ Afspil';
+  if (spiller) {
+    for (const k of ['A', 'B']) if (S[k].x >= 3 * S[k].hel - 1e-6) S[k].x = 0;
+    last = performance.now(); requestAnimationFrame(loop);
+  }
+};
+function loop(now) {
+  if (!spiller) return;
+  const dx = (now - last) / 1000 * +$('fart').value; last = now;
+  let faerdig = true;
+  for (const k of ['A', 'B']) {
+    S[k].x = Math.min(S[k].x + dx, 3 * S[k].hel);   // sukker hældes i samme tempo, som tiden går
+    if (S[k].x < 3 * S[k].hel) faerdig = false;
+  }
+  tegnAlt();
+  if (faerdig) { $('play').click(); return; }
+  requestAnimationFrame(loop);
+}
+tegnAlt();
+})();
+</script>
+</body>
+</html>

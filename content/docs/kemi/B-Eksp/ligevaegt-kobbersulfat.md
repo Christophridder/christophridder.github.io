@@ -1,6 +1,8 @@
 ---
 title: "Ligevægt kobbersulfat"
 weight: 51
+pdf: "pdfs/ligevaegt-kobbersulfat.pdf"
+pdf_ny_fane: true
 ---
 
 **Niveau: Kemi B** · **Emne: Kemisk ligevægt og Le Chateliers princip**

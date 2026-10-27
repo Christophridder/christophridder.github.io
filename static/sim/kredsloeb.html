@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kredsløb om Jorden – Fysik A</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; }
+#kl {
+  background: #f1f5f9; border-radius: 14px; overflow: hidden;
+  max-width: 1000px; margin: 0 auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13); user-select: none;
+}
+.kl-head {
+  background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 12px 20px; color: white; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.kl-head h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+.kl-head p { font-size: 0.78rem; opacity: 0.75; flex: 1; }
+.kl-head a { color: white; font-size: 0.75rem; opacity: 0.85; }
+.kl-body { display: grid; grid-template-columns: minmax(0, 1fr) 290px; }
+@media (max-width: 600px) { .kl-body { grid-template-columns: 1fr; } }
+.stage { position: relative; background: #0b1220; }
+canvas#c { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; }
+.overlay {
+  position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
+  padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 0.85rem;
+  display: none; white-space: nowrap;
+}
+.overlay.geo { background: #16a34a; color: white; display: block; }
+.overlay.crash { background: #dc2626; color: white; display: block; }
+.legend {
+  position: absolute; left: 10px; bottom: 8px; font-size: 0.7rem; color: #cbd5e1; line-height: 1.5;
+}
+.legend b { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 5px; }
+.panel { background: white; padding: 10px 14px; display: flex; flex-direction: column; gap: 9px; }
+.grp label.t {
+  display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 700;
+  color: #64748b; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px;
+}
+.grp label.t span { color: #1e40af; text-transform: none; letter-spacing: 0; font-size: 0.82rem; }
+input[type=range] { width: 100%; accent-color: #2563eb; }
+.presets { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.presets button, .btns button {
+  border: 1.5px solid #cbd5e1; background: white; border-radius: 7px; padding: 4px 8px;
+  font-size: 0.75rem; cursor: pointer; font-family: inherit; color: #1e293b;
+}
+.presets button:hover, .btns button:hover { border-color: #2563eb; color: #1e40af; }
+.btns { display: flex; gap: 6px; }
+.btns button { flex: 1; padding: 6px; font-weight: 700; font-size: 0.82rem; }
+.btns button.on { background: #2563eb; border-color: #2563eb; color: white; }
+.checks { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 6px; font-size: 0.76rem; }
+.checks label { display: flex; gap: 5px; align-items: center; cursor: pointer; }
+.read { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.card { background: #f1f5f9; border-radius: 8px; padding: 6px 8px; }
+.card .k { font-size: 0.66rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.card .v { font-size: 0.92rem; font-weight: 700; color: #0f172a; }
+.card.wide { grid-column: 1 / -1; }
+.note { font-size: 0.72rem; color: #64748b; line-height: 1.4; }
+#energy { width: 100%; height: 120px; display: none; }
+sup { font-size: 0.7em; }
+</style>
+</head>
+<body>
+<div id="kl">
+  <div class="kl-head">
+    <h1>Kredsløb om Jorden</h1>
+    <p>Newtons gravitationslov · Keplers love · energi. Set fra oven over Nordpolen.</p>
+    <a id="fullscreen" href="kredsloeb.html" target="_blank" rel="noopener">Åbn i fuld skærm ↗</a>
+  </div>
+  <div class="kl-body">
+    <div class="stage">
+      <canvas id="c" width="1200" height="1200"></canvas>
+      <div id="badge" class="overlay"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="panel">
+      <div class="grp">
+        <label class="t">Afstand a <span id="aVal"></span></label>
+        <input type="range" id="aSl" min="0" max="1000" step="1">
+        <div class="presets">
+          <button data-a="6779">ISS</button>
+          <button data-a="26560">GPS</button>
+          <button data-a="42164">Geostationær</button>
+          <button data-a="384400">Månen</button>
+        </div>
+      </div>
+      <div class="grp">
+        <label class="t">Masse af månen/satellitten <span id="mVal"></span></label>
+        <input type="range" id="mSl" min="0" max="1000" step="1">
+        <div class="presets">
+          <button data-m="1">1 kg</button>
+          <button data-m="420000">ISS</button>
+          <button data-m="7.35e22">Månen</button>
+          <button data-m="5.97e24">= Jorden</button>
+        </div>
+      </div>
+      <div class="grp">
+        <label class="t">Ellipsefaktor e <span id="eVal"></span></label>
+        <input type="range" id="eSl" min="0" max="0.9" step="0.01" value="0">
+      </div>
+      <div class="grp">
+        <label class="t">Ét omløb varer <span id="sVal"></span></label>
+        <input type="range" id="sSl" min="2" max="40" step="1" value="8">
+      </div>
+      <div class="btns">
+        <button id="play" class="on">❚❚ Pause</button>
+        <button id="reset">↺ Start forfra</button>
+      </div>
+      <div class="checks">
+        <label><input type="checkbox" id="cVec" checked> Vektorer F og v</label>
+        <label><input type="checkbox" id="cKep"> Keplers 2. lov</label>
+        <label><input type="checkbox" id="cEn"> Energi</label>
+        <label><input type="checkbox" id="cTwo"> Jorden bevæger sig</label>
+        <label><input type="checkbox" id="cGhost"> Sammenlign: 1 kg</label>
+        <label><input type="checkbox" id="cSync" checked> Synkron-linje</label>
+      </div>
+      <div class="read">
+        <div class="card"><div class="k">Afstand r</div><div class="v" id="rR"></div></div>
+        <div class="card"><div class="k">Fart v</div><div class="v" id="rV"></div></div>
+        <div class="card"><div class="k">Omløbstid T</div><div class="v" id="rT"></div></div>
+        <div class="card"><div class="k">Kraft F</div><div class="v" id="rF"></div></div>
+        <div class="card wide"><div class="k">Keplers 3. lov: T² / a³</div><div class="v" id="rK"></div></div>
+      </div>
+      <canvas id="energy" width="600" height="240"></canvas>
+      <p class="note" id="note"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+// ---------- Konstanter (SI) ----------
+const G = 6.674e-11, M = 5.972e24, R = 6.371e6;      // Jorden
+const T_SID = 86164.09;                               // stjernedøgn [s]
+const R_MOON = 1.7374e6, M_MOON = 7.346e22;           // til at tegne månens størrelse
+const A_MIN = 6.671e6, A_MAX = 4.0e8;                 // 300 km højde ... lidt over Månen
+const M_MIN = 1, M_MAX = 6e24;
+
+// ---------- Tilstand ----------
+const S = { a: 4.2164e7, m: 1000, e: 0, secPerOrbit: 8, playing: true,
+            Manom: 0, Mghost: 0, earthAngle: 0, crashed: false };
+
+const $ = id => document.getElementById(id);
+const cv = $('c'), ctx = cv.getContext('2d');
+const ecv = $('energy'), ectx = ecv.getContext('2d');
+
+// Fuld-skærm-linket giver kun mening inde i en iframe
+if (window.self === window.top) $('fullscreen').style.display = 'none';
+
+// ---------- Talformat (dansk, med 10-potenser) ----------
+const SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+function fmt(x, sig = 3) {
+  if (x === 0) return '0';
+  const ax = Math.abs(x);
+  if (ax >= 1e-2 && ax < 1e6) {
+    return x.toLocaleString('da-DK', { maximumSignificantDigits: sig });
+  }
+  const ex = Math.floor(Math.log10(ax));
+  let man = x / Math.pow(10, ex);
+  let manS = man.toLocaleString('da-DK', { maximumSignificantDigits: sig });
+  if (manS === '10' || manS === '-10') { manS = manS.replace('10', '1'); return manS + '·10' + String(ex + 1).split('').map(c => SUP[c]).join(''); }
+  return manS + '·10' + String(ex).split('').map(c => SUP[c]).join('');
+}
+function fmtKm(m) { return Math.round(m / 1000).toLocaleString('da-DK') + ' km'; }
+function fmtTime(s) {
+  if (s < 2 * 3600) return (s / 60).toLocaleString('da-DK', { maximumFractionDigits: 1 }) + ' min';
+  if (s < 3 * 86400) { const h = Math.floor(s / 3600), mi = Math.round((s - h * 3600) / 60); return h + ' t ' + mi + ' min'; }
+  return (s / 86400).toLocaleString('da-DK', { maximumFractionDigits: 2 }) + ' døgn';
+}
+
+// ---------- Skydere (logaritmiske for a og m) ----------
+const logMap = (v, lo, hi) => Math.pow(10, Math.log10(lo) + v / 1000 * (Math.log10(hi) - Math.log10(lo)));
+const logInv = (x, lo, hi) => Math.round(1000 * (Math.log10(x) - Math.log10(lo)) / (Math.log10(hi) - Math.log10(lo)));
+function syncSliders() {
+  $('aSl').value = logInv(S.a, A_MIN, A_MAX);
+  $('mSl').value = logInv(S.m, M_MIN, M_MAX);
+  $('eSl').value = S.e;
+  $('sSl').value = S.secPerOrbit;
+}
+$('aSl').oninput = e => { S.a = logMap(+e.target.value, A_MIN, A_MAX); S.crashed = false; };
+$('mSl').oninput = e => { S.m = logMap(+e.target.value, M_MIN, M_MAX); };
+$('eSl').oninput = e => { S.e = +e.target.value; S.crashed = false; };
+$('sSl').oninput = e => { S.secPerOrbit = +e.target.value; };
+document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => { S.a = +b.dataset.a * 1000; S.crashed = false; syncSliders(); });
+document.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { S.m = +b.dataset.m; syncSliders(); });
+$('play').onclick = () => { S.playing = !S.playing; $('play').classList.toggle('on', S.playing); $('play').textContent = S.playing ? '❚❚ Pause' : '▶ Start'; };
+$('reset').onclick = () => { S.Manom = 0; S.Mghost = 0; S.earthAngle = 0; S.crashed = false; };
+$('cEn').onchange = e => { ecv.style.display = e.target.checked ? 'block' : 'none'; };
+
+// ---------- Fysik: Keplers ligning (eksakt løsning af tolegemeproblemet) ----------
+function solveE(Ma, e) {
+  let E = e < 0.8 ? Ma : Math.PI;
+  for (let i = 0; i < 12; i++) E -= (E - e * Math.sin(E) - Ma) / (1 - e * Math.cos(E));
+  return E;
+}
+// Relativ bane (måne set fra Jordens centrum): position og hastighed
+function relState(a, e, n, Ma) {
+  const E = solveE(Ma, e), b = a * Math.sqrt(1 - e * e);
+  const cE = Math.cos(E), sE = Math.sin(E), Edot = n / (1 - e * cE);
+  return { x: a * (cE - e), y: b * sE, vx: -a * sE * Edot, vy: b * cE * Edot, r: a * (1 - e * cE) };
+}
+function meanMotion(m, two) { return Math.sqrt(G * (M + (two ? m : 0)) / Math.pow(S.a, 3)); }
+
+// ---------- Stjerner ----------
+const stars = Array.from({ length: 160 }, () => [Math.random(), Math.random(), Math.random() * 1.2 + 0.3]);
+
+// ---------- Tegning ----------
+function arrow(x0, y0, x1, y1, col, label) {
+  const L = Math.hypot(x1 - x0, y1 - y0); if (L < 3) return;
+  const ux = (x1 - x0) / L, uy = (y1 - y0) / L, h = 20;
+  ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 6;
+  ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1 - ux * h * 0.8, y1 - uy * h * 0.8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 - ux * h - uy * h * 0.5, y1 - uy * h + ux * h * 0.5);
+  ctx.lineTo(x1 - ux * h + uy * h * 0.5, y1 - uy * h - ux * h * 0.5); ctx.closePath(); ctx.fill();
+  ctx.font = 'bold 32px system-ui'; ctx.fillText(label, x1 + ux * 8 + 6, y1 + uy * 8 + 8);
+}
+
+function draw(st) {
+  const W = cv.width, H = cv.height;
+  const { a, e, m, two } = st;
+  const mu = two ? m / (M + m) : 0;              // andel af den relative bane, Jorden bevæger sig
+  const rApo = a * (1 + e);
+  const view = Math.max(rApo * 1.08, R * 1.35);
+  const sc = (Math.min(W, H) / 2 - 20) / view;
+  const cx = W / 2, cy = H / 2;
+  const X = x => cx + x * sc, Y = y => cy - y * sc;   // y op
+
+  // Baggrund
+  ctx.fillStyle = '#0b1220'; ctx.fillRect(0, 0, W, H);
+  for (const [sx, sy, sr] of stars) { ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.beginPath(); ctx.arc(sx * W, sy * H, sr, 0, 7); ctx.fill(); }
+
+  const { rel, earth, sat } = st;
+
+  // Keplers 2. lov: 12 lige lange tidsrum
+  if ($('cKep').checked) {
+    const cur = Math.floor(((S.Manom % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) / (2 * Math.PI / 12));
+    for (let k = 0; k < 12; k++) {
+      ctx.beginPath(); ctx.moveTo(X(0), Y(0));
+      for (let j = 0; j <= 20; j++) {
+        const p = relState(a, e, 1, 2 * Math.PI * (k + j / 20) / 12);
+        ctx.lineTo(X(p.x * (1 - mu)), Y(p.y * (1 - mu)));
+      }
+      ctx.closePath();
+      ctx.fillStyle = k === cur ? 'rgba(250,204,21,0.55)' : (k % 2 ? 'rgba(96,165,250,0.22)' : 'rgba(167,139,250,0.22)');
+      ctx.fill();
+    }
+  }
+
+  // Banen (månens bane om tyngdepunktet)
+  ctx.strokeStyle = 'rgba(148,163,184,0.7)'; ctx.lineWidth = 2; ctx.setLineDash([]);
+  ctx.beginPath();
+  for (let j = 0; j <= 240; j++) {
+    const p = relState(a, e, 1, 2 * Math.PI * j / 240);
+    j ? ctx.lineTo(X(p.x * (1 - mu)), Y(p.y * (1 - mu))) : ctx.moveTo(X(p.x * (1 - mu)), Y(p.y * (1 - mu)));
+  }
+  ctx.stroke();
+
+  // Geostationær bane som reference
+  const rGeo = Math.cbrt(G * M * T_SID * T_SID / (4 * Math.PI * Math.PI));
+  if (rGeo * sc < Math.min(W, H) / 2) {
+    ctx.strokeStyle = 'rgba(74,222,128,0.35)'; ctx.setLineDash([6, 8]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(X(earth.x), Y(earth.y), rGeo * sc, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(74,222,128,0.7)'; ctx.font = '20px system-ui';
+    ctx.fillText('geostationær', X(earth.x) + rGeo * sc * 0.72 + 6, Y(earth.y) - rGeo * sc * 0.72);
+  }
+
+  // Jordens bane om tyngdepunktet + tyngdepunktet
+  if (two && mu > 1e-4) {
+    ctx.strokeStyle = 'rgba(96,165,250,0.6)'; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let j = 0; j <= 120; j++) {
+      const p = relState(a, e, 1, 2 * Math.PI * j / 120);
+      j ? ctx.lineTo(X(-p.x * mu), Y(-p.y * mu)) : ctx.moveTo(X(-p.x * mu), Y(-p.y * mu));
+    }
+    ctx.stroke();
+    ctx.strokeStyle = '#f472b6'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(X(0) - 10, Y(0)); ctx.lineTo(X(0) + 10, Y(0)); ctx.moveTo(X(0), Y(0) - 10); ctx.lineTo(X(0), Y(0) + 10); ctx.stroke();
+  }
+
+  // Synkron-linje: fra Jordens centrum gennem det røde punkt på ækvator
+  const eA = S.earthAngle;
+  if ($('cSync').checked) {
+    ctx.strokeStyle = 'rgba(248,113,113,0.45)'; ctx.setLineDash([4, 6]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(X(earth.x), Y(earth.y));
+    ctx.lineTo(X(earth.x + Math.cos(eA) * view * 1.5), Y(earth.y + Math.sin(eA) * view * 1.5)); ctx.stroke(); ctx.setLineDash([]);
+  }
+
+  // Jorden (set fra Nordpolen, roterer mod uret)
+  const er = Math.max(R * sc, 4);
+  const gx = X(earth.x), gy = Y(earth.y);
+  const grad = ctx.createRadialGradient(gx - er * 0.3, gy - er * 0.3, er * 0.1, gx, gy, er);
+  grad.addColorStop(0, '#60a5fa'); grad.addColorStop(1, '#1e3a8a');
+  ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(gx, gy, er, 0, 7); ctx.fill();
+  if (er > 12) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1.5;
+    for (let k = 0; k < 6; k++) {
+      const ang = eA + k * Math.PI / 3;
+      ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + Math.cos(ang) * er, gy - Math.sin(ang) * er); ctx.stroke();
+    }
+    ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(gx, gy, 3, 0, 7); ctx.fill();
+  }
+  ctx.fillStyle = '#ef4444';
+  ctx.beginPath(); ctx.arc(gx + Math.cos(eA) * er * 0.9, gy - Math.sin(eA) * er * 0.9, Math.min(12, Math.max(5, er * 0.08)), 0, 7); ctx.fill();
+
+  // Spøgelses-satellit (1 kg, kredser om Jordens aktuelle centrum)
+  if ($('cGhost').checked) {
+    const n0 = Math.sqrt(G * M / Math.pow(a, 3));
+    const pg = relState(a, e, n0, S.Mghost);
+    ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(X(earth.x + pg.x), Y(earth.y + pg.y), 14, 0, 7); ctx.stroke();
+  }
+
+  // Månen/satellitten
+  const mr = Math.max(R_MOON * Math.cbrt(m / M_MOON) * sc, 6);
+  const sx = X(sat.x), sy = Y(sat.y);
+  ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.arc(sx, sy, mr, 0, 7); ctx.fill();
+
+  // Vektorer
+  if ($('cVec').checked && !S.crashed) {
+    const rp = a * (1 - e);
+    const Fmax = G * M * m / (rp * rp), F = G * M * m / (rel.r * rel.r);
+    const vmax = Math.sqrt(G * (M + (two ? m : 0)) * (2 / rp - 1 / a));
+    const vs = Math.hypot(st.vs.x, st.vs.y);
+    const Lf = 150 * F / Fmax, Lv = 150 * vs / (vmax * (1 - mu));
+    const dx = -rel.x / rel.r, dy = -rel.y / rel.r;
+    arrow(sx, sy, sx + dx * Lf, sy - dy * Lf, '#f87171', 'F');
+    arrow(sx, sy, sx + st.vs.x / vs * Lv, sy - st.vs.y / vs * Lv, '#4ade80', 'v');
+  }
+
+  // Signaturforklaring
+  let leg = '<b style="background:#ef4444"></b>fast punkt på ækvator';
+  if ($('cVec').checked) leg += '<br><b style="background:#f87171"></b>kraft F &nbsp; <b style="background:#4ade80"></b>fart v';
+  if ($('cGhost').checked) leg += '<br><b style="background:#fde68a"></b>1 kg-satellit i samme bane';
+  if (two && mu > 1e-4) leg += '<br><b style="background:#f472b6"></b>fælles tyngdepunkt';
+  $('legend').innerHTML = leg;
+}
+
+function drawEnergy(Ek, Ep, Emax) {
+  const W = ecv.width, H = ecv.height;
+  ectx.clearRect(0, 0, W, H);
+  ectx.fillStyle = '#f1f5f9'; ectx.fillRect(0, 0, W, H);
+  const mid = H * 0.42, sc = (H * 0.38) / Emax;
+  const items = [['E_kin', Ek, '#16a34a'], ['E_pot', Ep, '#dc2626'], ['E_mek', Ek + Ep, '#2563eb']];
+  ectx.strokeStyle = '#94a3b8'; ectx.lineWidth = 2; ectx.beginPath(); ectx.moveTo(20, mid); ectx.lineTo(W - 20, mid); ectx.stroke();
+  items.forEach(([n, v, c], i) => {
+    const x = 40 + i * 190, w = 110, h = v * sc;
+    ectx.fillStyle = c; ectx.fillRect(x, h >= 0 ? mid - h : mid, w, Math.abs(h));
+    ectx.fillStyle = '#0f172a'; ectx.font = 'bold 24px system-ui';
+    ectx.fillText(n.replace('_', ' '), x, H - 34);
+    ectx.font = '22px system-ui'; ectx.fillText(fmt(v, 3) + ' J', x, H - 8);
+  });
+}
+
+// ---------- Hovedløkke ----------
+let last = performance.now();
+function frame(now) {
+  const dtReal = Math.min((now - last) / 1000, 0.1); last = now;
+  const two = $('cTwo').checked;
+  const { a, e, m } = S;
+  const n = meanMotion(m, two), T = 2 * Math.PI / n;
+  const n0 = Math.sqrt(G * M / Math.pow(a, 3));
+
+  if (S.playing && !S.crashed) {
+    const dtSim = dtReal * T / S.secPerOrbit;
+    S.Manom += n * dtSim; S.Mghost += n0 * dtSim;
+    S.earthAngle += 2 * Math.PI / T_SID * dtSim;
+  }
+
+  const rel = relState(a, e, n, S.Manom);
+  const mu = two ? m / (M + m) : 0;
+  const earth = { x: -rel.x * mu, y: -rel.y * mu };
+  const sat = { x: rel.x * (1 - mu), y: rel.y * (1 - mu) };
+  const vs = { x: rel.vx * (1 - mu), y: rel.vy * (1 - mu) }, ve = { x: -rel.vx * mu, y: -rel.vy * mu };
+
+  // Nedslag?
+  const rMoonBody = R_MOON * Math.cbrt(m / M_MOON);
+  if (!S.crashed && rel.r < R + (m > 1e18 ? rMoonBody : 0)) S.crashed = true;
+
+  draw({ a, e, m, two, rel, earth, sat, vs });
+
+  // Aflæsninger
+  const F = G * M * m / (rel.r * rel.r);
+  const vAbs = Math.hypot(vs.x, vs.y);
+  $('aVal').textContent = fmtKm(a) + ' (højde ' + fmtKm(a - R) + ')';
+  $('mVal').textContent = fmt(m, 3) + ' kg';
+  $('eVal').textContent = S.e.toLocaleString('da-DK', { minimumFractionDigits: 2 }) + (S.e === 0 ? ' (cirkel)' : '');
+  $('sVal').textContent = S.secPerOrbit + ' s';
+  $('rR').textContent = fmtKm(rel.r);
+  $('rV').textContent = fmt(vAbs, 3) + ' m/s';
+  $('rT').textContent = fmtTime(T);
+  $('rF').textContent = fmt(F, 3) + ' N';
+  const K = T * T / Math.pow(a, 3);
+  $('rK').innerHTML = fmt(K, 4) + ' s²/m³<br><small>4π²/(GM) = ' + fmt(4 * Math.PI * Math.PI / (G * M), 4) + (two && m / M > 1e-4 ? ' · 4π²/(G(M+m)) = ' + fmt(4 * Math.PI * Math.PI / (G * (M + m)), 4) : '') + '</small>';
+
+  // Energi (i tyngdepunktssystemet)
+  if ($('cEn').checked) {
+    const Ek = 0.5 * m * vAbs * vAbs + (two ? 0.5 * M * (ve.x * ve.x + ve.y * ve.y) : 0);
+    const Ep = -G * M * m / rel.r;
+    drawEnergy(Ek, Ep, G * M * m / (a * (1 - e)));
+  }
+
+  // Badge: geostationær eller nedslag
+  const badge = $('badge');
+  if (S.crashed) { badge.className = 'overlay crash'; badge.textContent = 'Nedslag! Banen rammer Jorden – tryk "Start forfra"'; }
+  else if (Math.abs(T / T_SID - 1) < 0.005 && e < 0.01) { badge.className = 'overlay geo'; badge.textContent = 'Geostationær: T = 23 t 56 min = Jordens rotation'; }
+  else { badge.className = 'overlay'; }
+
+  // Forklaring
+  let note = 'Omløbstiden afhænger af afstanden – ikke af månens masse. ';
+  if (!two) note += 'Jorden står fast (modellen m ≪ M). Slå "Jorden bevæger sig" til for at se, hvornår massen begynder at betyde noget.';
+  else note += 'Begge legemer kredser om det fælles tyngdepunkt, så T² = 4π²a³ / (G(M+m)). Massen m ændrer T med ' + fmt(100 * (1 - Math.sqrt(M / (M + m))), 2) + ' %.';
+  $('note').textContent = note;
+
+  requestAnimationFrame(frame);
+}
+syncSliders();
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
