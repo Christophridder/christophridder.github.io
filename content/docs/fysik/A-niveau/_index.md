@@ -19,7 +19,7 @@ kvantefysikkens manglende dele som elektronvolt og opgaver med planckkonstanten 
 | 2 | 5–10 | 6 | [Kinematik i 2D og skråt kast]({{< relref "/docs/fysik/emner-a/frit-fald-luftmodstand-skraat-kast" >}}) | Teori + Eksp. | [Videoanalyse af kast]({{< relref "docs/fysik/A-Eksp/kasteparabel" >}}) |
 |2b||3|Projektforløb 5|SRP projekt|individuelle|
 | 3 | 11–15 | 5 | [Bevægelsesmængde og stød]({{< relref "/docs/fysik/emner-a/stoed" >}}) | Teori + Eksp. | [Stød på luftpudebane]({{< relref "stoed-luftpudebane" >}}) · [Hop på kraftplatform]({{< relref "kraftplatform-hop" >}}) · [Spil: Stød-billard]({{< relref "stoed-spil" >}}) |
-| 4 | 16–19 | 4 | [Jævn cirkelbevægelse (centripetalkraft)]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Eksp. | [Roterende lod (Del 3)]({{< relref "jaevn-cirkelbevaegelse" >}}) / kraftmåler |
+| 4 | 16–19 | 4 | [Jævn cirkelbevægelse (centripetalkraft)]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Eksp. | [Centripetalkraft på roterende bane]({{< relref "centripetalkraft-roterende-bane" >}}) · [Rørforsøg / keglependul (Del 4)]({{< relref "jaevn-cirkelbevaegelse" >}}) |
 | 5 | 20–24 | 5 | [Gravitation og bevægelse om centrallegeme]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Sim. | Simulering af satellit/planetbane |
 | 6 | 25–29 | 5 | [Harmonisk svingning – kraft og energi]({{< relref "/docs/fysik/emner-a/harmonisk-svingning" >}}) | Eksp. + IT | Fjederpendul + matematisk pendul |
 | 7 | 30–32 | 3 | **Supplerende:** [speciel relativitetsteori]({{< relref "/docs/fysik/emner-a/relativitetsteori" >}}) | Teori | — |
@@ -61,6 +61,13 @@ forudsigelser af stød, både til opvarmning og til repetition.
 Centripetalacceleration og centripetalkraft. **Bemærk:** centrifugalkraften er
 en skinkraft — i et inertialsystem findes kun centripetalkraften (resultanten
 indad). Det præciseres eksplicit, da det er en klassisk elevmisforståelse.
+
+Kerneeksperimentet er [Centripetalkraft på roterende bane]({{< relref "centripetalkraft-roterende-bane" >}}):
+en vogn på en motordrevet bane, hvor snorkraften måles med Vernier-kraftsensor i
+LoggerPro. Eleverne tester $F = m \cdot \omega^2 \cdot r$ i tre serier (varierer
+$\omega$, $m$ og $r$) og finder $\omega$ med stopur, video eller direkte fra
+kraftkurvens svingninger. Rørforsøget og keglependulet fra
+[teorisiden]({{< relref "jaevn-cirkelbevaegelse" >}}) er enkle alternativer uden sensor.
 
 ### Blok 5 · Gravitation og centrallegeme (modul 20–24)
 Gravitationsloven, satellit- og planetbevægelser, Keplers love og mekanisk

@@ -15,3 +15,4 @@ bookCollapseSection: true
 |3|[Kasteparabel]({{< relref "kasteparabel">}})|Skråt kast (videoanalyse)| 17.9.26| ja |
 |4|[Hop på kraftplatform]({{< relref "kraftplatform-hop">}})|Bevægelsesmængde og kraftens impuls (LoggerPro)|| |
 |5|[Strømvægt Del 4]({{< relref "magnetisk-felt">}}) ||||
+|6|[Centripetalkraft på roterende bane]({{< relref "centripetalkraft-roterende-bane">}})|Jævn cirkelbevægelse (kraftsensor, LoggerPro)|| |
