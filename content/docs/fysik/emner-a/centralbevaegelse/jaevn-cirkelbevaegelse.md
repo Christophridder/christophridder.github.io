@@ -91,27 +91,27 @@ $$F = m \cdot \frac{v^2}{r} = m \cdot \omega^2 \cdot r$$
 
 ### Opstilling
 
-![Opstilling med glasrør, prop og lodder](/img/centralbevaegelse/roer-forsoeg.svg)
+![Opstilling med glasrør, kugle og lodder](/img/centralbevaegelse/roer-forsoeg.svg)
 
-- En lille prop med massen $m$ sidder i den ene ende af en snor.
+- En lille kugle med massen $m$ sidder i den ene ende af en snor.
 - Snoren løber ned **gennem et lodret glasrør**, som du holder i hånden.
 - I den nederste ende hænger lodder med samlet masse $M$.
-- En papirclips på snoren lige under røret viser, om længden $L$ fra røret til proppen er konstant.
+- En papirclips på snoren lige under røret viser, om længden $L$ fra røret til kuglen er konstant.
 
 ### Hvordan kender man kraften?
 
 Du skal **ikke** måle kraften med et newtonmeter.
 
 - Når loddet $M$ hænger stille, er snorspændingen $M \cdot g$.
-- Snoren er den samme hele vejen, så den trækker også i proppen med $M \cdot g$.
-- Det er netop den kraft, der holder proppen i cirkelbanen. **Kraften er altså givet af loddet:** $F = M \cdot g$.
+- Snoren er den samme hele vejen, så den trækker også i kuglen med $M \cdot g$.
+- Det er netop den kraft, der holder kuglen i cirkelbanen. **Kraften er altså givet af loddet:** $F = M \cdot g$.
 
 Du skifter kraften ved at skifte lodder.
 
 ### Gennemførelse
 
 1. Sæt clipsen, så $L$ er fx $0{,}60$ m. Mål $m$ og $M$.
-2. Sving proppen rundt over hovedet. Justér farten, så clipsen bliver lige under røret.
+2. Sving kuglen rundt over hovedet. Justér farten, så clipsen bliver lige under røret.
 3. Tag tid for $10$ omløb, og find $T$ og $\omega = 2\pi/T$.
 4. Gentag med 4–5 forskellige $M$.
 
@@ -120,7 +120,7 @@ Du skifter kraften ved at skifte lodder.
 - Plot $F = M \cdot g$ mod $\omega^2$. Teorien giver en ret linje gennem $(0,0)$ med hældningen $m \cdot L$.
 - Sammenlign hældningen med den målte $m \cdot L$.
 
-> **Model:** Snoren er ikke helt vandret – proppen hænger lidt ned. Brug derfor
+> **Model:** Snoren er ikke helt vandret – kuglen hænger lidt ned. Brug derfor
 > snorlængden $L$ og ikke radius $r$. Snorens vandrette del af kraften er
 > $F_{\text{snor}} \cdot \sin\varphi$ og radius er $r = L \cdot \sin\varphi$, så
 > $\sin\varphi$ går ud: $M \cdot g = m \cdot \omega^2 \cdot L$ gælder **præcist**.

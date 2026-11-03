@@ -5,7 +5,7 @@ weight: 23
 
 # 1z Eksp · 2026/2027
 
-Eksperimenter for 1z Fysik C, i den rækkefølge de er lavet.
+Eksperimenter for 1z Fysik B, i den rækkefølge de er lavet.
 
 | Dato | Modul | Eksperiment | Emne | Kommentar |
 |---|---|---|---|---|

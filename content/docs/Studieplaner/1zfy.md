@@ -1,8 +1,8 @@
 ---
-title: 1z Fysik C
+title: 1z Fysik B
 weight: 14
 ---
 
-# 1z Fysik C · 2026/2027
+# 1z Fysik B · 2026/2027
 
 {{< studieplan 1zfy >}}

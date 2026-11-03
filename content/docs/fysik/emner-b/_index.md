@@ -11,6 +11,8 @@ Denne sektion samler B-niveau-stoffet emne for emne. Rækkefølgen gennem året 
 
 | Emne | Indhold | Kernestof |
 |---|---|---|
+| [Excel-kursus]({{< relref "excel-kursus" >}}) | Formler, `SUM`, `$` og grafer | Faglige metoder |
+| [Energi]({{< relref "energi-grundlag" >}}) | Effekt, energiformer, energikæder, varmekapacitet | Energi |
 | [Kræfter]({{< relref "kraefter" >}}) | Kraftbegrebet, gnidning, Newtons love i 1D | Mekanik |
 | [Mekanik]({{< relref "mekanik" >}}) | Stedfunktion, hastighed og acceleration, videoanalyse af kast | Mekanik |
 | [Atomfysik]({{< relref "atomfysik" >}}) | Atomets og kernens opbygning, spektre, radioaktivitet | Kvantefysik |

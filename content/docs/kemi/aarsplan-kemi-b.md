@@ -46,6 +46,8 @@ Stråling, lys og farver, komplementærfarver, farvede uorganiske og organiske f
 ### Blok 3 · Kemiske ligevægte (modul 18–24)
 Reversible og irreversible reaktioner, ligevægtsloven, reaktionsbrøk og ligevægtskonstant, og forskydning på kvalitativt og simpelt kvantitativt grundlag (Le Chateliers princip). Kun **homogene** ligevægte hører til B. **Biologi:** transport af dioxygen i blodet som gennemgående eksempel (hæmoglobin og forskydning af ligevægten).
 
+- Relevante sider: [Ligevægt]({{< relref "ligevaegt" >}}) · [Gasligevægte]({{< relref "gasligevaegte" >}}) · [Opgaver til ligevægt]({{< relref "opgaver-ligevaegt" >}}) · [Flashcards-ligevægt]({{< relref "flashcards-ligevaegt" >}})
+
 ### Blok 4 · Syre-base og pH-beregninger (modul 25–34)
 Brønsteds definition (hydronoverførsel), vands selvionisering og pH, syrers og baser styrke, pH-beregninger for vandige opløsninger af stærke og svage syrer og baser, og syre-base-titrering med titrerkurver for **monohydrone** syrer og baser.
 

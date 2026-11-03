@@ -48,6 +48,8 @@ hvor
 > $C$ (stort) er den samlede varmekapacitet, mens $c$ (lille) er den **specifikke**
 > varmekapacitet — altså $C$ divideret med massen. Vi bruger her kun det lille $c$.
 
+![Elkedel og mikrobølgeovn tilsluttet en energimåler med pile til de størrelser, der skal måles](/img/energi-b/nyttevirkning-opstilling.svg)
+
 ## Variabelkontrol
 
 - **Uafhængig variabel:** apparatet, der bruges til opvarmningen (elkedel, mikrobølgeovn, gryde, dypkoger, gasblus …).

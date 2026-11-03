@@ -69,10 +69,10 @@ def roer_forsoeg():
     # Cirkelbanen i perspektiv
     top = np.array([0, 0.6])
     ax.add_patch(Ellipse((0, 0.95), 3.2, 0.7, fill=False, ls="--", color=GRA, lw=1.2))
-    S = np.array([1.45, 0.83])                       # proppen
+    S = np.array([1.45, 0.83])                       # kuglen
     ax.plot([top[0], S[0]], [top[1], S[1]], color="black", lw=1.3)   # snor
     ax.plot(*S, "o", ms=16, color="#b45309", zorder=6)
-    ax.text(S[0] + 0.1, S[1] + 0.12, "prop, masse $m$", fontsize=12)
+    ax.text(S[0] + 0.1, S[1] + 0.12, "kugle, masse $m$", fontsize=12)
     ax.text(0.65, 0.58, "$L$", fontsize=15)
     pil(ax, S + np.array([0, 0.18]), S + np.array([-0.35, 0.36]), GRON, lw=2, ms=14)
     ax.text(S[0] - 0.45, S[1] + 0.42, r"$\vec v$", color=GRON, fontsize=15)

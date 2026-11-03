@@ -581,7 +581,7 @@ Alle grupper: data i Excel og en graf, inden I går.
 
 ![](arbejdsdag-slide/roer-forsoeg.svg)
 
-- Prop (masse $m$) i snor
+- Kugle (masse $m$) i snor
 - Snoren går **ned gennem et glasrør**, som du holder
 - Lodder (masse $M$) hænger i den anden ende
 - Papirclips under røret markerer længden $L$
@@ -591,8 +591,8 @@ Alle grupper: data i Excel og en graf, inden I går.
 ## Rørforsøget: hvordan kender vi kraften?
 
 - Når loddet hænger **stille**, er snorkraften $M \cdot g$ <!-- step -->
-- Samme snor hele vejen → den trækker i proppen med $M \cdot g$ <!-- step -->
-- Det er netop den kraft, der holder proppen i cirklen <!-- step -->
+- Samme snor hele vejen → den trækker i kuglen med $M \cdot g$ <!-- step -->
+- Det er netop den kraft, der holder kuglen i cirklen <!-- step -->
 
 $$M \cdot g = m \cdot \omega^2 \cdot L$$
 <!-- step -->
@@ -603,8 +603,8 @@ Intet newtonmeter — du skifter kraften ved at skifte lodder. <!-- step -->
 
 ## Rørforsøget: sådan gør I
 
-1. Mål $m$ (prop) og $M$ (lodder). Sæt clipsen, så $L \approx 0{,}60$ m.
-2. Sving proppen over hovedet. Justér farten, så clipsen lige netop ligger under røret.
+1. Mål $m$ (kugle) og $M$ (lodder). Sæt clipsen, så $L \approx 0{,}60$ m.
+2. Sving kuglen over hovedet. Justér farten, så clipsen lige netop ligger under røret.
 3. Tag tid for **10 omløb** → $T$ → $\omega = 2\pi/T$
 4. Gentag med 4–5 forskellige $M$
 

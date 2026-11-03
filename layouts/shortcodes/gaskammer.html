@@ -1,0 +1,24 @@
+{{- /* Gaskamre med mouseover. Brug: {{< gaskammer "nobr" >}} (figur fra static/img/gasligevaegte/) */ -}}
+<div class="gk-boks" data-fil="{{ printf "img/gasligevaegte/%s.svg" (.Get 0) | relURL }}" style="max-width:{{ if eq (.Get 0) "hi" }}620px{{ else }}100%{{ end }}">
+<style>
+.gk-boks{margin:1rem 0}
+.gk-boks svg{width:100%;height:auto;display:block;border:2px solid #cbd5e1;border-radius:8px 8px 0 0}
+.gk{cursor:pointer;outline:none}
+.gk-hit{fill:transparent;stroke:transparent;stroke-width:3}
+.gk.aktiv .gk-hit{fill:#eff6ff;stroke:#2563eb}
+.gk-info{border:2px solid #cbd5e1;border-top:none;border-radius:0 0 8px 8px;padding:.6rem .9rem;min-height:4.5rem;background:#fff}
+</style>
+<div class="gk-fig"></div>
+<div class="gk-info" aria-live="polite">Før musen hen over et kammer (eller tryk på det) for at se, hvad der sker.</div>
+</div>
+<script>
+(function(){
+  var b=document.currentScript.previousElementSibling, info=b.querySelector('.gk-info');
+  fetch(b.dataset.fil).then(function(r){return r.text()}).then(function(svg){
+    b.querySelector('.gk-fig').innerHTML=svg;
+    var k=b.querySelectorAll('.gk');
+    k.forEach(function(g){g.onmouseenter=g.onfocus=g.onclick=function(){
+      k.forEach(function(x){x.classList.toggle('aktiv',x===g)}); info.textContent=g.dataset.t;}});
+  });
+})();
+</script>
