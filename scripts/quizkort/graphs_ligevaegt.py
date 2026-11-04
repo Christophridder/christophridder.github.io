@@ -170,10 +170,6 @@ def glas_fig(navn, farver, labels, pile=(), bund=None, figsize=(5.2, 2.9), afst=
 RED, MOERKROED, BLEG = "#C0392B", "#7B0D0D", "#F5D76E"
 glas_fig("b01-mere-roed", [RED, MOERKROED], ["før", "efter"], pile=[(0, "+ ?")])
 glas_fig("b02-bleg", [RED, BLEG], ["før", "efter"], pile=[(0, "+ ?")])
-glas_fig("b03-cu-hcl", [BLAA, GROEN], ["før", "efter"], pile=[(0, "+ konc. HCl")], afst=3.2)
-glas_fig("b04-cu-vand", [GROEN, BLAA], ["før", "efter"], pile=[(0, "+ vand")])
-glas_fig("b05-cu-nh3", [LYSBLAA, MOERKBLAA, LYSBLAA], ["1", "2", "3"], pile=[(0, r"+ NH$_3$"), (1, r"+ H$_2$SO$_4$")], figsize=(6.2, 2.9))
-glas_fig("b06-cu-bundfald", [LYSBLAA, LYSBLAA], ["før", "efter"], pile=[(0, r"+ 2 dråber NH$_3$")], bund={1: "#1F618D"}, afst=3.4)
 glas_fig("b07-no2-temp", ["#E8C9A6", "#7B3F1D"], ["glas A", "glas B"])
 glas_fig("b08-feha", [RED, "#E59866"], ["før", "efter"], pile=[(0, "+ konc. HCl")], afst=3.2)
 print("Grafer gemt i", OUT)

@@ -235,19 +235,19 @@ kort:
 # ---------- Forsøg: hvad er der sket? ----------
 - nr: 38
   type: forsoeg
-  spm: 'Jernthiocyanat bliver **mørkere** rød. Hvad kan der være tilsat? Hvilken vej er ligevægten forskudt?'
+  spm: '$\ce{Fe^3+ + SCN- <=> FeSCN^2+}$. Opløsningen bliver **mørkere** rød. Hvad kan der være tilsat? Hvilken vej er ligevægten forskudt?'
   billede: b01-mere-roed
   hint: 'Mere rød = mere $\ce{FeSCN^2+}$. Der er to muligheder.'
 
 - nr: 39
   type: forsoeg
-  spm: 'Jernthiocyanat bliver **bleg**. Nævn to ting, der kan være tilsat.'
+  spm: '$\ce{Fe^3+ + SCN- <=> FeSCN^2+}$. Opløsningen bliver **bleg**. Nævn to ting, der kan være tilsat.'
   billede: b02-bleg
   hint: 'Et af udgangsstofferne er fjernet. Tænk på sølvioner og vitamin C.'
 
 - nr: 40
   type: forsoeg
-  spm: 'Jernthiocyanat går fra rød mod orange med koncentreret saltsyre. Forklar.'
+  spm: '$\ce{Fe^3+ + SCN- <=> FeSCN^2+}$. Opløsningen går fra rød mod orange med koncentreret saltsyre. Forklar.'
   billede: b08-feha
   hint: '$\ce{Fe^3+ + 4Cl- <=> FeCl4-}$ (gul). Hvad sker der med $[\ce{Fe^3+}]$?'
 
@@ -256,45 +256,3 @@ kort:
   spm: 'To kolber med $\ce{N2O4(g) <=> 2NO2(g)}$ (brun $\ce{NO2}$, endoterm mod højre). Hvilken står i kogende vand?'
   billede: b07-no2-temp
   hint: 'Skriv $Q$ på venstre side. Hvilken gas er brun?'
-
-- nr: 42
-  type: forsoeg
-  maerke: Y
-  spm: 'Kobbersulfat bliver grøn med koncentreret saltsyre. Forklar med $\ce{Cu(H2O)6^2+ + 4Cl- <=> CuCl4^2- + 6H2O}$.'
-  billede: b03-cu-hcl
-  hint: 'Blå $\ce{Cu(H2O)6^2+}$, gulgrøn $\ce{CuCl4^2-}$. Saltsyre giver flere $\ce{Cl-}$.'
-
-- nr: 43
-  type: forsoeg
-  maerke: Y
-  spm: 'Den grønne kobberopløsning bliver blå igen, når du tilsætter vand. Forklar med reaktionsbrøken.'
-  billede: b04-cu-vand
-  hint: 'Vand er opløsningsmiddel og står ikke i $Y$. Sæt $\tfrac{1}{2}$ ind: $[\ce{Cl-}]^4$ giver mange faktorer i nævneren.'
-
-- nr: 44
-  type: forsoeg
-  spm: 'Kobbersulfat bliver dybblå med ammoniak og lyseblå igen med svovlsyre. Forklar begge skift.'
-  billede: b05-cu-nh3
-  hint: 'Dybblå: $\ce{Cu(NH3)4(H2O)2^2+}$. Syre fjerner ammoniak: $\ce{NH3 + H+ -> NH4+}$.'
-
-- nr: 45
-  type: forsoeg
-  spm: 'De første dråber ammoniak giver et lyseblåt bundfald. Hvad er det, og hvorfor forsvinder det igen?'
-  billede: b06-cu-bundfald
-  hint: 'Ammoniak er en base og giver $\ce{OH-}$. Med mere $\ce{NH3}$ dannes et kompleks, som binder $\ce{Cu^2+}$.'
-
-- nr: 46
-  type: forsoeg
-  maerke: Y
-  spm: 'Opskriv reaktionsbrøken for $\ce{Cu(H2O)6^2+ + 4Cl- <=> CuCl4^2- + 6H2O}$. Hvorfor er vand ikke med?'
-  hint: 'Vand er opløsningsmiddel. $[\ce{Cl-}]$ får eksponenten 4.'
-
-- nr: 47
-  type: forsoeg
-  spm: 'Hvorfor bruger vi svovlsyre og **ikke** saltsyre til at fjerne ammoniak i kobberforsøget?'
-  hint: 'Saltsyre giver $\ce{Cl-}$. Hvad gjorde $\ce{Cl-}$ ved kobber i det andet glas?'
-
-- nr: 48
-  type: forsoeg
-  spm: 'Den dybblå kobber-ammoniak-opløsning bliver næsten ikke lyseblå, når du tilsætter vand. Hvorfor ikke?'
-  hint: '$K$ for ammoniakkomplekset er meget stor (ca. $10^{13}\ \text{M}^{-4}$). Ligevægten ligger langt til højre.'

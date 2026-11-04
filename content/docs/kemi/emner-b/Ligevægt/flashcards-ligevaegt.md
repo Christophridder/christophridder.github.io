@@ -7,7 +7,7 @@ pdf_ny_fane: true
 
 **Niveau: Kemi B** · **Emne: Ligevægt og Le Chateliers princip** · **CL-struktur: Quiz og byt**
 
-48 kort om ligevægt: **begreber**, **forskyd ligevægten**, **grafer** og **forsøg** med jernthiocyanat, kobbersulfat og $\ce{NO2}$. Kortene bygger på [Ligevægt]({{< relref "ligevaegt" >}}) og [Opgaver til ligevægt]({{< relref "opgaver-ligevaegt" >}}). Kort mærket **Y** kræver, at du også argumenterer med reaktionsbrøken.
+41 kort om ligevægt: **begreber**, **forskyd ligevægten**, **grafer** og **forsøg** med jernthiocyanat og $\ce{NO2}$. Kortene bygger på [Ligevægt]({{< relref "ligevaegt" >}}) og [Opgaver til ligevægt]({{< relref "opgaver-ligevaegt" >}}). Kort mærket **Y** kræver, at du også argumenterer med reaktionsbrøken.
 
 Der er **ingen svar** – kun hints. Svaret finder I sammen.
 
