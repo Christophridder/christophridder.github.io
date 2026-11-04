@@ -1,6 +1,8 @@
 ---
 title: "Gasligevægte"
 weight: 2
+pdf: "pdfs/gasligevaegte.pdf"
+pdf_ny_fane: true
 ---
 
 **Niveau: Kemi B** · **Emne: Gasligevægte og partialtryk**
@@ -33,7 +35,7 @@ Når en opgave bare siger, at "trykket øges", menes der normalt, at volumen min
 
 ## Tryk flytter ligevægten: NOBr
 
-$$\ce{\underset{3~gasmolekyler}{2NO(g) + Br2(g)} <=> \underset{2~gasmolekyler}{2NOBr(g)}}$$
+$$\underset{\text{3 gasmolekyler}}{\ce{2NO(g) + Br2(g)}} \ce{<=>} \underset{\text{2 gasmolekyler}}{\ce{2NOBr(g)}}$$
 
 $$Y = \frac{p(\ce{NOBr})^2}{p(\ce{NO})^2 \cdot p(\ce{Br2})}$$
 
@@ -47,7 +49,7 @@ $K > Y$, så ligevægten forskydes mod **højre**. Der bliver færre molekyler, 
 
 ## Tryk flytter ikke ligevægten: HI
 
-$$\ce{\underset{2~gasmolekyler}{H2(g) + I2(g)} <=> \underset{2~gasmolekyler}{2HI(g)}}$$
+$$\underset{\text{2 gasmolekyler}}{\ce{H2(g) + I2(g)}} \ce{<=>} \underset{\text{2 gasmolekyler}}{\ce{2HI(g)}}$$
 
 $$Y = \frac{p(\ce{HI})^2}{p(\ce{H2}) \cdot p(\ce{I2})}$$
 

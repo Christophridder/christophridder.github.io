@@ -42,6 +42,11 @@ for g, navn in GRAESK.items():
 
 # Hugo -> pandoc: shortcodes væk, relref-links til tekst, blanke linjer før overskrifter/lister
 body = re.sub(r"\[([^\]]+)\]\(\{\{<\s*relref[^>]*>\}\}\)", r"\1", body)
+# Interaktive gaskamre bliver til almindelige billeder i PDF'en; overskrift, formler og figur holdes på samme side
+BREDDE_GASKAMMER = {"hi": "62%"}
+body = re.sub(r"^(## [^\n]*\n(?:(?!#)[^\n]*\n)*?\{\{<\s*gaskammer)", lambda m: "\\needspace{0.85\\textheight}\n\n" + m.group(1), body, flags=re.M)
+body = re.sub(r'\{\{<\s*gaskammer\s+"(\w+)"\s*>\}\}',
+              lambda m: f"![](/img/gasligevaegte/{m.group(1)}.svg){{width={BREDDE_GASKAMMER.get(m.group(1), '100%')}}}", body)
 body = re.sub(r"\{\{[<%].*?[>%]\}\}", "", body)
 tmp = tempfile.mkdtemp()
 def billede(m):
@@ -89,7 +94,7 @@ if not har_mhchem and r"\ce{" in body:
     body = re.sub(r"\\ce\{([^{}]*)\}", ce2mathrm, body)
 
 header = r"""\usepackage{xcolor}\definecolor{barblue}{HTML}{3498DB}\definecolor{headblue}{HTML}{2471A3}
-MHCHEM\usepackage{tikz}\usepackage{titlesec}\usepackage{float}\usepackage{booktabs}
+MHCHEM\usepackage{needspace}\usepackage{tikz}\usepackage{titlesec}\usepackage{float}\usepackage{booktabs}
 \titleformat*{\section}{\Large\bfseries\sffamily\color{headblue}}
 \titleformat*{\subsection}{\large\bfseries\sffamily\color{headblue}}
 \titleformat*{\subsubsection}{\normalsize\bfseries\sffamily\color{headblue}}

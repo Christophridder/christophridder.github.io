@@ -51,6 +51,7 @@ Reversible og irreversible reaktioner, ligevægtsloven, reaktionsbrøk og ligev�
 ### Blok 4 · Syre-base og pH-beregninger (modul 25–34)
 Brønsteds definition (hydronoverførsel), vands selvionisering og pH, syrers og baser styrke, pH-beregninger for vandige opløsninger af stærke og svage syrer og baser, og syre-base-titrering med titrerkurver for **monohydrone** syrer og baser.
 
+- Teori: [Syrebase-ligevægte]({{< relref "syrebase-ligevaegte" >}})
 - **Ikke B-stof:** Puffersystemer, pufferkapacitet, Bjerrumdiagrammer og titrerkurver for polyhydrone syrer er A-niveau (kapitlet i *Videre med kemi* indeholder dem). Bruges højst som perspektivering af blodets pH.
 - **Biologi:** pH og syre-base i kroppen, fx blodets og mavens pH.
 - Eksperimenter: [Phosphorsyre i cola]({{< relref "/docs/kemi/B-Eksp/phosphorsyre-cola" >}}), [Syre i vingummibamser]({{< relref "/docs/kemi/C-Eksp/vingummi" >}}), evt. citronsyre-analyse.

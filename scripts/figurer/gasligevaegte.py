@@ -59,7 +59,7 @@ def kammer(ox, titel, antal, faktor, Y, fuld_h, hover, rng, pr_molekyle=.1):
     b, bund = 250, 330
     h = fuld_h
     top = bund - h
-    s = f'<g class="gk" tabindex="0" data-t="{escape(hover, quote=True)}"><rect class="gk-hit" x="{ox-15}" y="4" width="290" height="486" rx="10"/>'
+    s = f'<g class="gk" tabindex="0" data-t="{escape(hover, quote=True)}"><rect class="gk-hit" x="{ox-15}" y="4" width="290" height="486" rx="10" fill="none"/>'
     s += f'<text x="{ox+b/2}" y="28" font-size="18" font-weight="bold" fill="{MORK}" text-anchor="middle">{titel}</text>'
     s += f'<rect x="{ox}" y="{top}" width="{b}" height="{h}" fill="#f8fafc"/>'
     s += f'<rect x="{ox+b/2-5}" y="44" width="10" height="{top-56}" fill="{GRA}"/>'
