@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raket i det tomme rum – Fysik A</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; }
+#rk {
+  background: #f1f5f9; border-radius: 14px; overflow: hidden;
+  max-width: 1000px; margin: 0 auto; box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+}
+.rk-head {
+  background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 12px 20px; color: white; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.rk-head h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+.rk-head p { font-size: 0.78rem; opacity: 0.8; flex: 1; min-width: 200px; }
+.rk-head a { color: white; font-size: 0.75rem; opacity: 0.85; }
+#stage { display: block; width: 100%; height: auto; aspect-ratio: 2.5 / 1; min-height: 210px; background: #0b1220; }
+.panel { background: white; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+.read { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+@media (max-width: 560px) { .read { grid-template-columns: repeat(2, 1fr); } }
+.card { background: #f1f5f9; border-radius: 8px; padding: 5px 7px; min-width: 0; }
+.card.tjek { background: #dbeafe; }
+.card .k { font-size: 0.66rem; color: #64748b; font-weight: 700; white-space: nowrap; }
+.card.tjek .k { color: #1e40af; }
+.card .v { font-size: 0.86rem; font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 560px) { .charts { grid-template-columns: 1fr; } }
+.chart { display: block; width: 100%; height: auto; aspect-ratio: 2.1 / 1; }
+.ctrls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+@media (max-width: 560px) { .ctrls { grid-template-columns: 1fr; } }
+.grp label { display: flex; justify-content: space-between; font-size: 0.74rem; font-weight: 700; color: #475569; margin-bottom: 1px; }
+.grp label span { color: #1e40af; }
+input[type=range] { width: 100%; accent-color: #2563eb; }
+.btns { display: flex; gap: 6px; }
+.btns button {
+  flex: 1; border: 1.5px solid #cbd5e1; background: white; border-radius: 7px; padding: 7px;
+  font-size: 0.82rem; font-weight: 700; cursor: pointer; font-family: inherit; color: #1e293b;
+}
+.btns button:hover { border-color: #2563eb; color: #1e40af; }
+.btns button.go { background: #2563eb; border-color: #2563eb; color: white; }
+.note { font-size: 0.74rem; line-height: 1.4; color: #475569; padding: 8px 12px 10px; }
+.key { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 4px; }
+</style>
+</head>
+<body>
+<div id="rk">
+  <div class="rk-head">
+    <h1>Raket i det tomme rum</h1>
+    <p>Ingen tyngdekraft og ingen luft. Kun motoren virker.</p>
+    <a href="raket-rum.html" target="_blank" rel="noopener">Åbn i fuld skærm ↗</a>
+  </div>
+  <canvas id="stage" aria-label="Vandret raket med brændstoftank, motorkraft og udstødning"></canvas>
+  <div class="panel">
+    <div class="read">
+      <div class="card"><div class="k">Tid t</div><div class="v" id="rT"></div></div>
+      <div class="card"><div class="k">Masse m</div><div class="v" id="rM"></div></div>
+      <div class="card"><div class="k">Acc. a</div><div class="v" id="rA"></div></div>
+      <div class="card"><div class="k">Fart v</div><div class="v" id="rV"></div></div>
+      <div class="card tjek"><div class="k">u·ln(m₀/m)</div><div class="v" id="rL"></div></div>
+    </div>
+    <div class="charts">
+      <canvas class="chart" id="cA" aria-label="Graf over acceleration som funktion af tiden"></canvas>
+      <canvas class="chart" id="cV" aria-label="Graf over fart som funktion af tiden"></canvas>
+    </div>
+    <div class="ctrls">
+      <div class="grp">
+        <label for="sB">Brændstof ved start <span id="vB"></span></label>
+        <input type="range" id="sB" min="40" max="90" step="1" value="80">
+      </div>
+      <div class="grp">
+        <label for="sU">Udstødningsfart u <span id="vU"></span></label>
+        <input type="range" id="sU" min="1500" max="4500" step="100" value="3000">
+      </div>
+    </div>
+    <div class="btns">
+      <button id="bGo" class="go">▶ Start</button>
+      <button id="bNul">↺ Forfra</button>
+    </div>
+  </div>
+  <div class="note">
+    <span class="key" style="background:#2563eb"></span>Raket, hvor massen falder
+    <span class="key" style="background:#94a3b8;margin-left:10px"></span>Tænkt raket med samme motorkraft, men konstant masse.<br>
+    Raketten vejer 100 t ved start og sender 500 kg gas ud pr. sekund. Tiden er sat 10 gange op. Jo større fart, desto hurtigere glider stjernerne forbi.
+  </div>
+</div>
+
+<script>
+const M0 = 1e5, RATE = 500, TEMPO = 10;   // RATE = Δm/Δt i kg/s
+const $ = id => document.getElementById(id);
+const dk = (x, n) => x.toFixed(n).replace('.', ',');
+
+let run = null, t = 0, spiller = false, sidst = null, gas = [];
+let rul = 0, svæver = false;              // rul: hvor langt stjernerne er gledet; svæver: motoren er slukket
+const SK = 0.1;                           // skærmfart i px/s pr. m/s
+
+const stjerner = Array.from({ length: 70 }, () => [Math.random(), Math.random(), Math.random() * 1.3 + .3]);
+
+function beregn() {
+  const b = +$('sB').value * 1000, u = +$('sU').value;
+  const tb = b / RATE, F = u * RATE, dt = 0.05, r = { F, u, b, tb, dt, tbl: [] };
+  let v = 0, x = 0, vk = 0, xk = 0;
+  for (let i = 0; i * dt <= tb + 1e-9; i++) {
+    const tt = i * dt, m = M0 - RATE * tt, a = F / m, ak = F / M0;
+    r.tbl.push({ t: tt, m, a, v, x, ak, vk, xk });
+    v += a * dt; x += v * dt; vk += ak * dt; xk += vk * dt;
+  }
+  const s = r.tbl[r.tbl.length - 1];
+  r.xMax = Math.max(s.x, 1); r.vMax = Math.max(s.v, 1); r.aMax = s.a;
+  return r;
+}
+
+const pt = () => run.tbl[Math.min(Math.round(t / run.dt), run.tbl.length - 1)];
+
+function fitCanvas(cv) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = cv.clientWidth, h = cv.clientHeight;
+  cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+  const c = cv.getContext('2d');
+  c.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { c, w, h };
+}
+
+function pilV(c, x1, x2, y, farve, tekst) {
+  const sign = Math.sign(x2 - x1), hd = 12;
+  c.strokeStyle = farve; c.fillStyle = farve; c.lineWidth = 4; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(x1, y); c.lineTo(x2 - sign * hd, y); c.stroke();
+  c.beginPath(); c.moveTo(x2, y); c.lineTo(x2 - sign * hd, y - 7); c.lineTo(x2 - sign * hd, y + 7); c.closePath(); c.fill();
+  c.font = '700 13px system-ui, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'bottom';
+  c.lineWidth = 4; c.lineJoin = 'round'; c.strokeStyle = '#0b1220';
+  c.strokeText(tekst, (x1 + x2) / 2, y - 8);
+  c.fillText(tekst, (x1 + x2) / 2, y - 8);
+}
+
+function tegnStage() {
+  const { c, w, h } = fitCanvas($('stage'));
+  const s = pt();
+  c.fillStyle = '#0b1220'; c.fillRect(0, 0, w, h);
+  c.fillStyle = '#cbd5e1';
+  // Stjernerne glider mod venstre med en fart, der følger rakettens fart.
+  // Små stjerner er længere væk og glider langsommere.
+  const fartNu = (spiller || svæver) ? s.v : 0;
+  c.strokeStyle = '#cbd5e1';
+  for (const [a, b, r] of stjerner) {
+    const dybde = r / 1.6;
+    const x = (((a * w - rul * dybde) % w) + w) % w, y = b * h;
+    const streg = Math.min(fartNu * SK * dybde * 0.035, 22);
+    if (streg > 1.5) {
+      c.lineWidth = r * 1.3; c.lineCap = 'round';
+      c.beginPath(); c.moveTo(x, y); c.lineTo(x + streg, y); c.stroke();
+    } else { c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); }
+  }
+
+  // Afstandsstribe øverst
+  const x0 = 14, x1 = w - 14, y0 = 24;
+  c.strokeStyle = '#475569'; c.lineWidth = 1; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y0); c.stroke();
+  c.fillStyle = '#94a3b8'; c.font = '600 11px system-ui, sans-serif'; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+  c.fillText('Tilbagelagt vej: 0', x0, y0 - 8);
+  c.textAlign = 'right'; c.fillText(Math.round(run.xMax / 1000) + ' km', x1, y0 - 8);
+  const X = v => x0 + (x1 - x0) * v / run.xMax;
+  c.fillStyle = '#94a3b8'; c.beginPath(); c.arc(X(s.xk), y0 + 9, 4.5, 0, 7); c.fill();
+  c.fillStyle = '#60a5fa'; c.beginPath(); c.arc(X(s.x), y0, 5.5, 0, 7); c.fill();
+
+  // Nærbillede af raketten, vandret
+  const cy = h * .62, rl = Math.min(w * .42, 300), rh = Math.min(h * .26, 54), rx = w * .5 - rl * .42;
+  const brændt = t >= run.tb - 1e-6;
+
+  // gas
+  c.fillStyle = '#fb923c';
+  for (const d of gas) { c.globalAlpha = d.a; c.beginPath(); c.arc(d.x, d.y, d.r, 0, 7); c.fill(); }
+  c.globalAlpha = 1;
+  if (spiller && !brændt) {
+    const fl = 34 + 22 * Math.random();
+    c.fillStyle = '#fb923c';
+    c.beginPath(); c.moveTo(rx, cy - rh * .34); c.lineTo(rx - fl, cy); c.lineTo(rx, cy + rh * .34); c.fill();
+    c.fillStyle = '#fde047';
+    c.beginPath(); c.moveTo(rx, cy - rh * .18); c.lineTo(rx - fl * .6, cy); c.lineTo(rx, cy + rh * .18); c.fill();
+  }
+
+  // krop
+  c.fillStyle = '#e2e8f0';
+  c.beginPath();
+  c.moveTo(rx, cy - rh / 2); c.lineTo(rx + rl * .78, cy - rh / 2);
+  c.quadraticCurveTo(rx + rl * .95, cy - rh * .4, rx + rl, cy);
+  c.quadraticCurveTo(rx + rl * .95, cy + rh * .4, rx + rl * .78, cy + rh / 2);
+  c.lineTo(rx, cy + rh / 2); c.closePath(); c.fill();
+  c.fillStyle = '#94a3b8';
+  c.beginPath(); c.moveTo(rx + rh, cy - rh / 2); c.lineTo(rx, cy - rh); c.lineTo(rx, cy - rh / 2); c.fill();
+  c.beginPath(); c.moveTo(rx + rh, cy + rh / 2); c.lineTo(rx, cy + rh); c.lineTo(rx, cy + rh / 2); c.fill();
+
+  // tank: tømmes fra venstre mod højre
+  const tx = rx + 8, tl = rl * .68, th = rh * .68;
+  c.fillStyle = '#475569'; c.fillRect(tx, cy - th / 2, tl, th);
+  const fyld = (run.b - RATE * s.t) / M0, fl = tl * Math.max(fyld, 0);
+  c.fillStyle = '#22c55e'; c.fillRect(tx + tl - fl, cy - th / 2, fl, th);
+  c.fillStyle = '#0f172a'; c.font = '700 11px system-ui, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.fillText('tank', tx + tl - 22, cy);
+
+  // Kræfter og udstødning
+  // Pilene er proportionale med kraften og u. De findes kun, mens motoren kører.
+  if (!brændt) {
+    const LF = (Math.min(w * .3, 150) + 34) * run.u / 4500;
+    pilV(c, rx + rl * .35, rx + rl * .35 + LF, cy - rh - 8, '#fb923c', 'Motorkraft F');
+    const Lu = 94 * run.u / 4500;
+    pilV(c, rx - 6, Math.max(rx - 6 - Lu, 10), cy + rh + 10, '#38bdf8', 'Gas: u');
+  }
+
+  if (brændt) {
+    const tekst = 'Tanken er tom. Nu flyver raketten videre med konstant fart.';
+    c.font = '600 12px system-ui, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+    const b = c.measureText(tekst).width;
+    c.fillStyle = 'rgba(11,18,32,.85)'; c.fillRect(w / 2 - b / 2 - 8, h - 24, b + 16, 20);
+    c.fillStyle = '#e2e8f0'; c.fillText(tekst, w / 2, h - 9);
+  }
+}
+
+function graf(id, felt, feltK, maks, navn, enhed) {
+  const { c, w, h } = fitCanvas($(id));
+  const pl = 34, pr = 8, pt_ = 16, pb = 18;
+  const x = v => pl + (w - pl - pr) * v / run.tb, y = v => h - pb - (h - pt_ - pb) * v / maks;
+  c.clearRect(0, 0, w, h);
+  c.strokeStyle = '#cbd5e1'; c.lineWidth = 1;
+  c.beginPath(); c.moveTo(pl, pt_); c.lineTo(pl, h - pb); c.lineTo(w - pr, h - pb); c.stroke();
+  c.fillStyle = '#64748b'; c.font = '600 10px system-ui, sans-serif';
+  c.textAlign = 'right'; c.textBaseline = 'middle';
+  c.fillText(Math.round(maks), pl - 4, y(maks)); c.fillText('0', pl - 4, h - pb);
+  c.textAlign = 'left'; c.textBaseline = 'top'; c.font = '700 11px system-ui, sans-serif'; c.fillStyle = '#334155';
+  c.fillText(navn + ' (' + enhed + ')', pl + 4, 1);
+  c.textAlign = 'right'; c.textBaseline = 'alphabetic'; c.font = '600 10px system-ui, sans-serif'; c.fillStyle = '#64748b';
+  c.fillText('t (s) → ' + Math.round(run.tb), w - pr, h - 4);
+  const n = Math.min(Math.round(t / run.dt), run.tbl.length - 1);
+  const linje = (f, farve, bred) => {
+    c.strokeStyle = farve; c.lineWidth = bred; c.lineJoin = 'round';
+    c.beginPath();
+    for (let i = 0; i <= n; i += 2) {
+      const p = run.tbl[i], X = x(p.t), Y = y(p[f]);
+      i ? c.lineTo(X, Y) : c.moveTo(X, Y);
+    }
+    c.stroke();
+  };
+  linje(feltK, '#94a3b8', 2);
+  linje(felt, '#2563eb', 2.5);
+}
+
+function tegn() {
+  const s = pt();
+  $('rT').textContent = dk(s.t, 0) + ' s';
+  $('rM').textContent = dk(s.m / 1000, 1) + ' t';
+  $('rA').textContent = (t >= run.tb ? '0,0' : dk(s.a, 1)) + ' m/s²';
+  $('rV').textContent = Math.round(s.v) + ' m/s';
+  $('rL').textContent = Math.round(run.u * Math.log(M0 / s.m)) + ' m/s';
+  tegnStage();
+  graf('cA', 'a', 'ak', run.aMax, 'Acceleration', 'm/s²');
+  graf('cV', 'v', 'vk', run.vMax, 'Fart', 'm/s');
+}
+
+function nulstil() {
+  $('vB').textContent = $('sB').value + ' t af 100 t';
+  $('vU').textContent = dk(+$('sU').value / 1000, 1) + ' km/s';
+  run = beregn(); t = 0; spiller = false; svæver = false; rul = 0; gas = []; $('bGo').textContent = '▶ Start';
+  tegn();
+}
+
+function loop(ts) {
+  const dt = sidst === null ? 0 : Math.min((ts - sidst) / 1000, 0.1);
+  sidst = ts;
+  if (spiller || svæver) rul += pt().v * SK * dt;
+  if (spiller) {
+    t += dt * TEMPO;
+    const cv = $('stage'), w = cv.clientWidth, h = cv.clientHeight;
+    const rl = Math.min(w * .42, 300), rx = w * .5 - rl * .42, cy = h * .62;
+    for (let i = 0; i < 2; i++) gas.push({ x: rx - 30, y: cy + (Math.random() - .5) * 16, vx: -130 - run.u / 30, r: 1.5 + Math.random() * 2, a: .8 });
+    if (t >= run.tb) { t = run.tb; spiller = false; svæver = true; $('bGo').textContent = '▶ Start'; }
+  }
+  gas.forEach(d => { d.x += d.vx * dt; d.a -= dt * .9; });
+  gas = gas.filter(d => d.x > 0 && d.a > 0);
+  if (spiller || svæver || gas.length) tegn();
+  requestAnimationFrame(loop);
+}
+
+$('bGo').onclick = () => {
+  if (t >= run.tb) { t = 0; rul = 0; svæver = false; }
+  spiller = !spiller;
+  $('bGo').textContent = spiller ? '⏸ Pause' : '▶ Start';
+  tegn();
+};
+$('bNul').onclick = nulstil;
+$('sB').oninput = nulstil;
+$('sU').oninput = nulstil;
+
+nulstil();
+new ResizeObserver(tegn).observe($('rk'));
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

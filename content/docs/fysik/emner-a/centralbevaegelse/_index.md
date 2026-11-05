@@ -12,5 +12,6 @@ bookCollapseSection: true
 | [Newtons gravitationslov]({{< relref "gravitationsloven" >}}) | Gravitationsloven, tyngdefeltet, Newtons månetest, cirkulær bane |
 | [Keplers love]({{< relref "keplers-love" >}}) | Ellipse-, flade- og periodeloven, geostationær bane, **simulering** |
 | [Energi i centralbevægelse]({{< relref "energi-centralbevaegelse" >}}) | $E_{\text{pot}} = -GMm/r$, energi i bane, undvigelseshastighed |
+| [Raketligningen]({{< relref "raketligningen" >}}) | Motorkraft, $\Delta v = u \cdot \ln(m_0/m)$, vandraket, **simuleringer** |
 
 **Simulering:** [Kredsløb om Jorden](/sim/kredsloeb.html) – åbn i fuld skærm.

@@ -143,16 +143,72 @@ moduler:
   - nr: 18
     dato: 2026-10-27
     emne: Stød
-    forloeb: cirkelbevaegelse 
-    materialer: [jaevn-cirkelbevaegelse] 
+    forloeb: Stød
+    materialer: [] 
     lektier: "Læs side 592 i fysikABbogen " 
     kommentar: "lad os se"
     maal: [at forstå cirkelbevaegelse]
   - nr: 19
-    dato: 2026-10-27
+    dato: 2026-10-29
     emne: Stød
-    forloeb: cirkelbevaegelse
+    forloeb: Cirkelbevægelse
     materialer: [gravitation-centrallegeme] 
     lektier: "Læs side 592 og regn opgaver " 
-    kommentar: "Lad os se hvordan det går"
+    kommentar: "Cirkelbevægelse og opgaven **udspring** "
     maal: [centrallegeme]
+  - nr: 20
+    dato: 2026-11-02
+    emne: Cirkelbevægelse
+    forloeb: Cirkelbevægelse
+    materialer: [cirkelbevaegelse] 
+    lektier: "Læs side 592 og regn opgaver " 
+    kommentar: "Blokdag 1"
+    maal: [Regne opgaver]
+  - nr: 21
+    dato: 2026-11-02
+    emne: Cirkelbevægelse
+    forloeb: cirkelbevaegelse
+    materialer: [cirkelbevaegelse] 
+    lektier: "Læs side 592 og regn opgaver " 
+    kommentar: "Blokdag 2"
+    maal: [regneopgaver lave forsøg]
+  - nr: 22
+    dato: 2026-11-02
+    emne: Cirkelbevægelse
+    forloeb: cirkelbevaegelse
+    materialer: [cirkelbevaegelse] 
+    lektier: "Læs side 592 og regn opgaver " 
+    kommentar: "Blokdag 3"
+    maal: [Eksperiment med rør]
+  - nr: 23
+    dato: 2026-11-02
+    emne: Cirkelbevægelse
+    forloeb: cirkelbevaegelse
+    materialer: [jaevn-cirkelbevaegelse]
+    lektier: "Læs side 592 og regn opgaver " 
+    kommentar: "Blokdag 3"
+    maal: [Eksperiment med rør]
+  - nr: 24
+    dato: 2026-11-04
+    emne: Cirkelbevægelse
+    forloeb: cirkelbevaegelse
+    materialer: [jaevn-cirkelbevaegelse]
+    lektier: "Læs side 592 og regn opgaver " 
+    kommentar: "regne opgaver og introducere cirkelbevægelse"
+    maal: [Eksperiment med kegle]
+  - nr: 25
+    dato: 2026-11-06
+    emne: Cirkelbevægelse
+    forloeb: cirkelbevaegelse
+    materialer: [gravitationsloven]
+    lektier: "Læs side 592 og regn opgaver " 
+    kommentar: "regne opgaver og introducere cirkelbevægelse"
+    maal: [Newtons gravitationslov]
+  - nr: 26
+    dato: 2026-11-10
+    emne: Cirkelbevægelse
+    forloeb: cirkelbevaegelse
+    materialer: [gravitationsloven]
+    lektier: "Læs side 592 og regn opgaver " 
+    kommentar: "regne opgaver og introducere cirkelbevægelse"
+    maal: [Newtons gravitationslov]

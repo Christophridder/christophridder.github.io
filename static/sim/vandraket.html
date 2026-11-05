@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vandraket – Fysik A</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; }
+#vr {
+  background: #f1f5f9; border-radius: 14px; overflow: hidden;
+  max-width: 1000px; margin: 0 auto; box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+}
+.vr-head {
+  background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 12px 20px; color: white; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.vr-head h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+.vr-head p { font-size: 0.78rem; opacity: 0.8; flex: 1; min-width: 200px; }
+.vr-head a { color: white; font-size: 0.75rem; opacity: 0.85; }
+.body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+@media (max-width: 560px) { .body { grid-template-columns: 1fr; } }
+canvas { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1.08; background: #e8eef5; }
+.panel { background: white; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.read { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.card { background: #f1f5f9; border-radius: 8px; padding: 6px 8px; }
+.card .k { font-size: 0.68rem; color: #64748b; font-weight: 700; }
+.card .v { font-size: 0.95rem; font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar { height: 16px; background: #e2e8f0; border-radius: 8px; overflow: hidden; }
+.bar div { height: 100%; background: #38bdf8; }
+.lbl { font-size: 0.74rem; font-weight: 700; color: #475569; margin-bottom: 3px; }
+.btns { display: flex; flex-direction: column; gap: 6px; }
+.btns button {
+  border: 1.5px solid #cbd5e1; background: white; border-radius: 7px; padding: 8px;
+  font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; color: #1e293b;
+}
+.btns button:hover:enabled { border-color: #2563eb; color: #1e40af; }
+.btns button:disabled { opacity: .45; cursor: default; }
+.btns button.go { background: #2563eb; border-color: #2563eb; color: white; }
+.note { font-size: 0.78rem; line-height: 1.4; color: #475569; }
+.hide { display: none; }
+</style>
+</head>
+<body>
+<div id="vr">
+  <div class="vr-head">
+    <h1>Vandraket i klasselokalet</h1>
+    <p>Colaflaske med 200 g vand. Loftet er 3,0 m oppe.</p>
+    <a href="vandraket.html" target="_blank" rel="noopener">Åbn i fuld skærm ↗</a>
+  </div>
+  <div class="body">
+    <canvas id="c" aria-label="Vandraket i et lokale med målestok på væggen"></canvas>
+    <div class="panel">
+      <div class="read">
+        <div class="card"><div class="k">Tid efter start</div><div class="v" id="rT"></div></div>
+        <div class="card"><div class="k">Samlet masse m</div><div class="v" id="rM"></div></div>
+        <div class="card"><div class="k">Acceleration a</div><div class="v" id="rA"></div></div>
+        <div class="card"><div class="k">Fart v</div><div class="v" id="rV"></div></div>
+      </div>
+      <div>
+        <div class="lbl">Vand tilbage i flasken</div>
+        <div class="bar"><div id="bar"></div></div>
+      </div>
+      <div class="btns">
+        <button id="bStart" class="go">▶ Affyr raketten</button>
+        <button id="bMere" disabled>Afslør resten af flyvningen</button>
+        <button id="bNul">↺ Forfra</button>
+      </div>
+      <p class="note" id="tekst"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tal som i opgaven
+const G = 9.82, M_TOM = 0.100, M_VAND = 0.200, U = 7.0, TB = 0.10, LOFT = 3.0;
+const MU = M_VAND / TB, F = U * MU, DT = 0.0002;
+const SLOW = 25, SLOW2 = 2.5;       // vandfasen 25× langsommere, frit stigende 2,5× langsommere
+const $ = id => document.getElementById(id);
+const dk = (x, n) => x.toFixed(n).replace('.', ',');
+
+function flyv(konstantMasse) {
+  const tbl = []; let t = 0, v = 0, h = 0;
+  for (;;) {
+    const brænder = t < TB - 1e-9;
+    const mVirk = brænder ? M_TOM + M_VAND - MU * t : M_TOM;
+    const m = konstantMasse && brænder ? M_TOM + M_VAND : mVirk;
+    const a = (brænder ? F / m : 0) - G;
+    tbl.push({ t, m: mVirk, a, v, h });
+    if (!brænder && v <= 0) break;
+    v += a * DT; h += v * DT; t += DT;
+  }
+  return tbl;
+}
+const rigtig = flyv(false), tænkt = flyv(true);
+const TOP = rigtig[rigtig.length - 1].t, HMAX = rigtig[rigtig.length - 1].h, HTÆNKT = tænkt[tænkt.length - 1].h;
+
+let t = 0, fase = 'klar', sidst = null, dråber = [];
+
+const pr = (tbl, tid) => tbl[Math.min(Math.round(tid / DT), tbl.length - 1)];
+
+function flaske(c, x, yBund, sk, vandAndel, spøgelse) {
+  // Tegnet med halsen nedad; yBund er mundingen
+  const L = 0.30 * sk, B = 0.09 * sk;
+  c.save();
+  c.translate(x, yBund);
+  c.globalAlpha = spøgelse ? 0.45 : 1;
+  const krop = () => {
+    c.beginPath();
+    c.moveTo(-B * .22, 0);
+    c.lineTo(-B * .22, -L * .12);
+    c.quadraticCurveTo(-B / 2, -L * .22, -B / 2, -L * .36);
+    c.lineTo(-B / 2, -L * .86);
+    c.quadraticCurveTo(-B / 2, -L, 0, -L);
+    c.quadraticCurveTo(B / 2, -L, B / 2, -L * .86);
+    c.lineTo(B / 2, -L * .36);
+    c.quadraticCurveTo(B / 2, -L * .22, B * .22, -L * .12);
+    c.lineTo(B * .22, 0);
+    c.closePath();
+  };
+  c.fillStyle = '#ffffff'; krop(); c.fill();
+  if (vandAndel > 0) {
+    c.save(); krop(); c.clip();
+    c.fillStyle = '#38bdf8';
+    c.fillRect(-B, -L * .7 * vandAndel, 2 * B, L * .7 * vandAndel);
+    c.restore();
+  }
+  c.strokeStyle = spøgelse ? '#475569' : '#1e3a8a'; c.lineWidth = 1.8;
+  if (spøgelse) c.setLineDash([4, 3]);
+  krop(); c.stroke();
+  c.setLineDash([]);
+  c.fillStyle = spøgelse ? '#94a3b8' : '#dc2626';
+  for (const s of [-1, 1]) {
+    c.beginPath(); c.moveTo(s * B / 2, -L * .5); c.lineTo(s * B * .95, -L * .18); c.lineTo(s * B / 2, -L * .3); c.fill();
+  }
+  c.restore();
+}
+
+function tegn() {
+  const cv = $('c'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = cv.clientWidth, h = cv.clientHeight;
+  cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+  const c = cv.getContext('2d');
+  c.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const gulv = h - 26, sk = (gulv - 24) / LOFT, y = m => gulv - m * sk;   // sk: pixels pr. meter
+  c.fillStyle = '#e8eef5'; c.fillRect(0, 0, w, h);
+  c.fillStyle = '#94a3b8'; c.fillRect(0, gulv, w, h - gulv);
+  c.fillStyle = '#64748b'; c.fillRect(0, y(LOFT) - 8, w, 8);
+  c.fillStyle = '#334155'; c.font = '700 11px system-ui, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'top';
+  c.fillText('Loft – 3,0 m', w * .34, y(LOFT) + 3);
+
+  // Målestok
+  c.strokeStyle = '#64748b'; c.lineWidth = 1; c.fillStyle = '#334155'; c.textAlign = 'left'; c.textBaseline = 'middle';
+  c.font = '600 11px system-ui, sans-serif';
+  c.beginPath(); c.moveTo(34, y(0)); c.lineTo(34, y(LOFT)); c.stroke();
+  for (let m = 0; m <= 3.001; m += 0.5) {
+    const hel = Math.abs(m - Math.round(m)) < .01;
+    c.beginPath(); c.moveTo(34, y(m)); c.lineTo(hel ? 44 : 40, y(m)); c.stroke();
+    if (hel && m > 0 && m < 3) c.fillText(dk(m, 0) + ' m', 4, y(m));
+  }
+
+  const s = pr(rigtig, t), xR = w * .62, xT = w * .34;
+
+  // Vandstråle
+  c.fillStyle = '#38bdf8';
+  for (const d of dråber) { c.beginPath(); c.arc(d.x, d.y, d.r, 0, 7); c.fill(); }
+
+  const afslørt = fase === 'stiger' || fase === 'slut';
+  if (afslørt) {
+    const k = pr(tænkt, t);
+    flaske(c, xT, y(k.h), sk, 0, true);
+    c.fillStyle = '#475569'; c.textAlign = 'center'; c.textBaseline = 'top'; c.font = '600 11px system-ui, sans-serif';
+    c.fillText('Tænkt: konstant masse', xT, gulv + 7);
+    if (t >= tænkt[tænkt.length - 1].t) {
+      c.strokeStyle = '#64748b'; c.setLineDash([4, 4]); c.beginPath(); c.moveTo(46, y(HTÆNKT)); c.lineTo(xT + 44, y(HTÆNKT)); c.stroke(); c.setLineDash([]);
+      c.textBaseline = 'bottom'; c.fillText('ca. ' + dk(HTÆNKT, 1) + ' m', xT - 54, y(HTÆNKT) - 2);
+    }
+  }
+  flaske(c, xR, y(s.h), sk, Math.max(1 - s.t / TB, 0) , false);
+  if (fase === 'slut') {
+    c.strokeStyle = '#1e3a8a'; c.setLineDash([4, 4]); c.beginPath(); c.moveTo(46, y(HMAX)); c.lineTo(xR + 90, y(HMAX)); c.stroke(); c.setLineDash([]);
+    c.fillStyle = '#1e3a8a'; c.textAlign = 'right'; c.textBaseline = 'bottom'; c.font = '700 12px system-ui, sans-serif';
+    c.fillText('ca. ' + dk(HMAX, 1) + ' m', xR + 90, y(HMAX) - 3);
+  }
+  if (afslørt) {
+    c.fillStyle = '#1e3a8a'; c.textAlign = 'center'; c.textBaseline = 'top'; c.font = '600 11px system-ui, sans-serif';
+    c.fillText('Massen falder', xR, gulv + 7);
+  }
+  if (fase === 'stop') {
+    c.fillStyle = '#1e3a8a'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = '800 44px system-ui, sans-serif';
+    c.fillText('?', xR, y(1.7));
+  }
+
+  $('rT').textContent = dk(s.t, 3) + ' s';
+  $('rM').textContent = Math.round(s.m * 1000) + ' g';
+  $('rA').textContent = (s.t < TB ? dk(s.a, 0) : dk(-G, 2)) + ' m/s²';
+  $('rV').textContent = dk(Math.abs(s.v) < 0.05 ? 0 : s.v, 1) + ' m/s';
+  $('bar').style.width = Math.max(1 - s.t / TB, 0) * 100 + '%';
+
+  $('tekst').textContent = {
+    klar: 'Tryk for at affyre. Vandfasen vises i slowmotion.',
+    brænder: 'Slowmotion 25×. Vandet sprøjter ud, så massen falder, og accelerationen vokser.',
+    stop: 'Alt vandet er ude efter 0,10 s. Nu stiger flasken uden motor. Når den op til loftet? Regn opgaven, før du afslører resten.',
+    stiger: 'Slowmotion 2,5×. Nu virker kun tyngdekraften.',
+    slut: 'Flasken vender uden at nå loftet. Den tænkte raket når meget kortere, så massetabet betyder meget. Tallene gælder for modellen uden luftmodstand.',
+  }[fase];
+}
+
+function dråbeTrin(dt, yNu, xR, sk) {
+  if (fase === 'brænder') for (let i = 0; i < 4; i++) {
+    dråber.push({ x: xR + (Math.random() - .5) * 7, y: yNu, vx: (Math.random() - .5) * 45, vy: 170 + Math.random() * 130, r: 1.4 + Math.random() * 2 });
+  }
+  dråber.forEach(d => { d.x += d.vx * dt; d.y += d.vy * dt; d.vy += 300 * dt; });
+  const gulv = $('c').clientHeight - 26;
+  dråber = dråber.filter(d => d.y < gulv);
+}
+
+function loop(ts) {
+  const dt = sidst === null ? 0 : Math.min((ts - sidst) / 1000, 0.05);
+  sidst = ts;
+  if (fase === 'brænder') {
+    t += dt / SLOW;
+    if (t >= TB) { t = TB; fase = 'stop'; $('bMere').disabled = false; $('bStart').disabled = true; }
+  } else if (fase === 'stiger') {
+    t += dt / SLOW2;
+    if (t >= TOP) { t = TOP; fase = 'slut'; $('bMere').disabled = true; }
+  }
+  if (fase !== 'klar') {
+    const cv = $('c'), h = cv.clientHeight, w = cv.clientWidth, gulv = h - 26, sk = (gulv - 24) / LOFT;
+    dråbeTrin(dt, gulv - pr(rigtig, t).h * sk, w * .62, sk);
+  }
+  tegn();
+  requestAnimationFrame(loop);
+}
+
+function nulstil() { t = 0; fase = 'klar'; dråber = []; $('bStart').disabled = false; $('bMere').disabled = true; }
+$('bStart').onclick = () => { if (fase === 'klar') fase = 'brænder'; };
+$('bMere').onclick = () => { if (fase === 'stop') { fase = 'stiger'; $('bMere').disabled = true; } };
+$('bNul').onclick = nulstil;
+
+nulstil();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

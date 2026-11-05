@@ -39,6 +39,31 @@ peger ind mod centrum – derfor kan tyngdekraften levere centripetalkraften.
 **Newtons 3. lov:** Kraften fra $m$ på $M$ er lige så stor og modsat rettet. Månen
 trækker i Jorden med præcis samme kraft, som Jorden trækker i Månen.
 
+### Lille opgave: Regn selv efter
+
+Her er tre tal for Jorden:
+
+- Gravitationskonstanten: $G = 6{,}674 \cdot 10^{-11}$ N·m²/kg²
+- Jordens masse: $M = 5{,}972 \cdot 10^{24}$ kg
+- Jordens radius: $r = 6{,}371 \cdot 10^{6}$ m (altså $6371$ km)
+
+Beregn brøken $\dfrac{G \cdot M}{r^2}$. Har du set tallet før?
+
+<details>
+<summary><strong>Se løsningen</strong></summary>
+
+$$\frac{G \cdot M}{r^2} = \frac{6{,}674 \cdot 10^{-11}\ \text{N·m}^2/\text{kg}^2 \cdot 5{,}972 \cdot 10^{24}\ \text{kg}}{(6{,}371 \cdot 10^{6}\ \text{m})^2} = 9{,}82\ \text{N/kg} = 9{,}82\ \text{m/s}^2$$
+
+Det er **tyngdeaccelerationen** $g$! Forklaringen står i gravitationsloven. En genstand med massen $m$ ved jordoverfladen påvirkes af kraften
+
+$$F = G \cdot \frac{M \cdot m}{r^2} = m \cdot \frac{G \cdot M}{r^2}$$
+
+Du kender også kraften som $F = m \cdot g$. Derfor er $g = \dfrac{G \cdot M}{r^2}$.
+
+**Model:** Her er Jorden en kugle, der står stille. Den virkelige Jord er lidt fladtrykt og roterer, så målt $g$ går fra ca. $9{,}78$ m/s² ved ækvator til ca. $9{,}83$ m/s² ved polerne.
+
+</details>
+
 ## Del 2 – Tyngdefeltet
 
 Et centrallegeme med masse $M$ laver et **tyngdefelt** omkring sig.
@@ -85,6 +110,27 @@ Massen $m$ går ud. **Farten (og dermed omløbstiden) afhænger kun af centralle
 > - **Centrallegemet regnes som en punktmasse.** Det gælder præcist for en kugle med kuglesymmetrisk massefordeling (Newton viste det). Jorden er lidt fladtrykt, så satellitbaner tæt på Jorden drejer langsomt.
 > - **Centrallegemet står stille** ($m \ll M$). I virkeligheden kredser begge om det fælles tyngdepunkt. For Jorden og Månen ligger det $4{,}7 \cdot 10^{3}$ km fra Jordens centrum – stadig inde i Jorden. For en satellit er effekten helt forsvindende.
 > - **Kun to legemer.** Solens tiltrækning forstyrrer Månens bane lidt.
+
+### Tre baner sammenlignet
+
+Animationen viser ISS, en geostationær satellit og Månen. Pilene viser **kraften på 1 kg** og **farten**.
+
+{{< sim tre-baner.html 720 >}}
+
+Læg mærke til:
+
+- Jo længere ude, jo mindre er både kraften på 1 kg og farten.
+- Kraften falder meget hurtigere end farten. Månen er $57$ gange længere ude end ISS. Så er kraften på 1 kg $57^2 \approx 3200$ gange mindre, men farten kun $\sqrt{57} \approx 7{,}5$ gange mindre.
+
+Den **samlede** tyngdekraft afhænger også af legemets masse:
+
+| Legeme | Masse $m$ | Kraft på 1 kg | Samlet tyngdekraft $F$ |
+|---|---|---|---|
+| ISS | $4{,}2 \cdot 10^{5}$ kg | $8{,}66$ N | $3{,}6 \cdot 10^{6}$ N |
+| Geostationær satellit (eksempel) | $3{,}0 \cdot 10^{3}$ kg | $0{,}224$ N | $6{,}7 \cdot 10^{2}$ N |
+| Månen | $7{,}35 \cdot 10^{22}$ kg | $0{,}0027$ N | $2{,}0 \cdot 10^{20}$ N |
+
+Månen har altså den største samlede kraft, men den mindste acceleration, fordi $a = F/m$.
 
 ## Opgaver
 

@@ -20,7 +20,7 @@ kvantefysikkens manglende dele som elektronvolt og opgaver med planckkonstanten 
 |2b||3|Projektforløb 5|SRP projekt|individuelle|
 | 3 | 11–15 | 5 | [Bevægelsesmængde og stød]({{< relref "/docs/fysik/emner-a/stoed" >}}) | Teori + Eksp. | [Stød på luftpudebane]({{< relref "stoed-luftpudebane" >}}) · [Hop på kraftplatform]({{< relref "kraftplatform-hop" >}}) · [Spil: Stød-billard]({{< relref "stoed-spil" >}}) |
 | 4 | 16–19 | 4 | [Jævn cirkelbevægelse (centripetalkraft)]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Eksp. | [Centripetalkraft på roterende bane]({{< relref "centripetalkraft-roterende-bane" >}}) · [Rørforsøg / keglependul (Del 4)]({{< relref "jaevn-cirkelbevaegelse" >}}) |
-| 5 | 20–24 | 5 | [Gravitation og bevægelse om centrallegeme]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Sim. | Simulering af satellit/planetbane |
+| 5 | 20–24 | 5 | [Gravitation og bevægelse om centrallegeme]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) · [Raketligningen]({{< relref "raketligningen" >}}) | Teori + Sim. | Simulering af satellit/planetbane |
 | 6 | 25–29 | 5 | [Harmonisk svingning – kraft og energi]({{< relref "/docs/fysik/emner-a/harmonisk-svingning" >}}) | Eksp. + IT | Fjederpendul + matematisk pendul |
 | 7 | 30–32 | 3 | **Supplerende:** [speciel relativitetsteori]({{< relref "/docs/fysik/emner-a/relativitetsteori" >}}) | Teori | — |
 | 8 | 33–35 | 3 | **Kvantefysik:** [foton, impuls og dualitet]({{< relref "/docs/fysik/emner-a/kvantefysik" >}}) | Teori + Eksp. | Bestem h med LED'er |

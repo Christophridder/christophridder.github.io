@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tre baner om Jorden – Fysik A</title>
+<style>
+:root { --kraft: #fb923c; --fart: #38bdf8; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; }
+#tb {
+  background: #f1f5f9; border-radius: 14px; overflow: hidden;
+  max-width: 1000px; margin: 0 auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+}
+.tb-head {
+  background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 12px 20px; color: white; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.tb-head h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+.tb-head p { font-size: 0.78rem; opacity: 0.8; flex: 1; min-width: 200px; }
+.tb-head a { color: white; font-size: 0.75rem; opacity: 0.85; }
+.panels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 8px; }
+@media (max-width: 560px) { .panels { grid-template-columns: 1fr; } }
+.p { background: white; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.p h2 { font-size: 0.95rem; font-weight: 800; padding: 7px 10px 0; color: #0f172a; }
+.p .sub { font-size: 0.72rem; color: #64748b; padding: 0 10px 6px; }
+canvas { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; background: #0b1220; }
+table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+td { padding: 3px 10px; border-top: 1px solid #e2e8f0; }
+td:last-child { text-align: right; font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; }
+td b.f { color: #c2410c; } td b.v { color: #0369a1; }
+tr.rel td { color: #64748b; font-size: 0.72rem; padding-top: 0; border-top: 0; }
+tr.rel td:last-child { color: #475569; font-weight: 600; }
+sup { font-size: 0.7em; }
+.ctrl { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 8px 8px; }
+.ctrl button {
+  flex: 1 1 170px; border: 1.5px solid #cbd5e1; background: white; border-radius: 7px; padding: 7px 8px;
+  font-size: 0.8rem; font-weight: 700; cursor: pointer; font-family: inherit; color: #1e293b;
+}
+.ctrl button:hover { border-color: #2563eb; color: #1e40af; }
+.ctrl button[aria-pressed="true"] { background: #2563eb; border-color: #2563eb; color: white; }
+.note { padding: 0 12px 11px; font-size: 0.8rem; line-height: 1.45; color: #334155; }
+.note p + p { margin-top: 4px; }
+.key { display: inline-block; width: 20px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+</style>
+</head>
+<body>
+<div id="tb">
+  <div class="tb-head">
+    <h1>Tre baner om Jorden</h1>
+    <p>Set fra oven over Nordpolen. Pilene har samme skala i alle tre billeder.</p>
+    <a href="tre-baner.html" target="_blank" rel="noopener">Åbn i fuld skærm ↗</a>
+  </div>
+  <div class="panels" id="panels"></div>
+  <div class="ctrl">
+    <button id="bPlay" aria-pressed="false">⏸ Pause</button>
+    <button id="bZoom" aria-pressed="false">Forstør de små kraftpile</button>
+    <button id="bTid" aria-pressed="false">Brug samme tidsskala</button>
+  </div>
+  <div class="note">
+    <p><span class="key" style="background:var(--kraft)"></span><b>F</b> = tyngdekraften på 1 kg i banen. Samme kg alle tre steder, så pilene kan sammenlignes.
+       <span class="key" style="background:var(--fart);margin-left:8px"></span><b>v</b> = farten.</p>
+    <p id="tidNote"></p>
+    <p>Kraften peger ind mod centrum, og farten peger langs banen. Der er ingen kraft fremad og ingen kraft udad – centrifugalkraft er en skinkraft.</p>
+    <p>Den gule prik er et fast punkt på ækvator, som drejer med Jorden. Geo-satellitten bliver hele tiden over prikken.</p>
+    <p>Hvert billede har sit eget zoom. Jorden er tegnet i rigtigt forhold til banen, men satellitter og Måne er tegnet alt for store. Banerne er tegnet som cirkler i samme plan.</p>
+  </div>
+</div>
+
+<script>
+// Samme konstanter som på siden om gravitationsloven
+const G = 6.67e-11, M = 5.97e24, RJ = 6.37e6, DOEGN = 86164; // stjernedøgn i s
+const fmt = (x, n) => x.toFixed(n).replace('.', ',');
+
+const baner = [
+  { navn: 'ISS', sub: '408 km over jordoverfladen', r: 6.78e6, Ttekst: '93 min', T: 92.6 * 60,
+    vistT: 6, zoom: 1, mark: '#e2e8f0', str: 3.5 },
+  { navn: 'Geostationær satellit', sub: '35 800 km over ækvator', r: 4.22e7, Ttekst: '23,9 timer', T: DOEGN,
+    vistT: 9, zoom: 20, mark: '#e2e8f0', str: 3.5 },
+  { navn: 'Månen', sub: '60 jordradier fra Jordens centrum', r: 3.84e8, Ttekst: '27,3 døgn', T: 27.3 * 86400,
+    vistT: 14, zoom: 1000, mark: '#cbd5e1', str: 6 },
+];
+
+const W = 320, C = W / 2, BANE_PX = 122;   // alle baner tegnes med samme radius; zoom er forskelligt
+const F_PX = 105 / (G * M / baner[0].r ** 2);          // px pr. N/kg
+const V_PX = 86 / Math.sqrt(G * M / baner[0].r);       // px pr. m/s
+const refTid = baner[0].vistT / baner[0].T;            // samme tidsskala: ISS sætter tempoet
+
+const panels = document.getElementById('panels');
+baner.forEach((b, i) => {
+  b.g = G * M / b.r ** 2;
+  b.v = Math.sqrt(G * M / b.r);
+  b.a = [0.6, 2.4, 4.2][i];
+  b.jord = i === 1 ? b.a : 0;   // geo-satellitten starter over den gule prik
+  const gTxt = b.g > 0.1 ? fmt(b.g, b.g > 1 ? 2 : 3) : fmt(b.g, 4);
+  const rel = i === 0 ? 'reference' : '1/' + Math.round(baner[0].g / b.g).toLocaleString('da-DK').replace(/\./g, ' ');
+  const vrel = i === 0 ? 'reference' : Math.round(100 * b.v / Math.sqrt(G * M / baner[0].r)) + ' %';
+  const el = document.createElement('div');
+  el.className = 'p';
+  el.innerHTML = `<h2>${b.navn}</h2><div class="sub">${b.sub}</div>
+    <canvas aria-label="Animation af ${b.navn} i bane om Jorden"></canvas>
+    <table>
+      <tr><td>Afstand r</td><td>${fmt(b.r / 10 ** Math.floor(Math.log10(b.r)), 2)}·10<sup>${Math.floor(Math.log10(b.r))}</sup> m</td></tr>
+      <tr><td>Omløbstid T</td><td>${b.Ttekst}</td></tr>
+      <tr><td><b class="v">Fart v</b></td><td>${fmt(b.v / 1000, 2)} km/s</td></tr>
+      <tr class="rel"><td>i forhold til ISS</td><td>${vrel}</td></tr>
+      <tr><td><b class="f">Kraft på 1 kg</b></td><td>${gTxt} N</td></tr>
+      <tr class="rel"><td>i forhold til ISS</td><td>${rel}</td></tr>
+    </table>`;
+  panels.appendChild(el);
+  b.cv = el.querySelector('canvas');
+  b.ctx = b.cv.getContext('2d');
+});
+
+function tilpas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  baner.forEach(b => {
+    const px = Math.round(b.cv.clientWidth * dpr) || W;
+    b.cv.width = px; b.cv.height = px;
+    b.k = px / W;
+  });
+  tegn();
+}
+
+let spiller = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+let forstoer = false, sammeTid = false;
+
+function pil(ctx, x, y, dx, dy, farve, tekst) {
+  const L = Math.hypot(dx, dy);
+  const ux = dx / L, uy = dy / L;
+  const hoved = Math.min(11, L * 0.45);       // hovedet skalerer med, så korte pile ikke ser større ud
+  const bred = Math.min(3.2, Math.max(1.2, L * 0.4));
+  const ex = x + dx, ey = y + dy;
+  const sti = () => {
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(ex - ux * hoved * 0.8, ey - uy * hoved * 0.8);
+  };
+  const spids = () => {
+    ctx.beginPath();
+    ctx.moveTo(ex, ey);
+    ctx.lineTo(ex - ux * hoved - uy * hoved * 0.55, ey - uy * hoved + ux * hoved * 0.55);
+    ctx.lineTo(ex - ux * hoved + uy * hoved * 0.55, ey - uy * hoved - ux * hoved * 0.55);
+    ctx.closePath();
+  };
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#0b1220'; ctx.lineWidth = bred + 2.5; sti(); ctx.stroke();
+  ctx.lineWidth = 2; ctx.lineJoin = 'round'; spids(); ctx.stroke();
+  ctx.strokeStyle = farve; ctx.lineWidth = bred; sti(); ctx.stroke();
+  ctx.fillStyle = farve; spids(); ctx.fill();
+  if (tekst && L > 8) {
+    ctx.font = '700 14px system-ui, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.lineWidth = 3.5; ctx.strokeStyle = '#0b1220';
+    const tx = ex + ux * 11, ty = ey + uy * 11;
+    ctx.strokeText(tekst, tx, ty);
+    ctx.fillStyle = farve; ctx.fillText(tekst, tx, ty);
+  }
+}
+
+function tegnPanel(b, i) {
+  const c = b.ctx;
+  c.setTransform(b.k, 0, 0, b.k, 0, 0);
+  c.fillStyle = '#0b1220'; c.fillRect(0, 0, W, W);
+
+  // Bane
+  c.strokeStyle = 'rgba(203,213,225,.38)'; c.lineWidth = 1; c.setLineDash([3, 5]);
+  c.beginPath(); c.arc(C, C, BANE_PX, 0, 2 * Math.PI); c.stroke(); c.setLineDash([]);
+
+  // Jorden i rigtigt forhold til banen
+  const R = BANE_PX * RJ / b.r;
+  c.fillStyle = '#2563eb';
+  c.beginPath(); c.arc(C, C, Math.max(R, 1.5), 0, 2 * Math.PI); c.fill();
+  if (i < 2) {
+    // Jordens rotation: en linje ud til et fast punkt på ækvator
+    const px = C + R * Math.cos(b.jord), py = C - R * Math.sin(b.jord);
+    c.strokeStyle = 'rgba(253,224,71,.6)'; c.lineWidth = 1.5;
+    c.beginPath(); c.moveTo(C, C); c.lineTo(px, py); c.stroke();
+    c.fillStyle = '#fde047'; c.strokeStyle = '#0b1220'; c.lineWidth = 1.5;
+    c.beginPath(); c.arc(px, py, 4.5, 0, 2 * Math.PI); c.fill(); c.stroke();
+  } else {
+    c.font = '600 11px system-ui, sans-serif'; c.fillStyle = '#93c5fd';
+    c.textAlign = 'center'; c.textBaseline = 'top';
+    c.fillText('Jorden', C, C + 6);
+  }
+
+  // Legemet og pilene
+  const x = C + BANE_PX * Math.cos(b.a), y = C - BANE_PX * Math.sin(b.a);
+  const ix = -Math.cos(b.a), iy = Math.sin(b.a);    // ind mod centrum
+  const tx = -Math.sin(b.a), ty = -Math.cos(b.a);   // langs banen, mod uret
+  const fz = forstoer ? b.zoom : 1;
+  const F = b.g * F_PX * fz, V = b.v * V_PX;
+
+  c.fillStyle = b.mark;
+  c.beginPath(); c.arc(x, y, b.str, 0, 2 * Math.PI); c.fill();
+  pil(c, x, y, tx * V, ty * V, '#38bdf8', 'v');
+  if (F >= 0.3) pil(c, x, y, ix * F, iy * F, '#fb923c', fz > 1 ? 'F ×' + fz : 'F');
+
+  // Besked, når pilen er for kort til at se
+  if (!forstoer && i > 0) {
+    c.font = '600 12px system-ui, sans-serif'; c.fillStyle = '#fdba74';
+    c.textAlign = 'center'; c.textBaseline = 'bottom';
+    c.fillText(i === 1 ? 'F er bittelille her' : 'F er for lille til at ses', C, W - 8);
+  }
+}
+
+function tegn() { baner.forEach(tegnPanel); }
+
+function opdaterTidNote() {
+  const m = baner[2].T * refTid / 60;
+  document.getElementById('tidNote').textContent = sammeTid
+    ? `Samme tidsskala: 6 s på skærmen svarer til 93 min. Geo-satellitten er ${Math.round(baner[1].T * refTid)} s om én omgang, og Månen er ${Math.round(m)} min.`
+    : 'Tempoet er sat forskelligt ned i hvert billede, så alle tre når rundt. Sammenlign derfor pilene og tallene – ikke hvor hurtigt de drejer.';
+}
+
+let sidst = null;
+function loop(t) {
+  if (sidst !== null && spiller) {
+    const dt = Math.min((t - sidst) / 1000, 0.1);
+    baner.forEach(b => {
+      const rate = 2 * Math.PI / (sammeTid ? b.T * refTid : b.vistT);
+      b.a += rate * dt;
+      b.jord += rate * dt * b.T / DOEGN;
+    });
+    tegn();
+  }
+  sidst = t;
+  requestAnimationFrame(loop);
+}
+
+const bPlay = document.getElementById('bPlay');
+function visPlay() { bPlay.textContent = spiller ? '⏸ Pause' : '▶ Afspil'; }
+bPlay.onclick = () => { spiller = !spiller; visPlay(); };
+document.getElementById('bZoom').onclick = e => {
+  forstoer = !forstoer;
+  e.target.setAttribute('aria-pressed', forstoer);
+  e.target.textContent = forstoer ? 'Forstørret: geo ×20, Månen ×1000' : 'Forstør de små kraftpile';
+  tegn();
+};
+document.getElementById('bTid').onclick = e => {
+  sammeTid = !sammeTid;
+  e.target.setAttribute('aria-pressed', sammeTid);
+  opdaterTidNote();
+};
+
+visPlay();
+opdaterTidNote();
+new ResizeObserver(tilpas).observe(panels);
+tilpas();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
