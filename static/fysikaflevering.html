@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fysikaflevering</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<style>
+/* Computer Modern (LaTeX-skriften), lagt på crsite selv */
+@font-face { font-family: "CMU Serif"; font-weight: 400; font-style: normal; src: url("/fonts/cmu/cmu-serif-500-roman.woff2") format("woff2"); }
+@font-face { font-family: "CMU Serif"; font-weight: 400; font-style: italic; src: url("/fonts/cmu/cmu-serif-500-italic.woff2") format("woff2"); }
+@font-face { font-family: "CMU Serif"; font-weight: 700; font-style: normal; src: url("/fonts/cmu/cmu-serif-700-roman.woff2") format("woff2"); }
+@font-face { font-family: "CMU Serif"; font-weight: 700; font-style: italic; src: url("/fonts/cmu/cmu-serif-700-italic.woff2") format("woff2"); }
+
+:root { --blaa: #2563eb; --moerk: #1e3a8a; --kant: #cbd5e1; --graa: #64748b; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #e2e8f0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; }
+.top {
+  background: linear-gradient(120deg, var(--moerk) 0%, var(--blaa) 100%); color: white;
+  padding: 10px 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 20;
+}
+.top h1 { font-size: 1.2rem; margin: 0; font-weight: 800; letter-spacing: -.4px; }
+.top .status { font-size: .75rem; opacity: .85; flex: 1; min-width: 140px; }
+.top .status.fejl { opacity: 1; background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 6px; }
+.top button { background: rgba(255,255,255,.14); color: white; border: 1px solid rgba(255,255,255,.35); }
+.top button:hover { background: rgba(255,255,255,.26); }
+.top button.aflever { background: white; color: var(--moerk); border-color: white; }
+button {
+  font-family: inherit; font-size: .8rem; font-weight: 700; border-radius: 7px; padding: 6px 10px;
+  border: 1.5px solid var(--kant); background: white; color: #1e293b; cursor: pointer;
+}
+button:hover { border-color: var(--blaa); color: #1e40af; }
+
+.side { max-width: 900px; margin: 16px auto 40px; padding: 0 12px; }
+.meta { display: grid; grid-template-columns: 1.3fr .7fr 1.6fr .8fr; gap: 8px; margin-bottom: 10px; }
+@media (max-width: 640px) { .meta { grid-template-columns: 1fr 1fr; } }
+.meta label { font-size: .68rem; font-weight: 700; color: var(--graa); display: block; margin-bottom: 2px; }
+.meta input { width: 100%; font: inherit; font-size: .9rem; padding: 6px 8px; border: 1.5px solid var(--kant); border-radius: 7px; background: white; }
+.meta input.mangler { border-color: #dc2626; background: #fef2f2; }
+
+.vaerktoej {
+  position: sticky; top: 52px; z-index: 10; background: white; border: 1px solid var(--kant);
+  border-radius: 10px 10px 0 0; border-bottom: none;
+}
+#toolbar.ql-toolbar.ql-snow { border: none; padding: 6px 8px; display: flex; flex-wrap: wrap; gap: 2px 4px; align-items: center; }
+#toolbar .ql-formats { margin-right: 6px; display: inline-flex; align-items: center; }
+.ql-snow .ql-picker.ql-header { width: 128px; }
+.ql-snow .ql-picker.ql-header .ql-picker-label::before, .ql-snow .ql-picker.ql-header .ql-picker-item::before { content: 'Brødtekst'; }
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before, .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before { content: 'Overskrift 1'; }
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before, .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before { content: 'Overskrift 2'; }
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before, .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before { content: 'Overskrift 3'; }
+#toolbar button.tbtn { width: auto; }
+.tbtn { padding: 3px 7px; font-size: .74rem; border-width: 1px; height: 26px; }
+.tbtn.tekst { font-family: "CMU Serif", serif; font-size: .9rem; }
+.adskil { width: 1px; height: 22px; background: var(--kant); margin: 0 4px; }
+
+.raekke2 { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 8px 8px; border-top: 1px solid #e2e8f0; position: relative; }
+.menuknap { background: #eff6ff; border-color: #bfdbfe; color: var(--moerk); }
+.menu {
+  position: absolute; top: 100%; left: 8px; right: 8px; max-height: 60vh; overflow: auto; background: white;
+  border: 1px solid var(--kant); border-radius: 10px; box-shadow: 0 12px 32px rgba(15,23,42,.18); padding: 8px 10px 12px; display: none; z-index: 30;
+}
+.menu.aaben { display: block; }
+.menu h3 { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--graa); margin: 10px 2px 4px; }
+.menu .gitter { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4px; }
+.menu .valg {
+  text-align: left; border: 1px solid #e2e8f0; border-radius: 8px; padding: 5px 8px; font-weight: 400; background: white;
+  display: flex; flex-direction: column; gap: 2px; min-width: 0;
+}
+.menu .valg:hover { background: #eff6ff; border-color: #93c5fd; }
+.menu .valg small { color: var(--graa); font-size: .68rem; font-weight: 600; }
+.menu .valg .katex { font-size: 1.02em; }
+.menu .valg .formel { overflow-x: auto; overflow-y: hidden; }
+.menu .tip { font-size: .72rem; color: var(--graa); margin: 0 2px 4px; }
+
+#editor { background: white; border: 1px solid var(--kant); border-radius: 0 0 10px 10px; min-height: 70vh; }
+.ql-container.ql-snow { border: 1px solid var(--kant) !important; font-family: "CMU Serif", "Latin Modern Roman", "Times New Roman", serif; font-size: 17px; }
+.ql-editor { padding: 28px 40px 60px; line-height: 1.5; min-height: 70vh; }
+.ql-editor h1 { font-size: 1.75em; margin: .7em 0 .25em; }
+.ql-editor h2 { font-size: 1.4em; margin: .6em 0 .2em; }
+.ql-editor h3 { font-size: 1.15em; margin: .5em 0 .15em; }
+.ql-editor p { margin: 0 0 .35em; }
+.ql-editor img { max-width: 100%; height: auto; display: inline-block; cursor: pointer; }
+.billedramme { position: absolute; border: 2px solid var(--blaa); pointer-events: none; display: none; z-index: 5; }
+.billedramme.vis { display: block; }
+.billedramme .greb {
+  position: absolute; right: -8px; bottom: -8px; width: 16px; height: 16px; background: var(--blaa);
+  border: 2px solid white; border-radius: 50%; cursor: nwse-resize; pointer-events: auto; touch-action: none;
+}
+.billedramme .stoerrelser {
+  position: absolute; left: 6px; top: 6px; display: flex; gap: 3px; pointer-events: auto;
+  background: white; padding: 3px; border-radius: 7px; box-shadow: 0 3px 12px rgba(0,0,0,.18); white-space: nowrap;
+}
+.billedramme .stoerrelser button { padding: 2px 7px; font-size: .72rem; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+.billedramme .maal { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+.billedramme .maal { position: absolute; right: 4px; bottom: 4px; background: rgba(15,23,42,.75); color: white; font-size: .7rem; padding: 1px 6px; border-radius: 4px; }
+@media print { .billedramme { display: none !important; } }
+.ql-editor table { border-collapse: collapse; width: auto; min-width: 40%; margin: .4em 0; }
+.ql-editor td { border: 1px solid #94a3b8; padding: 3px 10px; min-width: 60px; }
+.ql-editor .ql-formula { cursor: pointer; padding: 0 1px; border-radius: 3px; }
+.ql-editor .ql-formula:hover { background: #eff6ff; outline: 1px solid #bfdbfe; }
+.ql-editor.ql-blank::before { font-style: italic; color: #94a3b8; left: 40px; }
+.ql-snow .ql-tooltip { z-index: 25; }
+
+/* Formelvindue */
+.dialog-bag { position: fixed; inset: 0; background: rgba(15,23,42,.45); display: none; align-items: flex-start; justify-content: center; z-index: 50; padding-top: 8vh; }
+.dialog-bag.aaben { display: flex; }
+.dialog { background: white; border-radius: 12px; width: min(640px, 94vw); padding: 14px 16px; box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+.dialog h2 { font-size: 1.05rem; margin: 0 0 8px; }
+.dialog textarea { width: 100%; height: 74px; font: 15px ui-monospace, Menlo, Consolas, monospace; padding: 8px; border: 1.5px solid var(--kant); border-radius: 8px; resize: vertical; }
+.dialog .knapper { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+.dialog .knapper button { font-weight: 400; padding: 3px 8px; min-width: 34px; }
+.forhaand { min-height: 64px; border: 1px dashed var(--kant); border-radius: 8px; padding: 10px; text-align: center; font-size: 1.25rem; overflow-x: auto; }
+.forhaand.fejl { color: #b91c1c; font-size: .82rem; text-align: left; }
+.dialog .bund { display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+.dialog .bund label { font-size: .8rem; flex: 1; display: flex; gap: 6px; align-items: center; }
+.dialog .hjaelp { font-size: .72rem; color: var(--graa); margin: 4px 0 0; }
+button.primaer { background: var(--blaa); border-color: var(--blaa); color: white; }
+
+.mdvisning { display: none; background: white; border: 1px solid var(--kant); border-radius: 0 0 10px 10px; padding: 12px 14px 16px; }
+.mdvisning.vis { display: block; }
+.mdvisning .linje { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.mdvisning .linje span { font-size: .78rem; color: var(--graa); flex: 1; min-width: 200px; }
+.mdvisning textarea { width: 100%; min-height: 65vh; font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; resize: vertical; }
+#kMd[aria-pressed="true"] { background: var(--blaa); border-color: var(--blaa); color: white; }
+.lr {
+  position: fixed; right: 16px; bottom: 16px; width: 360px; max-width: calc(100vw - 24px); background: white; z-index: 40;
+  border-radius: 12px; box-shadow: 0 14px 40px rgba(15,23,42,.28); border: 1px solid var(--kant); display: none; overflow: hidden;
+}
+.lr.vis { display: block; }
+.lr-top { background: var(--moerk); color: white; display: flex; align-items: center; padding: 6px 8px 6px 12px; gap: 8px; cursor: move; user-select: none; touch-action: none; }
+.lr-top b { flex: 1; font-size: .88rem; }
+.lr-top button { background: transparent; color: white; border: none; font-size: 1rem; padding: 2px 6px; }
+.lr-krop { padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 6px; }
+.lr input[type=text] { width: 100%; font: 15px ui-monospace, Menlo, Consolas, monospace; padding: 7px 8px; border: 1.5px solid var(--kant); border-radius: 8px; }
+.lr input[type=text]:focus { outline: none; border-color: var(--blaa); }
+.lr-vis { min-height: 54px; background: #f8fafc; border-radius: 8px; padding: 6px 8px; text-align: center; font-size: 1.08rem; overflow-x: auto; overflow-y: hidden; }
+.lr-vis.fejl { color: var(--graa); font-size: .8rem; text-align: left; }
+.lr-taster { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
+.lr-taster button { padding: 6px 0; font-size: .82rem; font-weight: 600; border-width: 1px; }
+.lr-taster button.tal { background: #f1f5f9; }
+.lr-taster button.op { background: #eff6ff; color: var(--moerk); }
+.lr-raekke { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: .74rem; color: #475569; }
+.lr-raekke select, .lr-raekke input.enhed { font: inherit; font-size: .78rem; padding: 4px 5px; border: 1px solid var(--kant); border-radius: 6px; }
+.lr-raekke input.enhed { width: 74px; }
+.lr-ind { display: flex; gap: 6px; }
+.lr-ind button { flex: 1; }
+#kLr[aria-pressed="true"] { background: var(--blaa); border-color: var(--blaa); color: white; }
+@media print { .lr { display: none !important; } }
+.besked { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: #0f172a; color: white; padding: 10px 16px; border-radius: 10px; font-size: .85rem; max-width: 92vw; display: none; z-index: 60; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.besked.vis { display: block; }
+.printhoved { display: none; }
+input[type=file] { display: none; }
+
+@media print {
+  @page { size: A4; margin: 18mm 18mm 20mm; }
+  body { background: white; }
+  .top, .meta, .vaerktoej, .besked, .dialog-bag { display: none !important; }
+  .side { max-width: none; margin: 0; padding: 0; }
+  .printhoved { display: block; font-family: "CMU Serif", serif; border-bottom: 1.5px solid #1e3a8a; padding-bottom: 6px; margin-bottom: 14px; }
+  .printhoved .titel { font-size: 20pt; font-weight: 700; }
+  .printhoved .info { font-size: 10.5pt; color: #334155; margin-top: 2px; }
+  .ql-container.ql-snow { border: none !important; font-size: 11.5pt; }
+  .ql-editor { padding: 0; min-height: 0; overflow: visible; }
+  .ql-editor .ql-formula:hover { background: none; outline: none; }
+  .ql-editor h1, .ql-editor h2, .ql-editor h3 { break-after: avoid; }
+  .ql-editor img, .ql-editor table { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>Fysikaflevering</h1>
+  <span class="status" id="status">Kladden gemmes automatisk i din browser.</span>
+  <button id="bNy" title="Start en tom aflevering">Ny</button>
+  <button id="bAabn" title="Åbn en kladde, du har gemt som fil">Åbn kladde</button>
+  <button id="bGem" title="Gem kladden som fil, så du kan arbejde videre på en anden computer">Gem kladde</button>
+  <button id="bWord" title="Hent afleveringen som Word-fil (.docx). Den kan også åbnes i LibreOffice, Pages og Google Docs">Gem som Word</button>
+  <button id="bAflever" class="aflever" title="Lav en PDF, som du afleverer i Lectio">Aflever som PDF</button>
+  <input type="file" id="filKladde" accept=".json,application/json">
+  <input type="file" id="filBillede" accept="image/*" multiple>
+</div>
+
+<div class="side">
+  <div class="meta">
+    <div><label for="mNavn">Navn</label><input id="mNavn" autocomplete="name"></div>
+    <div><label for="mKlasse">Klasse</label><input id="mKlasse" placeholder="fx 3x"></div>
+    <div><label for="mTitel">Aflevering</label><input id="mTitel" placeholder="fx Raketligningen"></div>
+    <div><label for="mDato">Dato</label><input id="mDato"></div>
+  </div>
+
+  <div class="vaerktoej">
+    <div id="toolbar">
+      <span class="ql-formats">
+        <select class="ql-header">
+          <option value="1"></option><option value="2"></option><option value="3"></option><option selected></option>
+        </select>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-bold" title="Fed (Cmd/Ctrl+B)"></button>
+        <button class="ql-italic" title="Kursiv (Cmd/Ctrl+I)"></button>
+        <button class="ql-underline" title="Understreget (Cmd/Ctrl+U)"></button>
+        <button class="ql-script" value="sub" title="Sænket skrift"></button>
+        <button class="ql-script" value="super" title="Hævet skrift"></button>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-list" value="ordered" title="Nummereret liste"></button>
+        <button class="ql-list" value="bullet" title="Punktliste"></button>
+        <select class="ql-align" title="Justering"></select>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-formula" title="Indsæt formel"></button>
+        <button class="ql-image" title="Indsæt billede"></button>
+      </span>
+      <span class="ql-formats">
+        <button class="tbtn" id="tNy" title="Indsæt tabel med 3 rækker og 3 søjler">▦ Tabel</button>
+        <button class="tbtn" id="tRaekke" title="Ny række under markøren">+ række</button>
+        <button class="tbtn" id="tSoejle" title="Ny søjle til højre for markøren">+ søjle</button>
+        <button class="tbtn" id="tSletR" title="Slet rækken">− række</button>
+        <button class="tbtn" id="tSletS" title="Slet søjlen">− søjle</button>
+        <button class="tbtn" id="tSlet" title="Slet hele tabellen">✕ tabel</button>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-clean" title="Fjern formatering"></button>
+      </span>
+    </div>
+    <div class="raekke2">
+      <button class="menuknap" id="kFormler" aria-expanded="false">∑ Fysikformler ▾</button>
+      <button class="menuknap" id="kKonst" aria-expanded="false">π Konstanter ▾</button>
+      <button id="kEgen">ƒ Skriv egen formel</button>
+ <button id="kLr" aria-pressed="false" title="Lommeregner, der viser udregningen som formel">🖩 Lommeregner</button>
+      <button id="kMd" aria-pressed="false" title="Vis hele afleveringen som Markdown" style="margin-left:auto">M↓ Markdown</button>
+      <div class="menu" id="menuFormler"></div>
+      <div class="menu" id="menuKonst"></div>
+    </div>
+  </div>
+
+  <div class="printhoved" id="printhoved"><div class="titel" id="pTitel"></div><div class="info" id="pInfo"></div></div>
+  <div id="editor"></div>
+  <div class="mdvisning" id="mdvisning">
+    <div class="linje">
+      <span>Afleveringen som Markdown. Her kan du kun se og kopiere – du retter i editoren.</span>
+      <button id="mdKopier">Kopiér</button>
+      <button id="mdHent">Hent .md-fil</button>
+      <button id="mdTilbage" class="primaer">Tilbage til editoren</button>
+    </div>
+    <textarea id="mdTekst" readonly spellcheck="false"></textarea>
+  </div>
+</div>
+
+<div class="dialog-bag" id="dialog">
+  <div class="dialog" role="dialog" aria-labelledby="dTitel">
+    <h2 id="dTitel">Formel</h2>
+    <textarea id="dKode" spellcheck="false" placeholder="fx E_{kin} = \frac{1}{2} \cdot m \cdot v^2"></textarea>
+    <div class="knapper" id="dKnapper"></div>
+    <div class="forhaand" id="dVis"></div>
+    <p class="hjaelp">Formlen skrives i LaTeX. Du kan også skrive <code>$v = s/t$</code> direkte i teksten – så bliver den lavet om til en formel, når du skriver det sidste $. Klik på en formel i teksten for at rette den.</p>
+    <div class="bund">
+      <label><input type="checkbox" id="dLinje"> På sin egen linje (centreret)</label>
+      <button id="dSlet" style="display:none">Slet formel</button>
+      <button id="dFortryd">Annullér</button>
+      <button id="dOk" class="primaer">Indsæt</button>
+    </div>
+  </div>
+</div>
+
+<div class="lr" id="lr" role="dialog" aria-label="Lommeregner">
+  <div class="lr-top" id="lrTop"><b>Lommeregner</b><button id="lrLuk" title="Luk">✕</button></div>
+  <div class="lr-krop">
+    <input type="text" id="lrUd" placeholder="fx 6,674·10^-11·5,972·10^24/(6,371·10^6)^2" autocomplete="off" spellcheck="false">
+    <div class="lr-vis" id="lrVis"></div>
+    <div class="lr-taster" id="lrTaster"></div>
+    <div class="lr-raekke">
+      <label>Konstant <select id="lrKonst"><option value="">vælg …</option></select></label>
+      <label>Enhed <input class="enhed" id="lrEnhed" placeholder="fx m/s^2"></label>
+    </div>
+    <div class="lr-raekke">
+      <label>Betydende cifre <select id="lrCifre"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></label>
+      <label>Vinkler <select id="lrVinkel"><option value="deg">grader</option><option value="rad">radianer</option></select></label>
+    </div>
+    <div class="lr-ind">
+      <button id="lrIndUdr" class="primaer" title="Enter">Indsæt udregning</button>
+      <button id="lrIndRes">Indsæt kun resultat</button>
+    </div>
+  </div>
+</div>
+
+<div class="besked" id="besked"></div>
+
+<script>
+// ---------------- Data: konstanter og formler ----------------
+// Eksakte værdier er SI-definitioner. Øvrige: CODATA 2022 / IAU / tabelværdier.
+const KONSTANTER = [
+  ['Naturkonstanter', [
+    ['Lysets fart i vakuum (eksakt)', 'c = 299\\,792\\,458\\ \\mathrm{m/s}'],
+    ['Elementarladningen (eksakt)', 'e = 1{,}602\\,176\\,634 \\cdot 10^{-19}\\ \\mathrm{C}'],
+    ['Plancks konstant (eksakt)', 'h = 6{,}626\\,070\\,15 \\cdot 10^{-34}\\ \\mathrm{J \\cdot s}'],
+    ['Boltzmanns konstant (eksakt)', 'k_B = 1{,}380\\,649 \\cdot 10^{-23}\\ \\mathrm{J/K}'],
+    ['Avogadros konstant (eksakt)', 'N_A = 6{,}022\\,140\\,76 \\cdot 10^{23}\\ \\mathrm{mol^{-1}}'],
+    ['Gaskonstanten', 'R = 8{,}314\\,462\\,618\\ \\mathrm{J/(mol \\cdot K)}'],
+    ['Gravitationskonstanten', 'G = 6{,}674\\,30 \\cdot 10^{-11}\\ \\mathrm{N \\cdot m^2/kg^2}'],
+    ['Elektronvolt (eksakt)', '1\\ \\mathrm{eV} = 1{,}602\\,176\\,634 \\cdot 10^{-19}\\ \\mathrm{J}'],
+    ['Stefan-Boltzmanns konstant', '\\sigma = 5{,}670\\,374\\,419 \\cdot 10^{-8}\\ \\mathrm{W/(m^2 \\cdot K^4)}'],
+    ['Wiens konstant', 'b = 2{,}897\\,771\\,955 \\cdot 10^{-3}\\ \\mathrm{m \\cdot K}'],
+  ]],
+  ['Partikler', [
+    ['Elektronens masse', 'm_e = 9{,}109\\,383\\,713\\,9 \\cdot 10^{-31}\\ \\mathrm{kg}'],
+    ['Protonens masse', 'm_p = 1{,}672\\,621\\,925\\,95 \\cdot 10^{-27}\\ \\mathrm{kg}'],
+    ['Neutronens masse', 'm_n = 1{,}674\\,927\\,500\\,56 \\cdot 10^{-27}\\ \\mathrm{kg}'],
+    ['Atommasseenheden', 'u = 1{,}660\\,539\\,068\\,92 \\cdot 10^{-27}\\ \\mathrm{kg}'],
+  ]],
+  ['Elektricitet og magnetisme', [
+    ['Vakuumpermittiviteten', '\\varepsilon_0 = 8{,}854\\,187\\,818\\,8 \\cdot 10^{-12}\\ \\mathrm{F/m}'],
+    ['Vakuumpermeabiliteten', '\\mu_0 = 1{,}256\\,637\\,061\\,27 \\cdot 10^{-6}\\ \\mathrm{N/A^2}'],
+    ['Coulombs konstant', 'k = \\frac{1}{4\\pi\\varepsilon_0} = 8{,}987\\,551\\,786 \\cdot 10^{9}\\ \\mathrm{N \\cdot m^2/C^2}'],
+  ]],
+  ['Jorden og rummet', [
+    ['Tyngdeacceleration i Danmark', 'g = 9{,}82\\ \\mathrm{m/s^2}'],
+    ['Normaltyngdeacceleration (eksakt)', 'g_n = 9{,}806\\,65\\ \\mathrm{m/s^2}'],
+    ['Jordens masse', 'M_{\\mathrm{Jord}} = 5{,}972 \\cdot 10^{24}\\ \\mathrm{kg}'],
+    ['Jordens middelradius', 'R_{\\mathrm{Jord}} = 6{,}371 \\cdot 10^{6}\\ \\mathrm{m}'],
+    ['Månens masse', 'M_{\\text{Måne}} = 7{,}342 \\cdot 10^{22}\\ \\mathrm{kg}'],
+    ['Middelafstand Jord–Måne', 'r_{\\text{Måne}} = 3{,}844 \\cdot 10^{8}\\ \\mathrm{m}'],
+    ['Solens masse', 'M_{\\mathrm{Sol}} = 1{,}989 \\cdot 10^{30}\\ \\mathrm{kg}'],
+    ['Solens radius', 'R_{\\mathrm{Sol}} = 6{,}957 \\cdot 10^{8}\\ \\mathrm{m}'],
+    ['Astronomisk enhed (eksakt)', '1\\ \\mathrm{AE} = 1{,}495\\,978\\,707 \\cdot 10^{11}\\ \\mathrm{m}'],
+    ['Lysår (eksakt)', '1\\ \\mathrm{ly} = 9{,}460\\,730\\,472\\,580\\,8 \\cdot 10^{15}\\ \\mathrm{m}'],
+    ['Solarkonstanten', 'S = 1361\\ \\mathrm{W/m^2}'],
+  ]],
+  ['Stoffer (ca. 20 °C og 1 atm)', [
+    ['Normaltryk (eksakt)', 'p_0 = 1{,}013\\,25 \\cdot 10^{5}\\ \\mathrm{Pa}'],
+    ['Vands densitet', '\\rho_{\\mathrm{vand}} = 998\\ \\mathrm{kg/m^3}'],
+    ['Vands specifikke varmekapacitet', 'c_{\\mathrm{vand}} = 4{,}18 \\cdot 10^{3}\\ \\mathrm{J/(kg \\cdot K)}'],
+    ['Smeltevarme for is', 'L_s = 3{,}34 \\cdot 10^{5}\\ \\mathrm{J/kg}'],
+    ['Fordampningsvarme for vand (100 °C)', 'L_f = 2{,}26 \\cdot 10^{6}\\ \\mathrm{J/kg}'],
+    ['Luftens densitet', '\\rho_{\\mathrm{luft}} = 1{,}20\\ \\mathrm{kg/m^3}'],
+    ['Lydens fart i luft', 'v_{\\mathrm{lyd}} = 343\\ \\mathrm{m/s}'],
+  ]],
+];
+
+const FORMLER = [
+  ['Bevægelse', [
+    ['Gennemsnitsfart', 'v = \\frac{\\Delta s}{\\Delta t}'],
+    ['Acceleration', 'a = \\frac{\\Delta v}{\\Delta t}'],
+    ['Fart ved konstant acceleration', 'v = a \\cdot t + v_0'],
+    ['Sted ved konstant acceleration', 's = \\tfrac{1}{2} \\cdot a \\cdot t^2 + v_0 \\cdot t + s_0'],
+    ['Skråt kast, vandret', 'x = v_0 \\cdot \\cos(\\alpha) \\cdot t'],
+    ['Skråt kast, lodret', 'y = -\\tfrac{1}{2} \\cdot g \\cdot t^2 + v_0 \\cdot \\sin(\\alpha) \\cdot t'],
+  ]],
+  ['Kræfter', [
+    ['Newtons 2. lov', 'F_{\\mathrm{res}} = m \\cdot a'],
+    ['Tyngdekraft', 'F_t = m \\cdot g'],
+    ['Gnidningskraft', 'F_{\\mathrm{gnid}} = \\mu \\cdot F_N'],
+    ['Fjederkraft', 'F = k \\cdot x'],
+    ['Tryk', 'p = \\frac{F}{A}'],
+    ['Opdrift', 'F_{\\mathrm{op}} = \\rho_{\\mathrm{fl}} \\cdot V \\cdot g'],
+  ]],
+  ['Energi', [
+    ['Kinetisk energi', 'E_{\\mathrm{kin}} = \\tfrac{1}{2} \\cdot m \\cdot v^2'],
+    ['Potentiel energi', 'E_{\\mathrm{pot}} = m \\cdot g \\cdot h'],
+    ['Mekanisk energi', 'E_{\\mathrm{mek}} = E_{\\mathrm{kin}} + E_{\\mathrm{pot}}'],
+    ['Arbejde', 'A = F \\cdot s \\cdot \\cos(\\theta)'],
+    ['Effekt', 'P = \\frac{\\Delta E}{\\Delta t}'],
+    ['Nyttevirkning', '\\eta = \\frac{E_{\\mathrm{nyttig}}}{E_{\\text{tilført}}}'],
+    ['Opvarmning', 'Q = m \\cdot c \\cdot \\Delta T'],
+    ['Faseovergang', 'Q = m \\cdot L'],
+    ['Idealgasligningen', 'p \\cdot V = n \\cdot R \\cdot T'],
+  ]],
+  ['Bølger og lys', [
+    ['Bølgeformlen', 'v = \\lambda \\cdot f'],
+    ['Frekvens og periode', 'f = \\frac{1}{T}'],
+    ['Gitterligningen', 'd \\cdot \\sin(\\theta_n) = n \\cdot \\lambda'],
+    ['Brydningsloven', 'n_1 \\cdot \\sin(\\theta_1) = n_2 \\cdot \\sin(\\theta_2)'],
+  ]],
+  ['Elektricitet', [
+    ['Ohms lov', 'U = R \\cdot I'],
+    ['Elektrisk effekt', 'P = U \\cdot I'],
+    ['Resistans i ledning', 'R = \\rho \\cdot \\frac{l}{A}'],
+    ['Ladning', 'Q = I \\cdot t'],
+    ['Serieforbindelse', 'R = R_1 + R_2'],
+    ['Parallelforbindelse', '\\frac{1}{R} = \\frac{1}{R_1} + \\frac{1}{R_2}'],
+  ]],
+  ['Atom- og kernefysik', [
+    ['Fotonens energi', 'E = h \\cdot f = \\frac{h \\cdot c}{\\lambda}'],
+    ['Henfaldsloven', 'N = N_0 \\cdot e^{-k \\cdot t}'],
+    ['Aktivitet', 'A = k \\cdot N'],
+    ['Halveringstid', 'T_{1/2} = \\frac{\\ln(2)}{k}'],
+    ['Masse og energi', 'E = m \\cdot c^2'],
+  ]],
+  ['Bevægelsesmængde og raketter', [
+    ['Bevægelsesmængde', 'p = m \\cdot v'],
+    ['Kraftens impuls', 'F \\cdot \\Delta t = \\Delta p'],
+    ['Motorkraft', 'F = u \\cdot \\frac{\\Delta m}{\\Delta t}'],
+    ['Raketligningen', '\\Delta v = u \\cdot \\ln\\left(\\frac{m_0}{m}\\right)'],
+  ]],
+  ['Cirkelbevægelse og gravitation', [
+    ['Banefart', 'v = \\frac{2\\pi \\cdot r}{T}'],
+    ['Vinkelhastighed', '\\omega = \\frac{2\\pi}{T}'],
+    ['Centripetalacceleration', 'a = \\frac{v^2}{r}'],
+    ['Gravitationsloven', 'F = G \\cdot \\frac{M \\cdot m}{r^2}'],
+    ['Tyngdefelt', 'g = \\frac{G \\cdot M}{r^2}'],
+    ['Potentiel energi i tyngdefelt', 'E_{\\mathrm{pot}} = -\\frac{G \\cdot M \\cdot m}{r}'],
+    ['Fart i cirkulær bane', 'v = \\sqrt{\\frac{G \\cdot M}{r}}'],
+    ['Undvigelseshastighed', 'v_{\\mathrm{undv}} = \\sqrt{\\frac{2 \\cdot G \\cdot M}{r}}'],
+    ['Keplers 3. lov', '\\frac{T^2}{a^3} = \\frac{4\\pi^2}{G \\cdot M}'],
+  ]],
+  ['Svingninger', [
+    ['Fjederpendul', 'T = 2\\pi \\cdot \\sqrt{\\frac{m}{k}}'],
+    ['Matematisk pendul', 'T = 2\\pi \\cdot \\sqrt{\\frac{l}{g}}'],
+    ['Harmonisk svingning', 'x(t) = A \\cdot \\sin(\\omega \\cdot t + \\varphi)'],
+  ]],
+  ['Felter og induktion', [
+    ['Kraft i elektrisk felt', 'F = q \\cdot E'],
+    ['Felt mellem plader', 'E = \\frac{U}{d}'],
+    ['Lorentzkraft', 'F = q \\cdot v \\cdot B'],
+    ['Kraft på leder', 'F = B \\cdot I \\cdot l'],
+    ['Magnetisk flux', '\\Phi = B \\cdot A'],
+    ['Induktionsloven', 'U_{\\mathrm{ind}} = -\\frac{\\Delta \\Phi}{\\Delta t}'],
+  ]],
+  ['Relativitetsteori', [
+    ['Gammafaktor', '\\gamma = \\frac{1}{\\sqrt{1 - \\frac{v^2}{c^2}}}'],
+    ['Tidsforlængelse', '\\Delta t = \\gamma \\cdot \\Delta t_0'],
+  ]],
+];
+
+const SNIPPETS = [
+  ['a/b', '\\frac{a}{b}'], ['√', '\\sqrt{x}'], ['x²', '^{2}'], ['x₀', '_{0}'], ['·10ⁿ', ' \\cdot 10^{n}'],
+  ['·', ' \\cdot '], ['≈', ' \\approx '], ['Δ', '\\Delta '], ['°', '^\\circ'], ['π', '\\pi '],
+  ['α', '\\alpha '], ['θ', '\\theta '], ['λ', '\\lambda '], ['μ', '\\mu '], ['ρ', '\\rho '], ['ω', '\\omega '],
+  ['Ω', '\\Omega '], ['vektor', '\\vec{v}'], ['enhed', '\\ \\mathrm{m/s}'], ['ln', '\\ln()'], ['e^x', 'e^{x}'],
+];
+
+// ---------------- Editoren ----------------
+const $ = id => document.getElementById(id);
+const NOEGLE = 'fysikaflevering-kladde-v1';
+
+const quill = new Quill('#editor', {
+  theme: 'snow',
+  placeholder: 'Skriv din aflevering her. Formler indsætter du med knapperne ovenfor, eller ved at skrive $v = s/t$.',
+  modules: {
+    toolbar: { container: '#toolbar', handlers: { formula: () => aabnDialog(), image: () => $('filBillede').click() } },
+    table: true,
+    keyboard: { bindings: {
+      formel: { key: '$', handler: range => dollarTast(range) },
+      mdOverskrift: { key: ' ', prefix: /^#{1,3}$/, handler: (range, ctx) => mdOverskrift(range, ctx) },
+      mdStjerne: { key: '*', handler: range => mdStjerne(range) },
+      'table enter': { key: 'Enter', shiftKey: null, format: ['table'], handler: range => enterITabel(range) },
+    } },
+    uploader: { mimetypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'], handler: (range, files) => indsaetBilleder(range, files) },
+  },
+});
+
+const besked = (tekst, ms = 4500) => {
+  const b = $('besked'); b.textContent = tekst; b.classList.add('vis');
+  clearTimeout(besked.t); besked.t = setTimeout(() => b.classList.remove('vis'), ms);
+};
+
+// ---------------- Formler ----------------
+let redigerer = null;   // indeks for den formel, der rettes
+
+function vis(latex) {
+  const v = $('dVis');
+  if (!latex.trim()) { v.className = 'forhaand'; v.textContent = 'Her ser du formlen.'; return true; }
+  try {
+    v.className = 'forhaand';
+    katex.render(latex, v, { displayMode: true, throwOnError: true });
+    return true;
+  } catch (e) {
+    v.className = 'forhaand fejl';
+    v.textContent = 'Formlen kan ikke vises endnu: ' + e.message.replace('KaTeX parse error: ', '');
+    return false;
+  }
+}
+
+function aabnDialog(latex = '', indeks = null) {
+  redigerer = indeks;
+  $('dTitel').textContent = indeks === null ? 'Indsæt formel' : 'Ret formel';
+  $('dOk').textContent = indeks === null ? 'Indsæt' : 'Gem';
+  $('dSlet').style.display = indeks === null ? 'none' : '';
+  $('dLinje').parentElement.style.display = indeks === null ? '' : 'none';
+  $('dKode').value = latex;
+  vis(latex);
+  $('dialog').classList.add('aaben');
+  setTimeout(() => $('dKode').focus(), 30);
+}
+const lukDialog = () => { $('dialog').classList.remove('aaben'); redigerer = null; };
+
+function indsaetFormel(latex, paaEgenLinje) {
+  const sel = quill.getSelection(true);
+  let i = sel ? sel.index : quill.getLength() - 1;
+  if (sel && sel.length) quill.deleteText(i, sel.length, 'user');
+  if (paaEgenLinje) {
+    const [, pos] = quill.getLine(i);
+    if (pos > 0) { quill.insertText(i, '\n', 'user'); i++; }
+    quill.insertEmbed(i, 'formula', latex, 'user');
+    quill.insertText(i + 1, '\n', 'user');
+    quill.formatLine(i, 1, { align: 'center', list: false, header: false }, 'user');
+    quill.formatLine(i + 2, 1, { align: false }, 'user');
+    quill.setSelection(i + 2, 0, 'user');
+  } else {
+    quill.insertEmbed(i, 'formula', latex, 'user');
+    quill.insertText(i + 1, ' ', 'user');
+    quill.setSelection(i + 2, 0, 'user');
+  }
+}
+
+$('dOk').onclick = () => {
+  const latex = $('dKode').value.trim();
+  if (!latex) { lukDialog(); return; }
+  if (!vis(latex)) { besked('Ret formlen, før du indsætter den.'); return; }
+  if (redigerer !== null) {
+    quill.deleteText(redigerer, 1, 'user');
+    quill.insertEmbed(redigerer, 'formula', latex, 'user');
+    quill.setSelection(redigerer + 1, 0, 'user');
+  } else indsaetFormel(latex, $('dLinje').checked);
+  lukDialog();
+};
+$('dSlet').onclick = () => { if (redigerer !== null) quill.deleteText(redigerer, 1, 'user'); lukDialog(); };
+$('dFortryd').onclick = lukDialog;
+$('dialog').addEventListener('mousedown', e => { if (e.target === $('dialog')) lukDialog(); });
+$('dKode').addEventListener('input', () => vis($('dKode').value));
+$('dKode').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('dOk').click(); }
+  if (e.key === 'Escape') lukDialog();
+});
+SNIPPETS.forEach(([navn, kode]) => {
+  const b = document.createElement('button'); b.type = 'button'; b.textContent = navn; b.title = kode.trim();
+  b.onclick = () => {
+    const t = $('dKode'), a = t.selectionStart, z = t.selectionEnd;
+    t.value = t.value.slice(0, a) + kode + t.value.slice(z);
+    t.focus(); t.selectionStart = t.selectionEnd = a + kode.length; vis(t.value);
+  };
+  $('dKnapper').appendChild(b);
+});
+$('kEgen').onclick = () => aabnDialog();
+
+// Klik på en formel i teksten for at rette den
+quill.root.addEventListener('click', e => {
+  const node = e.target.closest('.ql-formula');
+  if (!node) return;
+  const blot = Quill.find(node);
+  if (!blot) return;
+  aabnDialog(node.getAttribute('data-value') || '', quill.getIndex(blot));
+});
+
+// $...$ i teksten bliver til en formel, når det sidste $ tastes
+function dollarTast(range) {
+  if (!range || range.length) return true;
+  const [linje, pos] = quill.getLine(range.index);
+  if (!linje || pos < 2) return true;
+  const start = range.index - pos;
+  const tekst = quill.getContents(start, pos).ops.map(op => typeof op.insert === 'string' ? op.insert : '￼').join('');
+  const m = tekst.match(/\$([^$￼\n]+)$/);
+  if (!m) return true;
+  const latex = m[1].trim();
+  try { katex.renderToString(latex, { throwOnError: true }); }
+  catch { besked('Formlen mellem $-tegnene kan ikke læses. Ret den, eller brug "Skriv egen formel".'); return true; }
+  const fra = start + m.index;
+  quill.deleteText(fra, m[0].length, 'user');
+  quill.insertEmbed(fra, 'formula', latex, 'user');
+  quill.setSelection(fra + 1, 0, 'user');
+  return false;
+}
+
+// ---------------- Menuer med formler og konstanter ----------------
+function bygMenu(id, grupper, tip) {
+  const menu = $(id);
+  menu.innerHTML = `<p class="tip">${tip}</p>`;
+  for (const [gruppe, punkter] of grupper) {
+    const h = document.createElement('h3'); h.textContent = gruppe; menu.appendChild(h);
+    const gitter = document.createElement('div'); gitter.className = 'gitter';
+    for (const [navn, latex] of punkter) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'valg';
+      b.innerHTML = `<small>${navn}</small><span class="formel">${katex.renderToString(latex, { throwOnError: false })}</span>`;
+      b.onclick = e => { lukMenuer(); indsaetFormel(latex, e.shiftKey); besked(navn + ' er indsat. Klik på den for at rette den.', 2500); };
+      gitter.appendChild(b);
+    }
+    menu.appendChild(gitter);
+  }
+}
+bygMenu('menuFormler', FORMLER, 'Klik for at indsætte formlen i teksten. Hold Shift nede for at sætte den på sin egen linje.');
+bygMenu('menuKonst', KONSTANTER, 'Klik for at indsætte værdien. "Eksakt" betyder, at tallet er fastlagt ved definition. De andre er målte værdier (CODATA 2022) eller tabelværdier.');
+
+function lukMenuer() {
+  for (const [k, m] of [['kFormler', 'menuFormler'], ['kKonst', 'menuKonst']]) { $(m).classList.remove('aaben'); $(k).setAttribute('aria-expanded', 'false'); }
+}
+for (const [k, m] of [['kFormler', 'menuFormler'], ['kKonst', 'menuKonst']]) {
+  $(k).addEventListener('mousedown', e => e.preventDefault());   // behold markørens plads i teksten
+  $(k).onclick = () => {
+    const var_aaben = $(m).classList.contains('aaben');
+    lukMenuer();
+    if (!var_aaben) { $(m).classList.add('aaben'); $(k).setAttribute('aria-expanded', 'true'); quill.getSelection(true); }
+  };
+  $(m).addEventListener('mousedown', e => e.preventDefault());
+}
+document.addEventListener('mousedown', e => { if (!e.target.closest('.raekke2')) lukMenuer(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') lukMenuer(); });
+
+// ---------------- Markdown-genveje ----------------
+// "# " giver Overskrift 1, "## " Overskrift 2, "### " Overskrift 3.
+// "- ", "* " og "1. " giver lister (det kan Quill selv). **fed** og *kursiv* laves om, når den sidste * tastes.
+function mdOverskrift(range, ctx) {
+  if (ctx.format.table || ctx.format['code-block']) return true;
+  const n = ctx.prefix.length, start = range.index - n;
+  quill.deleteText(start, n, 'user');
+  quill.formatLine(start, 1, 'header', n, 'user');
+  return false;
+}
+function tekstFoer(index) {
+  const [linje, pos] = quill.getLine(index);
+  if (!linje) return ['', index];
+  const start = index - pos;
+  return [quill.getContents(start, pos).ops.map(op => typeof op.insert === 'string' ? op.insert : '￼').join(''), start];
+}
+function mdStjerne(range) {
+  if (!range || range.length) return true;
+  const [tekst, start] = tekstFoer(range.index);
+  let m = tekst.match(/\*\*([^*￼\n]+)\*$/), fmt = 'bold';
+  if (!m) { m = tekst.match(/(?:^|\s)(\*([^*\s￼][^*￼\n]*[^*\s￼]|[^*\s￼]))$/); fmt = 'italic'; }
+  if (!m) return true;
+  const indre = fmt === 'bold' ? m[1] : m[2];
+  const helt = fmt === 'bold' ? m[0] : m[1];
+  const fra = start + tekst.length - helt.length;
+  quill.deleteText(fra, helt.length, 'user');
+  quill.insertText(fra, indre, { [fmt]: true }, 'user');
+  quill.setSelection(fra + indre.length, 0, 'user');
+  quill.format(fmt, false, 'user');
+  return false;
+}
+
+// ---------------- Vis som Markdown ----------------
+function tilMarkdown() {
+  const ops = quill.getContents().ops;
+  const linjer = [];        // { tekst, attr, kunFormel }
+  let tekst = '', dele = 0, formler = 0, billeder = 0, sidstFormel = '';
+  const inline = (t, a = {}) => {
+    if (!t) return '';
+    let x = t;
+    const kant = x.match(/^(\s*)(.*?)(\s*)$/s);          // **fed** må ikke starte/slutte med mellemrum
+    let [, foran, kerne, bag] = kant;
+    if (!kerne) return x;
+    if (a.script === 'sub') kerne = `<sub>${kerne}</sub>`;
+    if (a.script === 'super') kerne = `<sup>${kerne}</sup>`;
+    if (a.underline) kerne = `<u>${kerne}</u>`;
+    if (a.italic) kerne = `*${kerne}*`;
+    if (a.bold) kerne = `**${kerne}**`;
+    return foran + kerne + bag;
+  };
+  for (const op of ops) {
+    if (typeof op.insert === 'string') {
+      const stykker = op.insert.split('\n');
+      stykker.forEach((stk, i) => {
+        if (i > 0) {
+          linjer.push({ tekst, attr: op.attributes || {}, kunFormel: dele === 1 && formler === 1 ? sidstFormel : null });
+          tekst = ''; dele = 0; formler = 0;
+        }
+        if (stk) { tekst += inline(stk, op.attributes); if (stk.trim()) dele++; }
+      });
+    } else if (op.insert.formula !== undefined) {
+      tekst += `$${op.insert.formula}$`; dele++; formler++; sidstFormel = op.insert.formula;
+    } else if (op.insert.image !== undefined) {
+      billeder++; tekst += `![Billede ${billeder}](billede-${billeder})`; dele++;
+    }
+  }
+  const ud = [];
+  let i = 0, nr = 0;
+  const tom = () => { if (ud.length && ud[ud.length - 1] !== '') ud.push(''); };
+  while (i < linjer.length) {
+    const l = linjer[i], a = l.attr;
+    if (a.table) {
+      const raekker = [];
+      while (i < linjer.length && linjer[i].attr.table) {
+        const id = linjer[i].attr.table, celler = [];
+        while (i < linjer.length && linjer[i].attr.table === id) { celler.push(linjer[i].tekst.replace(/\|/g, '\\|').trim()); i++; }
+        raekker.push(celler);
+      }
+      const n = Math.max(...raekker.map(r => r.length));
+      tom();
+      raekker.forEach((r, j) => {
+        ud.push('| ' + Array.from({ length: n }, (_, k) => r[k] || ' ').join(' | ') + ' |');
+        if (j === 0) ud.push('|' + ' --- |'.repeat(n));
+      });
+      ud.push('');
+      nr = 0;
+      continue;
+    }
+    if (a.list) {
+      const ind = '   '.repeat(a.indent || 0);
+      if (a.list === 'ordered') { nr++; ud.push(`${ind}${nr}. ${l.tekst}`); }
+      else ud.push(`${ind}- ${l.tekst}`);
+      i++;
+      if (!(linjer[i] && linjer[i].attr.list === a.list)) { ud.push(''); nr = 0; }
+      continue;
+    }
+    nr = 0;
+    if (a.header) { tom(); ud.push('#'.repeat(a.header) + ' ' + l.tekst.replace(/\*\*/g, '')); ud.push(''); }
+    else if (l.kunFormel !== null && a.align === 'center') { tom(); ud.push('$$' + l.kunFormel + '$$'); ud.push(''); }
+    else if (!l.tekst.trim()) tom();
+    else { ud.push(l.tekst); ud.push(''); }
+    i++;
+  }
+  const meta = hentMeta();
+  const hoved = ['---', `title: "${(meta.mTitel || 'Fysikaflevering').replace(/"/g, "'")}"`, `author: "${(meta.mNavn || '').replace(/"/g, "'")}"`];
+  if (meta.mKlasse) hoved.push(`klasse: "${meta.mKlasse.replace(/"/g, "'")}"`);
+  hoved.push(`date: "${meta.mDato || ''}"`, '---', '');
+  let md = hoved.join('\n') + '\n' + ud.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+  if (billeder) md += `\n<!-- Billederne er ikke med i Markdown-teksten. De findes kun i editoren og i PDF'en. -->\n`;
+  return md;
+}
+
+const visMd = paa => {
+  $('kMd').setAttribute('aria-pressed', paa);
+  $('mdvisning').classList.toggle('vis', paa);
+  quill.container.style.display = paa ? 'none' : '';
+  document.querySelectorAll('#toolbar, #kFormler, #kKonst, #kEgen').forEach(el => { el.style.opacity = paa ? .35 : ''; el.style.pointerEvents = paa ? 'none' : ''; });
+  if (paa) { lukMenuer(); skjulRamme(); $('mdTekst').value = tilMarkdown(); }
+};
+$('kMd').onclick = () => visMd($('kMd').getAttribute('aria-pressed') !== 'true');
+$('mdTilbage').onclick = () => visMd(false);
+$('mdKopier').onclick = async () => {
+  try { await navigator.clipboard.writeText($('mdTekst').value); besked('Markdown er kopieret.'); }
+  catch { $('mdTekst').select(); besked('Tryk Cmd/Ctrl+C for at kopiere.'); }
+};
+$('mdHent').onclick = () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([$('mdTekst').value], { type: 'text/markdown' }));
+  a.download = filnavn().replace(/[\\/:*?"<>|]/g, '') + '.md';
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+
+// ---------------- Lommeregner ----------------
+// Egen lille fortolker (ingen eval): udtryk -> træ -> værdi og LaTeX.
+const LR = (() => {
+  const FUNK = { sin: 1, cos: 1, tan: 1, asin: 1, acos: 1, atan: 1, arcsin: 1, arccos: 1, arctan: 1, ln: 1, log: 1, sqrt: 1, exp: 1, abs: 1 };
+  function lex(str) {
+    str = str.replace(/[×·∙⋅]/g, '*').replace(/÷/g, '/').replace(/[−–]/g, '-').replace(/²/g, '^2').replace(/³/g, '^3').replace(/√/g, 'sqrt');
+    const t = []; let i = 0;
+    while (i < str.length) {
+      const c = str[i];
+      if (/\s/.test(c)) { i++; continue; }
+      const m = str.slice(i).match(/^(\d+(?:[.,]\d+)?|[.,]\d+)(?:[eE]([+-]?\d+))?/);
+      if (m) { t.push({ t: 'tal', s: m[1], e: m[2] }); i += m[0].length; continue; }
+      const id = str.slice(i).match(/^(?:[a-zA-Z]+|π)/);
+      if (id) { t.push({ t: 'id', s: id[0] }); i += id[0].length; continue; }
+      if ('+-*/^()'.includes(c)) { t.push({ t: c }); i++; continue; }
+      throw new Error('Tegnet "' + c + '" kan lommeregneren ikke bruge');
+    }
+    return t;
+  }
+  function parse(str) {
+    const t = lex(str); let p = 0;
+    const kig = () => t[p], tag = typ => { if (!t[p] || t[p].t !== typ) throw new Error('Udtrykket er ikke færdigt'); return t[p++]; };
+    const startPrimaer = x => x && (x.t === 'tal' || x.t === 'id' || x.t === '(');
+    function udtryk() {
+      let v = led();
+      while (kig() && (kig().t === '+' || kig().t === '-')) { const o = t[p++].t; v = { k: o, a: v, b: led() }; }
+      return v;
+    }
+    function led() {
+      let v = fortegn();
+      for (;;) {
+        if (kig() && (kig().t === '*' || kig().t === '/')) { const o = t[p++].t; v = { k: o, a: v, b: fortegn() }; }
+        else if (startPrimaer(kig())) v = { k: '*', a: v, b: potens(), impl: true };
+        else return v;
+      }
+    }
+    function fortegn() {
+      if (kig() && kig().t === '-') { p++; return { k: 'neg', a: fortegn() }; }
+      if (kig() && kig().t === '+') { p++; return fortegn(); }
+      return potens();
+    }
+    function potens() {
+      const b = primaer();
+      if (kig() && kig().t === '^') { p++; return { k: '^', a: b, b: fortegn() }; }
+      return b;
+    }
+    function primaer() {
+      const x = kig();
+      if (!x) throw new Error('Udtrykket er ikke færdigt');
+      if (x.t === 'tal') { p++; return { k: 'tal', s: x.s, e: x.e }; }
+      if (x.t === '(') { p++; const v = udtryk(); tag(')'); return { k: 'par', a: v }; }
+      if (x.t === 'id') {
+        p++;
+        const n = x.s.toLowerCase();
+        if (FUNK[n]) {
+          if (kig() && kig().t === '(') { p++; const v = udtryk(); tag(')'); return { k: 'f', f: n, a: v }; }
+          return { k: 'f', f: n, a: potens() };     // sqrt2, sin30
+        }
+        if (n === 'pi' || x.s === 'π') return { k: 'konst', s: 'pi' };
+        if (x.s === 'e') return { k: 'konst', s: 'e' };
+        if (n === 'ans') return { k: 'konst', s: 'ans' };
+        throw new Error('"' + x.s + '" kender lommeregneren ikke');
+      }
+      throw new Error('Udtrykket er ikke færdigt');
+    }
+    const v = udtryk();
+    if (p < t.length) throw new Error(t[p].t === ')' ? 'Der er en slutparentes for meget' : 'Udtrykket kan ikke læses');
+    return v;
+  }
+  function vaerdi(n, o) {
+    const g = o.grader ? Math.PI / 180 : 1;
+    switch (n.k) {
+      case 'tal': return parseFloat(n.s.replace(',', '.')) * (n.e ? 10 ** +n.e : 1);
+      case 'konst': return n.s === 'pi' ? Math.PI : n.s === 'e' ? Math.E : o.ans;
+      case 'par': return vaerdi(n.a, o);
+      case 'neg': return -vaerdi(n.a, o);
+      case '+': return vaerdi(n.a, o) + vaerdi(n.b, o);
+      case '-': return vaerdi(n.a, o) - vaerdi(n.b, o);
+      case '*': return vaerdi(n.a, o) * vaerdi(n.b, o);
+      case '/': return vaerdi(n.a, o) / vaerdi(n.b, o);
+      case '^': return vaerdi(n.a, o) ** vaerdi(n.b, o);
+      case 'f': {
+        const x = vaerdi(n.a, o);
+        return { sin: () => Math.sin(x * g), cos: () => Math.cos(x * g), tan: () => Math.tan(x * g),
+          asin: () => Math.asin(x) / g, acos: () => Math.acos(x) / g, atan: () => Math.atan(x) / g,
+          arcsin: () => Math.asin(x) / g, arccos: () => Math.acos(x) / g, arctan: () => Math.atan(x) / g,
+          ln: () => Math.log(x), log: () => Math.log10(x), sqrt: () => Math.sqrt(x), exp: () => Math.exp(x), abs: () => Math.abs(x) }[n.f]();
+      }
+    }
+  }
+  const tal = (s) => s.replace(/^\./, '0.').replace(/^,/, '0,').replace(/[.,]/, '{,}');
+  const uden = n => n.k === 'par' ? n.a : n;
+  function latex(n) {
+    switch (n.k) {
+      case 'tal': return tal(n.s) + (n.e ? ' \\cdot 10^{' + (+n.e) + '}' : '');
+      case 'konst': return n.s === 'pi' ? '\\pi' : n.s === 'e' ? 'e' : '\\mathrm{Ans}';
+      case 'par': return '\\left(' + latex(n.a) + '\\right)';
+      case 'neg': return '-' + latex(n.a);
+      case '+': return latex(n.a) + ' + ' + latex(n.b);
+      case '-': return latex(n.a) + ' - ' + latex(n.b);
+      case '*': return latex(n.a) + ' \\cdot ' + latex(n.b);
+      case '/': return '\\frac{' + latex(uden(n.a)) + '}{' + latex(uden(n.b)) + '}';
+      case '^': {
+        const b = ['tal', 'konst', 'par'].includes(n.a.k) && !(n.a.k === 'tal' && n.a.e) ? latex(n.a) : '\\left(' + latex(n.a) + '\\right)';
+        return b + '^{' + latex(uden(n.b)) + '}';
+      }
+      case 'f':
+        if (n.f === 'sqrt') return '\\sqrt{' + latex(uden(n.a)) + '}';
+        if (n.f === 'abs') return '\\left|' + latex(uden(n.a)) + '\\right|';
+        if (n.f === 'exp') return 'e^{' + latex(uden(n.a)) + '}';
+        { const navn = { asin: '\\sin^{-1}', acos: '\\cos^{-1}', atan: '\\tan^{-1}', arcsin: '\\sin^{-1}', arccos: '\\cos^{-1}', arctan: '\\tan^{-1}' }[n.f] || '\\' + n.f;
+          return navn + '\\left(' + latex(uden(n.a)) + '\\right)'; }
+    }
+  }
+  // Tal med n betydende cifre, dansk komma, og 10-tals-potens når tallet er meget stort eller lille
+  function formater(x, n) {
+    if (!isFinite(x)) return null;
+    if (x === 0) return { latex: '0', tekst: '0' };
+    let eks = Math.floor(Math.log10(Math.abs(x)));
+    let mant = +(x / 10 ** eks).toFixed(n - 1);
+    if (Math.abs(mant) >= 10) { mant /= 10; eks++; }
+    if (eks >= -3 && eks < 5) {
+      const s = x.toFixed(Math.max(0, n - 1 - eks)).replace('.', ',');
+      return { latex: s.replace(',', '{,}'), tekst: s };
+    }
+    const m = mant.toFixed(n - 1).replace('.', ',');
+    return { latex: m.replace(',', '{,}') + ' \\cdot 10^{' + eks + '}', tekst: m + '·10^' + eks };
+  }
+  return { parse, vaerdi, latex, formater };
+})();
+
+const LR_KONST = [
+  ['c (lysets fart)', '299792458'], ['e (elementarladning)', '1,602176634·10^-19'], ['h (Plancks konstant)', '6,62607015·10^-34'],
+  ['k_B (Boltzmann)', '1,380649·10^-23'], ['N_A (Avogadro)', '6,02214076·10^23'], ['R (gaskonstanten)', '8,314462618'],
+  ['G (gravitationskonstanten)', '6,67430·10^-11'], ['m_e (elektronens masse)', '9,1093837139·10^-31'],
+  ['m_p (protonens masse)', '1,67262192595·10^-27'], ['m_n (neutronens masse)', '1,67492750056·10^-27'],
+  ['u (atommasseenhed)', '1,66053906892·10^-27'], ['ε₀ (vakuumpermittivitet)', '8,8541878188·10^-12'],
+  ['k (Coulombs konstant)', '8,987551786·10^9'], ['g (Danmark)', '9,82'], ['M_Jord', '5,972·10^24'], ['R_Jord', '6,371·10^6'],
+  ['M_Måne', '7,342·10^22'], ['afstand Jord–Måne', '3,844·10^8'], ['M_Sol', '1,989·10^30'], ['1 AE', '1,495978707·10^11'],
+];
+
+(() => {
+  const ud = $('lrUd'), vis = $('lrVis');
+  let ans = 0, sidst = null, valg = null;
+  quill.on('selection-change', r => { if (r) valg = r; });
+
+  const TASTER = [
+    ['7', 'tal'], ['8', 'tal'], ['9', 'tal'], ['÷', 'op', '/'], ['(', 'op'], [')', 'op'],
+    ['4', 'tal'], ['5', 'tal'], ['6', 'tal'], ['×', 'op', '·'], ['x²', 'op', '^2'], ['xʸ', 'op', '^'],
+    ['1', 'tal'], ['2', 'tal'], ['3', 'tal'], ['−', 'op', '-'], ['√', 'op', '√('], ['·10ⁿ', 'op', '·10^'],
+    ['0', 'tal'], [',', 'tal'], ['π', 'op'], ['+', 'op'], ['ln', 'op', 'ln('], ['log', 'op', 'log('],
+    ['sin', 'op', 'sin('], ['cos', 'op', 'cos('], ['tan', 'op', 'tan('], ['eˣ', 'op', 'exp('], ['Ans', 'op'], ['⌫', 'op', 'SLET'],
+  ];
+  for (const [navn, kl, ind] of TASTER) {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = navn; b.className = kl;
+    b.addEventListener('mousedown', e => e.preventDefault());
+    b.onclick = () => {
+      const a = ud.selectionStart ?? ud.value.length, z = ud.selectionEnd ?? a;
+      if (ind === 'SLET') {
+        if (a === z && a > 0) { ud.value = ud.value.slice(0, a - 1) + ud.value.slice(z); ud.selectionStart = ud.selectionEnd = a - 1; }
+        else { ud.value = ud.value.slice(0, a) + ud.value.slice(z); ud.selectionStart = ud.selectionEnd = a; }
+      } else {
+        const x = ind || navn;
+        ud.value = ud.value.slice(0, a) + x + ud.value.slice(z);
+        ud.selectionStart = ud.selectionEnd = a + x.length;
+      }
+      ud.focus(); regn();
+    };
+    $('lrTaster').appendChild(b);
+  }
+  for (const [navn, v] of LR_KONST) { const o = document.createElement('option'); o.value = v; o.textContent = navn + ' = ' + v; $('lrKonst').appendChild(o); }
+  $('lrKonst').onchange = e => {
+    if (!e.target.value) return;
+    const a = ud.selectionStart ?? ud.value.length, x = e.target.value;
+    ud.value = ud.value.slice(0, a) + x + ud.value.slice(ud.selectionEnd ?? a);
+    ud.selectionStart = ud.selectionEnd = a + x.length; e.target.value = ''; ud.focus(); regn();
+  };
+
+  const enhed = () => {
+    const u = $('lrEnhed').value.trim();
+    if (!u) return '';
+    const l = u.replace(/\^(-?\d+)/g, '^{$1}').replace(/\*|·/g, ' \\cdot ');
+    return /[^\x00-\x7f]/.test(u) ? '\\ \\text{' + u + '}' : '\\ \\mathrm{' + l + '}';
+  };
+
+  function regn() {
+    sidst = null;
+    const s = ud.value.trim();
+    if (!s) { vis.className = 'lr-vis fejl'; vis.textContent = 'Skriv et regnestykke. Brug komma eller punktum som decimaltegn.'; return; }
+    try {
+      const traee = LR.parse(s);
+      const x = LR.vaerdi(traee, { grader: $('lrVinkel').value === 'deg', ans });
+      const r = LR.formater(x, +$('lrCifre').value);
+      if (!r) throw new Error('Resultatet er ikke et tal (fx division med 0)');
+      sidst = { udtryk: LR.latex(traee), res: r, x };
+      vis.className = 'lr-vis';
+      katex.render(sidst.udtryk + ' = ' + r.latex + enhed(), vis, { displayMode: true, throwOnError: false });
+    } catch (e) { vis.className = 'lr-vis fejl'; vis.textContent = e.message + '.'; }
+  }
+  ud.addEventListener('input', regn);
+  ['lrCifre', 'lrVinkel'].forEach(id => $(id).onchange = regn);
+  $('lrEnhed').addEventListener('input', regn);
+
+  function indsaet(kunRes) {
+    if (!sidst) { besked('Regnestykket kan ikke regnes ud endnu.'); return; }
+    const latex = kunRes ? sidst.res.latex + enhed() : sidst.udtryk + ' = ' + sidst.res.latex + enhed();
+    const i = valg ? valg.index : quill.getLength() - 1;
+    quill.insertEmbed(i, 'formula', latex, 'user');
+    quill.insertText(i + 1, ' ', 'user');
+    valg = { index: i + 2, length: 0 };
+    quill.setSelection(i + 2, 0, 'silent');
+    ans = sidst.x;
+    $('lrEnhed').value = '';   // enheden hører til denne udregning
+    regn();
+    besked(kunRes ? 'Resultatet er indsat. Det kan bruges igen som Ans.' : 'Udregningen er indsat. Resultatet kan bruges igen som Ans.', 2500);
+  }
+  $('lrIndUdr').onclick = () => indsaet(false);
+  $('lrIndRes').onclick = () => indsaet(true);
+  ud.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); indsaet(false); } if (e.key === 'Escape') aaben(false); });
+
+  const aaben = paa => {
+    $('lr').classList.toggle('vis', paa); $('kLr').setAttribute('aria-pressed', paa);
+    if (paa) { valg = quill.getSelection() || valg; regn(); setTimeout(() => ud.focus(), 20); }
+  };
+  $('kLr').addEventListener('mousedown', e => e.preventDefault());
+  $('kLr').onclick = () => aaben(!$('lr').classList.contains('vis'));
+  $('lrLuk').onclick = () => aaben(false);
+
+  // Flyt lommeregneren ved at trække i den mørke bjælke
+  $('lrTop').addEventListener('pointerdown', e => {
+    if (e.target.tagName === 'BUTTON') return;
+    const lr = $('lr'), r = lr.getBoundingClientRect(), dx = e.clientX - r.left, dy = e.clientY - r.top;
+    $('lrTop').setPointerCapture(e.pointerId);
+    const flyt = ev => Object.assign(lr.style, {
+      left: Math.max(0, Math.min(innerWidth - r.width, ev.clientX - dx)) + 'px',
+      top: Math.max(0, Math.min(innerHeight - 40, ev.clientY - dy)) + 'px', right: 'auto', bottom: 'auto' });
+    const slip = () => { $('lrTop').removeEventListener('pointermove', flyt); $('lrTop').removeEventListener('pointerup', slip); };
+    $('lrTop').addEventListener('pointermove', flyt); $('lrTop').addEventListener('pointerup', slip);
+  });
+})();
+
+// ---------------- Gem som Word (.docx) med rigtige Word-ligninger ----------------
+let wordLib = null;
+async function hentWordLib() {
+  if (wordLib) return wordLib;
+  await new Promise((ok, fejl) => {
+    const sc = document.createElement('script');
+    sc.src = 'https://cdn.jsdelivr.net/npm/docx@9.5.1/dist/index.iife.js';
+    sc.onload = ok; sc.onerror = () => fejl(new Error('docx kunne ikke hentes'));
+    document.head.appendChild(sc);
+  });
+  const { mml2omml } = await import('https://cdn.jsdelivr.net/npm/mathml2omml@0.5.0/dist/index.esm.js');
+  wordLib = { d: window.docx, mml2omml };
+  return wordLib;
+}
+
+// LaTeX -> MathML (KaTeX) -> Word-ligning (OMML)
+function wordFormel(latex) {
+  const { d, mml2omml } = wordLib;
+  const l = latex.replace(/(^|[^0-9{])10\^\{/g, '$1{10}^{')       // 10^{n}: hele 10 skal hæves, ikke kun 0
+                 .replace(/(\d+)\{,\}(\d+)/g, '\\text{$1,$2}');      // decimalkomma uden mellemrum i Word
+  let m = katex.renderToString(l, { output: 'mathml', throwOnError: true });
+  m = m.slice(m.indexOf('<math'), m.lastIndexOf('</math>') + 7)
+       .replace(/<annotation[\s\S]*?<\/annotation>/, '').replace(/<\/?semantics>/g, '');
+  const omml = mml2omml(m).replace(/<m:sty m:val="undefined"\/>/g, '<m:sty m:val="p"/>');
+  return d.ImportedXmlComponent.fromXmlString(omml).root[0];
+}
+
+function linjerFraDelta() {
+  const linjer = []; let dele = [];
+  for (const op of quill.getContents().ops) {
+    if (typeof op.insert === 'string') {
+      op.insert.split('\n').forEach((stk, i) => {
+        if (i > 0) { linjer.push({ dele, attr: op.attributes || {} }); dele = []; }
+        if (stk) dele.push({ tekst: stk, a: op.attributes || {} });
+      });
+    } else if (op.insert.formula !== undefined) dele.push({ formel: op.insert.formula });
+    else if (op.insert.image !== undefined) dele.push({ billede: op.insert.image, a: op.attributes || {} });
+  }
+  return linjer;
+}
+
+const billedMaal = url => new Promise(ok => { const im = new Image(); im.onload = () => ok([im.naturalWidth, im.naturalHeight]); im.onerror = () => ok([400, 300]); im.src = url; });
+const dataTilBytes = url => Uint8Array.from(atob(url.split(',')[1]), c => c.charCodeAt(0));
+
+async function lavWord() {
+  const { d } = await hentWordLib();
+  const MAKS_PX = 600;                                   // tekstbredden på A4 med normale margener
+  const editorBredde = quill.root.clientWidth - 80;
+  async function boern(dele) {
+    const ud = [];
+    for (const del of dele) {
+      if (del.tekst !== undefined) {
+        const a = del.a;
+        ud.push(new d.TextRun({ text: del.tekst, bold: !!a.bold, italics: !!a.italic, underline: a.underline ? {} : undefined,
+          subScript: a.script === 'sub', superScript: a.script === 'super' }));
+      } else if (del.formel !== undefined) {
+        try { ud.push(wordFormel(del.formel)); }
+        catch { ud.push(new d.TextRun({ text: del.formel, italics: true })); }
+      } else if (del.billede) {
+        const [bw, bh] = await billedMaal(del.billede);
+        const vist = del.a.width ? +del.a.width : Math.min(bw, editorBredde);
+        const w = Math.round(Math.min(MAKS_PX, MAKS_PX * vist / editorBredde)), h = Math.round(w * bh / bw);
+        const type = /^data:image\/png/.test(del.billede) ? 'png' : /^data:image\/gif/.test(del.billede) ? 'gif' : 'jpg';
+        ud.push(new d.ImageRun({ type, data: dataTilBytes(del.billede), transformation: { width: w, height: h } }));
+      }
+    }
+    return ud;
+  }
+  const linjer = linjerFraDelta(), indhold = [];
+  const meta = hentMeta();
+  indhold.push(new d.Paragraph({ heading: d.HeadingLevel.TITLE, children: [new d.TextRun(meta.mTitel || 'Fysikaflevering')] }));
+  const info = [meta.mNavn, meta.mKlasse, meta.mDato].filter(x => x && x.trim()).join('  ·  ');
+  if (info) indhold.push(new d.Paragraph({ spacing: { after: 240 }, children: [new d.TextRun({ text: info, color: '475569' })] }));
+  let i = 0, listeNr = 0, forrigeListe = null;
+  while (i < linjer.length) {
+    const { dele, attr: a } = linjer[i];
+    if (a.table) {
+      const raekker = [];
+      while (i < linjer.length && linjer[i].attr.table) {
+        const id = linjer[i].attr.table, celler = [];
+        while (i < linjer.length && linjer[i].attr.table === id) { celler.push(linjer[i].dele); i++; }
+        raekker.push(celler);
+      }
+      const n = Math.max(...raekker.map(r => r.length));
+      const rows = [];
+      for (const r of raekker) {
+        const cells = [];
+        for (let k = 0; k < n; k++) cells.push(new d.TableCell({ width: { size: Math.floor(9638 / n), type: d.WidthType.DXA }, margins: { top: 60, bottom: 60, left: 100, right: 100 }, children: [new d.Paragraph({ children: await boern(r[k] || []) })] }));
+        rows.push(new d.TableRow({ children: cells }));
+      }
+      indhold.push(new d.Table({ rows, width: { size: 9638, type: d.WidthType.DXA }, columnWidths: Array(n).fill(Math.floor(9638 / n)) }));
+      indhold.push(new d.Paragraph({ children: [] }));
+      forrigeListe = null;
+      continue;
+    }
+    const opt = { children: await boern(dele) };
+    if (a.header) opt.heading = [d.HeadingLevel.HEADING_1, d.HeadingLevel.HEADING_2, d.HeadingLevel.HEADING_3][a.header - 1];
+    if (a.align === 'center') opt.alignment = d.AlignmentType.CENTER;
+    if (a.align === 'right') opt.alignment = d.AlignmentType.RIGHT;
+    if (a.list) {
+      if (a.list === 'ordered' && forrigeListe !== 'ordered') listeNr++;
+      opt.numbering = a.list === 'ordered' ? { reference: 'tal', level: a.indent || 0, instance: listeNr } : { reference: 'punkt', level: a.indent || 0 };
+      forrigeListe = a.list;
+    } else forrigeListe = null;
+    indhold.push(new d.Paragraph(opt));
+    i++;
+  }
+  const niveauer = (format, tekst) => [0, 1, 2].map(level => ({ level, format, text: tekst(level), alignment: d.AlignmentType.LEFT,
+    style: { paragraph: { indent: { left: 720 * (level + 1), hanging: 360 } } } }));
+  const doc = new d.Document({
+    creator: meta.mNavn || '', title: meta.mTitel || 'Fysikaflevering',
+    styles: { default: { document: { run: { font: 'Cambria', size: 24 } } } },
+    numbering: { config: [
+      { reference: 'punkt', levels: niveauer(d.LevelFormat.BULLET, l => ['•', '◦', '▪'][l]) },
+      { reference: 'tal', levels: niveauer(d.LevelFormat.DECIMAL, l => `%${l + 1}.`) },
+    ] },
+    sections: [{ properties: { page: { margin: { top: 1134, bottom: 1134, left: 1134, right: 1134 } } }, children: indhold }],
+  });
+  return d.Packer.toBlob(doc);
+}
+
+$('bWord').onclick = async () => {
+  const knap = $('bWord'), tekst = knap.textContent;
+  knap.disabled = true; knap.textContent = 'Laver Word-fil …';
+  try {
+    const blob = await lavWord();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filnavn().replace(/[\\/:*?"<>|]/g, '') + '.docx';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    besked('Word-filen er hentet. Formlerne er Word-ligninger, som du kan rette i.');
+  } catch (e) {
+    besked('Word-filen kunne ikke laves: ' + e.message);
+  } finally { knap.disabled = false; knap.textContent = tekst; }
+};
+
+// ---------------- Tabeller ----------------
+// En celle kan kun have én linje. Enter hopper derfor til cellen nedenunder,
+// og i nederste række til linjen under tabellen (ligesom i et regneark).
+function enterITabel(range) {
+  const [tbl, raekke, celle] = quill.getModule('table').getTable(range);
+  if (!tbl || !celle) return true;
+  const naeste = raekke.next;
+  if (naeste) {
+    const maal = naeste.children.at(celle.cellOffset()) || naeste.children.head;
+    quill.setSelection(maal.offset(quill.scroll) + maal.length() - 1, 0, 'user');
+  } else {
+    const efter = tbl.offset(quill.scroll) + tbl.length();
+    if (efter >= quill.getLength() - 1 || !quill.getLine(efter)[0] || quill.getLine(efter)[0].statics.blotName === 'table') {
+      quill.insertText(efter, '\n', 'user');
+    }
+    quill.setSelection(efter, 0, 'user');
+  }
+  besked('En celle kan kun have én linje. Enter hopper til cellen nedenunder.', 3000);
+  return false;
+}
+
+const tabel = quill.getModule('table');
+const iTabel = () => {
+  const sel = quill.getSelection();
+  if (!sel) return false;
+  const [celle] = quill.getLine(sel.index);
+  return !!(celle && celle.statics && celle.statics.blotName === 'table');
+};
+const tabelHandling = (fn, tekst) => () => {
+  quill.getSelection(true);
+  if (!iTabel()) { besked('Sæt markøren i tabellen først. ' + tekst); return; }
+  fn();
+};
+document.querySelectorAll('.tbtn').forEach(b => b.addEventListener('mousedown', e => e.preventDefault()));
+$('tNy').onclick = () => {
+  quill.getSelection(true);
+  if (iTabel()) { besked('Markøren står allerede i en tabel.'); return; }
+  // Tabellen skal på sin egen linje, og der skal være en tom linje efter den
+  const sel = quill.getSelection(true), [linje, pos] = quill.getLine(sel.index);
+  if (linje && linje.length() > 1) {
+    const slut = sel.index - pos + linje.length() - 1;
+    quill.insertText(slut, '\n', 'user');
+    quill.setSelection(slut + 1, 0, 'user');
+  }
+  const start = quill.getSelection().index;
+  quill.insertText(start, '\n', 'user');
+  quill.setSelection(start, 0, 'user');
+  tabel.insertTable(3, 3);
+};
+$('tRaekke').onclick = tabelHandling(() => tabel.insertRowBelow(), '');
+$('tSoejle').onclick = tabelHandling(() => tabel.insertColumnRight(), '');
+$('tSletR').onclick = tabelHandling(() => tabel.deleteRow(), '');
+$('tSletS').onclick = tabelHandling(() => tabel.deleteColumn(), '');
+$('tSlet').onclick = tabelHandling(() => tabel.deleteTable(), '');
+
+// ---------------- Billeder (gøres mindre, så kladden kan gemmes) ----------------
+function lavMindre(fil) {
+  return new Promise((ok, fejl) => {
+    const laeser = new FileReader();
+    laeser.onerror = fejl;
+    laeser.onload = () => {
+      const img = new Image();
+      img.onerror = fejl;
+      img.onload = () => {
+        const MAKS = 1400, s = Math.min(1, MAKS / Math.max(img.width, img.height));
+        if (s === 1 && fil.size < 350000) { ok(laeser.result); return; }
+        const cv = document.createElement('canvas');
+        cv.width = Math.round(img.width * s); cv.height = Math.round(img.height * s);
+        const c = cv.getContext('2d'); c.fillStyle = 'white'; c.fillRect(0, 0, cv.width, cv.height);
+        c.drawImage(img, 0, 0, cv.width, cv.height);
+        ok(cv.toDataURL('image/jpeg', 0.85));
+      };
+      img.src = laeser.result;
+    };
+    laeser.readAsDataURL(fil);
+  });
+}
+async function indsaetBilleder(range, filer) {
+  let i = range ? range.index : quill.getLength() - 1;
+  if (range && range.length) quill.deleteText(i, range.length, 'user');
+  for (const f of filer) {
+    if (!f.type.startsWith('image/')) continue;
+    try {
+      const url = await lavMindre(f);
+      quill.insertEmbed(i, 'image', url, 'user');
+      quill.formatText(i, 1, 'width', String(startBredde()), 'user');   // ikke fuld bredde fra start
+      i++;
+    } catch { besked('Billedet ' + f.name + ' kunne ikke læses.'); }
+  }
+  quill.setSelection(i, 0, 'user');
+}
+$('filBillede').onchange = e => { indsaetBilleder(quill.getSelection(true), [...e.target.files]); e.target.value = ''; };
+
+// ---------------- Træk i billeder for at ændre størrelsen ----------------
+const indholdsBredde = () => quill.root.clientWidth - 80;              // minus venstre og højre margen
+const startBredde = () => Math.round(Math.min(indholdsBredde() * 0.5, 420));
+const ramme = document.createElement('div');
+ramme.className = 'billedramme';
+ramme.innerHTML = '<div class="stoerrelser"><button data-p="25">25 %</button><button data-p="50">50 %</button><button data-p="75">75 %</button><button data-p="100">100 %</button></div><span class="maal"></span><div class="greb" title="Træk for at ændre størrelsen"></div>';
+quill.container.appendChild(ramme);
+let valgtBillede = null;
+
+function placerRamme() {
+  if (!valgtBillede || !valgtBillede.isConnected) { skjulRamme(); return; }
+  const c = quill.container.getBoundingClientRect(), r = valgtBillede.getBoundingClientRect();
+  Object.assign(ramme.style, { left: r.left - c.left + 'px', top: r.top - c.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+  ramme.querySelector('.maal').textContent = Math.round(100 * r.width / indholdsBredde()) + ' %';
+}
+function skjulRamme() { valgtBillede = null; ramme.classList.remove('vis'); }
+function saetBredde(px, kilde) {
+  if (!valgtBillede) return;
+  const blot = Quill.find(valgtBillede);
+  if (!blot) return;
+  const bredde = Math.round(Math.max(40, Math.min(px, indholdsBredde())));
+  quill.formatText(quill.getIndex(blot), 1, 'width', String(bredde), kilde);
+  placerRamme();
+}
+
+quill.root.addEventListener('click', e => {
+  if (e.target.tagName === 'IMG') { valgtBillede = e.target; ramme.classList.add('vis'); placerRamme(); }
+  else skjulRamme();
+});
+ramme.querySelectorAll('.stoerrelser button').forEach(b => {
+  b.addEventListener('mousedown', e => e.preventDefault());
+  b.onclick = () => saetBredde(indholdsBredde() * b.dataset.p / 100, 'user');
+});
+const greb = ramme.querySelector('.greb');
+greb.addEventListener('pointerdown', e => {
+  if (!valgtBillede) return;
+  e.preventDefault();
+  greb.setPointerCapture(e.pointerId);
+  const x0 = e.clientX, b0 = valgtBillede.getBoundingClientRect().width;
+  const flyt = ev => saetBredde(b0 + ev.clientX - x0, 'silent');
+  const slip = ev => {
+    greb.removeEventListener('pointermove', flyt); greb.removeEventListener('pointerup', slip);
+    saetBredde(b0 + ev.clientX - x0, 'user');            // 'user' gemmer kladden
+  };
+  greb.addEventListener('pointermove', flyt); greb.addEventListener('pointerup', slip);
+});
+quill.on('text-change', () => requestAnimationFrame(placerRamme));
+quill.root.addEventListener('keydown', skjulRamme);
+window.addEventListener('resize', placerRamme);
+window.addEventListener('scroll', placerRamme, true);
+
+// ---------------- Gem, åbn og aflever ----------------
+const META = ['mNavn', 'mKlasse', 'mTitel', 'mDato'];
+const idag = () => new Date().toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+const hentMeta = () => Object.fromEntries(META.map(id => [id, $(id).value]));
+const saetMeta = m => META.forEach(id => { $(id).value = (m && m[id]) || ''; });
+
+function visStatus(tekst, fejl = false) { const s = $('status'); s.textContent = tekst; s.classList.toggle('fejl', fejl); }
+
+function gemLokalt() {
+  try {
+    localStorage.setItem(NOEGLE, JSON.stringify({ v: 1, meta: hentMeta(), indhold: quill.getContents() }));
+    visStatus('Gemt i browseren kl. ' + new Date().toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' }) + '.');
+  } catch (e) {
+    visStatus('Kladden er for stor til at blive gemt automatisk. Brug "Gem kladde".', true);
+  }
+}
+let gemTimer = null;
+const gemSnart = () => { clearTimeout(gemTimer); gemTimer = setTimeout(gemLokalt, 700); visStatus('Gemmer …'); };
+quill.on('text-change', gemSnart);
+META.forEach(id => $(id).addEventListener('input', () => { $(id).classList.remove('mangler'); gemSnart(); }));
+
+function indlaes(data) {
+  saetMeta(data.meta);
+  quill.setContents(data.indhold || [], 'silent');
+  if (!$('mDato').value) $('mDato').value = idag();
+}
+
+try {
+  const gemt = localStorage.getItem(NOEGLE);
+  if (gemt) { indlaes(JSON.parse(gemt)); visStatus('Din kladde er hentet frem igen.'); }
+  else $('mDato').value = idag();
+} catch { $('mDato').value = idag(); visStatus('Browseren tillader ikke automatisk gemning. Brug "Gem kladde".', true); }
+
+const filnavn = () => {
+  const dele = [$('mNavn').value, $('mTitel').value].map(s => s.trim()).filter(Boolean);
+  return ('Fysikaflevering ' + dele.join(' – ')).trim();
+};
+
+$('bGem').onclick = () => {
+  const blob = new Blob([JSON.stringify({ v: 1, meta: hentMeta(), indhold: quill.getContents() })], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filnavn().replace(/[\\/:*?"<>|]/g, '') + ' (kladde).json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  besked('Kladden er gemt som fil. Åbn den igen med "Åbn kladde". Den skal ikke afleveres.');
+};
+$('bAabn').onclick = () => $('filKladde').click();
+$('filKladde').onchange = e => {
+  const f = e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const data = JSON.parse(r.result);
+      if (!data.indhold) throw 0;
+      if (quill.getLength() > 1 && !confirm('Vil du erstatte det, der står i editoren nu, med kladden fra filen?')) return;
+      indlaes(data); gemLokalt(); besked('Kladden er åbnet.');
+    } catch { besked('Filen er ikke en kladde fra Fysikaflevering.'); }
+  };
+  r.readAsText(f);
+};
+$('bNy').onclick = () => {
+  if (quill.getLength() > 1 && !confirm('Vil du starte en ny, tom aflevering? Det, der står nu, bliver slettet fra browseren. Gem kladden som fil først, hvis du vil beholde den.')) return;
+  quill.setContents([], 'silent'); saetMeta({}); $('mDato').value = idag(); gemLokalt();
+};
+
+$('bAflever').onclick = () => {
+  const mangler = ['mNavn', 'mTitel'].filter(id => !$(id).value.trim());
+  mangler.forEach(id => $(id).classList.add('mangler'));
+  if (mangler.length) { besked('Skriv dit navn og afleveringens titel øverst, før du afleverer.'); $(mangler[0]).focus(); return; }
+  $('pTitel').textContent = $('mTitel').value;
+  $('pInfo').textContent = [$('mNavn').value, $('mKlasse').value, $('mDato').value].filter(s => s.trim()).join('  ·  ');
+  const gammelTitel = document.title;
+  document.title = filnavn();
+  quill.blur();
+  window.print();
+  document.title = gammelTitel;
+  besked('Vælg "Gem som PDF" i printvinduet. Upload derefter PDF\'en i Lectio.', 9000);
+};
+</script>
+</body>
+</html>
