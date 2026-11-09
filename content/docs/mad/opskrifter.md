@@ -164,3 +164,35 @@ Tænd ovnen på 200 °C (varmluft 180 °C).
 4. Lav toppingen.
 
 > **Madkemi-tip:** Salt ikke champignonerne, mens de steges. Saltet trækker væske ud af svampene, så de koger i deres egen saft i stedet for at stege – og så udebliver Maillard-reaktionen, der giver den brune farve og ristede smag. Salt til sidst.
+
+---
+
+## Pasta al tonno med citron og cremet hytteost
+
+*2 personer · ca. 25 min*
+
+**Ingredienser**
+
+- 200 g pasta (gerne spaghetti eller rigatoni)
+- 3 spsk olivenolie
+- 1 løg, finthakket
+- 2 fed hvidløg, i tynde skiver
+- ¼ tsk chiliflager (valgfrit)
+- 400 g flåede tomater
+- 120 g tun (afdryppet vægt)
+- 100 g hytteost
+- 1 økologisk citron (fintrevet skal og saft efter smag)
+- 20 g parmesan, fintrevet
+- ½ tsk salt
+
+**Fremgangsmåde**
+
+1. Blend hytteosten med halvdelen af citronskallen, 1 tsk citronsaft og halvdelen af parmesanen, til det er glat.
+2. Svits løget i olivenolie med lidt af saltet ved middel varme i ca. 8 min, til det er blødt og gyldent.
+3. Tilsæt hvidløg og chili, og rør rundt i ca. 1 min. Hvidløget må ikke tage farve.
+4. Tilsæt tomaterne, knus dem med skeen, og lad saucen simre uden låg i ca. 12 min. Sæt imens en stor gryde vand over, og salt med ca. 10 g pr. liter.
+5. Kog pastaen 2 min kortere end angivet på pakken. Gem 2 dl kogevand, inden du hælder fra.
+6. Rør tunen i saucen i store flager. Tilsæt pastaen og ca. 1 dl kogevand, og vend ved god varme i ca. 2 min, til saucen hænger ved pastaen.
+7. Tag panden af varmen, og smag til med salt og citronsaft. Fordel på tallerkener, læg en klat hytteostcreme på, og top med resten af citronskallen og parmesanen.
+
+> **Madkemi-tip:** Hytteosten holdes væk fra varmen. Tomatsaucens pH (ca. 4,2–4,6) ligger tæt på kaseinets isoelektriske punkt (ca. 4,6), så osten risikerer at blive grynet, hvis den koger med. Tunen tilsættes til sidst, fordi den allerede er gennemvarmet og bliver tør af lang kogning.
