@@ -11,7 +11,7 @@ bookCollapseSection: true
 | [Jævn cirkelbevægelse]({{< relref "jaevn-cirkelbevaegelse" >}}) | Stedvektor, $v = \omega r$, $a = v^2/r$, kraft som vektor, centripetalkraft, forsøg |
 | [Newtons gravitationslov]({{< relref "gravitationsloven" >}}) | Gravitationsloven, tyngdefeltet, Newtons månetest, cirkulær bane |
 | [Keplers love]({{< relref "keplers-love" >}}) | Ellipse-, flade- og periodeloven, geostationær bane, **simulering** |
-| [Energi i centralbevægelse]({{< relref "energi-centralbevaegelse" >}}) | $E_{\text{pot}} = -GMm/r$, energi i bane, undvigelseshastighed |
+| [Energi i centralbevægelse]({{< relref "energi-centralbevaegelse" >}}) | $E_{\text{pot}} = -GMm/r$, energi i bane, undvigelseshastighed, tyngdebrønden (**simulering**) |
 | [Raketligningen]({{< relref "raketligningen" >}}) | Motorkraft, $\Delta v = u \cdot \ln(m_0/m)$, vandraket, **simuleringer** |
 
 **Simulering:** [Kredsløb om Jorden](/sim/kredsloeb.html) – åbn i fuld skærm.

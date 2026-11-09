@@ -47,6 +47,10 @@ BREDDE_GASKAMMER = {"hi": "62%"}
 body = re.sub(r"^(## [^\n]*\n(?:(?!#)[^\n]*\n)*?\{\{<\s*gaskammer)", lambda m: "\\needspace{0.85\\textheight}\n\n" + m.group(1), body, flags=re.M)
 body = re.sub(r'\{\{<\s*gaskammer\s+"(\w+)"\s*>\}\}',
               lambda m: f"![](/img/gasligevaegte/{m.group(1)}.svg){{width={BREDDE_GASKAMMER.get(m.group(1), '100%')}}}", body)
+# Simuleringer kan ikke printes: har static/img/sim/<navn>.svg en figur, bruges den i stedet
+def sim_figur(m):
+    return f"![](/img/sim/{m.group(1)}.svg){{width=95%}}" if os.path.exists(os.path.join(ROOT, "static", "img", "sim", m.group(1) + ".svg")) else ""
+body = re.sub(r"\{\{<\s*sim\s+([\w-]+)\.html[^>]*>\}\}", sim_figur, body)
 body = re.sub(r"\{\{[<%].*?[>%]\}\}", "", body)
 tmp = tempfile.mkdtemp()
 def billede(m):
