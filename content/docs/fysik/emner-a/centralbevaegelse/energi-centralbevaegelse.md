@@ -17,18 +17,52 @@ og banetyper. Slå *Energi* til i simuleringen på siden om
 
 Vi vælger **nulpunktet i det uendelige**: langt væk fra Jorden er $E_{\text{pot}} = 0$.
 
-Den potentielle energi i startafstanden $r_0$ er minus det arbejde, du skal udføre for at
-trække legemet ud til det uendelige. Kraften er $F = GMm/r^2$, og den ændrer sig
-undervejs, så arbejdet er et integral over afstanden $r$:
+### Hvorfor et integral?
 
-$$A = \int_{r_0}^{\infty} G \cdot \frac{M \cdot m}{r^2}\, \mathrm{d}r = G M m \left[-\frac{1}{r}\right]_{r_0}^{\infty} = \frac{G \cdot M \cdot m}{r_0}$$
+Ved $m \cdot g \cdot h$ er kraften konstant, så arbejdet er bare kraft gange vej. Her aftager kraften med afstanden: Kommer du dobbelt så langt væk, er den kun en fjerdedel så stor. Derfor deler du vejen op i små stykker $\mathrm{d}r$. På hvert lille stykke er kraften næsten konstant, og arbejdet er $\mathrm{d}A = F \cdot \mathrm{d}r$. Integralet lægger alle de små arbejder sammen – det er arealet under grafen for $F(r)$.
 
-Derfor er den potentielle energi, hvor vi fra nu af bare skriver $r$ for afstanden:
+### Trin 1 – Træk legemet helt væk
+
+Forestil dig, at du trækker legemet langsomt ud fra afstanden $r_0$ og helt ud i det uendelige. Du trækker med en kraft, der er lige så stor som tyngdekraften, $F = G \cdot \dfrac{M \cdot m}{r^2}$, så farten ikke ændrer sig undervejs.
+
+Du starter i $r_0$ og slutter i det uendelige. **Den nederste grænse er der, hvor du starter, og den øverste er der, hvor du slutter:**
+
+$$A = \int_{r_0}^{\infty} G \cdot \frac{M \cdot m}{r^2}\,\mathrm{d}r$$
+
+$G$, $M$ og $m$ er konstanter og kan sættes uden for integralet. En stamfunktion til $\dfrac{1}{r^2} = r^{-2}$ er $-\dfrac{1}{r}$:
+
+$$A = G M m \left[-\frac{1}{r}\right]_{r_0}^{\infty} = G M m \left( \underbrace{-\frac{1}{\infty}}_{=\,0} - \left(-\frac{1}{r_0}\right) \right) = \frac{G \cdot M \cdot m}{r_0}$$
+
+Arbejdet er **positivt**: Du skal tilføre energi for at få legemet væk fra Jorden.
+
+### Trin 2 – Fra arbejde til potentiel energi
+
+Dit arbejde bliver til potentiel energi. Den potentielle energi stiger altså med $A$ på vejen ud:
+
+$$E_{\text{pot}}(\infty) - E_{\text{pot}}(r_0) = \frac{G \cdot M \cdot m}{r_0}$$
+
+Vi har valgt $E_{\text{pot}}(\infty) = 0$, så $0 - E_{\text{pot}}(r_0) = \dfrac{GMm}{r_0}$. Fra nu af skriver vi bare $r$ for afstanden:
 
 $$E_{\text{pot}} = -\frac{G \cdot M \cdot m}{r}$$
 
+**Minus betyder "under nulpunktet".** Det er ligesom en kælder: Sætter du nulpunktet ved gadeniveau, har en kasse i kælderen negativ potentiel energi, og du skal tilføre energi for at få den op til $0$. Her ligger nulpunktet uendeligt langt væk, så alle steder nær Jorden ligger "i kælderen".
+
 - $E_{\text{pot}}$ er **negativ** overalt og stiger mod $0$, når du kommer længere væk.
 - Tættere på Jorden betyder **lavere** (mere negativ) potentiel energi – præcis som ved $mgh$.
+
+### Hvilke grænser skal integralet have?
+
+| Integral | Hvad det betyder | Resultat |
+|---|---|---|
+| $\displaystyle\int_{r_0}^{\infty} \frac{GMm}{r^2}\,\mathrm{d}r$ | Dit arbejde, når du trækker legemet **ud** fra $r_0$ | $+\dfrac{GMm}{r_0}$ |
+| $\displaystyle\int_{\infty}^{r_0} \frac{GMm}{r^2}\,\mathrm{d}r$ | Dit arbejde, når legemet glider **ind** til $r_0$, og du holder igen. Bytter du grænserne, skifter fortegnet | $-\dfrac{GMm}{r_0}$ |
+| $\displaystyle\int_{0}^{r_0} \frac{GMm}{r^2}\,\mathrm{d}r$ | Giver ikke mening: $\tfrac{1}{0}$ er uendelig, og inde i Jorden gælder loven ikke, fordi kun massen inden for $r$ trækker | – |
+
+Nulpunktet kan altså ikke ligge i $r = 0$. Det uendelige er det naturlige valg, fordi kraften er $0$ dér.
+
+> **Helt formelt:** Potentiel energi er defineret ved $\Delta E_{\text{pot}} = -A_{\text{tyngde}}$. Lægger du en $r$-akse udad fra Jordens centrum, peger tyngdekraften den modsatte vej, så $F_r = -\dfrac{GMm}{r^2}$. Det giver
+> $$E_{\text{pot}}(r) - E_{\text{pot}}(\infty) = -\int_{\infty}^{r} F_r\,\mathrm{d}r' = \int_{\infty}^{r} \frac{GMm}{r'^2}\,\mathrm{d}r' = GMm\left[-\frac{1}{r'}\right]_{\infty}^{r} = -\frac{GMm}{r}$$
+> Her kommer minus'et af sig selv, fordi tyngdekraften peger ind, mens aksen peger ud.
 
 ### Sammenhæng med $m \cdot g \cdot h$
 
@@ -96,19 +130,65 @@ Rummet øverst og kurven nederst har samme $r$-akse, så prikkerne står lige ov
 
 ## Del 2 – Energi i en cirkulær bane
 
-I en cirkulær bane er $v^2 = GM/r$ (fra [gravitationsloven]({{< relref "gravitationsloven" >}})). Så er
+Her viser du to sammenhænge, der gælder for alle cirkulære baner:
 
-$$E_{\text{kin}} = \tfrac{1}{2} m v^2 = \frac{G M m}{2r} \qquad E_{\text{pot}} = -\frac{G M m}{r}$$
+$$E_{\text{kin}} = -\tfrac{1}{2} \cdot E_{\text{pot}} \qquad\qquad E_{\text{mek}} = -E_{\text{kin}} = \tfrac{1}{2} \cdot E_{\text{pot}}$$
 
-$$E_{\text{mek}} = E_{\text{kin}} + E_{\text{pot}} = -\frac{G \cdot M \cdot m}{2r}$$
+### Trin 1 – Start i kraftligningen
 
-- Den **mekaniske energi er negativ**. Det er kendetegnet for en **bunden** bane.
-- $E_{\text{kin}} = -E_{\text{mek}}$: Jo lavere bane, jo **større** fart, men jo **lavere** samlet energi.
+I en cirkulær bane er tyngdekraften netop den kraft, der holder legemet i cirklen. Centripetalkraften og tyngdekraften er lige store (se [gravitationsloven]({{< relref "gravitationsloven" >}})):
+
+$$\frac{m \cdot v^2}{r} = \frac{G \cdot M \cdot m}{r^2}$$
+
+### Trin 2 – Gang med $\tfrac{r}{2}$
+
+Venstre side ligner næsten $E_{\text{kin}} = \tfrac{1}{2} m v^2$. Gang begge sider med $\tfrac{r}{2}$:
+
+$$\tfrac{1}{2} \cdot m \cdot v^2 = \tfrac{1}{2} \cdot \frac{G \cdot M \cdot m}{r} \qquad\Longrightarrow\qquad E_{\text{kin}} = \frac{G \cdot M \cdot m}{2r}$$
+
+### Trin 3 – Sammenlign med den potentielle energi
+
+Begge energier indeholder brøken $\dfrac{GMm}{r}$. Mål dem i den:
+
+| Energi | Udtryk | I enheder af $\dfrac{GMm}{r}$ |
+|---|---|---|
+| $E_{\text{pot}}$ | $-\dfrac{GMm}{r}$ | $-1$ |
+| $E_{\text{kin}}$ | $+\dfrac{GMm}{2r}$ | $+\tfrac{1}{2}$ |
+| $E_{\text{mek}} = E_{\text{kin}} + E_{\text{pot}}$ | $-\dfrac{GMm}{2r}$ | $-\tfrac{1}{2}$ |
+
+Nu kan du læse sammenhængene direkte i sidste søjle:
+
+- $E_{\text{kin}}$ er halvt så stor som $E_{\text{pot}}$ og har modsat fortegn: $E_{\text{kin}} = -\tfrac{1}{2} E_{\text{pot}}$.
+- $E_{\text{mek}}$ er lige så stor som $E_{\text{kin}}$ og har modsat fortegn: $E_{\text{mek}} = -E_{\text{kin}}$.
+
+**Med tal for ISS** ($r = 6{,}78 \cdot 10^{6}$ m) pr. kg: $E_{\text{pot}} = -58{,}7$ MJ, $E_{\text{kin}} = 29{,}4$ MJ og $E_{\text{mek}} = -29{,}4$ MJ.
+
+### Hvorfor minus i energien, men ikke i kraftligningen?
+
+Det er to forskellige slags størrelser:
+
+| | Kraftligningen | Energien |
+|---|---|---|
+| Hvad er det? | Størrelsen (længden) af to vektorer | Et tal, der måles fra et nulpunkt, du selv har valgt |
+| Fortegn | Begge sider er positive. Retningen – ind mod centrum – står i ord, ikke i fortegnet | Negativt, fordi nulpunktet ligger i det uendelige, og legemet er "under" det |
+| Hvis du flytter nulpunktet | Ændrer sig ikke | Ændrer sig, men forskelle i energi gør ikke |
+
+Kraften hænger sammen med **hældningen** på grafen for $E_{\text{pot}}$, ikke med dens værdi. Differentierer du $E_{\text{pot}} = -\dfrac{GMm}{r}$, får du $\dfrac{GMm}{r^2}$ – præcis tyngdekraftens størrelse. Kraften peger mod lavere energi, altså ind mod Jorden.
+
+Minus'et i $E_{\text{kin}} = -\tfrac{1}{2}E_{\text{pot}}$ er der kun, fordi $E_{\text{pot}}$ er negativ, mens $E_{\text{kin}}$ altid er positiv. Det vender fortegnet, så begge sider bliver positive.
+
+### Hvad betyder det?
+
+- **Bunden bane.** $E_{\text{mek}} < 0$, så satellitten kan ikke nå det uendelige, hvor den samlede energi mindst skal være $0$.
+- **Energi for at slippe væk.** Satellitten mangler $|E_{\text{mek}}| = E_{\text{kin}}$. Den skal altså have **fordoblet** sin kinetiske energi, og det kræver $\sqrt{2}$ gange så stor fart. Det er $v_{\text{undv}} = \sqrt{2} \cdot v_{\text{bane}}$ fra Del 4.
+- **Lavere bane.** Flytter satellitten så meget ned, at $E_{\text{pot}}$ falder med $2$ enheder, så stiger $E_{\text{kin}}$ med $1$ enhed, og $E_{\text{mek}}$ falder med $1$ enhed. Halvdelen af den tabte potentielle energi bliver til fart. Den anden halvdel skal fjernes, fx af luftmodstanden som varme.
 
 > **Paradokset med ISS:** Luftmodstanden i den tynde atmosfære tager energi fra
 > ISS. Så falder $E_{\text{mek}}$, og stationen kommer længere ned – hvor den
 > bevæger sig **hurtigere**. Luftmodstanden gør altså rumstationen hurtigere!
 > Den taber hele tiden lidt højde og skal derfor løbende løftes med raketmotorer.
+
+> **Model:** Sammenhængene gælder for en cirkulær bane, hvor kun tyngdekraften virker, og hvor centrallegemet er så tungt, at det står stille ($M \gg m$). Legemerne regnes som punkter eller kugler. I en ellipsebane gælder $E_{\text{kin}} = -\tfrac{1}{2}E_{\text{pot}}$ kun som gennemsnit over et helt omløb.
 
 ## Del 3 – Energi i en ellipsebane
 
@@ -185,5 +265,6 @@ $R_{\text{Jord}} = 6{,}37 \cdot 10^{6}$ m.
 
 - Bruge $E_{\text{pot}} = -GMm/r$ med nulpunkt i det uendelige og forklare fortegnet.
 - Vise, at $mgh$ er en tilnærmelse for $h \ll R$, og vurdere hvornår den holder.
-- Udlede $E_{\text{mek}} = -GMm/(2r)$ for en cirkulær bane.
+- Opstille integralet for $E_{\text{pot}}$ med de rigtige grænser og forklare, hvorfor der er minus foran.
+- Udlede $E_{\text{kin}} = -\tfrac{1}{2}E_{\text{pot}}$ og $E_{\text{mek}} = -E_{\text{kin}} = -GMm/(2r)$ for en cirkulær bane.
 - Bestemme undvigelseshastigheden og forbinde fortegnet på $E_{\text{mek}}$ med banetypen.
