@@ -44,14 +44,28 @@ Skriv komma som `{,}`. Ellers sætter LaTeX et mellemrum efter kommaet.
 
 ## Lommeregner
 
-Tryk på **Lommeregner**. Skriv eller klik regnestykket ind, fx `6,674·10^-11·5,972·10^24/(6,371·10^6)^2`. Du ser det som en formel med resultatet.
+Tryk på **Lommeregner**. Lommeregneren har linjer ligesom et regneark: hver linje viser regnestykket som en formel med resultatet, og Enter giver en ny linje.
 
-- **Indsæt udregning** (eller Enter) sætter hele udregningen med resultat ind i teksten, der hvor markøren stod.
-- **Indsæt kun resultat** sætter kun tallet ind.
-- **Konstant** henter en naturkonstant ind i regnestykket, og **Enhed** sætter en enhed på resultatet.
-- **Ans** er det sidste resultat, du har indsat.
+**Gem tal under et navn.** Skriv fx `m = 5,2` på én linje og `v = 12` på den næste. Så kan du skrive `E = 1/2 m v^2` nedenunder. Lommeregneren viser både formlen, formlen med tallene sat ind og resultatet:
+
+$$E = \frac{1}{2} \cdot m \cdot v^{2} = \frac{1}{2} \cdot 5{,}2\ \mathrm{kg} \cdot \left(12\ \mathrm{m/s}\right)^{2} = 374\ \mathrm{J}$$
+
+**Ret et enkelt tal.** Klik på linjen med tallet, og ret det. Alle linjer nedenunder bliver regnet om med det samme.
+
+**Regn en formel fra teksten ud.** Klik på formlen i afleveringen, og tryk på **🖩 Regn ud**. Formlen bliver oversat til lommeregneren. Har du skrevet tallene ind i formlen, regnes de ud med det samme. Har du kun skrevet bogstaver, fx $v = \frac{s}{t}$, viser lommeregneren knapper som `s = …`, så du kan give dem en værdi på linjen ovenover. Du kan også markere noget tekst og trykke på **Lommeregner**.
+
+| Det vil du | Sådan gør du |
+|---|---|
+| Sætte hele udregningen ind i teksten | **Indsæt udregning** (eller Ctrl+Enter) |
+| Sætte kun resultatet ind | **Indsæt kun resultat**. Står der en formel lige før, kommer resultatet ind som $= \ldots$ efter den |
+| Hente en naturkonstant | Vælg den under **Konstant**. På en tom linje bliver den gemt under sit navn, fx `g = 9,82` med enheden m/s² |
+| Sætte en enhed på | Skriv den i **Enhed på linjen**. Enheden kommer også med, når tallet sættes ind i en formel længere nede |
+| Bruge resultatet på linjen ovenover | Skriv `Ans` |
+| Slette en linje | Tryk på ✕, eller tryk Backspace på en tom linje |
+
 - Vælg antal **betydende cifre**, og om vinkler er i grader eller radianer.
-- Du kan flytte lommeregneren ved at trække i den mørke bjælke.
+- Du kan flytte lommeregneren ved at trække i den mørke bjælke. **Ryd** sletter alle linjer.
+- Linjerne bliver gemt i din browser, så de er der stadig, når du åbner siden igen.
 
 ## Genveje med Markdown
 

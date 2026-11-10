@@ -128,27 +128,41 @@ button.primaer { background: var(--blaa); border-color: var(--blaa); color: whit
 .mdvisning textarea { width: 100%; min-height: 65vh; font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; resize: vertical; }
 #kMd[aria-pressed="true"] { background: var(--blaa); border-color: var(--blaa); color: white; }
 .lr {
-  position: fixed; right: 16px; bottom: 16px; width: 360px; max-width: calc(100vw - 24px); background: white; z-index: 40;
+  position: fixed; right: 16px; bottom: 16px; width: 400px; max-width: calc(100vw - 24px); background: white; z-index: 40;
   border-radius: 12px; box-shadow: 0 14px 40px rgba(15,23,42,.28); border: 1px solid var(--kant); display: none; overflow: hidden;
 }
 .lr.vis { display: block; }
 .lr-top { background: var(--moerk); color: white; display: flex; align-items: center; padding: 6px 8px 6px 12px; gap: 8px; cursor: move; user-select: none; touch-action: none; }
 .lr-top b { flex: 1; font-size: .88rem; }
 .lr-top button { background: transparent; color: white; border: none; font-size: 1rem; padding: 2px 6px; }
+.lr-top #lrRyd { font-size: .74rem; border: 1px solid rgba(255,255,255,.4); border-radius: 6px; }
 .lr-krop { padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 6px; }
-.lr input[type=text] { width: 100%; font: 15px ui-monospace, Menlo, Consolas, monospace; padding: 7px 8px; border: 1.5px solid var(--kant); border-radius: 8px; }
-.lr input[type=text]:focus { outline: none; border-color: var(--blaa); }
-.lr-vis { min-height: 54px; background: #f8fafc; border-radius: 8px; padding: 6px 8px; text-align: center; font-size: 1.08rem; overflow-x: auto; overflow-y: hidden; }
-.lr-vis.fejl { color: var(--graa); font-size: .8rem; text-align: left; }
+.lr-linjer { max-height: 40vh; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.lr-linje { border: 1px solid #e2e8f0; border-radius: 8px; padding: 3px 4px 2px; background: #f8fafc; }
+.lr-linje.aktiv { border-color: #93c5fd; background: #eff6ff; }
+.lr-l1 { display: flex; align-items: center; gap: 4px; }
+.lr-nr { font-size: .68rem; color: var(--graa); min-width: 14px; text-align: right; }
+.lr-l1 input { flex: 1; min-width: 0; font: 14px ui-monospace, Menlo, Consolas, monospace; padding: 5px 7px; border: 1px solid var(--kant); border-radius: 6px; background: white; }
+.lr-l1 input:focus { outline: none; border-color: var(--blaa); }
+.lr-x { background: transparent; border: none; color: #94a3b8; padding: 2px 5px; font-size: .78rem; }
+.lr-x:hover { color: #b91c1c; }
+.lr-res { padding: 0 4px 0 20px; font-size: 1rem; overflow-x: auto; overflow-y: hidden; }
+.lr-res:empty { display: none; }
+.lr-res .katex-display { margin: .25em 0; }
+.lr-res .katex-display > .katex { text-align: left; }
+.lr-res.fejl, .lr-res.mangler { color: var(--graa); font-size: .76rem; padding-top: 2px; padding-bottom: 3px; }
+.lr-res.mangler button { font-size: .74rem; padding: 1px 7px; margin: 2px 4px 0 0; }
 .lr-taster { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
 .lr-taster button { padding: 6px 0; font-size: .82rem; font-weight: 600; border-width: 1px; }
 .lr-taster button.tal { background: #f1f5f9; }
 .lr-taster button.op { background: #eff6ff; color: var(--moerk); }
 .lr-raekke { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: .74rem; color: #475569; }
 .lr-raekke select, .lr-raekke input.enhed { font: inherit; font-size: .78rem; padding: 4px 5px; border: 1px solid var(--kant); border-radius: 6px; }
+.lr-raekke select#lrKonst { max-width: 170px; }
 .lr-raekke input.enhed { width: 74px; }
 .lr-ind { display: flex; gap: 6px; }
 .lr-ind button { flex: 1; }
+.lr-tip { font-size: .7rem; color: var(--graa); margin: 0; }
 #kLr[aria-pressed="true"] { background: var(--blaa); border-color: var(--blaa); color: white; }
 @media print { .lr { display: none !important; } }
 .besked { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: #0f172a; color: white; padding: 10px 16px; border-radius: 10px; font-size: .85rem; max-width: 92vw; display: none; z-index: 60; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
@@ -261,6 +275,7 @@ input[type=file] { display: none; }
     <p class="hjaelp">Formlen skrives i LaTeX. Du kan også skrive <code>$v = s/t$</code> direkte i teksten – så bliver den lavet om til en formel, når du skriver det sidste $. Klik på en formel i teksten for at rette den.</p>
     <div class="bund">
       <label><input type="checkbox" id="dLinje"> På sin egen linje (centreret)</label>
+      <button id="dRegn" title="Regn formlen ud i lommeregneren">🖩 Regn ud</button>
       <button id="dSlet" style="display:none">Slet formel</button>
       <button id="dFortryd">Annullér</button>
       <button id="dOk" class="primaer">Indsæt</button>
@@ -269,23 +284,23 @@ input[type=file] { display: none; }
 </div>
 
 <div class="lr" id="lr" role="dialog" aria-label="Lommeregner">
-  <div class="lr-top" id="lrTop"><b>Lommeregner</b><button id="lrLuk" title="Luk">✕</button></div>
+  <div class="lr-top" id="lrTop"><b>Lommeregner</b><button id="lrRyd" title="Slet alle linjer">Ryd</button><button id="lrLuk" title="Luk">✕</button></div>
   <div class="lr-krop">
-    <input type="text" id="lrUd" placeholder="fx 6,674·10^-11·5,972·10^24/(6,371·10^6)^2" autocomplete="off" spellcheck="false">
-    <div class="lr-vis" id="lrVis"></div>
+    <div class="lr-linjer" id="lrLinjer"></div>
     <div class="lr-taster" id="lrTaster"></div>
     <div class="lr-raekke">
       <label>Konstant <select id="lrKonst"><option value="">vælg …</option></select></label>
-      <label>Enhed <input class="enhed" id="lrEnhed" placeholder="fx m/s^2"></label>
+      <label>Enhed på linjen <input class="enhed" id="lrEnhed" placeholder="fx m/s^2"></label>
     </div>
     <div class="lr-raekke">
       <label>Betydende cifre <select id="lrCifre"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></label>
       <label>Vinkler <select id="lrVinkel"><option value="deg">grader</option><option value="rad">radianer</option></select></label>
     </div>
     <div class="lr-ind">
-      <button id="lrIndUdr" class="primaer" title="Enter">Indsæt udregning</button>
+      <button id="lrIndUdr" class="primaer" title="Ctrl+Enter">Indsæt udregning</button>
       <button id="lrIndRes">Indsæt kun resultat</button>
     </div>
+    <p class="lr-tip">Enter giver en ny linje. Skriv fx <code>m = 5,2</code> for at gemme et tal under et navn – ret tallet, og alle linjer nedenunder regnes om.</p>
   </div>
 </div>
 
@@ -733,18 +748,27 @@ $('mdHent').onclick = () => {
 };
 
 // ---------------- Lommeregner ----------------
-// Egen lille fortolker (ingen eval): udtryk -> træ -> værdi og LaTeX.
+// Egen lille fortolker (ingen eval): linje -> træ -> værdi og LaTeX.
+// En linje kan gemme et tal i et navn (m = 5,2), som så kan bruges på linjerne nedenunder.
 const LR = (() => {
   const FUNK = { sin: 1, cos: 1, tan: 1, asin: 1, acos: 1, atan: 1, arcsin: 1, arccos: 1, arctan: 1, ln: 1, log: 1, sqrt: 1, exp: 1, abs: 1 };
+  const B = 'A-Za-zæøåÆØÅα-ορ-ωΑ-Ωµ';                        // bogstaver i navne (π er en konstant for sig)
+  const IDM = '[' + B + ']+(?:_[' + B + '0-9]+)?';
+  const ID = new RegExp('^' + IDM), DEF = new RegExp('^(' + IDM + ')\\s*=(.*)$');
+  const GR = { α: 'alpha', β: 'beta', γ: 'gamma', δ: 'delta', ε: 'varepsilon', ζ: 'zeta', η: 'eta', θ: 'theta', ι: 'iota', κ: 'kappa',
+    λ: 'lambda', μ: 'mu', µ: 'mu', ν: 'nu', ξ: 'xi', ρ: 'rho', σ: 'sigma', τ: 'tau', φ: 'varphi', χ: 'chi', ψ: 'psi', ω: 'omega',
+    Γ: 'Gamma', Δ: 'Delta', Θ: 'Theta', Λ: 'Lambda', Σ: 'Sigma', Φ: 'Phi', Ψ: 'Psi', Ω: 'Omega' };
   function lex(str) {
-    str = str.replace(/[×·∙⋅]/g, '*').replace(/÷/g, '/').replace(/[−–]/g, '-').replace(/²/g, '^2').replace(/³/g, '^3').replace(/√/g, 'sqrt');
+    str = str.replace(/[×·∙⋅]/g, '*').replace(/÷/g, '/').replace(/[−–]/g, '-').replace(/²/g, '^2').replace(/³/g, '^3')
+             .replace(/√/g, 'sqrt ').replace(/°/g, '');
     const t = []; let i = 0;
     while (i < str.length) {
       const c = str[i];
       if (/\s/.test(c)) { i++; continue; }
       const m = str.slice(i).match(/^(\d+(?:[.,]\d+)?|[.,]\d+)(?:[eE]([+-]?\d+))?/);
       if (m) { t.push({ t: 'tal', s: m[1], e: m[2] }); i += m[0].length; continue; }
-      const id = str.slice(i).match(/^(?:[a-zA-Z]+|π)/);
+      if (c === 'π') { t.push({ t: 'id', s: 'π' }); i++; continue; }
+      const id = str.slice(i).match(ID);
       if (id) { t.push({ t: 'id', s: id[0] }); i += id[0].length; continue; }
       if ('+-*/^()'.includes(c)) { t.push({ t: c }); i++; continue; }
       throw new Error('Tegnet "' + c + '" kan lommeregneren ikke bruge');
@@ -790,10 +814,9 @@ const LR = (() => {
           if (kig() && kig().t === '(') { p++; const v = udtryk(); tag(')'); return { k: 'f', f: n, a: v }; }
           return { k: 'f', f: n, a: potens() };     // sqrt2, sin30
         }
-        if (n === 'pi' || x.s === 'π') return { k: 'konst', s: 'pi' };
-        if (x.s === 'e') return { k: 'konst', s: 'e' };
+        if (x.s === 'π' || n === 'pi') return { k: 'konst', s: 'pi' };
         if (n === 'ans') return { k: 'konst', s: 'ans' };
-        throw new Error('"' + x.s + '" kender lommeregneren ikke');
+        return { k: 'var', s: x.s };
       }
       throw new Error('Udtrykket er ikke færdigt');
     }
@@ -801,11 +824,30 @@ const LR = (() => {
     if (p < t.length) throw new Error(t[p].t === ')' ? 'Der er en slutparentes for meget' : 'Udtrykket kan ikke læses');
     return v;
   }
+  // Navne uden værdi (e er Eulers tal, hvis ikke andet er sagt)
+  function frie(n, vars, ud = []) {
+    if (!n) return ud;
+    if (n.k === 'var' && !(vars && vars[n.s]) && n.s !== 'e' && !ud.includes(n.s)) ud.push(n.s);
+    frie(n.a, vars, ud); frie(n.b, vars, ud);
+    return ud;
+  }
+  const harVar = (n, vars) => !!n && ((n.k === 'var' && !!(vars && vars[n.s])) || harVar(n.a, vars) || harVar(n.b, vars));
+  // Er linjen bare et tal, fx 5,2 eller -3 eller 6,67·10^-11?
+  function erTal(n) {
+    if (n.k === 'tal') return true;
+    if (n.k === 'neg' || n.k === 'par') return erTal(n.a);
+    return n.k === '*' && n.a.k === 'tal' && n.b.k === '^' && n.b.a.k === 'tal' && n.b.a.s === '10' &&
+      (n.b.b.k === 'tal' || (n.b.b.k === 'neg' && n.b.b.a.k === 'tal'));
+  }
   function vaerdi(n, o) {
     const g = o.grader ? Math.PI / 180 : 1;
     switch (n.k) {
       case 'tal': return parseFloat(n.s.replace(',', '.')) * (n.e ? 10 ** +n.e : 1);
-      case 'konst': return n.s === 'pi' ? Math.PI : n.s === 'e' ? Math.E : o.ans;
+      case 'konst':
+        if (n.s === 'pi') return Math.PI;
+        if (o.ans === undefined) throw new Error('Ans er resultatet på linjen ovenfor, og der er ikke noget endnu');
+        return o.ans;
+      case 'var': return o.vars && o.vars[n.s] ? o.vars[n.s].v : Math.E;
       case 'par': return vaerdi(n.a, o);
       case 'neg': return -vaerdi(n.a, o);
       case '+': return vaerdi(n.a, o) + vaerdi(n.b, o);
@@ -822,28 +864,47 @@ const LR = (() => {
       }
     }
   }
+  // M_Måne -> M_{\text{Måne}}, λ_0 -> \lambda_{0}, Δt -> \Delta t
+  function symLatex(s) {
+    const g = c => GR[c] ? '\\' + GR[c] + ' ' : c;
+    const i = s.indexOf('_'), h = i < 0 ? s : s.slice(0, i), sub = i < 0 ? '' : s.slice(i + 1);
+    let l = [...h].map(g).join('').trim();
+    if (/^[A-Za-z]{2,}$/.test(h)) l = '\\mathit{' + h + '}';
+    if (sub) l += '_{' + (/^[0-9]+$/.test(sub) || [...sub].length === 1 ? [...sub].map(g).join('').trim()
+      : /[^\x00-\x7f]/.test(sub) ? '\\text{' + sub + '}' : '\\mathrm{' + sub + '}') + '}';
+    return l;
+  }
   const tal = (s) => s.replace(/^\./, '0.').replace(/^,/, '0,').replace(/[.,]/, '{,}');
   const uden = n => n.k === 'par' ? n.a : n;
-  function latex(n) {
+  // Med vars skrives navnene som deres værdier (tallene sat ind i formlen)
+  function latex(n, vars) {
+    const L = m => latex(m, vars);
     switch (n.k) {
       case 'tal': return tal(n.s) + (n.e ? ' \\cdot 10^{' + (+n.e) + '}' : '');
-      case 'konst': return n.s === 'pi' ? '\\pi' : n.s === 'e' ? 'e' : '\\mathrm{Ans}';
-      case 'par': return '\\left(' + latex(n.a) + '\\right)';
-      case 'neg': return '-' + latex(n.a);
-      case '+': return latex(n.a) + ' + ' + latex(n.b);
-      case '-': return latex(n.a) + ' - ' + latex(n.b);
-      case '*': return latex(n.a) + ' \\cdot ' + latex(n.b);
-      case '/': return '\\frac{' + latex(uden(n.a)) + '}{' + latex(uden(n.b)) + '}';
+      case 'konst': return n.s === 'pi' ? '\\pi' : '\\mathrm{Ans}';
+      case 'var':
+        if (vars && vars[n.s]) { const v = vars[n.s].latex; return /^-/.test(v) ? '\\left(' + v + '\\right)' : v; }
+        return n.s === 'e' ? 'e' : symLatex(n.s);
+      case 'par': return '\\left(' + L(n.a) + '\\right)';
+      case 'neg': return '-' + L(n.a);
+      case '+': return L(n.a) + ' + ' + L(n.b);
+      case '-': return L(n.a) + ' - ' + L(n.b);
+      case '*': return L(n.a) + ' \\cdot ' + L(n.b);
+      case '/':
+        if (n.a.k === '*' && n.a.b.k === 'par') return L(n.a.a) + ' \\cdot \\frac{' + L(n.a.b.a) + '}{' + L(uden(n.b)) + '}';   // G·(m·M)/r² -> G·mM/r²
+        return '\\frac{' + L(uden(n.a)) + '}{' + L(uden(n.b)) + '}';
       case '^': {
-        const b = ['tal', 'konst', 'par'].includes(n.a.k) && !(n.a.k === 'tal' && n.a.e) ? latex(n.a) : '\\left(' + latex(n.a) + '\\right)';
-        return b + '^{' + latex(uden(n.b)) + '}';
+        const bl = L(n.a);
+        const simpel = (['tal', 'konst', 'par'].includes(n.a.k) && !(n.a.k === 'tal' && n.a.e)) ||
+                       (n.a.k === 'var' && (!/\\cdot|\\ /.test(bl) || /^\\left\(/.test(bl)));
+        return (simpel ? bl : '\\left(' + bl + '\\right)') + '^{' + L(uden(n.b)) + '}';
       }
       case 'f':
-        if (n.f === 'sqrt') return '\\sqrt{' + latex(uden(n.a)) + '}';
-        if (n.f === 'abs') return '\\left|' + latex(uden(n.a)) + '\\right|';
-        if (n.f === 'exp') return 'e^{' + latex(uden(n.a)) + '}';
+        if (n.f === 'sqrt') return '\\sqrt{' + L(uden(n.a)) + '}';
+        if (n.f === 'abs') return '\\left|' + L(uden(n.a)) + '\\right|';
+        if (n.f === 'exp') return 'e^{' + L(uden(n.a)) + '}';
         { const navn = { asin: '\\sin^{-1}', acos: '\\cos^{-1}', atan: '\\tan^{-1}', arcsin: '\\sin^{-1}', arccos: '\\cos^{-1}', arctan: '\\tan^{-1}' }[n.f] || '\\' + n.f;
-          return navn + '\\left(' + latex(uden(n.a)) + '\\right)'; }
+          return navn + '\\left(' + L(uden(n.a)) + '\\right)'; }
     }
   }
   // Tal med n betydende cifre, dansk komma, og 10-tals-potens når tallet er meget stort eller lille
@@ -860,105 +921,424 @@ const LR = (() => {
     const m = mant.toFixed(n - 1).replace('.', ',');
     return { latex: m.replace(',', '{,}') + ' \\cdot 10^{' + eks + '}', tekst: m + '·10^' + eks };
   }
-  return { parse, vaerdi, latex, formater };
+  // Én linje i lommeregneren. o = { vars, ans, grader, cifre, enhed (LaTeX) }
+  function linje(tekst, o) {
+    let t = tekst.trim().replace(/=\s*$/, '').trim();
+    if (!t) return { tom: true };
+    let navn = null;
+    const m = t.match(DEF);
+    if (m) {
+      const n = m[1].toLowerCase();
+      if (FUNK[n] || n === 'pi' || n === 'ans') return { fejl: '"' + m[1] + '" kan ikke bruges som navn' };
+      navn = m[1]; t = m[2].trim();
+      if (!t) return { tom: true };
+    }
+    if (t.includes('=')) return { fejl: 'Der må kun være ét lighedstegn, og kun efter et navn – fx v = s/t' };
+    try {
+      const tr = parse(t);
+      const mangler = frie(tr, o.vars);
+      if (mangler.length) return { mangler, navn };
+      const x = vaerdi(tr, o);
+      const r = formater(x, o.cifre);
+      if (!r) return { fejl: 'Resultatet er ikke et tal (fx division med 0)' };
+      const sym = latex(tr), simpel = erTal(tr), dele = [];
+      if (navn) dele.push(symLatex(navn));
+      dele.push(sym);
+      if (harVar(tr, o.vars)) dele.push(latex(tr, o.vars));
+      if (!simpel) dele.push(r.latex);
+      return { latex: dele.join(' = ') + o.enhed, res: (simpel ? sym : r.latex) + o.enhed, x, navn, valLatex: (simpel ? sym : r.latex) + o.enhed };
+    } catch (e) { return { fejl: e.message }; }
+  }
+  return { parse, vaerdi, latex, formater, linje, symLatex, IDM };
 })();
 
-const LR_KONST = [
-  ['c (lysets fart)', '299792458'], ['e (elementarladning)', '1,602176634·10^-19'], ['h (Plancks konstant)', '6,62607015·10^-34'],
-  ['k_B (Boltzmann)', '1,380649·10^-23'], ['N_A (Avogadro)', '6,02214076·10^23'], ['R (gaskonstanten)', '8,314462618'],
-  ['G (gravitationskonstanten)', '6,67430·10^-11'], ['m_e (elektronens masse)', '9,1093837139·10^-31'],
-  ['m_p (protonens masse)', '1,67262192595·10^-27'], ['m_n (neutronens masse)', '1,67492750056·10^-27'],
-  ['u (atommasseenhed)', '1,66053906892·10^-27'], ['ε₀ (vakuumpermittivitet)', '8,8541878188·10^-12'],
-  ['k (Coulombs konstant)', '8,987551786·10^9'], ['g (Danmark)', '9,82'], ['M_Jord', '5,972·10^24'], ['R_Jord', '6,371·10^6'],
-  ['M_Måne', '7,342·10^22'], ['afstand Jord–Måne', '3,844·10^8'], ['M_Sol', '1,989·10^30'], ['1 AE', '1,495978707·10^11'],
+// LaTeX fra en formel i teksten -> en linje til lommeregneren, fx
+// "v = \frac{120\ \mathrm{m}}{9{,}8\ \mathrm{s}}"  ->  "v = 120/9,8"
+const TEX2LR = (() => {
+  const GR = { alpha: 'α', beta: 'β', gamma: 'γ', delta: 'δ', epsilon: 'ε', varepsilon: 'ε', zeta: 'ζ', eta: 'η', theta: 'θ', vartheta: 'θ',
+    iota: 'ι', kappa: 'κ', lambda: 'λ', mu: 'μ', nu: 'ν', xi: 'ξ', rho: 'ρ', varrho: 'ρ', sigma: 'σ', tau: 'τ', phi: 'φ', varphi: 'φ',
+    chi: 'χ', psi: 'ψ', omega: 'ω', Gamma: 'Γ', Delta: 'Δ', Theta: 'Θ', Lambda: 'Λ', Sigma: 'Σ', Phi: 'Φ', Psi: 'Ψ', Omega: 'Ω' };
+  const FN = { sin: 'sin', cos: 'cos', tan: 'tan', ln: 'ln', log: 'log', lg: 'log', exp: 'exp', arcsin: 'asin', arccos: 'acos', arctan: 'atan' };
+  const OVERSE = new Set(['left', 'right', 'big', 'Big', 'bigg', 'Bigg', 'bigl', 'bigr', 'Bigl', 'Bigr', 'displaystyle', 'textstyle',
+    ',', ';', ':', '!', ' ', 'quad', 'qquad', 'limits', 'enspace', 'thinspace']);
+  const ENHED = new Set(['mathrm', 'text', 'textrm', 'rm', 'operatorname', 'unit', 'si', 'mbox']);
+  function tokens(s) {
+    const t = []; let i = 0;
+    while (i < s.length) {
+      const c = s[i];
+      if (c === '\\') { const m = s.slice(i + 1).match(/^([A-Za-z]+|[\s\S])/); const n = m ? m[1] : ''; t.push('\\' + n); i += 1 + n.length; continue; }
+      if (/\s/.test(c)) { i++; continue; }
+      t.push(c); i++;
+    }
+    return t;
+  }
+  const rens = s => s.replace(/\\(mathrm|text|textrm|mathit|rm)(?![A-Za-z])/g, '')
+                     .replace(/\\([A-Za-z]+)/g, (m, n) => GR[n] || '')
+                     .replace(/[^A-Za-z0-9æøåÆØÅα-ωΑ-Ωµ]/g, '');
+  function konv(tex) {
+    const t = tokens(tex); let p = 0;
+    const erCif = x => /^[0-9]$/.test(x || '');
+    function raaArg() {           // {…} som rå tekst (til indeks og enheder)
+      if (t[p] !== '{') return t[p++] || '';
+      let d = 0, s = ''; p++;
+      while (p < t.length && !(t[p] === '}' && d === 0)) { const x = t[p++]; if (x === '{') d++; else if (x === '}') d--; else s += x[0] === '\\' ? x + ' ' : x; }
+      p++; return s;
+    }
+    const indeks = () => { if (t[p] !== '_') return ''; p++; const s = rens(raaArg()); return s ? '_' + s : ''; };
+    function arg() { if (t[p] === '{') { p++; const r = seq('}'); p++; return r; } return seq(undefined, true); }
+    function seq(slut, en) { const r = []; while (p < t.length && t[p] !== slut) { item(r, en); if (en) break; } return r; }
+    const par = a => [{ k: '(' }, ...a, { k: ')' }];
+    function item(r, en) {
+      const x = t[p];
+      if (erCif(x) || ((x === '.' || x === ',') && erCif(t[p + 1]))) {
+        let s = '';
+        if (en) { s = x; p++; }
+        else for (;;) {
+          const y = t[p];
+          if (erCif(y)) { s += y; p++; }
+          else if ((y === ',' || y === '.') && erCif(t[p + 1])) { s += ','; p++; }
+          else if (y === '{' && t[p + 1] === ',' && t[p + 2] === '}' && erCif(t[p + 3])) { s += ','; p += 3; }
+          else if (y === '\\,' && erCif(t[p + 1]) && /[0-9]$/.test(s)) p++;          // 299\,792\,458
+          else break;
+        }
+        r.push({ k: 'n', s }); return;
+      }
+      p++;
+      if (/^[A-Za-z]$/.test(x)) { r.push({ k: 'id', s: x + indeks() }); return; }
+      if (x === '{') { const g = seq('}'); p++; r.push(...par(g)); return; }
+      if (x === '}') return;
+      if (x === '(' || x === '[') { r.push({ k: '(' }); return; }
+      if (x === ')' || x === ']') { r.push({ k: ')' }); return; }
+      if (x === '+' || x === '-') { r.push({ k: 'op', s: x }); return; }
+      if (x === '*') { r.push({ k: 'op', s: '·' }); return; }
+      if (x === '/') { r.push({ k: 'op', s: '/' }); return; }
+      if (x === '^') { const a = arg(); if (!a.length || a.every(z => z.k === 'grad')) return; r.push({ k: 'op', s: '^' }, ...par(a)); return; }
+      if (x === '_') { const s = rens(raaArg()), f = r[r.length - 1]; if (s && f && f.k === 'id' && !f.s.includes('_')) f.s += '_' + s; return; }
+      if (x === '°') { r.push({ k: 'grad' }); return; }
+      if (x === '!' || x === '|') { r.push({ k: 'n', s: '?' }); return; }
+      if (x[0] !== '\\') return;                      // & , ; : ' og lignende
+      const n = x.slice(1);
+      if (/^[dtc]?frac$/.test(n)) { const a = arg(), b = arg(); r.push(...par(a), { k: 'op', s: '/' }, ...par(b)); return; }
+      if (n === 'sqrt') {
+        let rod = null;
+        if (t[p] === '[') { p++; rod = seq(']'); p++; }
+        const a = arg();
+        if (rod) r.push(...par(a), { k: 'op', s: '^' }, { k: '(' }, { k: 'n', s: '1' }, { k: 'op', s: '/' }, ...par(rod), { k: ')' });
+        else r.push({ k: 'f', s: 'sqrt' }, ...par(a));
+        return;
+      }
+      if (n === 'cdot' || n === 'times' || n === 'ast') { r.push({ k: 'op', s: '·' }); return; }
+      if (n === 'div') { r.push({ k: 'op', s: '/' }); return; }
+      if (n === '{' || n === 'lbrace') { r.push({ k: '(' }); return; }
+      if (n === '}' || n === 'rbrace') { r.push({ k: ')' }); return; }
+      if (n === 'pi') { r.push({ k: 'id', s: 'π' }); return; }
+      if (n === 'circ' || n === 'degree') { r.push({ k: 'grad' }); return; }
+      if (FN[n]) {
+        let f = FN[n];
+        if (t[p] === '^' && t[p + 1] === '{' && t[p + 2] === '-' && t[p + 3] === '1' && t[p + 4] === '}' && ['sin', 'cos', 'tan'].includes(f)) { p += 5; f = 'a' + f; }
+        if (t[p] === '^') {                            // \sin^2(\theta) -> (sin(θ))^2
+          p++; const pot = arg();
+          if (t[p] === '\\left') p++;
+          let a;
+          if (t[p] === '(') { p++; a = seq(')'); p++; } else if (t[p] === '{') a = arg(); else { a = []; item(a, false); }
+          r.push({ k: '(' }, { k: 'f', s: f }, ...par(a), { k: ')' }, { k: 'op', s: '^' }, ...par(pot)); return;
+        }
+        r.push({ k: 'f', s: f }); return;
+      }
+      if (ENHED.has(n)) {
+        const s = rens(raaArg());
+        if (FN[s]) r.push({ k: 'f', s: FN[s] });
+        else if (s === 'e') r.push({ k: 'id', s: 'e' });
+        else r.push({ k: 'U' });
+        return;
+      }
+      if (n === 'mathit' || n === 'mathbf' || n === 'boldsymbol' || n === 'vec' || n === 'bar') { const s = rens(raaArg()); if (s) r.push({ k: 'id', s: s + indeks() }); return; }
+      if (GR[n]) {
+        let s = GR[n];
+        if (n === 'Delta') {                           // Δt, Δv, ΔE
+          const y = t[p];
+          if (/^[A-Za-z]$/.test(y || '')) { s += y; p++; }
+          else if (y && y[0] === '\\' && GR[y.slice(1)]) { s += GR[y.slice(1)]; p++; }
+        }
+        r.push({ k: 'id', s: s + indeks() }); return;
+      }
+      if (OVERSE.has(n)) { if ((n === 'left' || n === 'right') && t[p] === '.') p++; return; }
+      if (/^[A-Za-z]+$/.test(n)) { r.push({ k: 'id', s: n + indeks() }); return; }   // fx \hbar: et navn, der skal have en værdi
+    }
+    return seq(undefined);
+  }
+  function tilTekst(ts) {
+    ts = ts.filter(z => z.k !== 'grad');
+    const slut = z => z && (z.k === 'n' || z.k === 'id' || z.k === ')' || z.k === 'U');
+    const start = z => z.k === 'n' || z.k === 'id' || z.k === '(' || z.k === 'f';
+    let s = '', f = null;
+    for (const z of ts) {
+      if (z.k === 'U') s += '¤';
+      else {
+        if (slut(f) && start(z)) s += '·';
+        else if (f && f.k === 'f' && z.k !== '(') s += ' ';
+        s += z.k === 'op' || z.k === 'n' || z.k === 'id' || z.k === 'f' ? z.s : z.k;
+      }
+      f = z;
+    }
+    // Enheder væk: 9,82¤  5,2·¤  (¤)/(¤) ...
+    let gl;
+    do {
+      gl = s;
+      s = s.replace(/¤\^(\([^()]*\)|-?[\d,]+)/g, '¤').replace(/\(¤\)/g, '¤').replace(/¤[·\/]¤/g, '¤');
+    } while (s !== gl);
+    s = s.replace(/[·\/]?¤/g, '').replace(/^·/, '').replace(/·$/, '');
+    // Overflødige parenteser: (2) -> 2, ^(-11) -> ^-11
+    const B = 'A-Za-zæøåÆØÅα-ωΑ-Ωµπ';
+    const atom = new RegExp('(^|[^' + B + '0-9_])\\(([\\d,]+|[' + B + ']+(?:_[' + B + '0-9]+)?)\\)', 'g');
+    do { gl = s; s = s.replace(atom, '$1$2'); } while (s !== gl);
+    return s.replace(/\^\((-[\d,]+)\)/g, '^$1');
+  }
+  function fraLatex(latex) {
+    const s = latex.replace(/\\(approx|simeq|Rightarrow|Leftrightarrow|Longrightarrow|implies|iff|equiv)(?![A-Za-z])/g, '=').replace(/\\\\|&/g, ' ');
+    const dele = []; let d = 0, a = 0;
+    for (let i = 0; i < s.length; i++) {
+      const c = s[i];
+      if (c === '\\') { i++; continue; }
+      if (c === '{') d++; else if (c === '}') d--; else if (c === '=' && d === 0) { dele.push(s.slice(a, i)); a = i + 1; }
+    }
+    dele.push(s.slice(a));
+    const tekst = dele.map(x => tilTekst(konv(x)));
+    // Den sidste del med en regneoperation er det, der skal regnes ud. Ellers den sidste del.
+    let v = -1;
+    for (let i = tekst.length - 1; i >= 0 && v < 0; i--) if (/[·\/^+(]|-(?!$)|sqrt|sin|cos|tan|ln|log|exp/.test(tekst[i].replace(/^-/, ''))) v = i;
+    for (let i = tekst.length - 1; i >= 0 && v < 0; i--) if (tekst[i]) v = i;
+    if (v < 0) return { linje: '', fejl: 'Formlen indeholder ikke noget, der kan regnes ud.' };
+    const lhs = tekst[0];
+    const navn = v > 0 && new RegExp('^' + LR.IDM + '$').test(lhs) && !/^(sin|cos|tan|ln|log|exp|sqrt|ans|pi)$/i.test(lhs);
+    return { linje: (navn ? lhs + ' = ' : '') + tekst[v] };
+  }
+  return { fraLatex };
+})();
+
+const LR_KONST = [   // [navn, symbol, værdi, enhed]
+  ['c (lysets fart)', 'c', '299792458', 'm/s'], ['e (elementarladning)', 'q_e', '1,602176634·10^-19', 'C'],
+  ['h (Plancks konstant)', 'h', '6,62607015·10^-34', 'J·s'], ['k_B (Boltzmann)', 'k_B', '1,380649·10^-23', 'J/K'],
+  ['N_A (Avogadro)', 'N_A', '6,02214076·10^23', 'mol^-1'], ['R (gaskonstanten)', 'R', '8,314462618', 'J/(mol·K)'],
+  ['G (gravitationskonstanten)', 'G', '6,67430·10^-11', 'N·m^2/kg^2'], ['m_e (elektronens masse)', 'm_e', '9,1093837139·10^-31', 'kg'],
+  ['m_p (protonens masse)', 'm_p', '1,67262192595·10^-27', 'kg'], ['m_n (neutronens masse)', 'm_n', '1,67492750056·10^-27', 'kg'],
+  ['u (atommasseenhed)', 'u', '1,66053906892·10^-27', 'kg'], ['ε₀ (vakuumpermittivitet)', 'ε_0', '8,8541878188·10^-12', 'F/m'],
+  ['k (Coulombs konstant)', 'k_e', '8,987551786·10^9', 'N·m^2/C^2'], ['g (Danmark)', 'g', '9,82', 'm/s^2'],
+  ['M_Jord', 'M_Jord', '5,972·10^24', 'kg'], ['R_Jord', 'R_Jord', '6,371·10^6', 'm'],
+  ['M_Måne', 'M_Måne', '7,342·10^22', 'kg'], ['afstand Jord–Måne', 'r_Måne', '3,844·10^8', 'm'],
+  ['M_Sol', 'M_Sol', '1,989·10^30', 'kg'], ['1 AE', 'AE', '1,495978707·10^11', 'm'],
 ];
 
 (() => {
-  const ud = $('lrUd'), vis = $('lrVis');
-  let ans = 0, sidst = null, valg = null;
+  const NOEGLE = 'fysikaflevering-lommeregner';
+  let linjer = [{ tekst: '', enhed: '' }], aktiv = 0, valg = null;
+  try {
+    const g = JSON.parse(localStorage.getItem(NOEGLE));
+    if (Array.isArray(g) && g.length) linjer = g.map(l => ({ tekst: String(l.tekst || ''), enhed: String(l.enhed || '') }));
+  } catch {}
+  const gem = () => { try { localStorage.setItem(NOEGLE, JSON.stringify(linjer.map(({ tekst, enhed }) => ({ tekst, enhed })))); } catch {} };
   quill.on('selection-change', r => { if (r) valg = r; });
+  const boks = $('lrLinjer');
+  const felt = i => boks.querySelectorAll('.lr-linje input')[i];
 
-  const TASTER = [
-    ['7', 'tal'], ['8', 'tal'], ['9', 'tal'], ['÷', 'op', '/'], ['(', 'op'], [')', 'op'],
-    ['4', 'tal'], ['5', 'tal'], ['6', 'tal'], ['×', 'op', '·'], ['x²', 'op', '^2'], ['xʸ', 'op', '^'],
-    ['1', 'tal'], ['2', 'tal'], ['3', 'tal'], ['−', 'op', '-'], ['√', 'op', '√('], ['·10ⁿ', 'op', '·10^'],
-    ['0', 'tal'], [',', 'tal'], ['π', 'op'], ['+', 'op'], ['ln', 'op', 'ln('], ['log', 'op', 'log('],
-    ['sin', 'op', 'sin('], ['cos', 'op', 'cos('], ['tan', 'op', 'tan('], ['eˣ', 'op', 'exp('], ['Ans', 'op'], ['⌫', 'op', 'SLET'],
-  ];
-  for (const [navn, kl, ind] of TASTER) {
-    const b = document.createElement('button'); b.type = 'button'; b.textContent = navn; b.className = kl;
-    b.addEventListener('mousedown', e => e.preventDefault());
-    b.onclick = () => {
-      const a = ud.selectionStart ?? ud.value.length, z = ud.selectionEnd ?? a;
-      if (ind === 'SLET') {
-        if (a === z && a > 0) { ud.value = ud.value.slice(0, a - 1) + ud.value.slice(z); ud.selectionStart = ud.selectionEnd = a - 1; }
-        else { ud.value = ud.value.slice(0, a) + ud.value.slice(z); ud.selectionStart = ud.selectionEnd = a; }
-      } else {
-        const x = ind || navn;
-        ud.value = ud.value.slice(0, a) + x + ud.value.slice(z);
-        ud.selectionStart = ud.selectionEnd = a + x.length;
-      }
-      ud.focus(); regn();
-    };
-    $('lrTaster').appendChild(b);
-  }
-  for (const [navn, v] of LR_KONST) { const o = document.createElement('option'); o.value = v; o.textContent = navn + ' = ' + v; $('lrKonst').appendChild(o); }
-  $('lrKonst').onchange = e => {
-    if (!e.target.value) return;
-    const a = ud.selectionStart ?? ud.value.length, x = e.target.value;
-    ud.value = ud.value.slice(0, a) + x + ud.value.slice(ud.selectionEnd ?? a);
-    ud.selectionStart = ud.selectionEnd = a + x.length; e.target.value = ''; ud.focus(); regn();
-  };
-
-  const enhed = () => {
-    const u = $('lrEnhed').value.trim();
+  const enhLatex = u => {
+    u = (u || '').trim();
     if (!u) return '';
     const l = u.replace(/\^(-?\d+)/g, '^{$1}').replace(/\*|·/g, ' \\cdot ');
     return /[^\x00-\x7f]/.test(u) ? '\\ \\text{' + u + '}' : '\\ \\mathrm{' + l + '}';
   };
 
-  function regn() {
-    sidst = null;
-    const s = ud.value.trim();
-    if (!s) { vis.className = 'lr-vis fejl'; vis.textContent = 'Skriv et regnestykke. Brug komma eller punktum som decimaltegn.'; return; }
-    try {
-      const traee = LR.parse(s);
-      const x = LR.vaerdi(traee, { grader: $('lrVinkel').value === 'deg', ans });
-      const r = LR.formater(x, +$('lrCifre').value);
-      if (!r) throw new Error('Resultatet er ikke et tal (fx division med 0)');
-      sidst = { udtryk: LR.latex(traee), res: r, x };
-      vis.className = 'lr-vis';
-      katex.render(sidst.udtryk + ' = ' + r.latex + enhed(), vis, { displayMode: true, throwOnError: false });
-    } catch (e) { vis.className = 'lr-vis fejl'; vis.textContent = e.message + '.'; }
+  // ---- Linjerne ----
+  function bygLinjer() {
+    boks.innerHTML = '';
+    linjer.forEach((L, i) => {
+      const d = document.createElement('div');
+      d.className = 'lr-linje' + (i === aktiv ? ' aktiv' : '');
+      d.innerHTML = '<div class="lr-l1"><span class="lr-nr"></span><input type="text" autocomplete="off" spellcheck="false">' +
+                    '<button type="button" class="lr-x" title="Slet linjen">✕</button></div><div class="lr-res"></div>';
+      d.querySelector('.lr-nr').textContent = i + 1;
+      const f = d.querySelector('input');
+      f.value = L.tekst;
+      if (i === 0) f.placeholder = 'fx m = 5,2 eller 9,82·3,5^2/2';
+      f.addEventListener('focus', () => saetAktiv(i));
+      f.addEventListener('input', () => { L.tekst = f.value; regnAlle(); });
+      f.addEventListener('keydown', e => tast(e, i));
+      const x = d.querySelector('.lr-x');
+      x.addEventListener('mousedown', e => e.preventDefault());
+      x.onclick = () => sletLinje(i, false);
+      boks.appendChild(d);
+    });
+    regnAlle();
   }
-  ud.addEventListener('input', regn);
-  ['lrCifre', 'lrVinkel'].forEach(id => $(id).onchange = regn);
-  $('lrEnhed').addEventListener('input', regn);
+  function saetAktiv(i) {
+    aktiv = i;
+    boks.querySelectorAll('.lr-linje').forEach((d, j) => d.classList.toggle('aktiv', j === i));
+    $('lrEnhed').value = linjer[i] ? linjer[i].enhed : '';
+  }
+  function fokus(i) {
+    saetAktiv(i);
+    const f = felt(i);
+    if (f) { f.focus(); f.selectionStart = f.selectionEnd = f.value.length; f.closest('.lr-linje').scrollIntoView({ block: 'nearest' }); }
+  }
+  function nyLinje(foer, tekst = '', enhed = '') { linjer.splice(foer, 0, { tekst, enhed }); bygLinjer(); fokus(foer); }
+  function sletLinje(i, tilbage) {
+    if (linjer.length === 1) { linjer[0] = { tekst: '', enhed: '' }; bygLinjer(); fokus(0); return; }
+    linjer.splice(i, 1); bygLinjer();
+    fokus(tilbage ? Math.max(0, i - 1) : Math.min(i, linjer.length - 1));
+  }
+  function tast(e, i) {
+    const f = e.target;
+    if (e.key === 'Enter') { e.preventDefault(); if (e.ctrlKey || e.metaKey) indsaet(false); else nyLinje(i + 1); }
+    else if (e.key === 'ArrowUp' && i > 0) { e.preventDefault(); fokus(i - 1); }
+    else if (e.key === 'ArrowDown' && i < linjer.length - 1) { e.preventDefault(); fokus(i + 1); }
+    else if (e.key === 'Backspace' && f.value === '' && linjer.length > 1) { e.preventDefault(); sletLinje(i, true); }
+    else if (e.key === 'Escape') aaben(false);
+  }
 
+  // Alle linjer regnes om oppefra, så en ændring slår igennem på linjerne nedenunder
+  function regnAlle() {
+    const vars = {};
+    let ans;
+    const o = { grader: $('lrVinkel').value === 'deg', cifre: +$('lrCifre').value };
+    linjer.forEach((L, i) => {
+      const r = LR.linje(L.tekst, { ...o, vars, ans, enhed: enhLatex(L.enhed) });
+      L.r = r;
+      if (r.x !== undefined) { ans = r.x; if (r.navn) vars[r.navn] = { v: r.x, latex: r.valLatex }; }
+      const div = boks.children[i] && boks.children[i].querySelector('.lr-res');
+      if (!div) return;
+      div.className = 'lr-res';
+      div.textContent = '';
+      if (r.tom) return;
+      if (r.fejl) { div.className = 'lr-res fejl'; div.textContent = r.fejl + '.'; return; }
+      if (r.mangler) {
+        div.className = 'lr-res mangler';
+        div.append('Giv en værdi på en linje ovenover: ');
+        for (const n of r.mangler) {
+          const b = document.createElement('button');
+          b.type = 'button'; b.textContent = n + ' = …';
+          b.title = 'Lav en linje til ' + n + ' ovenover';
+          b.addEventListener('mousedown', e => e.preventDefault());
+          b.onclick = () => nyLinje(i, n + ' = ');
+          div.append(b);
+        }
+        return;
+      }
+      katex.render(r.latex, div, { displayMode: true, throwOnError: false });
+    });
+    gem();
+  }
+
+  // ---- Taster, konstanter, enhed ----
+  const TASTER = [
+    ['7', 'tal'], ['8', 'tal'], ['9', 'tal'], ['÷', 'op', '/'], ['(', 'op'], [')', 'op'],
+    ['4', 'tal'], ['5', 'tal'], ['6', 'tal'], ['×', 'op', '·'], ['x²', 'op', '^2'], ['xʸ', 'op', '^'],
+    ['1', 'tal'], ['2', 'tal'], ['3', 'tal'], ['−', 'op', '-'], ['√', 'op', '√('], ['·10ⁿ', 'op', '·10^'],
+    ['0', 'tal'], [',', 'tal'], ['π', 'op'], ['+', 'op'], ['ln', 'op', 'ln('], ['log', 'op', 'log('],
+    ['sin', 'op', 'sin('], ['cos', 'op', 'cos('], ['tan', 'op', 'tan('], ['eˣ', 'op', 'exp('], ['=', 'op', ' = '], ['⌫', 'op', 'SLET'],
+  ];
+  function skrivIFelt(x) {
+    const f = felt(aktiv);
+    if (!f) return;
+    const a = f.selectionStart ?? f.value.length, z = f.selectionEnd ?? a;
+    if (x === 'SLET') {
+      if (a === z && a > 0) { f.value = f.value.slice(0, a - 1) + f.value.slice(z); f.selectionStart = f.selectionEnd = a - 1; }
+      else { f.value = f.value.slice(0, a) + f.value.slice(z); f.selectionStart = f.selectionEnd = a; }
+    } else {
+      f.value = f.value.slice(0, a) + x + f.value.slice(z);
+      f.selectionStart = f.selectionEnd = a + x.length;
+    }
+    linjer[aktiv].tekst = f.value;
+    f.focus(); regnAlle();
+  }
+  for (const [navn, kl, ind] of TASTER) {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = navn; b.className = kl;
+    b.addEventListener('mousedown', e => e.preventDefault());
+    b.onclick = () => skrivIFelt(ind || navn);
+    $('lrTaster').appendChild(b);
+  }
+  LR_KONST.forEach(([navn, sym, v], i) => {
+    const o = document.createElement('option'); o.value = i; o.textContent = navn + ' = ' + v; $('lrKonst').appendChild(o);
+  });
+  $('lrKonst').onchange = e => {
+    if (e.target.value === '') return;
+    const [, sym, v, enh] = LR_KONST[+e.target.value];
+    e.target.value = '';
+    const L = linjer[aktiv];
+    if (!L.tekst.trim()) {          // tom linje: gem konstanten under sit navn
+      L.tekst = sym + ' = ' + v; L.enhed = enh;
+      bygLinjer(); nyLinje(aktiv + 1);
+    } else skrivIFelt(v);
+  };
+  $('lrEnhed').addEventListener('input', e => { if (linjer[aktiv]) { linjer[aktiv].enhed = e.target.value; regnAlle(); } });
+  ['lrCifre', 'lrVinkel'].forEach(id => $(id).onchange = regnAlle);
+  $('lrRyd').onclick = () => { linjer = [{ tekst: '', enhed: '' }]; aktiv = 0; bygLinjer(); fokus(0); };
+
+  // ---- Sæt ind i afleveringen ----
+  function efterFormel(i) {           // står der en formel lige før (evt. med ét mellemrum imellem)?
+    const tegn = j => { if (j < 0) return null; const op = quill.getContents(j, 1).ops[0]; return op ? op.insert : null; };
+    let a = tegn(i - 1);
+    if (a === ' ') a = tegn(i - 2);
+    return !!a && typeof a === 'object' && a.formula !== undefined;
+  }
   function indsaet(kunRes) {
-    if (!sidst) { besked('Regnestykket kan ikke regnes ud endnu.'); return; }
-    const latex = kunRes ? sidst.res.latex + enhed() : sidst.udtryk + ' = ' + sidst.res.latex + enhed();
-    const i = valg ? valg.index : quill.getLength() - 1;
+    const L = linjer[aktiv];
+    if (!L || !L.r || !L.r.latex) { besked('Linjen kan ikke regnes ud endnu.'); return; }
+    const i = valg ? valg.index + (valg.length || 0) : quill.getLength() - 1;
+    let latex = kunRes ? L.r.res : L.r.latex;
+    if (kunRes && efterFormel(i)) latex = '= ' + latex;
     quill.insertEmbed(i, 'formula', latex, 'user');
     quill.insertText(i + 1, ' ', 'user');
     valg = { index: i + 2, length: 0 };
     quill.setSelection(i + 2, 0, 'silent');
-    ans = sidst.x;
-    $('lrEnhed').value = '';   // enheden hører til denne udregning
-    regn();
-    besked(kunRes ? 'Resultatet er indsat. Det kan bruges igen som Ans.' : 'Udregningen er indsat. Resultatet kan bruges igen som Ans.', 2500);
+    besked(kunRes ? 'Resultatet er sat ind i afleveringen.' : 'Udregningen er sat ind i afleveringen.', 2500);
   }
   $('lrIndUdr').onclick = () => indsaet(false);
   $('lrIndRes').onclick = () => indsaet(true);
-  ud.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); indsaet(false); } if (e.key === 'Escape') aaben(false); });
+
+  // ---- Fra teksten til lommeregneren ----
+  function tilfoej(tekst) {         // på den sidste linje, hvis den er tom, ellers på en ny linje nederst
+    let i = linjer.length - 1;
+    if (linjer[i].tekst.trim()) { linjer.push({ tekst: '', enhed: '' }); i++; }
+    linjer[i] = { tekst, enhed: '' };
+    aktiv = i;
+    bygLinjer();
+  }
+  function markering(sel) {
+    const ops = quill.getContents(sel.index, sel.length).ops;
+    const del = op => typeof op.insert === 'string' ? op.insert
+      : op.insert.formula !== undefined ? (TEX2LR.fraLatex(op.insert.formula).linje || '') : '';
+    return ops.map(del).join(' ').replace(/\s+/g, ' ').trim();
+  }
+  window.lrFraFormel = latex => {
+    const r = TEX2LR.fraLatex(latex);
+    if (!r.linje) { besked(r.fejl); return; }
+    valg = quill.getSelection() || valg;
+    tilfoej(r.linje);
+    aaben(true);
+  };
 
   const aaben = paa => {
     $('lr').classList.toggle('vis', paa); $('kLr').setAttribute('aria-pressed', paa);
-    if (paa) { valg = quill.getSelection() || valg; regn(); setTimeout(() => ud.focus(), 20); }
+    if (paa) { regnAlle(); setTimeout(() => fokus(aktiv), 20); }
   };
   $('kLr').addEventListener('mousedown', e => e.preventDefault());
-  $('kLr').onclick = () => aaben(!$('lr').classList.contains('vis'));
+  $('kLr').onclick = () => {
+    if ($('lr').classList.contains('vis')) { aaben(false); return; }
+    const sel = quill.getSelection();
+    if (sel) valg = sel;
+    if (sel && sel.length) { const t = markering(sel); if (t) tilfoej(t); }
+    aaben(true);
+  };
   $('lrLuk').onclick = () => aaben(false);
+
+  // "Regn ud" i formelvinduet: gem formlen, og regn den ud i lommeregneren
+  $('dRegn').onclick = () => {
+    const latex = $('dKode').value.trim();
+    if (!latex) { besked('Skriv en formel først.'); return; }
+    if (!vis(latex)) { besked('Ret formlen, før den kan regnes ud.'); return; }
+    $('dOk').click();
+    window.lrFraFormel(latex);
+  };
 
   // Flyt lommeregneren ved at trække i den mørke bjælke
   $('lrTop').addEventListener('pointerdown', e => {
@@ -971,6 +1351,8 @@ const LR_KONST = [
     const slip = () => { $('lrTop').removeEventListener('pointermove', flyt); $('lrTop').removeEventListener('pointerup', slip); };
     $('lrTop').addEventListener('pointermove', flyt); $('lrTop').addEventListener('pointerup', slip);
   });
+
+  bygLinjer();
 })();
 
 // ---------------- Gem som Word (.docx) med rigtige Word-ligninger ----------------
