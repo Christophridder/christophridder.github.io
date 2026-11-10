@@ -100,6 +100,23 @@ værdier, afrundet.
 | Parsec | $1\ \text{pc} = 3{,}086 \cdot 10^{16}\ \text{m} = 3{,}26\ \text{ly}$ | B |
 | Hubblekonstanten | $H_0 \approx 70\ \text{km/s/Mpc}$ – se note under B-niveau | B |
 
+**Densiteter af metaller** (ca. 20 °C, 1 atm)
+
+| Metal | $\rho$ (g/cm³) | $\rho$ (kg/m³) | Bemærkning |
+|---|---|---|---|
+| Aluminium (Al) | 2,70 | 2 700 | legeringer: 2,64–2,81 g/cm³ |
+| Zink (Zn) | 7,13 | 7 130 | |
+| Jern (Fe) | 7,87 | 7 870 | stål: 7,75–8,05 g/cm³ |
+| Messing (Cu–Zn) | 8,4–8,7 | 8 400–8 700 | legering; afhænger af Zn-indholdet, typisk ca. 8,5 g/cm³ |
+| Kobber (Cu) | 8,96 | 8 960 | 8,93–8,96 g/cm³ afhængigt af renhed |
+| Sølv (Ag) | 10,49 | 10 490 | |
+| Bly (Pb) | 11,34 | 11 340 | |
+| Guld (Au) | 19,32 | 19 320 | ofte afrundet til 19,3 g/cm³ |
+| Osmium (Os) | 22,59 | 22 590 | tætteste grundstof (iridium: 22,56 g/cm³) |
+
+> **Bemærk:** Skolens lodder og klodser er ofte legeringer – afvigelser på 1–3 procent
+> fra tabelværdien er derfor normale og ikke nødvendigvis målefejl.
+
 ### SI-grundenheder
 
 Alle andre enheder kan skrives som produkter af de syv grundenheder.
