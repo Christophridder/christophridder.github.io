@@ -25,7 +25,7 @@ Ved $m \cdot g \cdot h$ er kraften konstant, så arbejdet er bare kraft gange ve
 
 Forestil dig, at du trækker legemet langsomt ud fra afstanden $r_0$ og helt ud i det uendelige. Du trækker med en kraft, der er lige så stor som tyngdekraften, $F = G \cdot \dfrac{M \cdot m}{r^2}$, så farten ikke ændrer sig undervejs.
 
-Du starter i $r_0$ og slutter i det uendelige. **Den nederste grænse er der, hvor du starter, og den øverste er der, hvor du slutter:**
+Du starter i $r_0$ og slutter i det uendelige. **Den nederste grænse er der, hvor du starter, og den øverste er der, hvor du slutter:** 
 
 $$A = \int_{r_0}^{\infty} G \cdot \frac{M \cdot m}{r^2}\,\mathrm{d}r$$
 
