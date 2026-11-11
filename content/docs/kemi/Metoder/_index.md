@@ -31,6 +31,7 @@ Her kommer der en liste over nogle af de mest brugte **fagfaglige** metoder. Als
 | pH-måling | pH med pH-meter eller indikator – og hvor præcis er målingen? | [Phosphorsyre i cola]({{< relref "/docs/kemi/B-Eksp/phosphorsyre-cola" >}}) |
 | Kalorimetri | Reaktions- eller opløsningsvarme ud fra temperaturændringen | [Endoterm opløsning af salmiak]({{< relref "/docs/kemi/B-Eksp/salmiak" >}}) |
 | Reaktionshastighed | Koncentration eller gasvolumen målt som funktion af tiden | – |
+| [Alkoholbestemmelse]({{< relref "/docs/kemi/Metoder/alkoholbestemmelse" >}}) | Alkoholprocent med destillation og pyknometer – eller med hydrometer før og efter gæringen | Ølbrygning i SRO (2.g) |
 
 ## Fremstilling og adskillelse
 
