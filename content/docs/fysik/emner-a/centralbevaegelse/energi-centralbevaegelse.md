@@ -27,6 +27,7 @@ Forestil dig, at du trækker legemet langsomt ud fra afstanden $r_0$ og helt ud 
 
 Du starter i $r_0$ og slutter i det uendelige. **Den nederste grænse er der, hvor du starter, og den øverste er der, hvor du slutter:** 
 
+
 $$A = \int_{r_0}^{\infty} G \cdot \frac{M \cdot m}{r^2}\,\mathrm{d}r$$
 
 $G$, $M$ og $m$ er konstanter og kan sættes uden for integralet. En stamfunktion til $\dfrac{1}{r^2} = r^{-2}$ er $-\dfrac{1}{r}$:
