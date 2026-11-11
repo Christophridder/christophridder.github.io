@@ -1,6 +1,8 @@
 ---
 title: "Raketligningen"
 weight: 5
+pdf: "pdfs/raketligningen.pdf"
+pdf_ny_fane: true
 ---
 
 **Niveau: Fysik A** · **Emne: Centralbevægelse – raketter, motorkraft og raketligningen**
