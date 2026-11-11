@@ -24,9 +24,11 @@ Vil du hellere arbejde videre i Word, LibreOffice eller Google Docs, så tryk p�
 |---|---|
 | Indsætte en formel fra formelsamlingen | Tryk på **Fysikformler**, og klik på formlen |
 | Indsætte en konstant | Tryk på **Konstanter**, og klik på værdien |
+| Bruge en konstant inde i en formel | Vælg den under **π Indsæt konstant** i formelvinduet. Værdien sættes ind, hvor markøren står |
 | Sætte formlen på sin egen linje | Hold **Shift** nede, når du klikker |
 | Skrive din egen formel | Tryk på **Skriv egen formel**, eller skriv `$v = s/t$` direkte i teksten |
 | Rette en formel | Klik på den |
+| Flytte en formel | Markér den, og kopiér eller klip (Ctrl/⌘ + C eller X), og sæt ind (Ctrl/⌘ + V). Er en formel blevet til tekst, så sæt et `$` før og efter den |
 
 Formler skrives i LaTeX. De vigtigste:
 
@@ -52,7 +54,7 @@ $$E = \frac{1}{2} \cdot m \cdot v^{2} = \frac{1}{2} \cdot 5{,}2\ \mathrm{kg} \cd
 
 **Ret et enkelt tal.** Klik på linjen med tallet, og ret det. Alle linjer nedenunder bliver regnet om med det samme.
 
-**Regn en formel fra teksten ud.** Klik på formlen i afleveringen, og tryk på **🖩 Regn ud**. Formlen bliver oversat til lommeregneren. Har du skrevet tallene ind i formlen, regnes de ud med det samme. Har du kun skrevet bogstaver, fx $v = \frac{s}{t}$, viser lommeregneren knapper som `s = …`, så du kan give dem en værdi på linjen ovenover. Du kan også markere noget tekst og trykke på **Lommeregner**.
+**Regn en formel fra teksten ud.** Klik på formlen i afleveringen, og tryk på **🖩 Regn ud**. Formlen bliver oversat til lommeregneren. Har du skrevet tallene ind i formlen, regnes de ud med det samme. Har du kun skrevet bogstaver, fx $v = \frac{s}{t}$, viser lommeregneren knapper som `s = …`, så du kan give dem en værdi på linjen ovenover. Du kan også markere noget tekst og trykke på **Lommeregner**. Store og små tal kan du skrive som `6,67E-11` eller `6,67 \cdot 10^{-11}` – lommeregneren forstår begge dele.
 
 | Det vil du | Sådan gør du |
 |---|---|

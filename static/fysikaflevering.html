@@ -114,6 +114,7 @@ button:hover { border-color: var(--blaa); color: #1e40af; }
 .dialog textarea { width: 100%; height: 74px; font: 15px ui-monospace, Menlo, Consolas, monospace; padding: 8px; border: 1.5px solid var(--kant); border-radius: 8px; resize: vertical; }
 .dialog .knapper { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
 .dialog .knapper button { font-weight: 400; padding: 3px 8px; min-width: 34px; }
+.dialog .knapper select { font: inherit; font-size: .85rem; padding: 4px 6px; border: 1px solid var(--kant); border-radius: 6px; max-width: 100%; }
 .forhaand { min-height: 64px; border: 1px dashed var(--kant); border-radius: 8px; padding: 10px; text-align: center; font-size: 1.25rem; overflow-x: auto; }
 .forhaand.fejl { color: #b91c1c; font-size: .82rem; text-align: left; }
 .dialog .bund { display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
@@ -271,6 +272,7 @@ input[type=file] { display: none; }
     <h2 id="dTitel">Formel</h2>
     <textarea id="dKode" spellcheck="false" placeholder="fx E_{kin} = \frac{1}{2} \cdot m \cdot v^2"></textarea>
     <div class="knapper" id="dKnapper"></div>
+    <div class="knapper"><select id="dKonst" title="Sæt værdien af en konstant ind i formlen"><option value="">π Indsæt konstant …</option></select></div>
     <div class="forhaand" id="dVis"></div>
     <p class="hjaelp">Formlen skrives i LaTeX. Du kan også skrive <code>$v = s/t$</code> direkte i teksten – så bliver den lavet om til en formel, når du skriver det sidste $. Klik på en formel i teksten for at rette den.</p>
     <div class="bund">
@@ -453,6 +455,21 @@ const SNIPPETS = [
 const $ = id => document.getElementById(id);
 const NOEGLE = 'fysikaflevering-kladde-v1';
 
+// Formler skal blive formler, når man kopierer, klipper og sætter ind i editoren.
+// Quills egen formel-blot kopierer kun LaTeX-teksten (<span>…</span>), så den bliver til almindelig tekst ved indsæt.
+// Her kopieres den med klassen ql-formula og data-value, som Quill genkender ved indsæt.
+{
+  const QFormel = Quill.import('formats/formula');
+  const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  class KopiFormel extends QFormel {
+    html() {
+      const { formula } = this.value();
+      return `<span class="ql-formula" data-value="${esc(formula)}">$${esc(formula)}$</span>`;
+    }
+  }
+  Quill.register(KopiFormel, true);
+}
+
 const quill = new Quill('#editor', {
   theme: 'snow',
   placeholder: 'Skriv din aflevering her. Formler indsætter du med knapperne ovenfor, eller ved at skrive $v = s/t$.',
@@ -551,6 +568,24 @@ SNIPPETS.forEach(([navn, kode]) => {
   };
   $('dKnapper').appendChild(b);
 });
+// Konstanter i formelvinduet: værdien (med enhed) sættes ind, hvor markøren står
+KONSTANTER.forEach(([gruppe, liste]) => {
+  const og = document.createElement('optgroup'); og.label = gruppe;
+  liste.forEach(([navn, latex]) => {
+    const o = document.createElement('option');
+    o.value = latex.split(' = ').pop().trim();
+    o.textContent = navn;
+    og.appendChild(o);
+  });
+  $('dKonst').appendChild(og);
+});
+$('dKonst').onchange = e => {
+  const v = e.target.value; e.target.value = '';
+  if (!v) return;
+  const t = $('dKode'), a = t.selectionStart, z = t.selectionEnd;
+  t.value = t.value.slice(0, a) + v + t.value.slice(z);
+  t.focus(); t.selectionStart = t.selectionEnd = a + v.length; vis(t.value);
+};
 $('kEgen').onclick = () => aabnDialog();
 
 // Klik på en formel i teksten for at rette den
@@ -1000,6 +1035,12 @@ const TEX2LR = (() => {
           else if (y === '{' && t[p + 1] === ',' && t[p + 2] === '}' && erCif(t[p + 3])) { s += ','; p += 3; }
           else if (y === '\\,' && erCif(t[p + 1]) && /[0-9]$/.test(s)) p++;          // 299\,792\,458
           else break;
+        }
+        // E-notation: 6,6E3 og 6,674e-11 (e lige efter tallet, fulgt af et ciffer eller fortegn + ciffer)
+        if (!en && /^[eE]$/.test(t[p] || '') && (erCif(t[p + 1]) || (/^[+-]$/.test(t[p + 1] || '') && erCif(t[p + 2])))) {
+          s += t[p++];
+          if (/^[+-]$/.test(t[p])) s += t[p++];
+          while (erCif(t[p])) s += t[p++];
         }
         r.push({ k: 'n', s }); return;
       }

@@ -52,6 +52,14 @@ def sim_figur(m):
     return f"![](/img/sim/{m.group(1)}.svg){{width=95%}}" if os.path.exists(os.path.join(ROOT, "static", "img", "sim", m.group(1) + ".svg")) else ""
 body = re.sub(r"\{\{<\s*sim\s+([\w-]+)\.html[^>]*>\}\}", sim_figur, body)
 body = re.sub(r"\{\{[<%].*?[>%]\}\}", "", body)
+# <details>: overskriften (summary) bliver fed tekst. Løsninger og facit sættes på hovedet med paahovedet.lua
+def details(m):
+    s = re.sub(r"<[^>]+>", "", m.group(1)).strip()
+    indhold = m.group(2).strip("\n")
+    if re.search(r"løsning|facit", s, re.I):
+        return f"\n**{s}** *(står på hovedet – vend papiret)*\n\n::: paahovedet\n{indhold}\n:::\n"
+    return f"\n**{s}**\n\n{indhold}\n"
+body = re.sub(r"<details>\s*<summary>(.*?)</summary>(.*?)</details>", details, body, flags=re.S)
 tmp = tempfile.mkdtemp()
 def billede(m):
     """/img/x.svg -> PDF (LaTeX kan ikke læse SVG). Bruger x.pdf hvis den findes, ellers rsvg-convert eller cairosvg."""
@@ -98,7 +106,7 @@ if not har_mhchem and r"\ce{" in body:
     body = re.sub(r"\\ce\{([^{}]*)\}", ce2mathrm, body)
 
 header = r"""\usepackage{xcolor}\definecolor{barblue}{HTML}{3498DB}\definecolor{headblue}{HTML}{2471A3}
-MHCHEM\usepackage{needspace}\usepackage{tikz}\usepackage{titlesec}\usepackage{float}\usepackage{booktabs}
+MHCHEM\usepackage{rotating}\usepackage{needspace}\usepackage{tikz}\usepackage{titlesec}\usepackage{float}\usepackage{booktabs}
 \titleformat*{\section}{\Large\bfseries\sffamily\color{headblue}}
 \titleformat*{\subsection}{\large\bfseries\sffamily\color{headblue}}
 \titleformat*{\subsubsection}{\normalsize\bfseries\sffamily\color{headblue}}
@@ -114,7 +122,7 @@ MHCHEM\usepackage{needspace}\usepackage{tikz}\usepackage{titlesec}\usepackage{fl
 open(os.path.join(tmp, "h.tex"), "w").write(header)
 open(os.path.join(tmp, "in.md"), "w").write(f'---\ntitle: "{title}"\n---\n' + body)
 r = subprocess.run(["pandoc", "in.md", "-f", "markdown-auto_identifiers", "-o", out, "--pdf-engine=xelatex",
-                    "-H", "h.tex", "-V", "lang=da", "-V", "fontsize=11pt",
+                    "-H", "h.tex", "--lua-filter", os.path.join(os.path.dirname(os.path.abspath(__file__)), "paahovedet.lua"), "-V", "lang=da", "-V", "fontsize=11pt",
                     "-V", "geometry:top=30mm,bottom=22mm,left=22mm,right=22mm", "-V", "papersize=a4"], cwd=tmp, capture_output=True, text=True)
 if r.returncode: sys.exit(r.stderr)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
