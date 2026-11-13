@@ -60,3 +60,23 @@ a {
   font-size: 1em;
   line-height: 1;
 }
+
+/* Studieplaner (shortcodes studieplan / eksperimenter / forloeb-moduler) */
+.sp-blok { border-left: 4px solid var(--sp-farve, #2c3e50); padding-left: .8rem; margin: 1.6rem 0; }
+.sp-navn { margin: 0 0 .4rem; color: var(--sp-farve, #2c3e50); }
+.sp-navn small { font-weight: normal; font-size: .75em; color: #777; margin-left: .4rem; }
+table.sp { width: 100%; display: table; }
+table.sp td { vertical-align: top; }
+table.sp td p { margin: .2rem 0; }
+.sp-dato { white-space: nowrap; color: #666; }
+.sp-meta { font-size: .85em; color: #777; }
+.sp-kom { font-size: .85em; color: #555; }
+.sp-links { margin-top: .2rem; }
+.sp-mangler { color: #999; border-bottom: 1px dotted #bbb; }
+ol.sp-eksp li { margin: .25rem 0; }
+ol.sp-eksp li a { color: inherit; text-decoration: underline; }
+tr.sp-plan td { color: #999; }
+tr.sp-plan td a { color: #8aa9c9; }
+tr.sp-bortfald td { text-decoration: line-through; text-decoration-color: #ccc; }
+details.sp-blok summary { cursor: pointer; font-size: 1.1rem; margin: .3rem 0; }
+h2.sp-kommende { margin-top: 2.5rem; }

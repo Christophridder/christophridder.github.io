@@ -1,0 +1,8 @@
+{{- /* dict "text" "map" -> markdown med [[slug]] og [[slug|tekst]] omsat til links */ -}}
+{{- $t := printf "%v" (or .text "") -}}
+{{- $map := .map -}}
+{{- range findRESubmatch `\[\[([^\]|]+)(?:\|([^\]]+))?\]\]` $t -1 -}}
+  {{- $html := partial "sp/link.html" (dict "slug" (index . 1) "label" (index . 2) "map" $map) -}}
+  {{- $t = replace $t (index . 0) $html -}}
+{{- end -}}
+{{- return ($t | markdownify) -}}

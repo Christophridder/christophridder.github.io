@@ -7,14 +7,10 @@ weight: 21
 
 Eksperimenter for 3x Fysik A, i den rækkefølge de er lavet. Se også [Årsplan Fysik A]({{< relref "/docs/fysik/a-niveau" >}}).
 
-| Dato | Elevtimer | Eksperiment | Aflevering | Kommentar | Eksamen |
-|---|---|---|---|---|---|
-|20.8 | 5  | [Hookes lov](hookes-lov) | R i Lectio| Aflevert i Lectio rettes | ja |
-|17.9 | 3  | [Kasteparabel](kasteparabel) | J i timen | Afleveret i lectio skal ikke rettes | ja |
-|8.10 | 3  | [Stød på luftpudebane](stoed-luftpudebane)| J i timen | Afleveret i lectio skal ikke rettes | ja | 
-|  |  |  |  |  | |
+{{< eksperimenter 3xfy >}}
 
 <!--
-Eksempel på en række (fjern kommentaren, når du skriver):
-| 17.09.26 | 6–7 | [Mangans oxidationstal]({{< relref "/docs/kemi/B-Eksp/mangans-oxidationstal" >}}) | Redox | Journal afleveret 22.09 |
+Listen bygges automatisk fra data/studieplaner/3xfy.yaml:
+  - eksperimenter fra i år: skriv  eksp: [slug]  på det modul, hvor forsøget blev lavet
+  - tidligere år: listen  tidligere:  nederst i YAML-filen
 -->

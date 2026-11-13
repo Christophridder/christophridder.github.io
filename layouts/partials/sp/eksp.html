@@ -1,0 +1,21 @@
+{{- /* dict "e" (slug eller map) "map" -> link + detaljer */ -}}
+{{- $e := .e -}}{{- $map := .map -}}
+{{- $out := "" -}}
+{{- if reflect.IsMap $e -}}
+  {{- $slug := or $e.side "" -}}
+  {{- if $slug -}}
+    {{- $out = partial "sp/link.html" (dict "slug" $slug "label" $e.navn "map" $map) -}}
+  {{- else -}}
+    {{- $out = printf `<span>%s</span>` $e.navn -}}
+  {{- end -}}
+  {{- $meta := slice -}}
+  {{- with $e.timer -}}{{- $meta = $meta | append (printf "%v elevtimer" .) -}}{{- end -}}
+  {{- with $e.aflevering -}}{{- $meta = $meta | append . -}}{{- end -}}
+  {{- with $e.eksamen -}}{{- if eq (lower (printf "%v" .)) "ja" "true" -}}{{- $meta = $meta | append "eksamen" -}}{{- end -}}{{- end -}}
+  {{- with $e.note -}}{{- $meta = $meta | append . -}}{{- end -}}
+  {{- with $meta -}}{{- $out = printf `%s <span class="sp-meta">(%s)</span>` $out (delimit . " · ") -}}{{- end -}}
+  {{- with $e.kommentar -}}{{- $out = printf `%s <span class="sp-kom">– %s</span>` $out . -}}{{- end -}}
+{{- else -}}
+  {{- $out = partial "sp/link.html" (dict "slug" $e "map" $map) -}}
+{{- end -}}
+{{- return $out -}}

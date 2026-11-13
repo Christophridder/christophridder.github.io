@@ -1,48 +1,48 @@
 {{- $key := .Get 0 -}}
-{{- $plan := index .Site.Data.studieplaner $key -}}
+{{- $plan := index hugo.Data.studieplaner $key -}}
+{{- $map := partialCached "sp/slugmap.html" "sp" -}}
+{{- $farver := partial "sp/farver.html" -}}
+{{- $nu := now -}}
 {{- with $plan -}}
-<p><strong>{{ .fag }} {{ .niveau }}</strong> · {{ .skoleaar }}</p>
-<table>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Dato</th>
-      <th>Forløb</th>
-      <th>Materialer</th>
-      <th>Lektier</th>
-      <th>Kommentar</th>
-    </tr>
-  </thead>
-  <tbody>
-  {{- range sort .moduler "nr" "desc" }}
-    <tr>
-      <td>{{ .nr }}</td>
-      <td>{{ (time.AsTime .dato).Format "02.01.06" }}</td>
-      <td>{{ .forloeb }}</td>
-      <td>
-      {{- range .materialer -}}
-        {{- $slug := . -}}
-        {{- $hits := where $.Site.RegularPages "File.ContentBaseName" $slug -}}
-        {{- if $hits -}}
-          {{- $m := index $hits 0 -}}
-          <a href="{{ $m.RelPermalink }}">{{ $m.Title }}</a>
-        {{- else -}}
-          <span>{{ $slug }}</span>
-        {{- end -}}
-        {{ " " }}
-      {{- end -}}
-      </td>
-      <td>{{ $.Page.RenderString .lektier }}</td>
-      <td>
-      {{- $maal := .maal -}}
-      {{- $kommentar := .kommentar -}}
-      {{- if $maal -}} {{ delimit $maal ", " }}{{- if $kommentar }}<br>{{ end -}}{{- end -}}
-      {{- with $kommentar -}}{{ . | markdownify }}{{- end -}}
-      </td>
-    </tr>
-  {{- end }}
-  </tbody>
-</table>
+<p><strong>{{ .fag }} {{ .niveau }}</strong> · {{ .skoleaar }}
+{{- with index $map (printf "%s-eksp" $key) }} · <a href="{{ .RelPermalink }}">Eksperimenter</a>{{ end }}</p>
+{{- /* nummerér modulerne kronologisk; del forløbene i "i gang/færdige" og "kommende" */ -}}
+{{- $blokke := slice -}}{{- $n := 0 -}}
+{{- range $bi, $b := .forloeb -}}
+  {{- $mods := slice -}}{{- $eff := 0.0 -}}{{- $startet := false -}}
+  {{- range $b.moduler -}}
+    {{- $n = add $n 1 -}}
+    {{- $fremtid := (time.AsTime .dato).After $nu -}}
+    {{- if not $fremtid }}{{ $startet = true }}{{ end -}}
+    {{- $eff = add $eff (cond (eq .bortfald true) 0.0 (cond (eq .halv true) 0.5 1.0)) -}}
+    {{- $mods = $mods | append (dict "n" $n "m" . "fremtid" $fremtid) -}}
+  {{- end -}}
+  {{- $blokke = $blokke | append (dict "i" $bi "b" $b "mods" $mods "eff" $eff "startet" $startet) -}}
+{{- end -}}
+{{- $igang := where $blokke "startet" true -}}
+{{- $kommende := where $blokke "startet" false -}}
+
+{{- range sort $igang "i" "desc" -}}
+  {{- $farve := index $farver (mod .i (len $farver)) -}}
+  {{- $ctx := dict "b" .b "mods" .mods "eff" .eff "map" $map "orden" "desc" -}}
+<div class="sp-blok" style="--sp-farve: {{ $farve | safeCSS }}">
+<h3 class="sp-navn">{{ partial "sp/hoved.html" $ctx }}</h3>
+{{ partial "sp/tabel.html" $ctx }}
+</div>
+{{- end -}}
+
+{{- with $kommende }}
+<h2 class="sp-kommende">Resten af året</h2>
+<p class="sp-meta">Planlagte forløb fra Lectio-modulerne og årsplanen. Klik for at folde ud.</p>
+  {{- range sort . "i" "asc" -}}
+  {{- $farve := index $farver (mod .i (len $farver)) -}}
+  {{- $ctx := dict "b" .b "mods" .mods "eff" .eff "map" $map "orden" "asc" -}}
+<details class="sp-blok" style="--sp-farve: {{ $farve | safeCSS }}">
+<summary class="sp-navn">{{ partial "sp/hoved.html" $ctx }}</summary>
+{{ partial "sp/tabel.html" $ctx }}
+</details>
+  {{- end -}}
+{{- end -}}
 {{- else -}}
 <p><em>Ingen studieplan fundet for «{{ $key }}».</em></p>
 {{- end -}}

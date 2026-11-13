@@ -1,0 +1,6 @@
+{{- $b := .b -}}{{- $mods := .mods -}}
+  {{- $forste := (index $mods 0).m.dato -}}{{- $sidste := (index $mods (sub (len $mods) 1)).m.dato -}}
+  {{- if $b.side }}{{ partial "sp/link.html" (dict "slug" $b.side "label" $b.navn "map" .map) | safeHTML }}{{ else }}{{ $b.navn }}{{ end }}
+  <small>{{ time.Format "2.1" $forste }}–{{ time.Format "2.1.2006" $sidste }} · {{ len $mods }} moduler
+  {{- if ne .eff (float (len $mods)) }} ({{ .eff }} til fysik){{ end }}
+  {{- with $b.blok }} · årsplan blok {{ . }}: {{ $b.planlagt }} moduler{{ end }}</small>

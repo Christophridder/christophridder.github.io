@@ -1,140 +1,178 @@
-hold: 2wKe
-fag: Kemi
-niveau: B
+hold: "2wKe"
+fag: "Kemi"
+niveau: "B"
 skoleaar: "2026/2027"
-moduler:
-  - nr: 1
-    dato: 2026-08-10
-    emne: "Ammoniumchlorid som ionforbindelse"
-    forloeb: "Repetition "
-    materialer: [I gang med kemi ionforbidelser og koncentrationer]
-    lektier: "Ingen lektier"
-    kommentar: "Vi repeterer ioner. Ionstørrelser er vigtig information for den biologiske opførsel af ionerne. Læs derfor grundigt side 143"
-    maal: [At repetere ioner og starter på begreberne endoterm og eksoterm]
+klasse: "2g"
 
-  - nr: 2
-    dato: 2026-08-13
-    emne: "Repetition fra 1g (fortsat)"
-    forloeb: "Repetition fra 1g"
-    materialer: [salt-i-ting]
-    lektier: "Side 135 - 143"
-    kommentar: "Vi brugte langt tid på elektronprikformler. Udelt salt-i-ting eksperiment"
-    maal: [Elektronprikformler i bund. Fint for chlorid og ammonium svært for nitrat]
+# Skabelon for et nyt modul (kopiér, ret, gem):
+#      - dato: 2026-11-17
+#        modul: 2                      # modulnummer på dagen
+#        tekst: Vi lavede [[slug]] og regnede opgaver i [[slug|egen linktekst]]
+#        lektier: Læs [[slug]]
+#        eksp: [slug]                  # eller udvidet: - side: slug / timer: 4 / aflevering: J / eksamen: ja
+# Alle andre felter (emne, materialer, maal) er valgfrie.
 
-  - nr: 3
-    dato: 2026-08-20
-    emne: "ioner"
-    forloeb: "Repetition fra 1g"
-    materialer: [salt-i-ting]
-    lektier: "side 143 - 155"
-    maal: [Titrering af salt med DCF]
-    kommentar: "Der er mange målinger så får fart på"
+forloeb:
+  - navn: "Repetition"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-08-10
+        modul:
+        emne: "Ammoniumchlorid som ionforbindelse"
+        tekst: "Vi repeterer ioner. Ionstørrelser er vigtig information for den biologiske opførsel af ionerne. Læs derfor grundigt side 143"
+        materialer: ["I gang med kemi ionforbidelser og koncentrationer"]
+        maal: ["At repetere ioner og starter på begreberne endoterm og eksoterm"]
+        lektier: "Ingen lektier"
 
-  - nr: 4
-    dato: 2026-08-24
-    emne: "ioner"
-    forloeb: "Repetition fra 1g"
-    materialer: [salt-i-ting]
-    lektier: "Øvelsesvejledningen og journalskrivning"
-    maal: [Titrering af salt-i-ting]
-    kommentar: "Vi laver nogle titreringsopgaver fra hjemmesiden og titrerer på chips, brakvand og havvand"
-  - nr: 5
-    dato: 2026-08-27
-    emne: "ioner"
-    forloeb: "Repetition fra 1g"
-    materialer: [salt-i-ting]
-    lektier: "Øvelsesvejledningen og journalskrivning"
-    maal: [Titrering af salt-i-ting]
-    kommentar: ""
-  - nr: 6
-    dato: 2026-09-17
-    emne: "Redoxkemi"
-    forloeb: "Redox"
-    materialer: [mangans-oxidationstal]
-    lektier: "Find oxidationstal "
-    maal: [At repetere oxidationstal]
-    kommentar: "Vi gennemfører forsøget"
-  - nr: 7
-    dato: 2026-09-18
-    emne: "Redoxkemi"
-    forloeb: "Redox"
-    materialer: [mangans-oxidationstal]
-    lektier: "Journalskrivning"
-    maal: [Aflevering 15:15]
-    kommentar: "U"
-  - nr: 8
-    dato: 2026-09-22
-    emne: "Intro til spektrofotometri"
-    forloeb: "Spektrofotometri"
-    materialer: [spektrofotometri]
-    lektier: "VmK intro til spektrofotometri "
-    maal: [intro til spektrofotometri]
-    kommentar: "Forstår farver og lys"
-  - nr: 9
-    dato: 2026-09-24
-    emne: "Redoxkemi"
-    forloeb: "Spektrofotometri"
-    materialer: [spektrofotometri]
-    lektier: "VmK side 9 -16 + elevfeedback"
-    maal: [Lidt spektrofotometri]
-    kommentar: "Modul til intro af AI Prompt til AI om oxidationstal"
-  - nr: 10
-    dato: 2026-09-25
-    emne: "Spektrofotometri"
-    forloeb: "spektrofotometri"
-    materialer: [spektrofotometri]
-    lektier: "VmK 34 - 37"
-    maal: [forstår spektrofotometri]
-    kommentar: "film [link](https://www.youtube.com/watch?v=Bi3N-gbYpCo&t=12s)"
-  - nr: 11
-    dato: 2026-09-28
-    emne: "Spektrofotometri"
-    forloeb: "spektrofotometri"
-    materialer: [spektrofotometri]
-    lektier: "læs Øvelsesvejledningen"
-    maal: [eksperiment]
-    kommentar: "link til pdf om farvestoffer [link](https://www.gymnasiekemi.com/uploads/9/3/4/8/93484852/fotokemi_2_-_farvestoffer.pdf)"
-  - nr: 12
-    dato: 2026-09-29
-    emne: "Spektrofotometri"
-    forloeb: "spektrofotometri"
-    materialer: [spektrofotometri]
-    lektier: "læse Øvelsesvejledningen"
-    maal: [eksperiment]
-    kommentar: "vi blev lidt presset under eksperient og nåede ikke journalen"
-  - nr: 13
-    dato: 2026-10-08
-    emne: "Ligevægt"
-    forloeb: "Ligevægt"
-    materialer: [ligevaegt]
-    lektier: "Se filmen om ligevægt "
-    maal: [at forstå ligevægtsbrøken]
-    kommentar: "Intro, repetition af aktuel koncentration"
-  - nr: 14
-    dato: 2026-10-22
-    emne: "Ligevægt og Le Chatelier"
-    forloeb: "Ligevægt"
-    materialer: [ligevaegt]
-    lektier: "se filmen om Le Chatelier"
-    maal: [At forstå ligevægts forskydning]
-    kommentar: "Der er både RANI og PR så det blev et meget kort modul med kun halvdelen af klassen"
-  - nr: 15
-    dato: 2026-10-26
-    emne: "2 eksperimenter med Ligevægt"
-    forloeb: "Ligevægt"
-    materialer: [ligevaegt-jernthiocyanat]
-    lektier: "skriv journalen færdig "
-    maal: [At få insigt til Le Chatelier]
-    kommentar: "Lad os se om to forsøg er for meget. "
-  - nr: 16
-    dato: 2026-10-27
-    emne: "2 eksperimenter med Ligevægt"
-    forloeb: "Ligevægt"
-    materialer: [ligevaegt-jernthiocyanat]
-    lektier: "skriv journalen færdig "
-    maal: [Opsamling på sidste modul ]
-    kommentar: ""
+  - navn: "Repetition fra 1g"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-08-13
+        modul:
+        emne: "Repetition fra 1g (fortsat)"
+        tekst: "Vi brugte langt tid på elektronprikformler. Udelt salt-i-ting eksperiment"
+        materialer: ["salt-i-ting"]
+        maal: ["Elektronprikformler i bund. Fint for chlorid og ammonium svært for nitrat"]
+        lektier: "Side 135 - 143"
 
+      - dato: 2026-08-20
+        modul:
+        emne: "ioner"
+        tekst: "Der er mange målinger så får fart på"
+        materialer: ["salt-i-ting"]
+        maal: ["Titrering af salt med DCF"]
+        lektier: "side 143 - 155"
+        eksp:
+          - side: "salt-i-ting"
+            navn: "Salt i ting"
+            timer: 4
+            aflevering: "R i Lectio"
+            kommentar: "DCF driller lidt"
+            eksamen: "ja"
 
+      - dato: 2026-08-24
+        modul:
+        emne: "ioner"
+        tekst: "Vi laver nogle titreringsopgaver fra hjemmesiden og titrerer på chips, brakvand og havvand"
+        materialer: ["salt-i-ting"]
+        maal: ["Titrering af salt-i-ting"]
+        lektier: "Øvelsesvejledningen og journalskrivning"
 
+      - dato: 2026-08-27
+        modul:
+        emne: "ioner"
+        tekst: ""
+        materialer: ["salt-i-ting"]
+        maal: ["Titrering af salt-i-ting"]
+        lektier: "Øvelsesvejledningen og journalskrivning"
 
+  - navn: "Redox"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-09-17
+        modul:
+        emne: "Redoxkemi"
+        tekst: "Vi gennemfører forsøget"
+        materialer: ["mangans-oxidationstal"]
+        maal: ["At repetere oxidationstal"]
+        lektier: "Find oxidationstal "
+        eksp:
+          - side: "mangans-oxidationstal"
+            navn: "Mangan oxid"
+            timer: 2
+            aflevering: "J i Lectio"
+            kommentar: "meget simpelt"
+            eksamen: "nej"
+
+      - dato: 2026-09-18
+        modul:
+        emne: "Redoxkemi"
+        tekst: "U"
+        materialer: ["mangans-oxidationstal"]
+        maal: ["Aflevering 15:15"]
+        lektier: "Journalskrivning"
+
+  - navn: "Spektrofotometri"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-09-22
+        modul:
+        emne: "Intro til spektrofotometri"
+        tekst: "Forstår farver og lys"
+        materialer: ["spektrofotometri"]
+        maal: ["intro til spektrofotometri"]
+        lektier: "VmK intro til spektrofotometri "
+
+      - dato: 2026-09-24
+        modul:
+        emne: "Redoxkemi"
+        tekst: "Modul til intro af AI Prompt til AI om oxidationstal"
+        materialer: ["spektrofotometri"]
+        maal: ["Lidt spektrofotometri"]
+        lektier: "VmK side 9 -16 + elevfeedback"
+
+      - dato: 2026-09-25
+        modul:
+        emne: "Spektrofotometri"
+        tekst: "film [link](https://www.youtube.com/watch?v=Bi3N-gbYpCo&t=12s)"
+        materialer: ["spektrofotometri"]
+        maal: ["forstår spektrofotometri"]
+        lektier: "VmK 34 - 37"
+
+      - dato: 2026-09-28
+        modul:
+        emne: "Spektrofotometri"
+        tekst: "link til pdf om farvestoffer [link](https://www.gymnasiekemi.com/uploads/9/3/4/8/93484852/fotokemi_2_-_farvestoffer.pdf)"
+        materialer: ["spektrofotometri"]
+        maal: ["eksperiment"]
+        lektier: "læs Øvelsesvejledningen"
+
+      - dato: 2026-09-29
+        modul:
+        emne: "Spektrofotometri"
+        tekst: "vi blev lidt presset under eksperient og nåede ikke journalen"
+        materialer: ["spektrofotometri"]
+        maal: ["eksperiment"]
+        lektier: "læse Øvelsesvejledningen"
+        eksp:
+          - side: "spektrofotometri"
+            navn: "Spektrofotometri"
+            timer: 4
+            aflevering: "J i Lectio"
+            kommentar: "mellem"
+            eksamen: "ja"
+
+  - navn: "Ligevægt"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-10-08
+        modul:
+        emne: "Ligevægt"
+        tekst: "Intro, repetition af aktuel koncentration"
+        materialer: ["ligevaegt"]
+        maal: ["at forstå ligevægtsbrøken"]
+        lektier: "Se filmen om ligevægt "
+
+      - dato: 2026-10-22
+        modul:
+        emne: "Ligevægt og Le Chatelier"
+        tekst: "Der er både RANI og PR så det blev et meget kort modul med kun halvdelen af klassen"
+        materialer: ["ligevaegt"]
+        maal: ["At forstå ligevægts forskydning"]
+        lektier: "se filmen om Le Chatelier"
+
+      - dato: 2026-10-26
+        modul:
+        emne: "2 eksperimenter med Ligevægt"
+        tekst: "Lad os se om to forsøg er for meget. "
+        materialer: ["ligevaegt-jernthiocyanat"]
+        maal: ["At få insigt til Le Chatelier"]
+        lektier: "skriv journalen færdig "
+
+      - dato: 2026-10-27
+        modul:
+        emne: "2 eksperimenter med Ligevægt"
+        tekst: ""
+        materialer: ["ligevaegt-jernthiocyanat"]
+        maal: ["Opsamling på sidste modul"]
+        lektier: "skriv journalen færdig "

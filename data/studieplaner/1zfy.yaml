@@ -1,76 +1,98 @@
-hold: 1zFy
-fag: Fysik
-niveau: B
+hold: "1zFy"
+fag: "Fysik"
+niveau: "B"
 skoleaar: "2026/2027"
+klasse: "1g"
+
+# Skabelon for et nyt modul (kopiér, ret, gem):
+#      - dato: 2026-11-17
+#        modul: 2                      # modulnummer på dagen
+#        tekst: Vi lavede [[slug]] og regnede opgaver i [[slug|egen linktekst]]
+#        lektier: Læs [[slug]]
+#        eksp: [slug]                  # eller udvidet: - side: slug / timer: 4 / aflevering: J / eksamen: ja
+# Alle andre felter (emne, materialer, maal) er valgfrie.
 # Modul 2-9: datoerne er gættede. Ret dem efter skemaet.
-moduler:
-  - nr: 0
-    dato: 2026-11-04
-    emne: Opstart
-    forloeb: "Blok 0: Opstart"
-    materialer: []
-    lektier: ""
-    maal: [timen aflyst pga strejke]
-  - nr: 1
-    dato: 2026-11-10
-    emne: Opstart
-    forloeb: "Blok 0: Opstart"
-    materialer: [densitet]
-    lektier: "Købe et hæfte"
-    maal: [introduktion til regneark]
-  - nr: 2
-    dato: 2026-11-13
-    emne: Densitet
-    forloeb: "Blok 0: Opstart"
-    materialer: [densitet]
-    lektier: "Læs introduktionen i Densitet"
-    maal: [Første eksperiment, Masse og rumfang]
-  - nr: 3
-    dato: 2026-11-16
-    emne: Excel og densitet
-    forloeb: "Blok 1: Excel-kursus"
-    materialer: [excel-kursus, densitet]
-    lektier: "Medbring dine måledata fra Densitet"
-    maal: [Punktdiagram, Tendenslinje, Hældning som densitet]
-  - nr: 4
-    dato: 2026-11-18
-    emne: Skolefest i Excel
-    forloeb: "Blok 1: Excel-kursus"
-    materialer: [excel-kursus]
-    lektier: ""
-    maal: [Formler, SUM, Låste celler]
-  - nr: 5
-    dato: 2026-11-19
-    emne: Energi, effekt og energikæder
-    forloeb: "Blok 2: Energi"
-    materialer: [energi-grundlag]
-    lektier: "Læs afsnittene om energi, effekt og energiformer"
-    maal: [Energi og effekt, Energiformer, Energikæder]
-  - nr: 6
-    dato: 2026-11-24
-    emne: Regn med energiformler
-    forloeb: "Blok 2: Energi"
-    materialer: [energi-grundlag]
-    lektier: "Lav opgave 1-3"
-    maal: [Sætte tal ind i formler, Enheder]
-  - nr: 7
-    dato: 2026-11-30
-    emne: Varmekapacitet
-    forloeb: "Blok 2: Energi"
-    materialer: [energi-grundlag]
-    lektier: "Lav opgave 4-6"
-    maal: [Varmekapacitet, Vand og sand]
-  - nr: 8
-    dato: 2026-12-02
-    emne: Nyttevirkning
-    forloeb: "Blok 3: Nyttevirkning"
-    materialer: [nyttevirkning]
-    lektier: "Læs teorien i Nyttevirkning"
-    maal: [Eksperiment med energimåler]
-  - nr: 9
-    dato: 2026-12-11
-    emne: Nyttevirkning og journal
-    forloeb: "Blok 3: Nyttevirkning"
-    materialer: [nyttevirkning]
-    lektier: "Færdiggør journal"
-    maal: [Databehandling, Fejlkilder]
+
+forloeb:
+  - navn: "Blok 0: Opstart"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-11-04
+        modul:
+        emne: "Opstart"
+        materialer: []
+        maal: ["timen aflyst pga strejke"]
+        lektier: ""
+
+      - dato: 2026-11-10
+        modul:
+        emne: "Opstart"
+        materialer: ["densitet"]
+        maal: ["introduktion til regneark"]
+        lektier: "Købe et hæfte"
+
+      - dato: 2026-11-13
+        modul:
+        emne: "Densitet"
+        materialer: ["densitet"]
+        maal: ["Første eksperiment", "Masse og rumfang"]
+        lektier: "Læs introduktionen i Densitet"
+        eksp: [densitet]
+
+  - navn: "Blok 1: Excel-kursus"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-11-16
+        modul:
+        emne: "Excel og densitet"
+        materialer: ["excel-kursus", "densitet"]
+        maal: ["Punktdiagram", "Tendenslinje", "Hældning som densitet"]
+        lektier: "Medbring dine måledata fra Densitet"
+
+      - dato: 2026-11-18
+        modul:
+        emne: "Skolefest i Excel"
+        materialer: ["excel-kursus"]
+        maal: ["Formler", "SUM", "Låste celler"]
+        lektier: ""
+
+  - navn: "Blok 2: Energi"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-11-19
+        modul:
+        emne: "Energi, effekt og energikæder"
+        materialer: ["energi-grundlag"]
+        maal: ["Energi og effekt", "Energiformer", "Energikæder"]
+        lektier: "Læs afsnittene om energi, effekt og energiformer"
+
+      - dato: 2026-11-24
+        modul:
+        emne: "Regn med energiformler"
+        materialer: ["energi-grundlag"]
+        maal: ["Sætte tal ind i formler", "Enheder"]
+        lektier: "Lav opgave 1-3"
+
+      - dato: 2026-11-30
+        modul:
+        emne: "Varmekapacitet"
+        materialer: ["energi-grundlag"]
+        maal: ["Varmekapacitet", "Vand og sand"]
+        lektier: "Lav opgave 4-6"
+
+  - navn: "Blok 3: Nyttevirkning"
+    side: ""                         # slug til forløbets emneside (valgfri)
+    moduler:
+      - dato: 2026-12-02
+        modul:
+        emne: "Nyttevirkning"
+        materialer: ["nyttevirkning"]
+        maal: ["Eksperiment med energimåler"]
+        lektier: "Læs teorien i Nyttevirkning"
+
+      - dato: 2026-12-11
+        modul:
+        emne: "Nyttevirkning og journal"
+        materialer: ["nyttevirkning"]
+        maal: ["Databehandling", "Fejlkilder"]
+        lektier: "Færdiggør journal"

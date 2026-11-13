@@ -7,11 +7,10 @@ weight: 23
 
 Eksperimenter for 1z Fysik B, i den rækkefølge de er lavet.
 
-| Dato | Modul | Eksperiment | Emne | Kommentar |
-|---|---|---|---|---|
-|  |  |  |  |  |
+{{< eksperimenter 1zfy >}}
 
 <!--
-Eksempel på en række (fjern kommentaren, når du skriver):
-| 17.09.26 | 6–7 | [Mangans oxidationstal]({{< relref "/docs/kemi/B-Eksp/mangans-oxidationstal" >}}) | Redox | Journal afleveret 22.09 |
+Listen bygges automatisk fra data/studieplaner/1zfy.yaml:
+  - eksperimenter fra i år: skriv  eksp: [slug]  på det modul, hvor forsøget blev lavet
+  - tidligere år: listen  tidligere:  nederst i YAML-filen
 -->

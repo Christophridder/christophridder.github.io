@@ -1,0 +1,21 @@
+<table class="sp">
+<thead><tr><th>#</th><th>Dato</th><th>Hvad lavede vi</th><th>Lektier</th></tr></thead>
+<tbody>
+  {{- $b := .b -}}{{- $map := .map -}}
+  {{- range sort .mods "n" .orden }}{{ $m := .m }}
+<tr class="{{ if .fremtid }}sp-plan{{ end }}{{ if $m.bortfald }} sp-bortfald{{ end }}">
+<td>{{ .n }}</td>
+<td class="sp-dato">{{ time.Format "Mon 2.1" $m.dato }}{{ with $m.modul }}<br><span class="sp-meta">{{ . }}. modul</span>{{ end }}</td>
+<td>
+  {{- with $m.emne }}{{ if ne (lower (trim . " ")) (lower (trim $b.navn " ")) }}<div><strong>{{ . }}</strong></div>{{ end }}{{ end }}
+  {{- with $m.tekst }}{{ partial "sp/text.html" (dict "text" . "map" $map) }}{{ end }}
+  {{- with $m.materialer }}<div class="sp-links">📄 {{ range $i, $s := . }}{{ if $i }}, {{ end }}{{ partial "sp/link.html" (dict "slug" $s "map" $map) | safeHTML }}{{ end }}</div>{{ end }}
+  {{- with $m.eksp }}<div class="sp-links">🔬 {{ range $i, $e := . }}{{ if $i }}; {{ end }}{{ partial "sp/eksp.html" (dict "e" $e "map" $map) | safeHTML }}{{ end }}</div>{{ end }}
+  {{- with $m.maal }}<div class="sp-meta">Mål: {{ delimit . ", " }}</div>{{ end }}
+  {{- if and .fremtid (not $m.tekst) (not $m.emne) }}<span class="sp-meta">planlagt</span>{{ end }}
+</td>
+<td>{{ with $m.lektier }}{{ partial "sp/text.html" (dict "text" . "map" $map) }}{{ end }}</td>
+</tr>
+  {{- end }}
+</tbody>
+</table>

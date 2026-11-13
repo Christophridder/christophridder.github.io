@@ -1,0 +1,11 @@
+{{- /* dict "slug" "label" "map" -> <a> til siden, eller ren tekst hvis siden ikke findes */ -}}
+{{- $out := "" -}}
+{{- $lab := .label -}}
+{{- $p := index .map (lower (trim .slug " ")) -}}
+{{- if $p -}}
+  {{- if not $lab -}}{{- $lab = $p.LinkTitle -}}{{- end -}}
+  {{- $out = printf `<a href="%s">%s</a>` $p.RelPermalink $lab -}}
+{{- else -}}
+  {{- $out = printf `<span class="sp-mangler" title="Ingen side med navnet «%s»">%s</span>` .slug (or $lab .slug) -}}
+{{- end -}}
+{{- return $out -}}

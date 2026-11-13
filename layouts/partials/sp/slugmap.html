@@ -1,0 +1,9 @@
+{{- /* slug (filnavn uden .md, eller mappenavn for _index.md) -> side */ -}}
+{{- $m := dict -}}
+{{- range site.Pages -}}{{- $p := . -}}
+  {{- with .File -}}
+    {{- $k := lower .ContentBaseName -}}
+    {{- if not (isset $m $k) -}}{{- $m = merge $m (dict $k $p) -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $m -}}

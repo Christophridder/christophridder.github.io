@@ -22,3 +22,11 @@ Asta, Carl Johan, Christian, Gustav, Johanne, Josefine, Linette, Lucas, Mark, Sa
 |Johanne|Gustav|Josefine|Sine|
 |ThomasH|Linette|Marc|Lukas|
 |Dalia||Sarah||
+
+### Grupper November 26
+|Gruppe 1|Gruppe 2|Gruppe 3|Gruppe 4|
+|---|---|---|---|
+|Christian|Carl Johan|Mark|Lucas|
+|Linette|Gustav|Johanne|Asta|
+|Sine|Sarah|William|Josefine|
+|Dalia|||ThomasH|

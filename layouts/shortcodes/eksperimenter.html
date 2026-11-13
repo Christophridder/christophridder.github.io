@@ -1,0 +1,34 @@
+{{- /* {{< eksperimenter 3xfy >}}: tidligere år + alle eksp: fra modulerne */ -}}
+{{- $key := .Get 0 -}}
+{{- $plan := index hugo.Data.studieplaner $key -}}
+{{- $map := partialCached "sp/slugmap.html" "sp" -}}
+{{- $farver := partial "sp/farver.html" -}}
+{{- with $plan -}}
+{{- /* én farve pr. forløb, i den rækkefølge forløbene optræder */ -}}
+{{- $navne := slice -}}
+{{- range .tidligere }}{{ range .eksp }}{{ $navne = $navne | append (lower (or .forloeb "-")) }}{{ end }}{{ end -}}
+{{- range .forloeb }}{{ $navne = $navne | append (lower .navn) }}{{ end -}}
+{{- $cmap := dict -}}
+{{- range $navne }}{{ if not (isset $cmap .) }}{{ $cmap = merge $cmap (dict . (index $farver (mod (len $cmap) (len $farver)))) }}{{ end }}{{ end -}}
+{{- $nr := 0 -}}
+{{- range .tidligere }}
+<h3>{{ .aar }}</h3>
+<ol class="sp-eksp" start="{{ add $nr 1 }}">
+  {{- range .eksp }}{{ $nr = add $nr 1 }}
+<li style="color: {{ index $cmap (lower (or .forloeb "-")) | safeCSS }}">{{ partial "sp/eksp.html" (dict "e" . "map" $map) | safeHTML }}{{ with .dato }} <span class="sp-dato">({{ . }})</span>{{ end }}</li>
+  {{- end }}
+</ol>
+{{- end }}
+<h3>{{ with .klasse }}{{ . }} · {{ end }}{{ .skoleaar }}</h3>
+<ol class="sp-eksp" start="{{ add $nr 1 }}">
+{{- range .forloeb }}{{ $farve := index $cmap (lower .navn) }}
+  {{- range .moduler }}{{ $dato := .dato }}
+    {{- range .eksp }}
+<li style="color: {{ $farve | safeCSS }}">{{ partial "sp/eksp.html" (dict "e" . "map" $map) | safeHTML }} <span class="sp-dato">({{ (time.AsTime $dato).Format "2.1.2006" }})</span></li>
+    {{- end }}
+  {{- end }}
+{{- end }}
+</ol>
+{{- else -}}
+<p><em>Ingen studieplan fundet for «{{ $key }}».</em></p>
+{{- end -}}

@@ -1,0 +1,21 @@
+{{- /* Sættes på en emneside: viser de moduler og eksperimenter i studieplanerne,
+       hvis forløb har  side: <denne sides slug>.  Valgfrit: {{< forloeb-moduler 1zfy >}} */ -}}
+{{- $map := partialCached "sp/slugmap.html" "sp" -}}
+{{- $slug := lower .Page.File.ContentBaseName -}}
+{{- $kun := .Get 0 -}}
+{{- range $key, $plan := hugo.Data.studieplaner -}}
+  {{- if or (not $kun) (eq $key $kun) -}}
+  {{- range $plan.forloeb -}}
+    {{- if eq (lower (or .side "")) $slug -}}
+<div class="sp-blok"><h4>{{ with index $map $key }}<a href="{{ .RelPermalink }}">{{ $plan.hold }}</a>{{ else }}{{ $plan.hold }}{{ end }} · {{ .navn }}</h4>
+<ul>
+      {{- range .moduler }}
+<li><span class="sp-dato">{{ (time.AsTime .dato).Format "2.1" }}</span>
+  {{ with .emne }}<strong>{{ . }}</strong>{{ end }}{{ with .tekst }} – {{ partial "sp/text.html" (dict "text" . "map" $map) }}{{ end }}
+  {{- with .eksp }} 🔬 {{ range $i, $e := . }}{{ if $i }}; {{ end }}{{ partial "sp/eksp.html" (dict "e" $e "map" $map) | safeHTML }}{{ end }}{{ end }}</li>
+      {{- end }}
+</ul></div>
+    {{- end -}}
+  {{- end -}}
+  {{- end -}}
+{{- end -}}
