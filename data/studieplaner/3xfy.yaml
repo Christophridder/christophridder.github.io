@@ -296,10 +296,11 @@ forloeb:
       - dato: 2026-11-19
         modul: 3
 
-  - navn: "Harmonisk svingning"
-    side: "harmonisk-svingning"
-    blok: "6"
-    planlagt: 5
+  - navn: "Elektrisk felt"
+    side: "elektriske-og-magnetiske-felter"
+    beskrivelse: "Coulombs lov, feltlinjer, energiforhold omkring en kuglesymmetrisk ladning, det homogene elektriske felt og ladede partiklers bevægelse i homogene E-felter"
+    blok: "9+11"
+    planlagt: 7
     moduler:
       - dato: 2026-11-20
         modul: 2
@@ -321,54 +322,54 @@ forloeb:
       - dato: 2026-12-01
         modul: 4
 
-  - navn: "Speciel relativitetsteori (supplerende)"
-    side: "relativitetsteori"
-    blok: "7"
-    planlagt: 3
-    moduler:
       - dato: 2026-12-03
         modul: 3
 
       - dato: 2026-12-03
         modul: 4
 
+  - navn: "Speciel relativitetsteori (supplerende)"
+    side: "relativitetsteori"
+    blok: "7"
+    planlagt: 3
+    moduler:
       - dato: 2026-12-04
         modul: 2
         tekst: "M.I.S. Egaa Læser: 45 min læsning, resten af modulet til fysik"
         halv: true
 
-  - navn: "Kvantefysik – foton og dualitet"
-    side: "kvantefysik"
-    blok: "8"
-    planlagt: 3
-    moduler:
       - dato: 2026-12-08
         modul: 3
 
       - dato: 2026-12-09
         modul: 3
 
+  - navn: "Kvantefysik – foton og dualitet"
+    side: "kvantefysik"
+    blok: "8"
+    planlagt: 3
+    moduler:
       - dato: 2026-12-11
         modul: 3
 
       - dato: 2026-12-15
         modul: 4
 
-  - navn: "Buffer / opsamling før jul"
-    side: ""
-    moduler:
       - dato: 2026-12-17
         modul: 3
 
+  - navn: "Buffer / opsamling før jul"
+    side: ""
+    moduler:
       - dato: 2026-12-18
         modul: 2
         tekst: "M.I.S. Egaa Læser: 45 min læsning, resten af modulet til fysik"
         halv: true
 
-  - navn: "Elektrisk felt"
+  - navn: "Magnetisk felt og ladede partikler i B-felt"
     side: "elektriske-og-magnetiske-felter"
-    blok: "9"
-    planlagt: 5
+    blok: "10+11"
+    planlagt: 6
     moduler:
       - dato: 2027-02-02
         modul: 3
@@ -394,17 +395,17 @@ forloeb:
       - dato: 2027-02-22
         modul: 2
 
-  - navn: "Magnetisk felt"
-    side: "elektriske-og-magnetiske-felter"
-    blok: "10"
-    planlagt: 5
-    moduler:
       - dato: 2027-02-23
         modul: 4
 
       - dato: 2027-02-25
         modul: 4
 
+  - navn: "Induktion"
+    side: "elektriske-og-magnetiske-felter"
+    blok: "12"
+    planlagt: 4
+    moduler:
       - dato: 2027-02-26
         modul: 2
 
@@ -414,25 +415,20 @@ forloeb:
       - dato: 2027-03-03
         modul: 3
 
-  - navn: "Ladede partikler i E- og B-felter"
-    side: "elektriske-og-magnetiske-felter"
-    blok: "11"
-    planlagt: 3
-    moduler:
       - dato: 2027-03-05
         modul: 3
 
+  - navn: "Elbilens fysik"
+    side: "elbilens-fysik"
+    blok: "13"
+    planlagt: 9
+    moduler:
       - dato: 2027-03-08
         modul: 2
 
       - dato: 2027-03-12
         modul: 2
 
-  - navn: "Induktion"
-    side: "elektriske-og-magnetiske-felter"
-    blok: "12"
-    planlagt: 4
-    moduler:
       - dato: 2027-03-16
         modul: 3
 
@@ -445,11 +441,6 @@ forloeb:
       - dato: 2027-03-30
         modul: 3
 
-  - navn: "Elbilens fysik"
-    side: "elbilens-fysik"
-    blok: "13"
-    planlagt: 9
-    moduler:
       - dato: 2027-03-31
         modul: 3
 
@@ -459,6 +450,11 @@ forloeb:
       - dato: 2027-04-05
         modul: 2
 
+  - navn: "Repetition og eksamenstræning"
+    side: ""
+    blok: "14"
+    planlagt: 5
+    moduler:
       - dato: 2027-04-09
         modul: 2
 
@@ -477,11 +473,6 @@ forloeb:
       - dato: 2027-04-22
         modul: 3
 
-  - navn: "Repetition og eksamenstræning"
-    side: ""
-    blok: "14"
-    planlagt: 5
-    moduler:
       - dato: 2027-04-22
         modul: 4
 

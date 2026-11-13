@@ -27,6 +27,7 @@
   {{- $ctx := dict "b" .b "mods" .mods "eff" .eff "map" $map "orden" "desc" -}}
 <div class="sp-blok" style="--sp-farve: {{ $farve | safeCSS }}">
 <h3 class="sp-navn">{{ partial "sp/hoved.html" $ctx }}</h3>
+{{ with .b.beskrivelse }}<p class="sp-meta">{{ . }}</p>{{ end }}
 {{ partial "sp/tabel.html" $ctx }}
 </div>
 {{- end -}}
@@ -39,6 +40,7 @@
   {{- $ctx := dict "b" .b "mods" .mods "eff" .eff "map" $map "orden" "asc" -}}
 <details class="sp-blok" style="--sp-farve: {{ $farve | safeCSS }}">
 <summary class="sp-navn">{{ partial "sp/hoved.html" $ctx }}</summary>
+{{ with .b.beskrivelse }}<p class="sp-meta">{{ . }}</p>{{ end }}
 {{ partial "sp/tabel.html" $ctx }}
 </details>
   {{- end -}}

@@ -21,17 +21,17 @@ kvantefysikkens manglende dele som elektronvolt og opgaver med planckkonstanten 
 | 3 | 11–15 | 5 | [Bevægelsesmængde og stød]({{< relref "/docs/fysik/emner-a/stoed" >}}) | Teori + Eksp. | [Stød på luftpudebane]({{< relref "stoed-luftpudebane" >}}) · [Hop på kraftplatform]({{< relref "kraftplatform-hop" >}}) · [Spil: Stød-billard]({{< relref "stoed-spil" >}}) |
 | 4 | 16–19 | 4 | [Jævn cirkelbevægelse (centripetalkraft)]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) | Teori + Eksp. | [Centripetalkraft på roterende bane]({{< relref "centripetalkraft-roterende-bane" >}}) · [Rørforsøg / keglependul (Del 4)]({{< relref "jaevn-cirkelbevaegelse" >}}) |
 | 5 | 20–24 | 5 | [Gravitation og bevægelse om centrallegeme]({{< relref "/docs/fysik/emner-a/centralbevaegelse" >}}) · [Raketligningen]({{< relref "raketligningen" >}}) | Teori + Sim. | Simulering af satellit/planetbane |
-| 6 | 25–29 | 5 | [Harmonisk svingning – kraft og energi]({{< relref "/docs/fysik/emner-a/harmonisk-svingning" >}}) | Eksp. + IT | Fjederpendul + matematisk pendul |
+| 6 | – | 0 | *Udgår:* harmonisk svingning er dækket i blok 1 (Hookes lov + dæmpet svingning) | – | – |
 | 7 | 30–32 | 3 | **Supplerende:** [speciel relativitetsteori]({{< relref "/docs/fysik/emner-a/relativitetsteori" >}}) | Teori | — |
 | 8 | 33–35 | 3 | **Kvantefysik:** [foton, impuls og dualitet]({{< relref "/docs/fysik/emner-a/kvantefysik" >}}) | Teori + Eksp. | Bestem h med LED'er |
-| 9 | 36–40 | 5 | [Elektrisk felt]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Demo | Pladekondensator (demo) |
+| 9 | 36–40 | 5 | [Elektrisk felt: Coulombs lov, feltlinjer, kuglesymmetrisk og homogent felt, ladede partikler i E-felt]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Demo | Pladekondensator (demo) |
 | 10 | 41–45 | 5 | [Magnetisk felt – kraft på leder (Laplace)]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Eksp. | Strømvægt / Laplaces lov |
-| 11 | 46–48 | 3 | [Ladede partikler i E- og B-felter]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Eksp. | e/m-bestemmelse (hvis udstyr) |
+| 11 | 46–48 | 3 | [Ladede partikler i B-felter]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Eksp. | e/m-bestemmelse (hvis udstyr) |
 | 12 | 49–52 | 4 | [Induktion – Faradays induktionslov]({{< relref "/docs/fysik/emner-a/elektriske-og-magnetiske-felter" >}}) | Teori + Eksp. | Magnet gennem spole |
 | 13 | 53–61 | 9 | **21. århundrede:** [Elbilens fysik]({{< relref "/docs/fysik/emner-a/elbilens-fysik" >}}) | Teori + Eksp. + Sim. | Batteri (R_i), motorens nyttevirkning |
 | 14 | 62–66 | 5 | Repetition + eksamenstræning | Eksp. + opgaver | Prøvelignende forsøg |
 
-**I alt: 66 moduler.**
+**I alt: 61 moduler** (blok 6 udgår).
 
 ## Blok for blok
 
@@ -74,7 +74,9 @@ Gravitationsloven, satellit- og planetbevægelser, Keplers love og mekanisk
 energi i gravitationsfeltet. Cirkulær bevægelse behandles analytisk; mere
 generelle baner via simulering (Python).
 
-### Blok 6 · Harmonisk svingning (modul 25–29)
+### Blok 6 · Harmonisk svingning — udgår
+*Dækket i starten af året sammen med Hookes lov og den dæmpede svingning (blok 1).*
+
 Kraft- og energiforhold ved harmonisk svingning. Bygger på kraftloven fra blok 1
 og dynamikken fra det eksisterende svingningsmodul; fokus her er
 energibetragtningen (E_pot ↔ E_kin) og det matematiske pendul som andet system.
@@ -92,6 +94,8 @@ fordi E = p · c for en masseløs foton kobler direkte til det relativistiske
 energi-impuls-forhold. Eksperiment: bestemmelse af Plancks konstant med LED'er.
 
 ### Blok 9 · Elektrisk felt (modul 36–40)
+Coulombs lov, feltlinjer, energiforhold omkring en kuglesymmetrisk ladning, det homogene elektriske felt og ladede partiklers bevægelse i homogene E-felter (E-delen af blok 11 er trukket herop).
+
 Elektrisk felt og kraften på en ladning, det kuglesymmetriske og det homogene
 felt. Pladekondensator egner sig bedst som demonstration.
 
@@ -99,7 +103,9 @@ felt. Pladekondensator egner sig bedst som demonstration.
 Homogent magnetfelt og kraften på en strømførende leder. Strømvægt / Laplaces
 lov som eksperiment — også et godt forvarsel til elbilens elektromotor.
 
-### Blok 11 · Ladede partikler i felter (modul 46–48)
+### Blok 11 · Ladede partikler i B-felter (modul 46–48)
+E-feltdelen er flyttet til blok 9; her kun bevægelse i homogene B-felter.
+
 Ladede partiklers bevægelse i homogene E- og B-felter. e/m-bestemmelse med
 Helmholtz-spoler, hvis udstyret er til rådighed.
 

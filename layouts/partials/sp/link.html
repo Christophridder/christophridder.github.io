@@ -1,11 +1,18 @@
-{{- /* dict "slug" "label" "map" -> <a> til siden, eller ren tekst hvis siden ikke findes */ -}}
+{{- /* dict "slug" "label" "map" -> <a> til siden, eller ren tekst hvis siden ikke findes.
+       slug kan være et filnavn (densitet) eller en sti (kemi/C-Eksp/staaluld) når filnavnet ikke er entydigt */ -}}
 {{- $out := "" -}}
 {{- $lab := .label -}}
-{{- $p := index .map (lower (trim .slug " ")) -}}
+{{- $s := trim .slug " " -}}
+{{- $p := "" -}}
+{{- if in $s "/" -}}
+  {{- $p = site.GetPage (cond (hasPrefix $s "/") $s (printf "/docs/%s" $s)) -}}
+{{- else -}}
+  {{- $p = index .map (lower $s) -}}
+{{- end -}}
 {{- if $p -}}
   {{- if not $lab -}}{{- $lab = $p.LinkTitle -}}{{- end -}}
   {{- $out = printf `<a href="%s">%s</a>` $p.RelPermalink $lab -}}
 {{- else -}}
-  {{- $out = printf `<span class="sp-mangler" title="Ingen side med navnet «%s»">%s</span>` .slug (or $lab .slug) -}}
+  {{- $out = printf `<span class="sp-mangler" title="Ingen side med navnet «%s»">%s</span>` $s (or $lab $s) -}}
 {{- end -}}
 {{- return $out -}}
