@@ -168,6 +168,13 @@ forloeb:
         materialer: ["ligevaegt-jernthiocyanat"]
         maal: ["At få insigt til Le Chatelier"]
         lektier: "skriv journalen færdig "
+        eksp:
+          - side: "ligevaegt-jernthiocyanat"
+            navn: "Ligevægt af jernthiocyanat"
+            timer: 2
+            aflevering: "J i Lectio"
+            kommentar: "fra Experimenter bogen"
+            eksamen: "ja"
 
       - dato: 2026-10-27
         modul:

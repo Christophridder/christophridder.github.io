@@ -52,6 +52,12 @@ def sim_figur(m):
     return f"![](/img/sim/{m.group(1)}.svg){{width=95%}}" if os.path.exists(os.path.join(ROOT, "static", "img", "sim", m.group(1) + ".svg")) else ""
 body = re.sub(r"\{\{<\s*sim\s+([\w-]+)\.html[^>]*>\}\}", sim_figur, body)
 body = re.sub(r"\{\{[<%].*?[>%]\}\}", "", body)
+# <div style="font-size:1.5em"> (stor formel på nettet) -> \Large / \large i PDF'en
+def stor_skrift(m):
+    em = float(m.group(1))
+    str_ = "\\Large" if em >= 1.4 else "\\large"
+    return f"\n```{{=latex}}\n\\begingroup{str_}\n```\n{m.group(2)}\n```{{=latex}}\n\\endgroup\n```\n"
+body = re.sub(r'<div style="font-size:\s*([\d.]+)em">(.*?)</div>', stor_skrift, body, flags=re.S)
 # <details>: overskriften (summary) bliver fed tekst. Løsninger og facit sættes på hovedet med paahovedet.lua
 def details(m):
     s = re.sub(r"<[^>]+>", "", m.group(1)).strip()

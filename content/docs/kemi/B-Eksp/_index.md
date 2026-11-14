@@ -11,4 +11,4 @@ weight: 13
 | 12 | [Salmiak]({{< relref "salmiak" >}})| Ionforbindelser (B-niveau) |
 | 13 | [Mangans oxidationstal]({{< relref "mangans-oxidationstal" >}})| Redox, oxidationstal (B-niveau) |
 | 14 | [Farvestof i rød sodavand]({{< relref "farvestof-sodavand" >}})| Spektrofotometri (B-niveau) |
-| 15 | [Ligevægt jernthiocyanat]({{< relref "ligevaegt-jernthiocyanat" >}})| Ligevægt, Le Chatelier (B-niveau) |
+| 15 | [Ligevægt af jernthiocyanat]({{< relref "ligevaegt-jernthiocyanat" >}})| Ligevægt, Le Chatelier (B-niveau) |
