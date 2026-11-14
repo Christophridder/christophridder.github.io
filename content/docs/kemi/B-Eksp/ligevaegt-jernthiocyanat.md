@@ -55,7 +55,7 @@ I hvert forsøg skal du argumentere på **to måder**:
 - Sølvnitrat, $\ce{AgNO3(aq)}$
 - Jern(III)chlorid, $\ce{FeCl3(aq)}$ (til reaktionsblandingen og glas 3)
 - Kaliumthiocyanat, $\ce{KSCN(aq)}$ (til reaktionsblandingen og glas 4)
-- Fortyndet Grøn S (grønt fødevarefarvestof, E142)
+- Farvet vand (vand med lidt farvestof)
 - Isbad og varmt vandbad (ca. 60 °C)
 - Et stykke hvidt papir
 
@@ -74,10 +74,10 @@ I hvert forsøg skal du argumentere på **to måder**:
 
 1. Hæld ca. 30 mL vand i et 50 mL bægerglas. Tilsæt et par dråber $\ce{FeCl3(aq)}$ og et par dråber $\ce{KSCN(aq)}$, og rør rundt. Opløsningen skal være tydeligt rød, men ikke så mørk, at du ikke kan se igennem den. Fortynd mere, hvis den er for mørk.
 2. Hæld reaktionsblandingen i 7 minireagensglas, ca. en tredjedel i hvert. Brug lige meget i alle glas.
-3. Hæld fortyndet Grøn S i 2 minireagensglas, G1 og G2, lige meget i begge.
+3. Hæld farvet vand i 2 minireagensglas, F1 og F2, lige meget i begge.
 4. Glas **R** er dit referenceglas. Det rører du ikke. Du sammenligner alle de andre glas med det.
 
-![Stativ med glas R, glas 1–6 med rød reaktionsblanding og glas G1 og G2 med Grøn S](/img/jernthiocyanat/glassene.svg)
+![Stativ med glas R, glas 1–6 med rød reaktionsblanding og glas F1 og F2 med farvet vand](/img/jernthiocyanat/glassene.svg)
 
 ### Glas 1: Tilsæt ascorbinsyre
 
@@ -123,15 +123,15 @@ Argumentér med skemaet og med brøken.
 
 ### Glas 5: Fortynd med vand
 
-Når du hælder vand i, bliver farven altid lysere, fordi stofferne fordeles i et større volumen. Det sker også, selvom der slet ikke er nogen ligevægt. Derfor bruger du **Grøn S som kontrol**. Grøn S er bare et farvestof og har ingen ligevægt.
+Når du hælder vand i, bliver farven altid lysere, fordi stofferne fordeles i et større volumen. Det sker også, selvom der slet ikke er nogen ligevægt. Derfor bruger du **farvet vand som kontrol**. Farvet vand er bare vand med farvestof og har ingen ligevægt.
 
-1. Hæld vand i glas 5, så volumenet fordobles. Hæld lige så meget vand i glas G2.
-2. **Kig fra siden:** Sammenlign glas 5 med glas R og glas G2 med glas G1. Begge fortyndede glas ser lysere ud.
+1. Hæld vand i glas 5, så volumenet fordobles. Hæld lige så meget vand i glas F2.
+2. **Kig fra siden:** Sammenlign glas 5 med glas R og glas F2 med glas F1. Begge fortyndede glas ser lysere ud.
 3. **Kig fra oven:** Stil glassene på et hvidt papir, og kig lodret ned gennem væsken. Nu kigger du gennem hele væskesøjlen, så du ser **alle** de farvede partikler i glasset.
-   - Grøn S: Der er lige mange farvede partikler i G1 og G2, så de ser ens ud fra oven.
+   - Farvet vand: Der er lige mange farvede partikler i F1 og F2, så de ser ens ud fra oven.
    - Jernthiocyanat: Er glas 5 lige så rødt som glas R fra oven, eller er det mindre rødt?
 
-![Grøn S og jernthiocyanat før og efter fortynding. Øjne viser, at man kigger fra siden og fra oven ned mod hvidt papir](/img/jernthiocyanat/fortynding.svg)
+![Farvet vand og jernthiocyanat før og efter fortynding. Øjne viser, at man kigger fra siden og fra oven ned mod hvidt papir](/img/jernthiocyanat/fortynding.svg)
 
 *Tip:* Alle tre koncentrationer halveres, når volumenet fordobles. Indsæt det i $Y$. Bliver tælleren eller nævneren mindst? Bliver $Y$ større eller mindre?
 
@@ -180,6 +180,6 @@ Din journal skal indeholde:
 - En kort fremgangsmåde
 - Den udfyldte tabel
 - Diskussion:
-  - Hvorfor er Grøn S en god kontrol i forsøg 5?
+  - Hvorfor er farvet vand en god kontrol i forsøg 5?
   - Er reaktionen mod højre endoterm eller exoterm? Begrund det.
   - Hvilke af påvirkningerne ændrer $Y$, og hvilken ændrer $K_c$?
