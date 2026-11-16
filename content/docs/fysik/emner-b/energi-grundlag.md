@@ -1,6 +1,8 @@
 ---
 title: "Energi"
 weight: -1
+pdf: "pdfs/energi-grundlag.pdf"
+pdf_ny_fane: true
 ---
 
 **Niveau: Fysik B** · **Emne: Energi**

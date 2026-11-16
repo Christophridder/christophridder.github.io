@@ -51,6 +51,14 @@ body = re.sub(r'\{\{<\s*gaskammer\s+"(\w+)"\s*>\}\}',
 def sim_figur(m):
     return f"![](/img/sim/{m.group(1)}.svg){{width=95%}}" if os.path.exists(os.path.join(ROOT, "static", "img", "sim", m.group(1) + ".svg")) else ""
 body = re.sub(r"\{\{<\s*sim\s+([\w-]+)\.html[^>]*>\}\}", sim_figur, body)
+# Andre shortcodes: findes static/img/shortcodes/<navn>.svg, bruges den som billede (+ evt. <navn>.md med tekst under)
+def shortcode_figur(m):
+    base = os.path.join(ROOT, "static", "img", "shortcodes", m.group(1))
+    ud = ""
+    if os.path.exists(base + ".svg"): ud += f"![](/img/shortcodes/{m.group(1)}.svg){{width=100%}}\n\n"
+    if os.path.exists(base + ".md"): ud += open(base + ".md", encoding="utf-8").read()
+    return ud
+body = re.sub(r"\{\{<\s*([\w-]+)\s*>\}\}", shortcode_figur, body)
 body = re.sub(r"\{\{[<%].*?[>%]\}\}", "", body)
 # <div style="font-size:1.5em"> (stor formel på nettet) -> \Large / \large i PDF'en
 def stor_skrift(m):
@@ -81,6 +89,14 @@ def billede(m):
                 cairosvg.svg2pdf(url=sti, write_to=pdf)
         sti = pdf
     return f"![{alt}]({sti})"
+# <img src="/img/..." alt="..." width="70%"> -> markdown-billede (pandoc smider rå HTML væk i PDF)
+def img_tag(m):
+    t = m.group(0)
+    src = re.search(r'src="([^"]+)"', t); alt = re.search(r'alt="([^"]*)"', t); w = re.search(r'width="([^"]+)"', t)
+    if not src: return t
+    bredde = "{width=" + w.group(1) + "}" if w else ""
+    return f"![]({src.group(1)}){bredde}"
+body = re.sub(r"<img\b[^>]*>", img_tag, body)
 body = re.sub(r"!\[([^\]]*)\]\((/img/[^)\s]+)\)", billede, body)
 lines, fixed = body.splitlines(), []
 islist = lambda l: re.match(r"\s*([-*]|\d+\.)\s", l)

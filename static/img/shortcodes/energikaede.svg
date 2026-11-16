@@ -1,0 +1,58 @@
+<!-- Statisk udgave af layouts/shortcodes/energikaede.html til PDF (md2pdf.py) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" width="1000" height="420" role="img" style="background:#eaf5fc;font-family:Helvetica,Arial,sans-serif" aria-label="Kulkraftværk, elnet og hus med energiformerne i hvert led">
+  <rect width="1000" height="420" fill="#eaf5fc"/>
+  <rect y="350" width="1000" height="70" fill="#a7c99a"/>
+  <!-- Kraftværksbygning -->
+  <rect x="130" y="170" width="370" height="185" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+  <rect x="165" y="60" width="44" height="112" fill="#94a3b8" stroke="#475569" stroke-width="2"/>
+  <g fill="#cbd5e1"><circle cx="195" cy="42" r="15"/><circle cx="218" cy="28" r="19"/><circle cx="248" cy="20" r="14"/></g>
+  <text x="315" y="160" font-size="16" fill="#475569" text-anchor="middle">Kraftværk</text>
+
+  <g class="ek-led" data-i="0" tabindex="0" style="--ek:#92400e">
+    <path d="M30 352 L55 305 L78 322 L98 292 L122 352 Z" fill="#1e293b"/>
+    <text x="75" y="284" font-size="15" text-anchor="middle" fill="#1e293b">Kul</text>
+  </g>
+  <g class="ek-led" data-i="1" tabindex="0" style="--ek:#dc2626">
+    <rect x="150" y="215" width="86" height="82" rx="6" fill="#93c5fd" stroke="#1e293b" stroke-width="3"/>
+    <path d="M160 340 q8 -36 24 -34 q-4 16 10 14 q2 -18 18 -14 q10 18 6 34 Z" fill="#f97316"/>
+    <text x="193" y="262" font-size="14" text-anchor="middle" fill="#1e293b">Kedel</text>
+  </g>
+  <g class="ek-led" data-i="2" tabindex="0" style="--ek:#1d4ed8">
+    <path d="M236 234 H300" stroke="#64748b" stroke-width="12"/>
+    <path d="M250 222 q7 -8 14 0 t14 0" fill="none" stroke="#fff" stroke-width="2"/>
+    <text x="268" y="256" font-size="13" text-anchor="middle" fill="#1e293b">Damp</text>
+  </g>
+  <g class="ek-led" data-i="3" tabindex="0" style="--ek:#1d4ed8">
+    <circle cx="344" cy="234" r="36" fill="#bfdbfe" stroke="#1e293b" stroke-width="3"/>
+    <g stroke="#1e293b" stroke-width="5"><path d="M344 202 V266"/><path d="M312 234 H376"/><path d="M322 212 L366 256"/><path d="M366 212 L322 256"/></g>
+    <text x="344" y="303" font-size="14" text-anchor="middle" fill="#1e293b">Turbine</text>
+  </g>
+  <path d="M380 234 H410" stroke="#1e293b" stroke-width="7"/>
+  <g class="ek-led" data-i="4" tabindex="0" style="--ek:#a16207">
+    <rect x="410" y="204" width="76" height="60" rx="8" fill="#fde68a" stroke="#1e293b" stroke-width="3"/>
+    <text x="448" y="240" font-size="24" text-anchor="middle" fill="#1e293b">~</text>
+    <text x="448" y="282" font-size="14" text-anchor="middle" fill="#1e293b">Generator</text>
+  </g>
+  <g class="ek-led" data-i="5" tabindex="0" style="--ek:#a16207">
+    <path d="M488 225 H520 V110 Q610 170 690 110 L800 180" fill="none" stroke="#a16207" stroke-width="3"/>
+    <path d="M690 345 L690 100 M660 345 L690 100 L720 345 M665 125 H715" stroke="#475569" stroke-width="3" fill="none"/>
+    <text x="600" y="210" font-size="14" text-anchor="middle" fill="#1e293b">Elledning</text>
+    <g fill="#ef4444"><circle cx="590" cy="118" r="3"/><circle cx="612" cy="110" r="3"/><circle cx="634" cy="118" r="3"/></g>
+    <text x="612" y="100" font-size="12" text-anchor="middle" fill="#dc2626">lidt varmetab</text>
+  </g>
+  <g class="ek-led" data-i="6" tabindex="0" style="--ek:#ca8a04">
+    <path d="M785 200 L870 125 L955 200 Z" fill="#b91c1c"/>
+    <rect x="798" y="198" width="144" height="36" fill="#fef3c7" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="870" cy="214" r="10" fill="#facc15" stroke="#1e293b"/>
+    <g stroke="#facc15" stroke-width="3"><path d="M850 214 H838"/><path d="M890 214 H902"/></g>
+    <text x="870" y="176" font-size="14" text-anchor="middle" fill="#fff">Hus: lys</text>
+  </g>
+  <g class="ek-led" data-i="7" tabindex="0" style="--ek:#1d4ed8">
+    <path d="M790 330 v-24 l34 -6 l26 -26 h52 l26 30 l24 6 v20 Z" fill="#60a5fa" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="825" cy="332" r="15" fill="#1e293b"/><circle cx="912" cy="332" r="15" fill="#1e293b"/>
+    <text x="870" y="300" font-size="14" text-anchor="middle" fill="#1e293b">Elbil</text>
+  </g>
+  <g class="ek-led" data-i="8" tabindex="0" style="--ek:#64748b">
+    <text x="375" y="331" font-size="14" text-anchor="middle" fill="#475569">Spildvarme → fjernvarme</text>
+  </g>
+</svg>
