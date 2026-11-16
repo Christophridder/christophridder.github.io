@@ -25,7 +25,8 @@ def skema(top,derfor,fil):
     for (x,k),t in zip(cols,top):
         c=colr[k]
         s.append(f'<rect x="{x}" y="25" width="62" height="160" rx="14" fill="white" stroke="{c}" stroke-width="2"/>')
-        if t: s.append(lbl(t,x+31,80,24,"#0f172a",italic=not t[0].isdigit()))
+        synlig=re.sub(r"_\{[^}]*\}|\^\{[^}]*\}","",t)  # lange etiketter (fx m·ΔT) tegnes lidt mindre
+        if t: s.append(lbl(t,x+31,80,24 if len(synlig)<=3 else 19,"#0f172a",italic=not t[0].isdigit()))
         s.append(f'<line x1="{x+10}" y1="105" x2="{x+52}" y2="105" stroke="#e2e8f0"/>')
         s.append(lbl(k,x+31,150,24,c))
     for x,o in ops:
@@ -45,3 +46,7 @@ skema(["m","ρ","V","m_{1}"],("ρ","m_{1}"),"tolkning-densitet.svg")
 skema(["a_{tot}","1","a_{akse}^{3}","0"],("1","0"),"tolkning-terninger.svg")
 skema(["","","",""],("",""),"tolkning-tom.svg")
 skema(["F_{gnid}","μ","F_{N}","F_{fejl}"],("μ","F_{fejl}"),"tolkning-gnidning.svg")
+# Fysik/Metoder/lineaer-regression.md (varmekapacitet og gnidning med masse)
+skema(["E","c","m·ΔT","E_{0}"],("c","E_{0}"),"tolkning-varmekapacitet.svg")
+skema(["E","m·c","ΔT","E_{0}"],("m·c","E_{0}"),"tolkning-varmekapacitet-dT.svg")
+skema(["F_{gnid}","μ","m·g","F_{fejl}"],("μ","F_{fejl}"),"tolkning-gnidning-masse.svg")

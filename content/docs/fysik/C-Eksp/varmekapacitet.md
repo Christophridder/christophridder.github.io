@@ -45,6 +45,8 @@ Plotter vi den tilførte energi $E$ op ad $y$-aksen og temperaturforskellen
 $\Delta T$ ud ad $x$-aksen, bliver hældningen $m \cdot c$. Kender vi massen $m$,
 kan vi finde $c$.
 
+Vil du have $c$ direkte som hældning, kan du sætte $m \cdot \Delta T$ ud ad $x$-aksen. Se [Lineær regression]({{< relref "/docs/fysik/Metoder/lineaer-regression" >}}).
+
 ## Variabelkontrol
 
 - **Uafhængig variabel:** den tilførte energi $E$ (i trin af ca. $5000\text{ J}$).

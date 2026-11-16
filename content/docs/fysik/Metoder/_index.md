@@ -36,8 +36,8 @@ Her samles de faglige metoder, vi bruger i fysik – kort forklaret, med eksempl
 
 | Metode | Kort fortalt |
 |---|---|
-| Lineær regression | Hældningen på en ret linje giver en fysisk størrelse, fx $g$ eller en fjederkonstant |
-| Linearisering | Du omskriver en potens- eller eksponentialsammenhæng, så den bliver lineær |
+| [Lineær regression]({{< relref "/docs/fysik/Metoder/lineaer-regression" >}}) | Hældningen på en ret linje giver en fysisk størrelse, fx $g$ eller en fjederkonstant |
+| [Variabeltransformation]({{< relref "/docs/fysik/Metoder/lineaer-regression#variabeltransformation" >}}) | Du omskriver en potens- eller eksponentialsammenhæng, så den bliver lineær |
 | Usikkerhed og fejlforplantning | Hvor sikkert er resultatet? Se også [Fejlkilder]({{< relref "/docs/nat/fejlkilder" >}}) og [Betydende cifre]({{< relref "/docs/nat/betydendecifre" >}}) |
 | Enhedsanalyse | Passer enhederne? Et hurtigt tjek af formler og resultater |
 | Numeriske metoder | Euler og Runge-Kutta til bevægelser med fx luftmodstand |

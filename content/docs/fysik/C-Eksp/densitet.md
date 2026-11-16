@@ -108,6 +108,8 @@ $b = m_{\text{glas}}$ er måleglassets masse.
 
 Lav alle tre væsker i samme diagram, så I kan sammenligne hældningerne direkte.
 
+Læs mere om, hvorfor regression er bedre end at dividere $m$ med $V$ for hver måling, under [Lineær regression]({{< relref "/docs/fysik/Metoder/lineaer-regression" >}}).
+
 ---
 
 ## Afrapportering
