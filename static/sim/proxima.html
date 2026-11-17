@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rejsen til Proxima Centauri – Fysik A</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; }
+#px { background: #f1f5f9; border-radius: 14px; overflow: hidden; max-width: 1000px; margin: 0 auto; box-shadow: 0 4px 24px rgba(0,0,0,0.13); }
+.px-head { background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 100%); padding: 12px 20px; color: white; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.px-head h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+.px-head p { font-size: 0.78rem; opacity: 0.8; flex: 1; min-width: 200px; }
+.px-head a { color: white; font-size: 0.75rem; opacity: 0.85; }
+.body { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); }
+@media (max-width: 680px) { .body { grid-template-columns: 1fr; } }
+canvas { display: block; width: 100%; height: auto; aspect-ratio: 1.25 / 1; background: white; }
+.panel { background: white; border-left: 1px solid #e2e8f0; padding: 10px 12px; display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+.lbl { font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .05em; }
+.valg { display: grid; grid-template-columns: 1fr; gap: 4px; }
+.valg button {
+  display: flex; justify-content: space-between; gap: 8px; align-items: baseline; text-align: left;
+  border: 1.5px solid #cbd5e1; background: white; border-radius: 8px; padding: 6px 9px;
+  font-size: 0.8rem; cursor: pointer; font-family: inherit; color: #1e293b;
+}
+.valg button span { font-size: 0.72rem; color: #64748b; white-space: nowrap; }
+.valg button:hover { border-color: #2563eb; }
+.valg button[aria-pressed="true"] { border-color: #2563eb; background: #eff6ff; }
+.valg button i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+input[type=range] { width: 100%; accent-color: #2563eb; }
+.grp label { display: flex; justify-content: space-between; font-size: 0.74rem; font-weight: 700; color: #475569; }
+.grp label span { color: #1e40af; }
+.read { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.card { background: #f1f5f9; border-radius: 8px; padding: 6px 8px; }
+.card.jord .k { color: #1d4ed8; } .card.skib .k { color: #c2410c; }
+.card .k { font-size: 0.66rem; color: #64748b; font-weight: 700; }
+.card .v { font-size: 0.95rem; font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; }
+.card.bred { grid-column: 1 / -1; }
+.note { font-size: 0.74rem; line-height: 1.4; color: #475569; padding: 8px 12px 10px; }
+</style>
+</head>
+<body>
+<div id="px">
+  <div class="px-head">
+    <h1>Rejsen til Proxima Centauri</h1>
+    <p>Den nærmeste stjerne er 4,25 lysår væk. Hvor lang tid tager rejsen – på Jorden og om bord?</p>
+    <a href="proxima.html" target="_blank" rel="noopener">Åbn i fuld skærm ↗</a>
+  </div>
+  <div class="body">
+    <canvas id="c" aria-label="Graf over rejsetid i år som funktion af farten v/c"></canvas>
+    <div class="panel">
+      <div class="lbl">Vælg et rumskib</div>
+      <div class="valg" id="valg"></div>
+      <div class="valg"><button id="bZoom" aria-pressed="false"><b>🔍 Zoom ind på 0,1c til c</b><span>lineær fart-akse</span></button></div>
+      <div class="grp">
+        <label for="sV">Eller vælg selv farten <span id="vV"></span></label>
+        <input type="range" id="sV" min="-5.3" max="-0.0002" step="0.001">
+      </div>
+      <div class="read">
+        <div class="card"><div class="k">Fart</div><div class="v" id="rFart"></div></div>
+        <div class="card"><div class="k">v / c</div><div class="v" id="rB"></div></div>
+        <div class="card jord"><div class="k">Tid målt på Jorden</div><div class="v" id="rJ"></div></div>
+        <div class="card skib"><div class="k">Tid om bord</div><div class="v" id="rS"></div></div>
+        <div class="card bred"><div class="k">Afrejse i 2026 – ankomst år</div><div class="v" id="rA"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="note">
+    <b style="color:#1d4ed8">Blå:</b> tid målt på Jorden, t = d / v. <b style="color:#c2410c">Orange:</b> tid om bord, t₀ = t · √(1 − v²/c²).
+    Tidsaksen er logaritmisk. Modellen regner med konstant fart hele vejen – uden acceleration og opbremsning.
+  </div>
+</div>
+
+<script>
+const C = 299792.458, LY = 9.4607e12, D = 4.25, AAR = 365.25 * 86400;   // km/s, km pr. lysår, lysår, s pr. år
+const SKIBE = [
+  ['Voyager 2', 15.4, '#0891b2', 'rumsonde, 15,4 km/s'],
+  ['Helios 2', 70.2, '#7c3aed', 'rekord 1976, 70,2 km/s'],
+  ['Parker Solar Probe', 192, '#db2777', 'rekord 2024, 192 km/s'],
+  ['Breakthrough Starshot', 0.2 * C, '#16a34a', 'planlagt lysejl, 0,2c'],
+  ['Venture Star (Avatar)', 0.7 * C, '#ea580c', 'film, 0,7c'],
+];
+const $ = id => document.getElementById(id);
+const dk = (x, n) => x.toFixed(n).replace('.', ',');
+let beta = SKIBE[0][1] / C, zoom = false;
+
+function tal(x) {               // pænt tal med tusindtalsseparator eller to decimaler
+  if (x >= 100) return Math.round(x).toLocaleString('da-DK');
+  if (x >= 10) return dk(x, 1);
+  return dk(x, 2);
+}
+const jordtid = b => D / b;                         // år (afstand i lysår divideret med v/c)
+const skibstid = b => D / b * Math.sqrt(1 - b * b);
+
+SKIBE.forEach(([navn, v, farve, tekst]) => {
+  const b = document.createElement('button');
+  b.innerHTML = `<b><i style="background:${farve}"></i>${navn}</b><span>${tekst}</span>`;
+  b.onclick = () => { beta = v / C; $('sV').value = Math.log10(beta); tegn(); };
+  b.dataset.b = v / C;
+  $('valg').appendChild(b);
+});
+$('sV').value = Math.log10(beta);
+$('sV').oninput = () => { beta = 10 ** +$('sV').value; tegn(); };
+$('bZoom').onclick = () => {
+  zoom = !zoom; $('bZoom').setAttribute('aria-pressed', zoom);
+  if (zoom && beta < 0.1) { beta = 0.7; $('sV').value = Math.log10(beta); }
+  tegn();
+};
+
+function tegn() {
+  const cv = $('c'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = cv.clientWidth, h = cv.clientHeight;
+  cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+  const c = cv.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0);
+  c.fillStyle = 'white'; c.fillRect(0, 0, w, h);
+
+  const pl = 80, pr = 14, pt = 16, pb = 40;
+  const lin = zoom;                                  // zoom: lineær v/c fra 0,1 til 1
+  const X0 = lin ? 0.1 : -5.5, X1 = lin ? 1 : 0, Y0 = lin ? -1.5 : -0.5, Y1 = lin ? 2 : 6;
+  const xv = b => lin ? b : Math.log10(b);           // fra v/c til x-koordinat
+  const X = b => pl + (w - pl - pr) * (xv(b) - X0) / (X1 - X0);
+  const Y = t => h - pb - (h - pt - pb) * (Math.log10(t) - Y0) / (Y1 - Y0);
+
+  // Gitter og akser
+  c.font = '600 11px system-ui, sans-serif'; c.fillStyle = '#64748b'; c.strokeStyle = '#e2e8f0'; c.lineWidth = 1;
+  const xt = lin ? [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1].map(b => [b, dk(b, 1)])
+                 : [-5, -4, -3, -2, -1, 0].map(e => [10 ** e, e === 0 ? '1' : '10' + String(e).replace('-', '⁻').replace(/\d/, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d])]);
+  for (const [b, t] of xt) {
+    c.beginPath(); c.moveTo(X(b), pt); c.lineTo(X(b), h - pb); c.stroke();
+    c.textAlign = 'center'; c.textBaseline = 'top'; c.fillText(t, X(b), h - pb + 5);
+  }
+  const yt = lin ? [[0.1, '0,1 år'], [1, '1 år'], [10, '10 år'], [100, '100 år']]
+                 : [[1, '1 år'], [10, '10 år'], [100, '100 år'], [1e3, '1000 år'], [1e4, '10.000 år'], [1e5, '100.000 år'], [1e6, '1 mio. år']];
+  for (const [t, tekst] of yt) {
+    c.beginPath(); c.moveTo(pl, Y(t)); c.lineTo(w - pr, Y(t)); c.stroke();
+    c.textAlign = 'right'; c.textBaseline = 'middle'; c.fillText(tekst, pl - 6, Y(t));
+  }
+  c.fillStyle = '#334155'; c.textAlign = 'center'; c.textBaseline = 'bottom';
+  c.fillText(lin ? 'Fart  v / c  (lineær)' : 'Fart  v / c  (logaritmisk)', pl + (w - pl - pr) / 2, h - 3);
+
+  // Et menneskeliv
+  const liv = Y(80);
+  c.fillStyle = 'rgba(22,163,74,.08)'; c.fillRect(pl, Math.max(liv, pt), w - pl - pr, h - pb - Math.max(liv, pt));
+  if (liv > pt) {
+    c.strokeStyle = '#16a34a'; c.setLineDash([5, 4]); c.beginPath(); c.moveTo(pl, liv); c.lineTo(w - pr, liv); c.stroke(); c.setLineDash([]);
+    c.fillStyle = '#15803d'; c.textAlign = 'left'; c.textBaseline = 'bottom'; c.fillText('Et menneskeliv (80 år)', pl + 6, liv - 2);
+  }
+
+  // Kurverne
+  const kurve = (f, farve, bred) => {
+    c.strokeStyle = farve; c.lineWidth = bred; c.beginPath();
+    let foerste = true;
+    for (let i = 0; i <= 1200; i++) {
+      const b = lin ? 0.1 + 0.9 * i / 1200 * 0.99999 : 10 ** (X0 + (X1 - X0) * i / 1200 - 1e-6);
+      if (b >= 1) break;
+      const x = X(b), y = Y(f(b));
+      foerste ? c.moveTo(x, y) : c.lineTo(x, y); foerste = false;
+    }
+    c.stroke();
+  };
+  c.save(); c.beginPath(); c.rect(pl, pt, w - pl - pr, h - pt - pb); c.clip();
+  kurve(skibstid, '#f97316', 2.5);
+  kurve(jordtid, '#2563eb', 2.5);
+  for (const [navn, v, farve] of SKIBE) {
+    const b = v / C;
+    c.fillStyle = farve; c.beginPath(); c.arc(X(b), Y(jordtid(b)), 5, 0, 7); c.fill();
+  }
+  const yj = Y(jordtid(beta)), ys = Y(skibstid(beta)), xb = X(beta);
+  c.strokeStyle = '#0f172a'; c.lineWidth = 1; c.setLineDash([3, 3]);
+  c.beginPath(); c.moveTo(xb, h - pb); c.lineTo(xb, Math.min(yj, ys)); c.stroke(); c.setLineDash([]);
+  for (const [y, farve] of [[ys, '#f97316'], [yj, '#2563eb']]) {
+    c.fillStyle = farve; c.strokeStyle = 'white'; c.lineWidth = 2;
+    c.beginPath(); c.arc(xb, y, 7, 0, 7); c.fill(); c.stroke();
+  }
+  c.restore();
+
+  c.font = '700 12px system-ui, sans-serif'; c.textBaseline = 'middle';
+  if (lin) {
+    c.fillStyle = '#2563eb'; c.textAlign = 'left'; c.fillText('Tid på Jorden', X(0.16), Y(jordtid(0.16)) - 14);
+    c.fillStyle = '#c2410c'; c.textAlign = 'right'; c.fillText('Tid om bord', X(0.93) - 8, Y(skibstid(0.93)) + 16);
+  } else {
+    c.fillStyle = '#2563eb'; c.textAlign = 'left'; c.fillText('Tid på Jorden', X(10 ** -4.2) + 6, Y(jordtid(10 ** -4.2)) - 14);
+    c.fillStyle = '#c2410c'; c.textAlign = 'right'; c.fillText('Tid om bord', X(0.75) - 10, Y(skibstid(0.97)) + 4);
+  }
+
+  // Aflæsninger
+  const tj = jordtid(beta), ts = skibstid(beta), v = beta * C;
+  $('vV').textContent = beta < 0.01 ? tal(v) + ' km/s' : dk(beta, 3) + 'c';
+  $('rFart').textContent = v < 1000 ? dk(v, 1) + ' km/s' : Math.round(v).toLocaleString('da-DK') + ' km/s';
+  const eks = Math.floor(Math.log10(beta));
+  $('rB').textContent = beta < 0.01 ? dk(beta / 10 ** eks, 2) + '·10' + String(eks).replace('-', '⁻').replace(/\d/g, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]) : dk(beta, 3);
+  $('rJ').textContent = tal(tj) + ' år';
+  $('rS').textContent = tal(ts) + ' år';
+  const aar = Math.round(2026 + tj);
+  $('rA').textContent = 'år ' + (aar < 10000 ? String(aar) : aar.toLocaleString('da-DK')) + ' (Jordens kalender)';
+  document.querySelectorAll('#valg button[data-b]').forEach(b => b.setAttribute('aria-pressed', Math.abs(+b.dataset.b - beta) / beta < 1e-6));
+}
+
+new ResizeObserver(tegn).observe($('px'));
+tegn();
+</script>
+</body>
+</html>

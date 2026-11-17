@@ -8,4 +8,4 @@ bookCollapseSection: true
 
 | Fil | Emne |
 |---|---|
-| [Speciel relativitetsteori]({{< relref "speciel-relativitetsteori" >}}) | Tidsforlængelse, længdekontraktion, E = mc² |
+| [Speciel relativitetsteori]({{< relref "speciel-relativitetsteori" >}}) | Tidsforlængelse, længdekontraktion, myoner, rejsen til Proxima Centauri (**simulering**) |

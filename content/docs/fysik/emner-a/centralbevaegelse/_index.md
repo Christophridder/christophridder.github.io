@@ -13,5 +13,6 @@ bookCollapseSection: true
 | [Keplers love]({{< relref "keplers-love" >}}) | Ellipse-, flade- og periodeloven, geostationær bane, **simulering** |
 | [Energi i centralbevægelse]({{< relref "energi-centralbevaegelse" >}}) | $E_{\text{pot}} = -GMm/r$, energi i bane, undvigelseshastighed, tyngdebrønden (**simulering**) |
 | [Raketligningen]({{< relref "raketligningen" >}}) | Motorkraft, $\Delta v = u \cdot \ln(m_0/m)$, vandraket, **simuleringer** |
+| [Findes tyngdekraften?]({{< relref "tyngdekraft-referenceramme" >}}) | Video, referenceramme, ækvivalensprincippet – overgang til relativitetsteori |
 
 **Simulering:** [Kredsløb om Jorden](/sim/kredsloeb.html) – åbn i fuld skærm.
