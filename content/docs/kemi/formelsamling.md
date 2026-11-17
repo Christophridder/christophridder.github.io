@@ -39,7 +39,7 @@ I kemi bruges især **milli** (mL, mmol, mM = mmol/L), **mikro** (µg, µmol) og
 | Molvolumen af idealgas | $V_m$ | $22{,}41\ \text{L/mol}$ ved 0 °C og 1 atm | |
 | | | $24{,}47\ \text{L/mol}$ ved 25 °C og 1 atm | |
 | | | $24{,}79\ \text{L/mol}$ ved 25 °C og 1 bar | tjek altid, hvilke betingelser opgaven bruger |
-| Vands ionprodukt | $K_w$ | $1{,}0 \cdot 10^{-14}\ \text{M}^2$ ved 25 °C | temperaturafhængig: ca. $1{,}1 \cdot 10^{-15}$ ved 0 °C og $5{,}5 \cdot 10^{-14}$ ved 50 °C |
+| Vands ionprodukt | $K_v$ | $1{,}0 \cdot 10^{-14}\ \text{M}^2$ ved 25 °C | temperaturafhængig: ca. $1{,}1 \cdot 10^{-15}$ ved 0 °C og $5{,}5 \cdot 10^{-14}$ ved 50 °C |
 | Faradays konstant | $F$ | $96\,485\ \text{C/mol}$ | ladning af 1 mol elektroner |
 | Atomar masseenhed | u | $1{,}661 \cdot 10^{-27}\ \text{kg}$ | 1 u pr. atom ↔ 1 g/mol |
 | Absolut nulpunkt | | $0\ \text{K} = -273{,}15\ \text{°C}$ | $T/\text{K} = t/\text{°C} + 273{,}15$ |
@@ -107,7 +107,7 @@ Eksempel: 10,00 mL HCl kræver 12,50 mL 0,100 M NaOH: $c_s = \dfrac{0{,}100 \cdo
 | Syre / base (Brønsted) | syre = protondonor, base = protonacceptor | $\ce{HA + H2O <=> A- + H3O+}$ |
 | pH | $\text{pH} = -\log[\ce{H3O+}]$ | $[\ce{H3O+}] = 10^{-\text{pH}}$ |
 | pOH | $\text{pOH} = -\log[\ce{OH-}]$ | $[\ce{OH-}] = 10^{-\text{pOH}}$ |
-| Vands autoprotolyse | $[\ce{H3O+}] \cdot [\ce{OH-}] = K_w$ | |
+| Vands autoprotolyse | $[\ce{H3O+}] \cdot [\ce{OH-}] = K_v$ | |
 | Sammenhæng | $\text{pH} + \text{pOH} = 14{,}00$ | **kun ved 25 °C** |
 | Stærk syre | $\text{pH} = -\log c_s$ | fuldstændigt protolyseret |
 | Stærk base | $\text{pOH} = -\log c_b$, $\ \text{pH} = 14{,}00 - \text{pOH}$ | |
@@ -254,20 +254,20 @@ Eksempel: $\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$ har $K = \dfrac{[\ce{NH3}]^2}{[\ce{N
 
 | Størrelse | Formel | Bemærkning |
 |---|---|---|
-| Syrestyrkekonstant | $K_a = \dfrac{[\ce{H3O+}] \cdot [\ce{A-}]}{[\ce{HA}]}$ | |
+| Syrestyrkekonstant | $K_s = \dfrac{[\ce{H3O+}] \cdot [\ce{A-}]}{[\ce{HA}]}$ | |
 | Basestyrkekonstant | $K_b = \dfrac{[\ce{HB+}] \cdot [\ce{OH-}]}{[\ce{B}]}$ | |
-| Styrkeeksponent | $\text{p}K_a = -\log K_a$ | lille $\text{p}K_a$ → stærk syre |
-| Korresponderende syre-basepar | $K_a \cdot K_b = K_w$, $\ \text{p}K_a + \text{p}K_b = 14{,}00$ | 25 °C |
-| Svag syre | $\text{pH} = \tfrac{1}{2}\left(\text{p}K_a - \log c_s\right)$ | kun når syren er **lidt** protolyseret (tjek: $[\ce{H3O+}] \ll c_s$) |
+| Styrkeeksponent | $\text{p}K_s = -\log K_s$ | lille $\text{p}K_s$ → stærk syre |
+| Korresponderende syre-basepar | $K_s \cdot K_b = K_v$, $\ \text{p}K_s + \text{p}K_b = 14{,}00$ | 25 °C |
+| Svag syre | $\text{pH} = \tfrac{1}{2}\left(\text{p}K_s - \log c_s\right)$ | kun når syren er **lidt** protolyseret (tjek: $[\ce{H3O+}] \ll c_s$) |
 | Svag base | $\text{pOH} = \tfrac{1}{2}\left(\text{p}K_b - \log c_b\right)$ | tilsvarende forudsætning |
-| Middelstærk syre | $K_a = \dfrac{x^2}{c_s - x}$, $\ x = [\ce{H3O+}]$ | løs andengradsligningen |
-| Pufferligningen | $\text{pH} = \text{p}K_a + \log\!\left(\dfrac{c_b}{c_s}\right)$ | Henderson–Hasselbalch; god puffer for $\text{pH} = \text{p}K_a \pm 1$ |
-| Halvækvivalenspunkt | $\text{pH} = \text{p}K_a$ | $c_s = c_b$ |
+| Middelstærk syre | $K_s = \dfrac{x^2}{c_s - x}$, $\ x = [\ce{H3O+}]$ | løs andengradsligningen |
+| Pufferligningen | $\text{pH} = \text{p}K_s + \log\!\left(\dfrac{c_b}{c_s}\right)$ | Henderson–Hasselbalch; god puffer for $\text{pH} = \text{p}K_s \pm 1$ |
+| Halvækvivalenspunkt | $\text{pH} = \text{p}K_s$ | $c_s = c_b$ |
 
-Eksempler: 0,10 M eddikesyre ($\text{p}K_a = 4{,}76$): $\text{pH} = \tfrac{1}{2}(4{,}76 + 1{,}00) = 2{,}88$.
+Eksempler: 0,10 M eddikesyre ($\text{p}K_s = 4{,}76$): $\text{pH} = \tfrac{1}{2}(4{,}76 + 1{,}00) = 2{,}88$.
 En puffer med 0,10 M eddikesyre og 0,10 M natriumacetat har pH = 4,76.
 
-| Syre | Korresponderende base | $\text{p}K_a$ (25 °C) |
+| Syre | Korresponderende base | $\text{p}K_s$ (25 °C) |
 |---|---|---|
 | $\ce{H3PO4}$ | $\ce{H2PO4-}$ | 2,15 |
 | HF | $\ce{F-}$ | 3,17 |
@@ -278,10 +278,24 @@ En puffer med 0,10 M eddikesyre og 0,10 M natriumacetat har pH = 4,76.
 | $\ce{HCO3-}$ | $\ce{CO3^2-}$ | 10,33 |
 | $\ce{HPO4^2-}$ | $\ce{PO4^3-}$ | 12,35 |
 
-> $\text{p}K_a$-værdier afviger typisk med nogle få hundrededele mellem databøger
+> $\text{p}K_s$-værdier afviger typisk med nogle få hundrededele mellem databøger
 > (fx angives phosphorsyres 3. trin som 12,32–12,38). Brug din egen databogs værdier til eksamen.
 
-![Titrerkurve for en svag syre](/images/formelsamling/titrerkurve.svg)
+**Titrerkurve for en svag syre med en stærk base** – hvilken formel gælder hvor?
+
+![Titrerkurve for 50,0 mL 0,100 M eddikesyre titreret med 0,100 M NaOH. Start, pufferområde, halvækvivalens, ækvivalens og overskud af base er markeret med den formel, der gælder](/images/formelsamling/titrerkurve.svg)
+
+| Område på kurven | Hvad er der i kolben? | Formel |
+|---|---|---|
+| Start (0 mL) | kun svag syre | $\text{pH} = \tfrac{1}{2}\left(\text{p}K_s - \log c_s\right)$ |
+| Pufferområdet | svag syre + korresponderende base | $\text{pH} = \text{p}K_s + \log\!\left(\dfrac{c_b}{c_s}\right)$ |
+| Halvækvivalens | lige meget syre og base | $\text{pH} = \text{p}K_s$ |
+| Ækvivalens | kun svag base $\ce{A-}$ | $\text{pOH} = \tfrac{1}{2}\left(\text{p}K_b - \log c_b\right)$, $\ \text{p}K_b = 14{,}00 - \text{p}K_s$ |
+| Efter ækvivalens | overskud af $\ce{OH-}$ | $\text{pOH} = -\log[\ce{OH-}]_{\text{overskud}}$ |
+
+> **Husk fortyndingen:** Ved ækvivalens er volumenet fordoblet, så $c_b = 0{,}050\ \text{M}$ og ikke 0,100 M.
+> Efter ækvivalens: $[\ce{OH-}]_{\text{overskud}} = \dfrac{n_{\ce{OH-}} - n_{\text{syre}}}{V_{\text{total}}}$.
+> Punkterne på figuren er regnet med formlerne og ligger mindre end 0,01 pH-enhed fra den eksakt beregnede kurve.
 
 ### Reaktionshastighed
 

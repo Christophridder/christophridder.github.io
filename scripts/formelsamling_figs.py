@@ -501,11 +501,14 @@ def ph_skala():
 
 
 def titrerkurve():
-    Ka, Kw = 10 ** -4.76, 1e-14
-    ca, Va, cb = 0.100, 25.0, 0.100
-    Vb = np.linspace(0.01, 50, 1000)
-    pH = []
-    for vb in Vb:
+    """50,0 mL 0,100 M eddikesyre titreret med 0,100 M NaOH.
+    Kurven er beregnet eksakt (ladningsbalance). Punkterne er beregnet med B-niveau-formlerne."""
+    pKa, Kw = 4.76, 1e-14
+    Ka = 10 ** -pKa
+    ca, Va, cb = 0.100, 50.0, 0.100
+    Vb = np.linspace(0.0, 75, 1501)
+
+    def ph_eksakt(vb):
         Ct = ca * Va / (Va + vb)
         Na = cb * vb / (Va + vb)
         lo, hi = 0.0, 14.0
@@ -513,25 +516,59 @@ def titrerkurve():
             m = (lo + hi) / 2
             h = 10 ** -m
             f = h + Na - Kw / h - Ct * Ka / (Ka + h)
-            if f > 0:
-                lo = m
-            else:
-                hi = m
-        pH.append((lo + hi) / 2)
-    fig, ax = plt.subplots(figsize=(6.5, 3.8))
-    ax.plot(Vb, pH, color=BLUE, lw=2.4)
-    ph_half = np.interp(12.5, Vb, pH)
-    ph_eq = np.interp(25, Vb, pH)
-    ax.plot([12.5, 12.5, 0], [0, ph_half, ph_half], color=RED, ls="--", lw=1)
-    ax.text(13.3, 2.6, f"halvækvivalens: pH = p$K_a$ = 4,76", color=RED, fontsize=9)
-    ax.plot([25, 25], [0, ph_eq], color=GREEN, ls="--", lw=1)
-    ax.plot(25, ph_eq, "o", color=GREEN)
-    ax.text(26, ph_eq - .6, f"ækvivalenspunkt\npH ≈ {ph_eq:.1f}".replace(".", ","), color=GREEN, fontsize=9)
+            lo, hi = (m, hi) if f > 0 else (lo, m)
+        return (lo + hi) / 2
+    pH = np.array([ph_eksakt(v) for v in Vb])
+
+    # Formelværdier
+    ph_start = 0.5 * (pKa - np.log10(ca))
+    ph_halv = pKa
+    c_aekv = ca * Va / (Va + 50.0)                      # fortyndet: 0,0500 M acetat
+    ph_aekv = 14 - 0.5 * ((14 - pKa) - np.log10(c_aekv))
+    v_pkt = 70.0
+    oh = (cb * v_pkt - ca * Va) / (Va + v_pkt)        # overskud af OH-
+    ph_over = 14 + np.log10(oh)
+    v_puf = 40.0
+    ph_puf = pKa + np.log10((cb * v_puf) / (ca * Va - cb * v_puf))
+    PURPLE = "#7b3fa0"
+
+    fig, ax = plt.subplots(figsize=(8.6, 5.6))
+    ax.plot(Vb, pH, color=BLUE, lw=2.4, zorder=3)
+    ax.axhline(13.0, color=ORANGE, ls="--", lw=1)
+    ax.text(1, 13.2, "pH i 0,100 M NaOH = 13,0  (kurven nærmer sig, men når den aldrig)", color=ORANGE, fontsize=9)
+    ax.axvline(50, color=GREY, ls=":", lw=1)
+    ax.plot([25, 25, 0], [0, ph_halv, ph_halv], color=PURPLE, ls="--", lw=1)
+
+    def pkt(x, y, c):
+        ax.plot(x, y, "o", ms=8, mfc="white", mec=c, mew=2.2, zorder=4)
+
+    pkt(0, ph_start, GREEN)
+    ax.text(1.5, ph_start - 0.95, "Start, svag syre:\n"
+            r"pH $= \frac{1}{2}(\mathrm{p}K_s - \log c_s)$ = " + f"{ph_start:.2f}".replace(".", ","),
+            color=GREEN, fontsize=10)
+    pkt(v_puf, ph_puf, PURPLE)
+    ax.text(14, 6.1, "Pufferområde:\n"
+            r"pH $= \mathrm{p}K_s + \log\left(\frac{c_b}{c_s}\right)$",
+            color=PURPLE, fontsize=10)
+    pkt(25, ph_halv, PURPLE)
+    ax.text(26, ph_halv - 0.85, r"Halvækvivalens: pH $= \mathrm{p}K_s$ = 4,76",
+            color=PURPLE, fontsize=10)
+    pkt(50, ph_aekv, RED)
+    ax.text(51.5, ph_aekv - 2.1, "Ækvivalens, svag base $\\mathrm{A^-}$:\n"
+            r"pOH $= \frac{1}{2}(\mathrm{p}K_b - \log c_b)$" + "\n"
+            + f"pH = {ph_aekv:.2f}".replace(".", ",") + "\nhusk fortyndingen: $c_b$ = 0,050 M",
+            color=RED, fontsize=9.5)
+    pkt(v_pkt, ph_over, ORANGE)
+    ax.text(8, 10.4, "Efter ækvivalens, overskud af $\\mathrm{OH^-}$:\n"
+            r"pOH $= -\log[\mathrm{OH^-}]$,  pH = 14 $-$ pOH",
+            color=ORANGE, fontsize=9.5)
     ax.set_xlabel("tilsat 0,100 M NaOH / mL"); ax.set_ylabel("pH")
-    ax.set_title("25,0 mL 0,100 M eddikesyre titreret med NaOH", fontsize=10)
-    ax.set_ylim(0, 14); ax.set_xlim(0, 50)
+    ax.set_title("50,0 mL 0,100 M eddikesyre (p$K_s$ = 4,76) titreret med 0,100 M NaOH", fontsize=10.5)
+    ax.set_ylim(0, 14); ax.set_xlim(0, 75)
+    ax.set_yticks(range(0, 15, 2)); ax.grid(alpha=.25)
     save(fig, "titrerkurve.svg")
-    return ph_eq
+    ex = {k: ph_eksakt(v) for k, v in [("start", 0), ("puffer", v_puf), ("halv", 25), ("aekv", 50), ("over", v_pkt)]}
+    return {"formel": dict(start=ph_start, puffer=ph_puf, halv=ph_halv, aekv=ph_aekv, over=ph_over), "eksakt": ex}
 
 
 def alkan_kogepunkter():
@@ -572,6 +609,6 @@ if __name__ == "__main__":
     nyttevirkning(); boelge(); staaende(); gitter(); em_spektrum(); tidslinje()
     skraaplan(); archimedes(); gaslove(); kredsloeb(); henfald(); energiniveauer()
     skraat_kast(); cirkel(); b_felt(); harmonisk()
-    ph_skala(); print("pH ækv:", titrerkurve()); alkan_kogepunkter()
+    ph_skala(); print("pH:", titrerkurve()); alkan_kogepunkter()
     for i, nm in enumerate(["methan", "ethan", "propan", "butan", "pentan", "hexan", "heptan", "octan", "nonan", "decan"], 1):
         alkan(i, nm)
