@@ -1,0 +1,41 @@
+{{- /* {{< pensum 1zfy >}}: alt fra  materialer:  i studieplanen, samlet pr. forløb, hver kun én gang */ -}}
+{{- $key := .Get 0 -}}
+{{- $plan := index hugo.Data.studieplaner $key -}}
+{{- $map := partialCached "sp/slugmap.html" "sp" -}}
+{{- $farver := partial "sp/farver.html" -}}
+{{- with $plan -}}
+{{- $total := dict -}}
+{{- $ud := slice -}}
+{{- range $bi, $b := .forloeb -}}
+  {{- $orden := slice -}}{{- $datoer := dict -}}
+  {{- range $b.moduler -}}
+    {{- $d := time.Format "2.1" .dato -}}
+    {{- range .materialer -}}
+      {{- $k := lower (trim (printf "%v" .) " ") -}}
+      {{- if $k -}}
+        {{- if not (isset $datoer $k) -}}{{- $orden = $orden | append . -}}{{- $datoer = merge $datoer (dict $k (slice)) -}}{{- end -}}
+        {{- $ds := index $datoer $k -}}
+        {{- if not (in $ds $d) -}}{{- $datoer = merge $datoer (dict $k ($ds | append $d)) -}}{{- end -}}
+        {{- $total = merge $total (dict $k true) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $orden -}}{{- $ud = $ud | append (dict "i" $bi "b" $b "orden" $orden "datoer" $datoer) -}}{{- end -}}
+{{- end -}}
+<p class="sp-meta">{{ len $total }} sider og links i alt · bygges automatisk ud fra <code>materialer:</code> i studieplanen
+{{- with index $map $key }} · <a href="{{ .RelPermalink }}">Studieplan</a>{{ end }}
+{{- with index $map (printf "%s-eksp" $key) }} · <a href="{{ .RelPermalink }}">Eksperimenter</a>{{ end }}</p>
+{{- range $ud -}}
+{{- $farve := index $farver (mod .i (len $farver)) -}}{{- $datoer := .datoer -}}{{- $b := .b -}}
+<div class="sp-blok" style="--sp-farve: {{ $farve | safeCSS }}">
+<h3 class="sp-navn">{{ with .b.side }}{{ partial "sp/link.html" (dict "slug" . "label" $b.navn "map" $map) | safeHTML }}{{ else }}{{ .b.navn }}{{ end }}</h3>
+<ul class="sp-pensum">
+  {{- range .orden }}
+<li>{{ partial "sp/link.html" (dict "slug" . "map" $map) | safeHTML }} <span class="sp-dato">({{ delimit (index $datoer (lower (trim (printf "%v" .) " "))) ", " }})</span></li>
+  {{- end }}
+</ul>
+</div>
+{{- end -}}
+{{- else -}}
+<p><em>Ingen studieplan fundet for «{{ $key }}».</em></p>
+{{- end -}}

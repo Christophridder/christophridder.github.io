@@ -11,6 +11,7 @@
   {{- with $m.tekst }}{{ partial "sp/text.html" (dict "text" . "map" $map) }}{{ end }}
   {{- with $m.materialer }}<div class="sp-links">📄 {{ range $i, $s := . }}{{ if $i }}, {{ end }}{{ partial "sp/link.html" (dict "slug" $s "map" $map) | safeHTML }}{{ end }}</div>{{ end }}
   {{- with $m.eksp }}<div class="sp-links">🔬 {{ range $i, $e := . }}{{ if $i }}; {{ end }}{{ partial "sp/eksp.html" (dict "e" $e "map" $map) | safeHTML }}{{ end }}</div>{{ end }}
+  {{- with $m.indhold }}<div class="sp-indhold">{{ partial "sp/text.html" (dict "text" . "map" $map) }}</div>{{ end }}
   {{- with $m.maal }}<div class="sp-meta">Mål: {{ delimit . ", " }}</div>{{ end }}
   {{- if and .fremtid (not $m.tekst) (not $m.emne) }}<span class="sp-meta">planlagt</span>{{ end }}
 </td>

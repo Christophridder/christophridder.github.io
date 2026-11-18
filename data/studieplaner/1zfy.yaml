@@ -4,95 +4,370 @@ niveau: "B"
 skoleaar: "2026/2027"
 klasse: "1g"
 
-# Skabelon for et nyt modul (kopiér, ret, gem):
-#      - dato: 2026-11-17
-#        modul: 2                      # modulnummer på dagen
-#        tekst: Vi lavede [[slug]] og regnede opgaver i [[slug|egen linktekst]]
-#        lektier: Læs [[slug]]
-#        eksp: [slug]                  # eller udvidet: - side: slug / timer: 4 / aflevering: J / eksamen: ja
-# Alle andre felter (emne, materialer, maal) er valgfrie.
-# Modul 2-9: datoerne er gættede. Ret dem efter skemaet.
+# ─────────────────────────────────────────────────────────────────────────────
+# Skabelon for et modul. Alle datoer fra Lectio står allerede herunder –
+# udfyld bare "indhold" efter timen.
+#
+#      - dato: 2026-11-19
+#        modul: 4
+#        emne: "Overskrift for timen"
+#        indhold: |
+#          Alt under | er ren tekst – formler som $E = m\cdot c\cdot \Delta T$ virker.
+#          - punkter med bindestreg
+#          - links til sider: [[densitet]] eller [[fysik/C-Eksp/klang|egen tekst]]
+#        materialer: ["energi-grundlag"]      # filnavne på sider på crsite
+#        lektier: "Læs [[energi-grundlag]]"
+#        eksp: [fysik/C-Eksp/blypose]         # kommer automatisk på 1z Eksp
+#
+#   halv: true / bortfald: true  hvis modulet kun delvist / slet ikke er fysik
+# ─────────────────────────────────────────────────────────────────────────────
 
 forloeb:
-  - navn: "Blok 0: Opstart"
-    side: ""                         # slug til forløbets emneside (valgfri)
+
+  # ======================================================================
+  - navn: "Introforløb"
+    side: ""
+    beskrivelse: "Opstart, densitet og Excel-kursus"
     moduler:
       - dato: 2026-11-04
         modul:
         emne: "Opstart"
+        indhold: |
+          timen aflyst pga strejke
         materialer: []
-        maal: ["timen aflyst pga strejke"]
         lektier: ""
 
       - dato: 2026-11-10
         modul:
         emne: "Opstart"
+        indhold: |
+          introduktion til regneark
         materialer: ["densitet"]
-        maal: ["introduktion til regneark"]
         lektier: "Købe et hæfte"
 
       - dato: 2026-11-13
         modul:
         emne: "Densitet"
+        indhold: |
+          - Første eksperiment
+          - Masse og rumfang
         materialer: ["densitet"]
-        maal: ["Første eksperiment", "Masse og rumfang"]
         lektier: "Læs introduktionen i Densitet"
         eksp: [densitet]
 
-  - navn: "Blok 1: Excel-kursus"
-    side: ""                         # slug til forløbets emneside (valgfri)
-    moduler:
       - dato: 2026-11-16
         modul:
         emne: "Excel og densitet"
-        materialer: ["excel-kursus", "densitet"]
-        maal: ["Punktdiagram", "Tendenslinje", "Hældning som densitet"]
-        lektier: "Medbring dine måledata fra Densitet"
+        indhold: |
+          - Punktdiagram
+          - Tendenslinje
+          - Hældning som varmekapacitet
+          - Aksetransformation $E=m\cdot c \cdot \Delta T$ hvor $m\cdot \Delta T$ bliver x-akse
+        materialer: ["excel-kursus", "energi-grundlag"]
+        lektier: ""
 
       - dato: 2026-11-18
         modul:
         emne: "Skolefest i Excel"
+        indhold: |
+          - Formler
+          - SUM
+          - Låste celler
         materialer: ["excel-kursus"]
-        maal: ["Formler", "SUM", "Låste celler"]
         lektier: ""
 
-  - navn: "Blok 2: Energi"
-    side: ""                         # slug til forløbets emneside (valgfri)
+
+  # ======================================================================
+  - navn: "Energi"
+    side: "fysik/emner-b/energi-grundlag"
+    beskrivelse: "Energi og effekt, nyttevirkning, kinetisk og potentiel energi, indre energi ved temperatur- og faseændringer"
     moduler:
       - dato: 2026-11-19
-        modul:
+        modul: 4
         emne: "Energi, effekt og energikæder"
+        indhold: |
+          - Energi og effekt
+          - Energiformer
+          - Energikæder
         materialer: ["energi-grundlag"]
-        maal: ["Energi og effekt", "Energiformer", "Energikæder"]
-        lektier: "Læs afsnittene om energi, effekt og energiformer"
+        lektier: "Læs afsnittene om energi, effekt og energiformer regn opgave 1-3 i noterne"
+        eksp: [fysik/C-Eksp/blypose]
 
       - dato: 2026-11-24
-        modul:
-        emne: "Regn med energiformler"
+        modul: 2
+        emne: "Energiformer Ekin og Epot"
+        indhold: |
+          - Blypose som demoforsøg
+          - omregning fra $E_{pot}$ til $E_{term}$
         materialer: ["energi-grundlag"]
-        maal: ["Sætte tal ind i formler", "Enheder"]
-        lektier: "Lav opgave 1-3"
+        lektier: "Læs øvelsesvejledningen"
+        eksp: [fysik/C-Eksp/nyttevirkning]
 
       - dato: 2026-11-30
-        modul:
+        modul: 4
         emne: "Varmekapacitet"
+        indhold: |
+          - Varmekapacitet
+          - Vand og sand
         materialer: ["energi-grundlag"]
-        maal: ["Varmekapacitet", "Vand og sand"]
         lektier: "Lav opgave 4-6"
 
-  - navn: "Blok 3: Nyttevirkning"
-    side: ""                         # slug til forløbets emneside (valgfri)
-    moduler:
       - dato: 2026-12-02
-        modul:
+        modul: 2
         emne: "Nyttevirkning"
+        indhold: |
+          Eksperiment med energimåler
         materialer: ["nyttevirkning"]
-        maal: ["Eksperiment med energimåler"]
         lektier: "Læs teorien i Nyttevirkning"
+        eksp: [fysik/C-Eksp/nyttevirkning]
 
       - dato: 2026-12-11
-        modul:
+        modul: 2
         emne: "Nyttevirkning og journal"
+        indhold: |
+          - Databehandling
+          - Fejlkilder
         materialer: ["nyttevirkning"]
-        maal: ["Databehandling", "Fejlkilder"]
         lektier: "Færdiggør journal"
+
+      - dato: 2026-12-16
+        modul: 1
+        emne: "Flammetemperatur"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/flammetemperatur]
+
+      - dato: 2026-12-18
+        modul: 4
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+
+      - dato: 2027-02-02
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-02-08
+        modul: 4
+        emne: "Smelte- og fordampningsvarme"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/smeltevarme-og-fordampningsvarme]
+
+      - dato: 2027-02-10
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+  # ======================================================================
+  - navn: "Lyd og lys"
+    side: "fysik/emner-c/boelger"
+    beskrivelse: "Bølgelængde, frekvens, udbredelsesfart og interferens; lyd og lys som bølger; det elektromagnetiske spektrum"
+    moduler:
+      - dato: 2027-02-12
+        modul: 3
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-02-22
+        modul: 4
+        emne: "Lydens hastighed med klaptræ"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/lydens-hastighed]
+
+      - dato: 2027-02-24
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-03-02
+        modul: 2
+        emne: "Svingninger på en streng"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/svingninger-paa-en-streng]
+
+      - dato: 2027-03-05
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-03-08
+        modul: 4
+        emne: "Klang"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/klang]
+
+      - dato: 2027-03-10
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-03-16
+        modul: 2
+        emne: "Gitterligningen"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/gitterligningen]
+
+      - dato: 2027-03-19
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+
+  # ======================================================================
+  - navn: "Fysikkens bidrag til det naturvidenskabelige verdensbillede"
+    side: "fysik/emner-c/naer-astronomi"
+    beskrivelse: "Jorden som planet i solsystemet, Universets udvidelse, rødforskydning og Big Bang"
+    moduler:
+      - dato: 2027-03-30
+        modul: 2
+        emne: "Matrixgruppearbejde: Jorden i solsystemet"
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-04-02
+        modul: 2
+        emne: "Fremlæggelse: Jorden i solsystemet"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/jorden-i-solsystemet]
+
+      - dato: 2027-04-05
+        modul: 4
+        emne: "Matrixgruppearbejde: Planeter i solsystemet"
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-04-07
+        modul: 2
+        emne: "Fremlæggelse: Planeter i solsystemet"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [{"navn": "Planeter i solsystemet"}]
+
+      - dato: 2027-04-13
+        modul: 2
+        emne: "Universet og Big Bang"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/universet-og-big-bang]
+
+      - dato: 2027-04-16
+        modul: 2
+        emne: "Elastikforsøget – universets udvidelse"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/elastik-forsoeget]
+
+
+  # ======================================================================
+  - navn: "Radioaktivitet"
+    side: "fysik/emner-b/atomfysik"
+    beskrivelse: "Atomkernens opbygning, henfaldstyper, aktivitet, henfaldsloven, (masse-energi og Q-værdi)"
+    moduler:
+      - dato: 2027-04-19
+        modul: 4
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-04-21
+        modul: 2
+        emne: "Alfa, beta og gamma – gennemtrængelighed"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/gennemtraengelighed]
+
+      - dato: 2027-04-27
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-05-03
+        modul: 4
+        emne: "Afstandskvadratloven"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/afstandskvadratloven]
+
+      - dato: 2027-05-04
+        modul: 3
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-05-05
+        modul: 2
+        emne: "Halveringstykkelse af bly"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/halveringstykkelse]
+
+      - dato: 2027-05-11
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-05-19
+        modul: 2
+        emne: "Ba-137: N(t) og halveringstid"
+        indhold: |
+        materialer: []
+        lektier: ""
+        eksp: [fysik/C-Eksp/halveringstid]
+
+      - dato: 2027-05-25
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""
+
+      - dato: 2027-05-28
+        modul: 2
+        emne: ""
+        indhold: |
+        materialer: []
+        lektier: ""

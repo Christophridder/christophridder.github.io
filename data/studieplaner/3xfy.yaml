@@ -10,7 +10,10 @@ klasse: "3g"
 #        tekst: Vi lavede [[slug]] og regnede opgaver i [[slug|egen linktekst]]
 #        lektier: Læs [[slug]]
 #        eksp: [slug]                  # eller udvidet: - side: slug / timer: 4 / aflevering: J / eksamen: ja
-# Alle andre felter (emne, materialer, maal) er valgfrie.
+#        indhold: |                    # fri tekst med formler – alt under | er ren tekst ($\Delta T$ virker)
+#          - Punktdiagram og tendenslinje
+#          - $E = m\cdot c\cdot \Delta T$
+# Alle andre felter (emne, materialer, indhold) er valgfrie.
 #   halv: true      modulet er kun delvist fysik (fx M.I.S. Egaa Læser)
 #   bortfald: true  modulet går til noget andet (fx SRP-dag)
 # Forløb: blok/planlagt = blok og antal moduler i årsplanen (vises i overskriften)
@@ -26,7 +29,9 @@ forloeb:
         emne: "Introduktion til kræfter + Hookes lov"
         tekst: "Vi nåede at bestemme fjederkonstanten, samt at differentiere y=A sin(omega t) vi nåede at sætte løsningen ind i differantialligningen"
         materialer: ["hookes-lov-1"]
-        maal: ["Kraftbegreb", "Fjederkonstant"]
+        indhold: |
+          - Kraftbegreb
+          - Fjederkonstant
         lektier: "Ingen lektier"
 
       - dato: 2026-08-17
@@ -34,7 +39,8 @@ forloeb:
         emne: "Introduktion til kræfter + Hookes lov"
         tekst: "De fleste har styr på logistikken og vi lavede eksperient med dæmpet svingning"
         materialer: ["hookes-lov-1"]
-        maal: ["At forstå hookes lov og differantialligningen"]
+        indhold: |
+          At forstå hookes lov og differantialligningen
         lektier: "Arbejde med pythonfilen og variér A, omega, phi og C læs om hookes lov i bogen"
 
       - dato: 2026-08-20
@@ -42,7 +48,8 @@ forloeb:
         emne: "Hookes lov"
         tekst: "Analyse af Eksperiment med dæmpet svingning"
         materialer: ["hookes-lov-3"]
-        maal: ["At forstå at dæmpningsfaktoren bare kan ganges på"]
+        indhold: |
+          At forstå at dæmpningsfaktoren bare kan ganges på
         lektier: "Brug hookes-lov-2 og 3 til at komme i gang med den dæmpede svigning"
         eksp:
           - side: "hookes-lov"
@@ -56,7 +63,10 @@ forloeb:
         emne: "Svingning med pendul"
         tekst: "Eksperiment med dæmpet svingning vejledning i rapportskrivning og film om hookes lov."
         materialer: ["hookes-lov-3"]
-        maal: ["Dataopsamling", "Ikke Lineær sammenhæng", "dæmpet svingning"]
+        indhold: |
+          - Dataopsamling
+          - Ikke Lineær sammenhæng
+          - dæmpet svingning
         lektier: "Færdiggør journal"
 
   - navn: "Mekanik"
@@ -69,7 +79,8 @@ forloeb:
         emne: "Skrå kast"
         tekst: "Læs siden og skriv 3 spørgsmål i elevfeedback"
         materialer: ["skraat-kast-2d"]
-        maal: ["Samle op på mekanik"]
+        indhold: |
+          Samle op på mekanik
         lektier: "Læs side 585 i fysikABbogen"
 
       - dato: 2026-09-15
@@ -77,7 +88,8 @@ forloeb:
         emne: "Skrå kast"
         tekst: "Vi laver forsøg med videoanalyse"
         materialer: ["skraat-kast-2d"]
-        maal: ["At forstå uafhængighedsprincippet"]
+        indhold: |
+          At forstå uafhængighedsprincippet
         lektier: "Læs side 585 i fysikABbogen"
 
       - dato: 2026-09-17
@@ -85,7 +97,8 @@ forloeb:
         emne: "Skrå kast"
         tekst: "Vi udleder kasteparablen, smider t ud!"
         materialer: ["kasteparabel"]
-        maal: ["Aflevering til næste gang lagt ind i lectio"]
+        indhold: |
+          Aflevering til næste gang lagt ind i lectio
         lektier: "Læs side 585 i fysikABbogen"
         eksp:
           - side: "kasteparabel"
@@ -99,7 +112,8 @@ forloeb:
         emne: "Stød og bevægelsesmængde"
         tekst: "Optaver fra Orbit samt start på luftpudebane"
         materialer: ["stoed-bevaegelsesmaengde"]
-        maal: ["Definition på bevægelsesmængde"]
+        indhold: |
+          Definition på bevægelsesmængde
         lektier: "Læs side 601 i fysikABbogen"
 
       - dato: 2026-09-21
@@ -107,7 +121,8 @@ forloeb:
         emne: "Stød og bevægelsesmængde"
         tekst: "Integraler om kraftens impuls"
         materialer: ["stoed-opgaver"]
-        maal: ["Eksperiment med luftpudebane"]
+        indhold: |
+          Eksperiment med luftpudebane
         lektier: "Læs side 602 i fysikABbogen"
 
       - dato: 2026-09-24
@@ -115,7 +130,8 @@ forloeb:
         emne: "Integralregning i fysik"
         tekst: "Integraløvelser ud på tavlerne"
         materialer: ["integration-i-fysik"]
-        maal: ["At forstå enheder og arealer"]
+        indhold: |
+          At forstå enheder og arealer
         lektier: "Regn opgave 1-4 fra [[stoed-opgaver]]"
 
   - navn: "Projektforløb5"
@@ -128,7 +144,8 @@ forloeb:
         emne: "Projektforløb5"
         tekst: "Meget individuelle projekter"
         materialer: ["idebank-srp-fysik"]
-        maal: ["modul 1"]
+        indhold: |
+          modul 1
         lektier: "Læs [[akademisk-opgave|klik her]]"
 
       - dato: 2026-09-29
@@ -136,7 +153,8 @@ forloeb:
         emne: "Projektforløb5"
         tekst: "Meget individuelle projekter"
         materialer: ["idebank-srp-fysik"]
-        maal: ["modul 2"]
+        indhold: |
+          modul 2
         lektier: "Læs [[akademisk-opgave|klik her]]"
 
       - dato: 2026-10-01
@@ -144,7 +162,8 @@ forloeb:
         emne: "Projektforløb5"
         tekst: "Vejledning i skrivefase"
         materialer: ["idebank-srp-fysik"]
-        maal: ["modul 3"]
+        indhold: |
+          modul 3
         lektier: "Læs [[akademisk-opgave|klik her]]"
 
       - dato: 2026-10-06
@@ -152,7 +171,8 @@ forloeb:
         emne: "Projektforløb5"
         tekst: "Vejledning i skrivefase"
         materialer: ["akademisk-opgave"]
-        maal: ["modul 4"]
+        indhold: |
+          modul 4
         lektier: "Læs [[akademisk-opgave|klik her]]"
 
   - navn: "p = m*v"
@@ -165,7 +185,8 @@ forloeb:
         emne: "Stød"
         tekst: "Vi laver forsøget med loggerpro hop på kraftplatform"
         materialer: ["kraftplatform-hop"]
-        maal: ["at forstå integral og impuls"]
+        indhold: |
+          at forstå integral og impuls
         lektier: "Læs stød i bogen"
         eksp:
           - side: "stoed-luftpudebane"
@@ -179,7 +200,8 @@ forloeb:
         emne: "Stød"
         tekst: "vi bruger 10cm strimler og loggerpro"
         materialer: ["stoed-luftpudebane"]
-        maal: ["elastisk stød"]
+        indhold: |
+          elastisk stød
         lektier: "Forbered wordfil til forsøget"
 
       - dato: 2026-10-26
@@ -187,7 +209,8 @@ forloeb:
         emne: "Stød"
         tekst: "Lad os se hvordan det går"
         materialer: ["stoed-luftpudebane"]
-        maal: ["elastisk og uelastisk stød"]
+        indhold: |
+          elastisk og uelastisk stød
         lektier: "Vi gennemfører alle tre forsøg"
 
   - navn: "Stød"
@@ -200,7 +223,8 @@ forloeb:
         emne: "Stød"
         tekst: "lad os se"
         materialer: []
-        maal: ["at forstå cirkelbevaegelse"]
+        indhold: |
+          at forstå cirkelbevaegelse
         lektier: "Læs side 592 i fysikABbogen "
 
   - navn: "Cirkelbevægelse"
@@ -213,7 +237,8 @@ forloeb:
         emne: "Stød"
         tekst: "Cirkelbevægelse og opgaven **udspring** "
         materialer: ["gravitation-centrallegeme"]
-        maal: ["centrallegeme"]
+        indhold: |
+          centrallegeme
         lektier: "Læs side 592 og regn opgaver "
 
       - dato: 2026-11-02
@@ -221,7 +246,8 @@ forloeb:
         emne: "Cirkelbevægelse"
         tekst: "Blokdag 1"
         materialer: ["cirkelbevaegelse"]
-        maal: ["Regne opgaver"]
+        indhold: |
+          Regne opgaver
         lektier: "Læs side 592 og regn opgaver "
 
       - dato: 2026-11-02
@@ -229,7 +255,8 @@ forloeb:
         emne: "Cirkelbevægelse"
         tekst: "Blokdag 2"
         materialer: ["cirkelbevaegelse"]
-        maal: ["regneopgaver lave forsøg"]
+        indhold: |
+          regneopgaver lave forsøg
         lektier: "Læs side 592 og regn opgaver "
 
       - dato: 2026-11-02
@@ -237,7 +264,8 @@ forloeb:
         emne: "Cirkelbevægelse"
         tekst: "Blokdag 3"
         materialer: ["cirkelbevaegelse"]
-        maal: ["Eksperiment med rør"]
+        indhold: |
+          Eksperiment med rør
         lektier: "Læs side 592 og regn opgaver "
 
       - dato: 2026-11-02
@@ -245,7 +273,8 @@ forloeb:
         emne: "Cirkelbevægelse"
         tekst: "Blokdag 3"
         materialer: ["jaevn-cirkelbevaegelse"]
-        maal: ["Eksperiment med rør"]
+        indhold: |
+          Eksperiment med rør
         lektier: "Læs side 592 og regn opgaver "
 
       - dato: 2026-11-04
@@ -253,7 +282,8 @@ forloeb:
         emne: "Cirkelbevægelse"
         tekst: "regne opgaver og introducere cirkelbevægelse"
         materialer: ["jaevn-cirkelbevaegelse"]
-        maal: ["Eksperiment med kegle"]
+        indhold: |
+          Eksperiment med kegle
         lektier: "Læs side 592 og regn opgaver "
 
   - navn: "Gravitation og centrallegeme"
@@ -266,7 +296,8 @@ forloeb:
         emne: "Cirkelbevægelse"
         tekst: "regne opgaver og introducere cirkelbevægelse"
         materialer: ["gravitationsloven"]
-        maal: ["Newtons gravitationslov"]
+        indhold: |
+          Newtons gravitationslov
         lektier: "Læs side 592 og regn opgaver "
 
       - dato: 2026-11-10
@@ -274,7 +305,8 @@ forloeb:
         emne: "Cirkelbevægelse"
         tekst: "regne opgaver og introducere cirkelbevægelse"
         materialer: ["gravitationsloven"]
-        maal: ["Newtons gravitationslov"]
+        indhold: |
+          Newtons gravitationslov
         lektier: "Læs side 592 og regn opgaver "
 
       - dato: 2026-11-10
@@ -292,16 +324,17 @@ forloeb:
       - dato: 2026-11-16
         modul: 2
         lektier: "Regn begge opgaver til fremlæggelse i timen"
+        tekst: "Det var kun dem der havde opgaven for som havde regnet dem så det skal være random træk næste gang"
+
+  - navn: "Speciel relativitetsteori (supplerende)"
+    side: "relativitetsteori"
+    blok: "7"
+    planlagt: 4
+    moduler:
 
       - dato: 2026-11-19
         modul: 3
-
-  - navn: "Elektrisk felt"
-    side: "elektriske-og-magnetiske-felter"
-    beskrivelse: "Coulombs lov, feltlinjer, energiforhold omkring en kuglesymmetrisk ladning, det homogene elektriske felt og ladede partiklers bevægelse i homogene E-felter"
-    blok: "9+11"
-    planlagt: 7
-    moduler:
+        tekst: "regne opgaver med pandora "
       - dato: 2026-11-20
         modul: 2
 
@@ -311,6 +344,12 @@ forloeb:
       - dato: 2026-11-25
         modul: 4
 
+  - navn: "Elektrisk felt"
+    side: "elektriske-og-magnetiske-felter"
+    beskrivelse: "Coulombs lov, feltlinjer, energiforhold omkring en kuglesymmetrisk ladning, det homogene elektriske felt og ladede partiklers bevægelse i homogene E-felter"
+    blok: "9+11"
+    planlagt: 7
+    moduler:
       - dato: 2026-11-27
         modul: 3
         tekst: "Naturvidenskabelig SRP-dag på SDU – ingen fysikundervisning"
@@ -328,11 +367,6 @@ forloeb:
       - dato: 2026-12-03
         modul: 4
 
-  - navn: "Speciel relativitetsteori (supplerende)"
-    side: "relativitetsteori"
-    blok: "7"
-    planlagt: 3
-    moduler:
       - dato: 2026-12-04
         modul: 2
         tekst: "M.I.S. Egaa Læser: 45 min læsning, resten af modulet til fysik"

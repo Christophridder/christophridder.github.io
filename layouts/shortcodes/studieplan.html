@@ -5,7 +5,8 @@
 {{- $nu := now -}}
 {{- with $plan -}}
 <p><strong>{{ .fag }} {{ .niveau }}</strong> · {{ .skoleaar }}
-{{- with index $map (printf "%s-eksp" $key) }} · <a href="{{ .RelPermalink }}">Eksperimenter</a>{{ end }}</p>
+{{- with index $map (printf "%s-eksp" $key) }} · <a href="{{ .RelPermalink }}">Eksperimenter</a>{{ end }}
+{{- with index $map (printf "%s-pensum" $key) }} · <a href="{{ .RelPermalink }}">Pensum</a>{{ end }}</p>
 {{- /* nummerér modulerne kronologisk; del forløbene i "i gang/færdige" og "kommende" */ -}}
 {{- $blokke := slice -}}{{- $n := 0 -}}
 {{- range $bi, $b := .forloeb -}}
@@ -22,16 +23,6 @@
 {{- $igang := where $blokke "startet" true -}}
 {{- $kommende := where $blokke "startet" false -}}
 
-{{- range sort $igang "i" "desc" -}}
-  {{- $farve := index $farver (mod .i (len $farver)) -}}
-  {{- $ctx := dict "b" .b "mods" .mods "eff" .eff "map" $map "orden" "desc" -}}
-<div class="sp-blok" style="--sp-farve: {{ $farve | safeCSS }}">
-<h3 class="sp-navn">{{ partial "sp/hoved.html" $ctx }}</h3>
-{{ with .b.beskrivelse }}<p class="sp-meta">{{ . }}</p>{{ end }}
-{{ partial "sp/tabel.html" $ctx }}
-</div>
-{{- end -}}
-
 {{- with $kommende }}
 <h2 class="sp-kommende">Resten af året</h2>
 <p class="sp-meta">Planlagte forløb fra Lectio-modulerne og årsplanen. Klik for at folde ud.</p>
@@ -45,6 +36,19 @@
 </details>
   {{- end -}}
 {{- end -}}
+
+<h2 class="sp-kommende">Indtil nu</h2>
+<p class="sp-meta">Det forløb, vi er i gang med, står åbent. Klik på et forløb for at folde det ud.</p>
+{{- range $j, $x := sort $igang "i" "desc" -}}
+  {{- $farve := index $farver (mod $x.i (len $farver)) -}}
+  {{- $ctx := dict "b" $x.b "mods" $x.mods "eff" $x.eff "map" $map "orden" "desc" -}}
+<details class="sp-blok" style="--sp-farve: {{ $farve | safeCSS }}"{{ if eq $j 0 }} open{{ end }}>
+<summary class="sp-navn">{{ partial "sp/hoved.html" $ctx }}</summary>
+{{ with $x.b.beskrivelse }}<p class="sp-meta">{{ . }}</p>{{ end }}
+{{ partial "sp/tabel.html" $ctx }}
+</details>
+{{- end }}
+
 {{- else -}}
 <p><em>Ingen studieplan fundet for «{{ $key }}».</em></p>
 {{- end -}}

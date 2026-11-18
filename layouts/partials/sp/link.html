@@ -1,18 +1,32 @@
-{{- /* dict "slug" "label" "map" -> <a> til siden, eller ren tekst hvis siden ikke findes.
-       slug kan være et filnavn (densitet) eller en sti (kemi/C-Eksp/staaluld) når filnavnet ikke er entydigt */ -}}
+{{- /* dict "slug" "label" "map" -> link.
+       slug kan være:
+         densitet                              filnavn på en side på crsite
+         kemi/C-Eksp/staaluld                  sti, når filnavnet ikke er entydigt
+         https://phet.colorado.edu/...         eksternt link (linkteksten bliver domænet)
+         [PhET: Bølger](https://phet...)       eksternt link med egen linktekst */ -}}
 {{- $out := "" -}}
 {{- $lab := .label -}}
-{{- $s := trim .slug " " -}}
-{{- $p := "" -}}
-{{- if in $s "/" -}}
-  {{- $p = site.GetPage (cond (hasPrefix $s "/") $s (printf "/docs/%s" $s)) -}}
-{{- else -}}
-  {{- $p = index .map (lower $s) -}}
+{{- $s := trim (printf "%v" .slug) " " -}}
+{{- $ext := "" -}}
+{{- with findRESubmatch `^\[(.+)\]\((https?://\S+)\)$` $s 1 -}}
+  {{- $m := index . 0 -}}{{- $ext = index $m 2 -}}{{- if not $lab }}{{ $lab = index $m 1 }}{{ end -}}
 {{- end -}}
-{{- if $p -}}
-  {{- if not $lab -}}{{- $lab = $p.LinkTitle -}}{{- end -}}
-  {{- $out = printf `<a href="%s">%s</a>` $p.RelPermalink $lab -}}
+{{- if and (not $ext) (hasPrefix $s "http") -}}{{- $ext = $s -}}{{- end -}}
+{{- if $ext -}}
+  {{- if not $lab -}}{{- $lab = strings.TrimPrefix "www." (urls.Parse $ext).Host -}}{{- end -}}
+  {{- $out = printf `<a class="sp-ekstern" href="%s" target="_blank" rel="noopener">%s</a>` $ext $lab -}}
 {{- else -}}
-  {{- $out = printf `<span class="sp-mangler" title="Ingen side med navnet «%s»">%s</span>` $s (or $lab $s) -}}
+  {{- $p := "" -}}
+  {{- if in $s "/" -}}
+    {{- $p = site.GetPage (cond (hasPrefix $s "/") $s (printf "/docs/%s" $s)) -}}
+  {{- else -}}
+    {{- $p = index .map (lower $s) -}}
+  {{- end -}}
+  {{- if $p -}}
+    {{- if not $lab -}}{{- $lab = $p.LinkTitle -}}{{- end -}}
+    {{- $out = printf `<a href="%s">%s</a>` $p.RelPermalink $lab -}}
+  {{- else -}}
+    {{- $out = printf `<span class="sp-mangler" title="Ingen side med navnet «%s»">%s</span>` $s (or $lab $s) -}}
+  {{- end -}}
 {{- end -}}
 {{- return $out -}}
