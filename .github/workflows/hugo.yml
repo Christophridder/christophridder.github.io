@@ -27,7 +27,9 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: 'latest'
+          # Låst version: Hugo 0.170+ har ikke længere indbygget Sass (kræver Dart Sass),
+          # og så fejler Book-temaet. Opgradér bevidst og test lokalt først.
+          hugo-version: '0.169.0'
           extended: true
       - name: Build
         run: hugo --minify
