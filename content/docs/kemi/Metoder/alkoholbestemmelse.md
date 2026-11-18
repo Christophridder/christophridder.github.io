@@ -1,6 +1,8 @@
 ---
 title: "Alkoholbestemmelse"
 weight: 4
+pdf: "pdfs/alkoholbestemmelse.pdf"
+pdf_ny_fane: true
 ---
 
 **Niveau: Kemi B (2.g)** · **Emne: Hvor meget alkohol er der i øl og vin?**

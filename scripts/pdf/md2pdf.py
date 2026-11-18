@@ -141,6 +141,8 @@ MHCHEM\usepackage{rotating}\usepackage{needspace}\usepackage{tikz}\usepackage{ti
 \end{tikzpicture}\vspace*{8mm}}\makeatother
 """.replace("SUBTITLE", sub).replace("MHCHEM", r"\usepackage[version=4]{mhchem}" if har_mhchem else r"\providecommand{\ce}[1]{\mathrm{#1}}")
 
+# Overskrifter må ikke stå alene nederst på en side
+body = re.sub(r"^(#{2,4} )", lambda m: "\\needspace{8\\baselineskip}\n\n" + m.group(1), body, flags=re.M)
 open(os.path.join(tmp, "h.tex"), "w").write(header)
 open(os.path.join(tmp, "in.md"), "w").write(f'---\ntitle: "{title}"\n---\n' + body)
 r = subprocess.run(["pandoc", "in.md", "-f", "markdown-auto_identifiers", "-o", out, "--pdf-engine=xelatex",
