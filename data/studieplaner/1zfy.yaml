@@ -89,6 +89,7 @@ forloeb:
           - Energi og effekt
           - Energiformer
           - Energikæder
+          - omregning fra $E_{pot}$ til $E_{term}$
         materialer: ["energi-grundlag"]
         lektier: "Læs afsnittene om energi, effekt og energiformer regn opgave 1-3 i noterne"
         eksp: [fysik/C-Eksp/blypose]
@@ -97,8 +98,6 @@ forloeb:
         modul: 2
         emne: "Energiformer Ekin og Epot"
         indhold: |
-          - Blypose som demoforsøg
-          - omregning fra $E_{pot}$ til $E_{term}$
         materialer: ["energi-grundlag"]
         lektier: "Læs øvelsesvejledningen"
         eksp: [fysik/C-Eksp/nyttevirkning]

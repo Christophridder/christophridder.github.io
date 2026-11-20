@@ -334,15 +334,31 @@ forloeb:
 
       - dato: 2026-11-19
         modul: 3
-        tekst: "regne opgaver med pandora "
+        tekst: "Regne karusell opgaven"
       - dato: 2026-11-20
         modul: 2
+        emne: "Speciel relativitet i praksis"
+        indhold: |
+          - Beregnede afstadnen til pandora
+          - Vi så filmen [There is no gravity](https://www.youtube.com/watch?v=XRr1kaXKBsU)
+          - Beregnede hastigheden af ISS omkring jorden med $v = \sqrt{\frac{G\cdot M \cdot m}{r}}$
+        materialer: ["speciel-i-praksis"]
 
       - dato: 2026-11-24
         modul: 3
+        emne: "Almen relativitet i praksis"
+        indhold: |
+          - GPS-satellitternes ure: fart og højde
+          - Vi så filmen [Muons: Super Electrons?](https://www.youtube.com/watch?v=rQXXtolNTcw)
+          - ISS og uret på hylden
+        materialer: ["almen-i-praksis"]
+        lektier: "Læs side  622 [FysAB-generel-relativitet](https://fysikabbogen.systime.dk/?id=622)"
+      - dato: 2026-11-24
+        modul: 3
+        emne: "Regne 3 eksamensopgaver i timen "
+        indhold: |
+          - CR i tyskland på udveksling
 
-      - dato: 2026-11-25
-        modul: 4
 
   - navn: "Elektrisk felt"
     side: "elektriske-og-magnetiske-felter"
@@ -350,6 +366,8 @@ forloeb:
     blok: "9+11"
     planlagt: 7
     moduler:
+      - dato: 2026-11-25
+        modul: 4
       - dato: 2026-11-27
         modul: 3
         tekst: "Naturvidenskabelig SRP-dag på SDU – ingen fysikundervisning"
